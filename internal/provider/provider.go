@@ -63,7 +63,7 @@ func (p *EpilotProductProvider) Configure(ctx context.Context, req provider.Conf
 		return
 	}
 
-	ServerURL := data.ServerURL.ValueString()
+	// ServerURL := data.ServerURL.ValueString()
 
 	if ServerURL == "" {
 		ServerURL = "https://product.sls.epilot.io"
