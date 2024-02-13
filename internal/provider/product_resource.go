@@ -12,6 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -216,6 +217,7 @@ func (r *ProductResource) Schema(ctx context.Context, req resource.SchemaRequest
 			"type": schema.StringAttribute{
 				Computed: true,
 				Optional: true,
+				Default:  stringdefault.StaticString("product"),
 				MarkdownDescription: `The type of Product:` + "\n" +
 					`` + "\n" +
 					`| type | description |` + "\n" +

@@ -159,7 +159,7 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 			},
 			"is_tax_inclusive": schema.BoolAttribute{
 				Computed:    true,
-				Description: `Specifies whether the price is considered ` + "`" + `inclusive` + "`" + ` of taxes or not. Default: false`,
+				Description: `Specifies whether the price is considered ` + "`" + `inclusive` + "`" + ` of taxes or not.`,
 			},
 			"long_description": schema.StringAttribute{
 				Computed:    true,
@@ -185,7 +185,7 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 					`- ` + "`" + `tiered_volume` + "`" + ` indicates that the unit pricing will be computed using tiers attribute. The customer pays the same unit price for all purchased units.` + "\n" +
 					`- ` + "`" + `tiered_flatfee` + "`" + ` While similar to tiered_volume, tiered flat fee charges for the same price (flat) for the entire range instead using the unit price to multiply the quantity.` + "\n" +
 					`` + "\n" +
-					`must be one of ["per_unit", "tiered_volume", "tiered_graduated", "tiered_flatfee"]; Default: "per_unit"`,
+					`must be one of ["per_unit", "tiered_volume", "tiered_graduated", "tiered_flatfee"]`,
 			},
 			"renewal_duration_amount": schema.NumberAttribute{
 				Computed:    true,
@@ -252,7 +252,7 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 			},
 			"type": schema.StringAttribute{
 				Computed:    true,
-				Description: `One of ` + "`" + `one_time` + "`" + ` or ` + "`" + `recurring` + "`" + ` depending on whether the price is for a one-time purchase or a recurring (subscription) purchase. must be one of ["one_time", "recurring"]; Default: "one_time"`,
+				Description: `One of ` + "`" + `one_time` + "`" + ` or ` + "`" + `recurring` + "`" + ` depending on whether the price is for a one-time purchase or a recurring (subscription) purchase. must be one of ["one_time", "recurring"]`,
 			},
 			"unit": schema.SingleNestedAttribute{
 				Computed: true,
@@ -281,7 +281,7 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 			},
 			"variable_price": schema.BoolAttribute{
 				Computed:    true,
-				Description: `The flag for prices that can be influenced by external variables such as user input. Default: false`,
+				Description: `The flag for prices that can be influenced by external variables such as user input.`,
 			},
 		},
 	}

@@ -202,7 +202,7 @@ func (r *ProductDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 					`| ` + "`" + `product` + "`" + ` | Represents a physical good |` + "\n" +
 					`| ` + "`" + `service` + "`" + ` | Represents a service or virtual product |` + "\n" +
 					`` + "\n" +
-					`must be one of ["product", "service"]; Default: "product"`,
+					`must be one of ["product", "service"]`,
 			},
 		},
 	}

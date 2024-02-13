@@ -54,7 +54,7 @@ data "epilot-product_product" "my_product" {
 | `product` | Represents a physical good |
 | `service` | Represents a service or virtual product |
 
-must be one of ["product", "service"]; Default: "product"
+must be one of ["product", "service"]
 - `updated_at` (String)
 
 <a id="nestedatt--acl"></a>
@@ -117,6 +117,5 @@ Read-Only:
 Read-Only:
 
 - `entity_id` (String)
-- `tags` (List of String)
 
 

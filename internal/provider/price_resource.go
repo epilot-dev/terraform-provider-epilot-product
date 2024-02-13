@@ -12,6 +12,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -176,6 +178,7 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 			"is_tax_inclusive": schema.BoolAttribute{
 				Computed:    true,
 				Optional:    true,
+				Default:     booldefault.StaticBool(false),
 				Description: `Specifies whether the price is considered ` + "`" + `inclusive` + "`" + ` of taxes or not. Default: false`,
 			},
 			"long_description": schema.StringAttribute{
@@ -215,6 +218,7 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 			"pricing_model": schema.StringAttribute{
 				Computed: true,
 				Optional: true,
+				Default:  stringdefault.StaticString("per_unit"),
 				MarkdownDescription: `Describes how to compute the price per period. Either ` + "`" + `per_unit` + "`" + `, ` + "`" + `tiered_graduated` + "`" + ` or ` + "`" + `tiered_volume` + "`" + `.` + "\n" +
 					`- ` + "`" + `per_unit` + "`" + ` indicates that the fixed amount (specified in unit_amount or unit_amount_decimal) will be charged per unit in quantity` + "\n" +
 					`- ` + "`" + `tiered_graduated` + "`" + ` indicates that the unit pricing will be computed using tiers attribute. The customer pays the price per unit in every range their purchase rises through.` + "\n" +
@@ -332,6 +336,7 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 			"type": schema.StringAttribute{
 				Computed:    true,
 				Optional:    true,
+				Default:     stringdefault.StaticString("one_time"),
 				Description: `One of ` + "`" + `one_time` + "`" + ` or ` + "`" + `recurring` + "`" + ` depending on whether the price is for a one-time purchase or a recurring (subscription) purchase. must be one of ["one_time", "recurring"]; Default: "one_time"`,
 				Validators: []validator.String{
 					stringvalidator.OneOf(
@@ -394,6 +399,7 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 			"variable_price": schema.BoolAttribute{
 				Computed:    true,
 				Optional:    true,
+				Default:     booldefault.StaticBool(false),
 				Description: `The flag for prices that can be influenced by external variables such as user input. Default: false`,
 			},
 		},
