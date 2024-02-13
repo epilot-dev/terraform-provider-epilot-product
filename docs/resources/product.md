@@ -20,13 +20,6 @@ resource "epilot-product_product" "my_product" {
   internal_name = "...my_internal_name..."
   name          = "Juan Morar Jr."
   type          = "product"
-  product_images = {
-    dollar_relation = [
-      {
-        entity_id = "19f56123-a334-4ecd-a2a6-d31d275b439d"
-      }
-    ]
-  }
 }
 ```
 
@@ -107,7 +100,6 @@ Optional:
 Optional:
 
 - `entity_id` (String)
-- `tags` (List of String)
 
 
 

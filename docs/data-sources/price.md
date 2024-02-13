@@ -39,7 +39,7 @@ data "epilot-product_price" "my_price" {
 - `created_at` (String)
 - `description` (String) A brief description of the price.
 - `is_composite_price` (Boolean) The flag for prices that contain price components.
-- `is_tax_inclusive` (Boolean) Specifies whether the price is considered `inclusive` of taxes or not. Default: false
+- `is_tax_inclusive` (Boolean) Specifies whether the price is considered `inclusive` of taxes or not.
 - `long_description` (String) A detailed description of the price. This is shown on the order document and order table. Multi-line supported.
 - `notice_time_amount` (Number) The notice period duration
 - `notice_time_unit` (String) The notice period duration unit. must be one of ["weeks", "months", "years"]
@@ -52,7 +52,7 @@ data "epilot-product_price" "my_price" {
 - `tiered_volume` indicates that the unit pricing will be computed using tiers attribute. The customer pays the same unit price for all purchased units.
 - `tiered_flatfee` While similar to tiered_volume, tiered flat fee charges for the same price (flat) for the entire range instead using the unit price to multiply the quantity.
 
-must be one of ["per_unit", "tiered_volume", "tiered_graduated", "tiered_flatfee"]; Default: "per_unit"
+must be one of ["per_unit", "tiered_volume", "tiered_graduated", "tiered_flatfee"]
 - `renewal_duration_amount` (Number) The renewal period duration
 - `renewal_duration_unit` (String) The renewal period duration unit. must be one of ["weeks", "months", "years"]
 - `schema` (String)
@@ -62,13 +62,13 @@ must be one of ["per_unit", "tiered_volume", "tiered_graduated", "tiered_flatfee
 - `termination_time_unit` (String) The termination period duration unit. must be one of ["weeks", "months", "years"]
 - `tiers` (Attributes List) Defines an array of tiers. Each tier has an upper bound, an unit amount and a flat fee. (see [below for nested schema](#nestedatt--tiers))
 - `title` (String)
-- `type` (String) One of `one_time` or `recurring` depending on whether the price is for a one-time purchase or a recurring (subscription) purchase. must be one of ["one_time", "recurring"]; Default: "one_time"
+- `type` (String) One of `one_time` or `recurring` depending on whether the price is for a one-time purchase or a recurring (subscription) purchase. must be one of ["one_time", "recurring"]
 - `unit` (Attributes) The unit of measurement used for display purposes and possibly for calculations when the price is variable. (see [below for nested schema](#nestedatt--unit))
 - `unit_amount` (Number) The unit amount in cents to be charged, represented as a whole integer if possible.
 - `unit_amount_currency` (String) Three-letter ISO currency code, in lowercase.
 - `unit_amount_decimal` (String) The unit amount in cents to be charged, represented as a decimal string with at most 12 decimal places.
 - `updated_at` (String)
-- `variable_price` (Boolean) The flag for prices that can be influenced by external variables such as user input. Default: false
+- `variable_price` (Boolean) The flag for prices that can be influenced by external variables such as user input.
 
 <a id="nestedatt--acl"></a>
 ### Nested Schema for `acl`
