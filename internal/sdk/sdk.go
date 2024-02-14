@@ -15,7 +15,7 @@ import (
 var ServerList = []string{
 	"https://product.sls.epilot.io",
 	// Production server
-	"https://product.sls.epilot.io",
+	"https://product.dev.sls.epilot.io",
 }
 
 // HTTPClient provides an interface for suplying the SDK with a custom HTTP client
@@ -146,9 +146,9 @@ func New(opts ...SDKOption) *SDK {
 		sdkConfiguration: sdkConfiguration{
 			Language:          "go",
 			OpenAPIDocVersion: "1.0.0",
-			SDKVersion:        "0.6.0",
+			SDKVersion:        "0.6.1",
 			GenVersion:        "2.253.0",
-			UserAgent:         "speakeasy-sdk/go 0.6.0 2.253.0 1.0.0 epilot-product",
+			UserAgent:         "speakeasy-sdk/go 0.6.1 2.253.0 1.0.0 epilot-product",
 		},
 	}
 	for _, opt := range opts {
