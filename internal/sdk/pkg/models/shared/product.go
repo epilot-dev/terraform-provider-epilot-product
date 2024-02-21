@@ -9,33 +9,6 @@ import (
 	"time"
 )
 
-type Feature struct {
-	ID      *string  `json:"_id,omitempty"`
-	Tags    []string `json:"_tags,omitempty"`
-	Feature *string  `json:"feature,omitempty"`
-}
-
-func (o *Feature) GetID() *string {
-	if o == nil {
-		return nil
-	}
-	return o.ID
-}
-
-func (o *Feature) GetTags() []string {
-	if o == nil {
-		return nil
-	}
-	return o.Tags
-}
-
-func (o *Feature) GetFeature() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Feature
-}
-
 // ProductType - The type of Product:
 //
 // | type | description |
@@ -85,14 +58,14 @@ type Product struct {
 	// The product code
 	Code *string `json:"code,omitempty"`
 	// A description of the product. Multi-line supported.
-	Description *string   `json:"description,omitempty"`
-	Feature     []Feature `json:"feature,omitempty"`
+	Description *string       `json:"description,omitempty"`
+	Feature     []interface{} `json:"feature,omitempty"`
 	// Not visible to customers, only in internal tables
 	InternalName *string `json:"internal_name,omitempty"`
 	// The description for the product
 	Name          string        `json:"name"`
 	PriceOptions  *BaseRelation `json:"price_options,omitempty"`
-	ProductImages *BaseImage    `json:"product_images,omitempty"`
+	ProductImages interface{}   `json:"product_images,omitempty"`
 	// The type of Product:
 	//
 	// | type | description |
@@ -198,7 +171,7 @@ func (o *Product) GetDescription() *string {
 	return o.Description
 }
 
-func (o *Product) GetFeature() []Feature {
+func (o *Product) GetFeature() []interface{} {
 	if o == nil {
 		return nil
 	}
@@ -226,7 +199,7 @@ func (o *Product) GetPriceOptions() *BaseRelation {
 	return o.PriceOptions
 }
 
-func (o *Product) GetProductImages() *BaseImage {
+func (o *Product) GetProductImages() interface{} {
 	if o == nil {
 		return nil
 	}

@@ -8,33 +8,6 @@ import (
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/pkg/utils"
 )
 
-type ProductPatchFeature struct {
-	ID      *string  `json:"_id,omitempty"`
-	Tags    []string `json:"_tags,omitempty"`
-	Feature *string  `json:"feature,omitempty"`
-}
-
-func (o *ProductPatchFeature) GetID() *string {
-	if o == nil {
-		return nil
-	}
-	return o.ID
-}
-
-func (o *ProductPatchFeature) GetTags() []string {
-	if o == nil {
-		return nil
-	}
-	return o.Tags
-}
-
-func (o *ProductPatchFeature) GetFeature() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Feature
-}
-
 // ProductPatchType - The type of Product:
 //
 // | type | description |
@@ -73,14 +46,14 @@ type ProductPatch struct {
 	// The product code
 	Code *string `json:"code,omitempty"`
 	// A description of the product. Multi-line supported.
-	Description *string               `json:"description,omitempty"`
-	Feature     []ProductPatchFeature `json:"feature,omitempty"`
+	Description *string       `json:"description,omitempty"`
+	Feature     []interface{} `json:"feature,omitempty"`
 	// Not visible to customers, only in internal tables
 	InternalName *string `json:"internal_name,omitempty"`
 	// The description for the product
 	Name          *string       `json:"name,omitempty"`
 	PriceOptions  *BaseRelation `json:"price_options,omitempty"`
-	ProductImages *BaseImage    `json:"product_images,omitempty"`
+	ProductImages interface{}   `json:"product_images,omitempty"`
 	// The type of Product:
 	//
 	// | type | description |
@@ -123,7 +96,7 @@ func (o *ProductPatch) GetDescription() *string {
 	return o.Description
 }
 
-func (o *ProductPatch) GetFeature() []ProductPatchFeature {
+func (o *ProductPatch) GetFeature() []interface{} {
 	if o == nil {
 		return nil
 	}
@@ -151,7 +124,7 @@ func (o *ProductPatch) GetPriceOptions() *BaseRelation {
 	return o.PriceOptions
 }
 
-func (o *ProductPatch) GetProductImages() *BaseImage {
+func (o *ProductPatch) GetProductImages() interface{} {
 	if o == nil {
 		return nil
 	}

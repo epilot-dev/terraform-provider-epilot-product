@@ -14,12 +14,13 @@ Product Resource
 
 ```terraform
 resource "epilot-product_product" "my_product" {
-  active        = true
-  code          = "...my_code..."
-  description   = "...my_description..."
-  internal_name = "...my_internal_name..."
-  name          = "Juan Morar Jr."
-  type          = "product"
+  active         = true
+  code           = "...my_code..."
+  description    = "...my_description..."
+  internal_name  = "...my_internal_name..."
+  name           = "Juan Morar Jr."
+  product_images = "{ \"see\": \"documentation\" }"
+  type           = "product"
 }
 ```
 
@@ -35,10 +36,10 @@ resource "epilot-product_product" "my_product" {
 
 - `code` (String) The product code
 - `description` (String) A description of the product. Multi-line supported.
-- `feature` (Attributes List) (see [below for nested schema](#nestedatt--feature))
+- `feature` (List of String)
 - `internal_name` (String) Not visible to customers, only in internal tables
 - `price_options` (Attributes) (see [below for nested schema](#nestedatt--price_options))
-- `product_images` (Attributes) (see [below for nested schema](#nestedatt--product_images))
+- `product_images` (String) Parsed as JSON.
 - `type` (String) The type of Product:
 
 | type | description |
@@ -60,16 +61,6 @@ must be one of ["product", "service"]; Default: "product"
 - `title` (String)
 - `updated_at` (String)
 
-<a id="nestedatt--feature"></a>
-### Nested Schema for `feature`
-
-Optional:
-
-- `feature` (String)
-- `id` (String)
-- `tags` (List of String)
-
-
 <a id="nestedatt--price_options"></a>
 ### Nested Schema for `price_options`
 
@@ -84,22 +75,6 @@ Optional:
 
 - `entity_id` (String)
 - `tags` (List of String)
-
-
-
-<a id="nestedatt--product_images"></a>
-### Nested Schema for `product_images`
-
-Optional:
-
-- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--product_images--dollar_relation))
-
-<a id="nestedatt--product_images--dollar_relation"></a>
-### Nested Schema for `product_images.dollar_relation`
-
-Optional:
-
-- `entity_id` (String)
 
 
 

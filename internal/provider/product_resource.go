@@ -8,6 +8,7 @@ import (
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/pkg/models/operations"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/validators"
+	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -45,11 +46,11 @@ type ProductResourceModel struct {
 	Active        types.Bool        `tfsdk:"active"`
 	Code          types.String      `tfsdk:"code"`
 	Description   types.String      `tfsdk:"description"`
-	Feature       []Feature         `tfsdk:"feature"`
+	Feature       []types.String    `tfsdk:"feature"`
 	InternalName  types.String      `tfsdk:"internal_name"`
 	Name          types.String      `tfsdk:"name"`
 	PriceOptions  *BaseRelation     `tfsdk:"price_options"`
-	ProductImages *BaseImage        `tfsdk:"product_images"`
+	ProductImages types.String      `tfsdk:"product_images"`
 	Type          types.String      `tfsdk:"type"`
 }
 
@@ -143,25 +144,12 @@ func (r *ProductResource) Schema(ctx context.Context, req resource.SchemaRequest
 				Optional:    true,
 				Description: `A description of the product. Multi-line supported.`,
 			},
-			"feature": schema.ListNestedAttribute{
-				Computed: true,
-				Optional: true,
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"id": schema.StringAttribute{
-							Computed: true,
-							Optional: true,
-						},
-						"tags": schema.ListAttribute{
-							Computed:    true,
-							Optional:    true,
-							ElementType: types.StringType,
-						},
-						"feature": schema.StringAttribute{
-							Computed: true,
-							Optional: true,
-						},
-					},
+			"feature": schema.ListAttribute{
+				Computed:    true,
+				Optional:    true,
+				ElementType: types.StringType,
+				Validators: []validator.List{
+					listvalidator.ValueStringsAre(validators.IsValidJSON()),
 				},
 			},
 			"internal_name": schema.StringAttribute{
@@ -196,22 +184,12 @@ func (r *ProductResource) Schema(ctx context.Context, req resource.SchemaRequest
 					},
 				},
 			},
-			"product_images": schema.SingleNestedAttribute{
-				Computed: true,
-				Optional: true,
-				Attributes: map[string]schema.Attribute{
-					"dollar_relation": schema.ListNestedAttribute{
-						Computed: true,
-						Optional: true,
-						NestedObject: schema.NestedAttributeObject{
-							Attributes: map[string]schema.Attribute{
-								"entity_id": schema.StringAttribute{
-									Computed: true,
-									Optional: true,
-								},
-							},
-						},
-					},
+			"product_images": schema.StringAttribute{
+				Computed:    true,
+				Optional:    true,
+				Description: `Parsed as JSON.`,
+				Validators: []validator.String{
+					validators.IsValidJSON(),
 				},
 			},
 			"type": schema.StringAttribute{

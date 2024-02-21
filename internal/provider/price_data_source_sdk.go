@@ -106,7 +106,7 @@ func (r *PriceDataSourceModel) RefreshFromSharedPrice(resp *shared.Price) {
 			r.Tax.DollarRelation = r.Tax.DollarRelation[:len(resp.Tax.DollarRelation)]
 		}
 		for dollarRelationCount, dollarRelationItem := range resp.Tax.DollarRelation {
-			var dollarRelation1 BaseRelationDollarRelation
+			var dollarRelation1 DollarRelation
 			dollarRelation1.Tags = nil
 			for _, v := range dollarRelationItem.Tags {
 				dollarRelation1.Tags = append(dollarRelation1.Tags, types.StringValue(v))

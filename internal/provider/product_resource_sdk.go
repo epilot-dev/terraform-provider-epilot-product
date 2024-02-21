@@ -23,29 +23,11 @@ func (r *ProductResourceModel) ToSharedProductCreate() *shared.ProductCreate {
 	} else {
 		description = nil
 	}
-	var feature []shared.ProductCreateFeature = nil
+	var feature []interface{} = nil
 	for _, featureItem := range r.Feature {
-		id := new(string)
-		if !featureItem.ID.IsUnknown() && !featureItem.ID.IsNull() {
-			*id = featureItem.ID.ValueString()
-		} else {
-			id = nil
-		}
-		var tags []string = nil
-		for _, tagsItem := range featureItem.Tags {
-			tags = append(tags, tagsItem.ValueString())
-		}
-		feature1 := new(string)
-		if !featureItem.Feature.IsUnknown() && !featureItem.Feature.IsNull() {
-			*feature1 = featureItem.Feature.ValueString()
-		} else {
-			feature1 = nil
-		}
-		feature = append(feature, shared.ProductCreateFeature{
-			ID:      id,
-			Tags:    tags,
-			Feature: feature1,
-		})
+		var featureTmp interface{}
+		_ = json.Unmarshal([]byte(featureItem.ValueString()), &featureTmp)
+		feature = append(feature, featureTmp)
 	}
 	internalName := new(string)
 	if !r.InternalName.IsUnknown() && !r.InternalName.IsNull() {
@@ -56,11 +38,11 @@ func (r *ProductResourceModel) ToSharedProductCreate() *shared.ProductCreate {
 	name := r.Name.ValueString()
 	var priceOptions *shared.BaseRelation
 	if r.PriceOptions != nil {
-		var dollarRelation []shared.BaseRelationDollarRelation = nil
+		var dollarRelation []shared.DollarRelation = nil
 		for _, dollarRelationItem := range r.PriceOptions.DollarRelation {
-			var tags1 []string = nil
-			for _, tagsItem1 := range dollarRelationItem.Tags {
-				tags1 = append(tags1, tagsItem1.ValueString())
+			var tags []string = nil
+			for _, tagsItem := range dollarRelationItem.Tags {
+				tags = append(tags, tagsItem.ValueString())
 			}
 			entityID := new(string)
 			if !dollarRelationItem.EntityID.IsUnknown() && !dollarRelationItem.EntityID.IsNull() {
@@ -68,8 +50,8 @@ func (r *ProductResourceModel) ToSharedProductCreate() *shared.ProductCreate {
 			} else {
 				entityID = nil
 			}
-			dollarRelation = append(dollarRelation, shared.BaseRelationDollarRelation{
-				Tags:     tags1,
+			dollarRelation = append(dollarRelation, shared.DollarRelation{
+				Tags:     tags,
 				EntityID: entityID,
 			})
 		}
@@ -77,23 +59,9 @@ func (r *ProductResourceModel) ToSharedProductCreate() *shared.ProductCreate {
 			DollarRelation: dollarRelation,
 		}
 	}
-	var productImages *shared.BaseImage
-	if r.ProductImages != nil {
-		var dollarRelation1 []shared.DollarRelation = nil
-		for _, dollarRelationItem1 := range r.ProductImages.DollarRelation {
-			entityId1 := new(string)
-			if !dollarRelationItem1.EntityID.IsUnknown() && !dollarRelationItem1.EntityID.IsNull() {
-				*entityId1 = dollarRelationItem1.EntityID.ValueString()
-			} else {
-				entityId1 = nil
-			}
-			dollarRelation1 = append(dollarRelation1, shared.DollarRelation{
-				EntityID: entityId1,
-			})
-		}
-		productImages = &shared.BaseImage{
-			DollarRelation: dollarRelation1,
-		}
+	var productImages interface{}
+	if !r.ProductImages.IsUnknown() && !r.ProductImages.IsNull() {
+		_ = json.Unmarshal([]byte(r.ProductImages.ValueString()), &productImages)
 	}
 	typeVar := new(shared.ProductCreateType)
 	if !r.Type.IsUnknown() && !r.Type.IsNull() {
@@ -161,24 +129,12 @@ func (r *ProductResourceModel) RefreshFromSharedProduct(resp *shared.Product) {
 	r.Active = types.BoolValue(resp.Active)
 	r.Code = types.StringPointerValue(resp.Code)
 	r.Description = types.StringPointerValue(resp.Description)
-	if len(r.Feature) > len(resp.Feature) {
-		r.Feature = r.Feature[:len(resp.Feature)]
-	}
-	for featureCount, featureItem := range resp.Feature {
-		var feature1 Feature
-		feature1.ID = types.StringPointerValue(featureItem.ID)
-		feature1.Tags = nil
-		for _, v := range featureItem.Tags {
-			feature1.Tags = append(feature1.Tags, types.StringValue(v))
-		}
-		feature1.Feature = types.StringPointerValue(featureItem.Feature)
-		if featureCount+1 > len(r.Feature) {
-			r.Feature = append(r.Feature, feature1)
-		} else {
-			r.Feature[featureCount].ID = feature1.ID
-			r.Feature[featureCount].Tags = feature1.Tags
-			r.Feature[featureCount].Feature = feature1.Feature
-		}
+	r.Feature = nil
+	for _, featureItem := range resp.Feature {
+		var feature1 types.String
+		feature1Result, _ := json.Marshal(featureItem)
+		feature1 = types.StringValue(string(feature1Result))
+		r.Feature = append(r.Feature, feature1)
 	}
 	r.InternalName = types.StringPointerValue(resp.InternalName)
 	r.Name = types.StringValue(resp.Name)
@@ -190,7 +146,7 @@ func (r *ProductResourceModel) RefreshFromSharedProduct(resp *shared.Product) {
 			r.PriceOptions.DollarRelation = r.PriceOptions.DollarRelation[:len(resp.PriceOptions.DollarRelation)]
 		}
 		for dollarRelationCount, dollarRelationItem := range resp.PriceOptions.DollarRelation {
-			var dollarRelation1 BaseRelationDollarRelation
+			var dollarRelation1 DollarRelation
 			dollarRelation1.Tags = nil
 			for _, v := range dollarRelationItem.Tags {
 				dollarRelation1.Tags = append(dollarRelation1.Tags, types.StringValue(v))
@@ -205,21 +161,10 @@ func (r *ProductResourceModel) RefreshFromSharedProduct(resp *shared.Product) {
 		}
 	}
 	if resp.ProductImages == nil {
-		r.ProductImages = nil
+		r.ProductImages = types.StringNull()
 	} else {
-		r.ProductImages = &BaseImage{}
-		if len(r.ProductImages.DollarRelation) > len(resp.ProductImages.DollarRelation) {
-			r.ProductImages.DollarRelation = r.ProductImages.DollarRelation[:len(resp.ProductImages.DollarRelation)]
-		}
-		for dollarRelationCount1, dollarRelationItem1 := range resp.ProductImages.DollarRelation {
-			var dollarRelation3 DollarRelation
-			dollarRelation3.EntityID = types.StringPointerValue(dollarRelationItem1.EntityID)
-			if dollarRelationCount1+1 > len(r.ProductImages.DollarRelation) {
-				r.ProductImages.DollarRelation = append(r.ProductImages.DollarRelation, dollarRelation3)
-			} else {
-				r.ProductImages.DollarRelation[dollarRelationCount1].EntityID = dollarRelation3.EntityID
-			}
-		}
+		productImagesResult, _ := json.Marshal(resp.ProductImages)
+		r.ProductImages = types.StringValue(string(productImagesResult))
 	}
 	if resp.Type != nil {
 		r.Type = types.StringValue(string(*resp.Type))

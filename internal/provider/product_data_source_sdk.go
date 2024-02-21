@@ -54,24 +54,12 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(resp *shared.Product) 
 	r.Active = types.BoolValue(resp.Active)
 	r.Code = types.StringPointerValue(resp.Code)
 	r.Description = types.StringPointerValue(resp.Description)
-	if len(r.Feature) > len(resp.Feature) {
-		r.Feature = r.Feature[:len(resp.Feature)]
-	}
-	for featureCount, featureItem := range resp.Feature {
-		var feature1 Feature
-		feature1.ID = types.StringPointerValue(featureItem.ID)
-		feature1.Tags = nil
-		for _, v := range featureItem.Tags {
-			feature1.Tags = append(feature1.Tags, types.StringValue(v))
-		}
-		feature1.Feature = types.StringPointerValue(featureItem.Feature)
-		if featureCount+1 > len(r.Feature) {
-			r.Feature = append(r.Feature, feature1)
-		} else {
-			r.Feature[featureCount].ID = feature1.ID
-			r.Feature[featureCount].Tags = feature1.Tags
-			r.Feature[featureCount].Feature = feature1.Feature
-		}
+	r.Feature = nil
+	for _, featureItem := range resp.Feature {
+		var feature1 types.String
+		feature1Result, _ := json.Marshal(featureItem)
+		feature1 = types.StringValue(string(feature1Result))
+		r.Feature = append(r.Feature, feature1)
 	}
 	r.ID = types.StringValue(resp.ID)
 	r.InternalName = types.StringPointerValue(resp.InternalName)
@@ -84,7 +72,7 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(resp *shared.Product) 
 			r.PriceOptions.DollarRelation = r.PriceOptions.DollarRelation[:len(resp.PriceOptions.DollarRelation)]
 		}
 		for dollarRelationCount, dollarRelationItem := range resp.PriceOptions.DollarRelation {
-			var dollarRelation1 BaseRelationDollarRelation
+			var dollarRelation1 DollarRelation
 			dollarRelation1.Tags = nil
 			for _, v := range dollarRelationItem.Tags {
 				dollarRelation1.Tags = append(dollarRelation1.Tags, types.StringValue(v))
@@ -99,21 +87,10 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(resp *shared.Product) 
 		}
 	}
 	if resp.ProductImages == nil {
-		r.ProductImages = nil
+		r.ProductImages = types.StringNull()
 	} else {
-		r.ProductImages = &BaseImage{}
-		if len(r.ProductImages.DollarRelation) > len(resp.ProductImages.DollarRelation) {
-			r.ProductImages.DollarRelation = r.ProductImages.DollarRelation[:len(resp.ProductImages.DollarRelation)]
-		}
-		for dollarRelationCount1, dollarRelationItem1 := range resp.ProductImages.DollarRelation {
-			var dollarRelation3 DollarRelation
-			dollarRelation3.EntityID = types.StringPointerValue(dollarRelationItem1.EntityID)
-			if dollarRelationCount1+1 > len(r.ProductImages.DollarRelation) {
-				r.ProductImages.DollarRelation = append(r.ProductImages.DollarRelation, dollarRelation3)
-			} else {
-				r.ProductImages.DollarRelation[dollarRelationCount1].EntityID = dollarRelation3.EntityID
-			}
-		}
+		productImagesResult, _ := json.Marshal(resp.ProductImages)
+		r.ProductImages = types.StringValue(string(productImagesResult))
 	}
 	if resp.Type != nil {
 		r.Type = types.StringValue(string(*resp.Type))

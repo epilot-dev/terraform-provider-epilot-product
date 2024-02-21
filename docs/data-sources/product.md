@@ -37,13 +37,13 @@ data "epilot-product_product" "my_product" {
 - `code` (String) The product code
 - `created_at` (String)
 - `description` (String) A description of the product. Multi-line supported.
-- `feature` (Attributes List) (see [below for nested schema](#nestedatt--feature))
+- `feature` (List of String)
 - `internal_name` (String) Not visible to customers, only in internal tables
 - `name` (String) The description for the product
 - `org` (String) Organization Id the entity belongs to
 - `owners` (Attributes List) (see [below for nested schema](#nestedatt--owners))
 - `price_options` (Attributes) (see [below for nested schema](#nestedatt--price_options))
-- `product_images` (Attributes) (see [below for nested schema](#nestedatt--product_images))
+- `product_images` (String) Parsed as JSON.
 - `schema` (String)
 - `tags` (List of String)
 - `title` (String)
@@ -66,16 +66,6 @@ Read-Only:
 - `delete` (List of String)
 - `edit` (List of String)
 - `view` (List of String)
-
-
-<a id="nestedatt--feature"></a>
-### Nested Schema for `feature`
-
-Read-Only:
-
-- `feature` (String)
-- `id` (String)
-- `tags` (List of String)
 
 
 <a id="nestedatt--owners"></a>
@@ -101,21 +91,5 @@ Read-Only:
 
 - `entity_id` (String)
 - `tags` (List of String)
-
-
-
-<a id="nestedatt--product_images"></a>
-### Nested Schema for `product_images`
-
-Read-Only:
-
-- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--product_images--dollar_relation))
-
-<a id="nestedatt--product_images--dollar_relation"></a>
-### Nested Schema for `product_images.dollar_relation`
-
-Read-Only:
-
-- `entity_id` (String)
 
 

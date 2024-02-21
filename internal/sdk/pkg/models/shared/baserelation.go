@@ -2,19 +2,19 @@
 
 package shared
 
-type BaseRelationDollarRelation struct {
+type DollarRelation struct {
 	Tags     []string `json:"_tags,omitempty"`
 	EntityID *string  `json:"entity_id,omitempty"`
 }
 
-func (o *BaseRelationDollarRelation) GetTags() []string {
+func (o *DollarRelation) GetTags() []string {
 	if o == nil {
 		return nil
 	}
 	return o.Tags
 }
 
-func (o *BaseRelationDollarRelation) GetEntityID() *string {
+func (o *DollarRelation) GetEntityID() *string {
 	if o == nil {
 		return nil
 	}
@@ -22,10 +22,10 @@ func (o *BaseRelationDollarRelation) GetEntityID() *string {
 }
 
 type BaseRelation struct {
-	DollarRelation []BaseRelationDollarRelation `json:"$relation,omitempty"`
+	DollarRelation []DollarRelation `json:"$relation,omitempty"`
 }
 
-func (o *BaseRelation) GetDollarRelation() []BaseRelationDollarRelation {
+func (o *BaseRelation) GetDollarRelation() []DollarRelation {
 	if o == nil {
 		return nil
 	}

@@ -81,7 +81,7 @@ func (r *PriceResourceModel) ToSharedPriceCreate() *shared.PriceCreate {
 	}
 	var tax *shared.BaseRelation
 	if r.Tax != nil {
-		var dollarRelation []shared.BaseRelationDollarRelation = nil
+		var dollarRelation []shared.DollarRelation = nil
 		for _, dollarRelationItem := range r.Tax.DollarRelation {
 			var tags []string = nil
 			for _, tagsItem := range dollarRelationItem.Tags {
@@ -93,7 +93,7 @@ func (r *PriceResourceModel) ToSharedPriceCreate() *shared.PriceCreate {
 			} else {
 				entityID = nil
 			}
-			dollarRelation = append(dollarRelation, shared.BaseRelationDollarRelation{
+			dollarRelation = append(dollarRelation, shared.DollarRelation{
 				Tags:     tags,
 				EntityID: entityID,
 			})
@@ -340,7 +340,7 @@ func (r *PriceResourceModel) RefreshFromSharedPrice(resp *shared.Price) {
 			r.Tax.DollarRelation = r.Tax.DollarRelation[:len(resp.Tax.DollarRelation)]
 		}
 		for dollarRelationCount, dollarRelationItem := range resp.Tax.DollarRelation {
-			var dollarRelation1 BaseRelationDollarRelation
+			var dollarRelation1 DollarRelation
 			dollarRelation1.Tags = nil
 			for _, v := range dollarRelationItem.Tags {
 				dollarRelation1.Tags = append(dollarRelation1.Tags, types.StringValue(v))

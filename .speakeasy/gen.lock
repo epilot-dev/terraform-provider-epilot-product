@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 5a857039-7f4b-42d5-86fd-449767242ed2
 management:
-  docChecksum: 3d157028efa8ed42ae0cadf0397ac4b2
+  docChecksum: 4c38346813a691acf8fe493b6cfaf79a
   docVersion: 1.0.0
   speakeasyVersion: internal
-  generationVersion: 2.253.0
-  releaseVersion: 0.6.1
-  configChecksum: 2dff4e848bdf6d79d9239efddf22945b
+  generationVersion: 2.263.3
+  releaseVersion: 0.6.2
+  configChecksum: 4eb8e334d84d34bed8af0cd1c2c0ebe6
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-product.git
   repoSubDirectory: .
   published: true
@@ -22,7 +22,7 @@ features:
   terraform:
     additionalProperties: 0.1.2
     constsAndDefaults: 0.1.3
-    core: 3.9.4
+    core: 3.9.5
     globalSecurity: 2.81.3
     globalServerURLs: 2.82.1
     unions: 2.81.8
@@ -117,7 +117,6 @@ generatedFiles:
   - internal/sdk/pkg/models/shared/pricecreate.go
   - internal/sdk/pkg/models/shared/pricepatch.go
   - internal/sdk/pkg/models/shared/product.go
-  - internal/sdk/pkg/models/shared/baseimage.go
   - internal/sdk/pkg/models/shared/productcreate.go
   - internal/sdk/pkg/models/shared/productpatch.go
   - internal/sdk/pkg/models/shared/tax.go
@@ -126,13 +125,10 @@ generatedFiles:
   - internal/sdk/pkg/models/shared/security.go
   - internal/provider/type_base_entity_acl.go
   - internal/provider/type_base_entity_owner.go
-  - internal/provider/type_base_relation_dollar_relation.go
+  - internal/provider/type_dollar_relation.go
   - internal/provider/type_base_relation.go
   - internal/provider/type_price_tier.go
   - internal/provider/type_price_create_unit.go
-  - internal/provider/type_feature.go
-  - internal/provider/type_dollar_relation.go
-  - internal/provider/type_base_image.go
   - USAGE.md
   - internal/provider/provider.go
   - examples/provider/provider.tf
