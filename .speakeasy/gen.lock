@@ -3,10 +3,10 @@ id: 5a857039-7f4b-42d5-86fd-449767242ed2
 management:
   docChecksum: 4c38346813a691acf8fe493b6cfaf79a
   docVersion: 1.0.0
-  speakeasyVersion: internal
-  generationVersion: 2.263.3
-  releaseVersion: 0.6.2
-  configChecksum: 4eb8e334d84d34bed8af0cd1c2c0ebe6
+  speakeasyVersion: 1.204.1
+  generationVersion: 2.279.1
+  releaseVersion: 0.7.0
+  configChecksum: fa01290c43d3f6f0462e70d37897c38d
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-product.git
   repoSubDirectory: .
   published: true
@@ -21,11 +21,11 @@ features:
     unions: 2.85.0
   terraform:
     additionalProperties: 0.1.2
-    constsAndDefaults: 0.1.3
-    core: 3.9.5
-    globalSecurity: 2.81.3
+    constsAndDefaults: 0.1.4
+    core: 3.10.2
+    globalSecurity: 2.81.5
     globalServerURLs: 2.82.1
-    unions: 2.81.8
+    unions: 2.81.9
 generatedFiles:
   - internal/sdk/price.go
   - internal/sdk/product.go
