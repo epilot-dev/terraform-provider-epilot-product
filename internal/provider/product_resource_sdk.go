@@ -4,7 +4,8 @@ package provider
 
 import (
 	"encoding/json"
-	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/pkg/models/shared"
+	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
+	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/shared"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"time"
 )
@@ -110,7 +111,7 @@ func (r *ProductResourceModel) RefreshFromSharedProduct(resp *shared.Product) {
 			r.Owners = r.Owners[:len(resp.Owners)]
 		}
 		for ownersCount, ownersItem := range resp.Owners {
-			var owners1 BaseEntityOwner
+			var owners1 tfTypes.BaseEntityOwner
 			owners1.OrgID = types.StringValue(ownersItem.OrgID)
 			owners1.UserID = types.StringPointerValue(ownersItem.UserID)
 			if ownersCount+1 > len(r.Owners) {
@@ -142,12 +143,12 @@ func (r *ProductResourceModel) RefreshFromSharedProduct(resp *shared.Product) {
 		if resp.PriceOptions == nil {
 			r.PriceOptions = nil
 		} else {
-			r.PriceOptions = &BaseRelation{}
+			r.PriceOptions = &tfTypes.BaseRelation{}
 			if len(r.PriceOptions.DollarRelation) > len(resp.PriceOptions.DollarRelation) {
 				r.PriceOptions.DollarRelation = r.PriceOptions.DollarRelation[:len(resp.PriceOptions.DollarRelation)]
 			}
 			for dollarRelationCount, dollarRelationItem := range resp.PriceOptions.DollarRelation {
-				var dollarRelation1 DollarRelation
+				var dollarRelation1 tfTypes.DollarRelation
 				dollarRelation1.Tags = nil
 				for _, v := range dollarRelationItem.Tags {
 					dollarRelation1.Tags = append(dollarRelation1.Tags, types.StringValue(v))

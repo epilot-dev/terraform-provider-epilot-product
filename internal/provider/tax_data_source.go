@@ -5,8 +5,9 @@ package provider
 import (
 	"context"
 	"fmt"
+	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk"
-	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/pkg/models/operations"
+	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/operations"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -28,21 +29,21 @@ type TaxDataSource struct {
 
 // TaxDataSourceModel describes the data model.
 type TaxDataSourceModel struct {
-	ACL         BaseEntityACL     `tfsdk:"acl"`
-	CreatedAt   types.String      `tfsdk:"created_at"`
-	Org         types.String      `tfsdk:"org"`
-	Owners      []BaseEntityOwner `tfsdk:"owners"`
-	Schema      types.String      `tfsdk:"schema"`
-	Tags        []types.String    `tfsdk:"tags"`
-	Title       types.String      `tfsdk:"title"`
-	UpdatedAt   types.String      `tfsdk:"updated_at"`
-	Active      types.Bool        `tfsdk:"active"`
-	Description types.String      `tfsdk:"description"`
-	Hydrate     types.Bool        `tfsdk:"hydrate"`
-	ID          types.String      `tfsdk:"id"`
-	Rate        types.String      `tfsdk:"rate"`
-	Region      types.String      `tfsdk:"region"`
-	Type        types.String      `tfsdk:"type"`
+	ACL         tfTypes.BaseEntityACL     `tfsdk:"acl"`
+	CreatedAt   types.String              `tfsdk:"created_at"`
+	Org         types.String              `tfsdk:"org"`
+	Owners      []tfTypes.BaseEntityOwner `tfsdk:"owners"`
+	Schema      types.String              `tfsdk:"schema"`
+	Tags        []types.String            `tfsdk:"tags"`
+	Title       types.String              `tfsdk:"title"`
+	UpdatedAt   types.String              `tfsdk:"updated_at"`
+	Active      types.Bool                `tfsdk:"active"`
+	Description types.String              `tfsdk:"description"`
+	Hydrate     types.Bool                `tfsdk:"hydrate"`
+	ID          types.String              `tfsdk:"id"`
+	Rate        types.String              `tfsdk:"rate"`
+	Region      types.String              `tfsdk:"region"`
+	Type        types.String              `tfsdk:"type"`
 }
 
 // Metadata returns the data source type name.

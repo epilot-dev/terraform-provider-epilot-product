@@ -4,7 +4,8 @@ package provider
 
 import (
 	"encoding/json"
-	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/pkg/models/shared"
+	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
+	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/shared"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"time"
 )
@@ -52,7 +53,7 @@ func (r *TaxResourceModel) RefreshFromSharedTax(resp *shared.Tax) {
 			r.Owners = r.Owners[:len(resp.Owners)]
 		}
 		for ownersCount, ownersItem := range resp.Owners {
-			var owners1 BaseEntityOwner
+			var owners1 tfTypes.BaseEntityOwner
 			owners1.OrgID = types.StringValue(ownersItem.OrgID)
 			owners1.UserID = types.StringPointerValue(ownersItem.UserID)
 			if ownersCount+1 > len(r.Owners) {

@@ -5,8 +5,9 @@ package provider
 import (
 	"context"
 	"fmt"
+	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk"
-	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/pkg/models/operations"
+	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/operations"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/validators"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -34,38 +35,38 @@ type PriceResource struct {
 
 // PriceResourceModel describes the resource data model.
 type PriceResourceModel struct {
-	ACL                    BaseEntityACL     `tfsdk:"acl"`
-	CreatedAt              types.String      `tfsdk:"created_at"`
-	ID                     types.String      `tfsdk:"id"`
-	Org                    types.String      `tfsdk:"org"`
-	Owners                 []BaseEntityOwner `tfsdk:"owners"`
-	Schema                 types.String      `tfsdk:"schema"`
-	Tags                   []types.String    `tfsdk:"tags"`
-	Title                  types.String      `tfsdk:"title"`
-	UpdatedAt              types.String      `tfsdk:"updated_at"`
-	Active                 types.Bool        `tfsdk:"active"`
-	BillingDurationAmount  types.Number      `tfsdk:"billing_duration_amount"`
-	BillingDurationUnit    types.String      `tfsdk:"billing_duration_unit"`
-	Description            types.String      `tfsdk:"description"`
-	IsCompositePrice       types.Bool        `tfsdk:"is_composite_price"`
-	IsTaxInclusive         types.Bool        `tfsdk:"is_tax_inclusive"`
-	LongDescription        types.String      `tfsdk:"long_description"`
-	NoticeTimeAmount       types.Number      `tfsdk:"notice_time_amount"`
-	NoticeTimeUnit         types.String      `tfsdk:"notice_time_unit"`
-	PriceDisplayInJourneys types.String      `tfsdk:"price_display_in_journeys"`
-	PricingModel           types.String      `tfsdk:"pricing_model"`
-	RenewalDurationAmount  types.Number      `tfsdk:"renewal_duration_amount"`
-	RenewalDurationUnit    types.String      `tfsdk:"renewal_duration_unit"`
-	Tax                    *BaseRelation     `tfsdk:"tax"`
-	TerminationTimeAmount  types.Number      `tfsdk:"termination_time_amount"`
-	TerminationTimeUnit    types.String      `tfsdk:"termination_time_unit"`
-	Tiers                  []PriceTier       `tfsdk:"tiers"`
-	Type                   types.String      `tfsdk:"type"`
-	Unit                   *PriceCreateUnit  `tfsdk:"unit"`
-	UnitAmount             types.Number      `tfsdk:"unit_amount"`
-	UnitAmountCurrency     types.String      `tfsdk:"unit_amount_currency"`
-	UnitAmountDecimal      types.String      `tfsdk:"unit_amount_decimal"`
-	VariablePrice          types.Bool        `tfsdk:"variable_price"`
+	ACL                    tfTypes.BaseEntityACL     `tfsdk:"acl"`
+	CreatedAt              types.String              `tfsdk:"created_at"`
+	ID                     types.String              `tfsdk:"id"`
+	Org                    types.String              `tfsdk:"org"`
+	Owners                 []tfTypes.BaseEntityOwner `tfsdk:"owners"`
+	Schema                 types.String              `tfsdk:"schema"`
+	Tags                   []types.String            `tfsdk:"tags"`
+	Title                  types.String              `tfsdk:"title"`
+	UpdatedAt              types.String              `tfsdk:"updated_at"`
+	Active                 types.Bool                `tfsdk:"active"`
+	BillingDurationAmount  types.Number              `tfsdk:"billing_duration_amount"`
+	BillingDurationUnit    types.String              `tfsdk:"billing_duration_unit"`
+	Description            types.String              `tfsdk:"description"`
+	IsCompositePrice       types.Bool                `tfsdk:"is_composite_price"`
+	IsTaxInclusive         types.Bool                `tfsdk:"is_tax_inclusive"`
+	LongDescription        types.String              `tfsdk:"long_description"`
+	NoticeTimeAmount       types.Number              `tfsdk:"notice_time_amount"`
+	NoticeTimeUnit         types.String              `tfsdk:"notice_time_unit"`
+	PriceDisplayInJourneys types.String              `tfsdk:"price_display_in_journeys"`
+	PricingModel           types.String              `tfsdk:"pricing_model"`
+	RenewalDurationAmount  types.Number              `tfsdk:"renewal_duration_amount"`
+	RenewalDurationUnit    types.String              `tfsdk:"renewal_duration_unit"`
+	Tax                    *tfTypes.BaseRelation     `tfsdk:"tax"`
+	TerminationTimeAmount  types.Number              `tfsdk:"termination_time_amount"`
+	TerminationTimeUnit    types.String              `tfsdk:"termination_time_unit"`
+	Tiers                  []tfTypes.PriceTier       `tfsdk:"tiers"`
+	Type                   types.String              `tfsdk:"type"`
+	Unit                   *tfTypes.PriceCreateUnit  `tfsdk:"unit"`
+	UnitAmount             types.Number              `tfsdk:"unit_amount"`
+	UnitAmountCurrency     types.String              `tfsdk:"unit_amount_currency"`
+	UnitAmountDecimal      types.String              `tfsdk:"unit_amount_decimal"`
+	VariablePrice          types.Bool                `tfsdk:"variable_price"`
 }
 
 func (r *PriceResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {

@@ -4,7 +4,8 @@ package provider
 
 import (
 	"encoding/json"
-	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/pkg/models/shared"
+	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
+	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/shared"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"math/big"
 	"time"
@@ -271,7 +272,7 @@ func (r *PriceResourceModel) RefreshFromSharedPrice(resp *shared.Price) {
 			r.Owners = r.Owners[:len(resp.Owners)]
 		}
 		for ownersCount, ownersItem := range resp.Owners {
-			var owners1 BaseEntityOwner
+			var owners1 tfTypes.BaseEntityOwner
 			owners1.OrgID = types.StringValue(ownersItem.OrgID)
 			owners1.UserID = types.StringPointerValue(ownersItem.UserID)
 			if ownersCount+1 > len(r.Owners) {
@@ -336,12 +337,12 @@ func (r *PriceResourceModel) RefreshFromSharedPrice(resp *shared.Price) {
 		if resp.Tax == nil {
 			r.Tax = nil
 		} else {
-			r.Tax = &BaseRelation{}
+			r.Tax = &tfTypes.BaseRelation{}
 			if len(r.Tax.DollarRelation) > len(resp.Tax.DollarRelation) {
 				r.Tax.DollarRelation = r.Tax.DollarRelation[:len(resp.Tax.DollarRelation)]
 			}
 			for dollarRelationCount, dollarRelationItem := range resp.Tax.DollarRelation {
-				var dollarRelation1 DollarRelation
+				var dollarRelation1 tfTypes.DollarRelation
 				dollarRelation1.Tags = nil
 				for _, v := range dollarRelationItem.Tags {
 					dollarRelation1.Tags = append(dollarRelation1.Tags, types.StringValue(v))
@@ -369,7 +370,7 @@ func (r *PriceResourceModel) RefreshFromSharedPrice(resp *shared.Price) {
 			r.Tiers = r.Tiers[:len(resp.Tiers)]
 		}
 		for tiersCount, tiersItem := range resp.Tiers {
-			var tiers1 PriceTier
+			var tiers1 tfTypes.PriceTier
 			if tiersItem.DisplayMode != nil {
 				tiers1.DisplayMode = types.StringValue(string(*tiersItem.DisplayMode))
 			} else {
@@ -411,7 +412,7 @@ func (r *PriceResourceModel) RefreshFromSharedPrice(resp *shared.Price) {
 		if resp.Unit == nil {
 			r.Unit = nil
 		} else {
-			r.Unit = &PriceCreateUnit{}
+			r.Unit = &tfTypes.PriceCreateUnit{}
 			if resp.Unit.Str != nil {
 				r.Unit.Str = types.StringPointerValue(resp.Unit.Str)
 			}
