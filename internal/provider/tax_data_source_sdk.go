@@ -18,15 +18,15 @@ func (r *TaxDataSourceModel) RefreshFromSharedTax(resp *shared.Tax) {
 			additionalPropertiesResult, _ := json.Marshal(resp.ACL.AdditionalProperties)
 			r.ACL.AdditionalProperties = types.StringValue(string(additionalPropertiesResult))
 		}
-		r.ACL.Delete = nil
+		r.ACL.Delete = []types.String{}
 		for _, v := range resp.ACL.Delete {
 			r.ACL.Delete = append(r.ACL.Delete, types.StringValue(v))
 		}
-		r.ACL.Edit = nil
+		r.ACL.Edit = []types.String{}
 		for _, v := range resp.ACL.Edit {
 			r.ACL.Edit = append(r.ACL.Edit, types.StringValue(v))
 		}
-		r.ACL.View = nil
+		r.ACL.View = []types.String{}
 		for _, v := range resp.ACL.View {
 			r.ACL.View = append(r.ACL.View, types.StringValue(v))
 		}
@@ -47,7 +47,7 @@ func (r *TaxDataSourceModel) RefreshFromSharedTax(resp *shared.Tax) {
 			}
 		}
 		r.Schema = types.StringValue(resp.Schema)
-		r.Tags = nil
+		r.Tags = []types.String{}
 		for _, v := range resp.Tags {
 			r.Tags = append(r.Tags, types.StringValue(v))
 		}
