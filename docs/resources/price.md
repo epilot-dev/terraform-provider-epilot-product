@@ -24,14 +24,14 @@ resource "epilot-product_price" "my_price" {
   notice_time_amount        = 2.66
   notice_time_unit          = "months"
   price_display_in_journeys = "show_as_starting_price"
-  pricing_model             = "per_unit"
-  renewal_duration_amount   = 66.53
-  renewal_duration_unit     = "months"
-  tax                       = "{ \"see\": \"documentation\" }"
-  termination_time_amount   = 20
-  termination_time_unit     = "weeks"
-  type                      = "recurring"
-  unit_amount               = 84.62
+  price_id                  = "123e4567-e89b-12d3-a456-426614174000"
+  pricing_model             = "tiered_graduated"
+  renewal_duration_amount   = 66.62
+  renewal_duration_unit     = "weeks"
+  termination_time_amount   = 44.65
+  termination_time_unit     = "years"
+  type                      = "one_time"
+  unit_amount               = 40.89
   unit_amount_currency      = "EUR"
   unit_amount_decimal       = "...my_unit_amount_decimal..."
   variable_price            = false
@@ -65,7 +65,7 @@ resource "epilot-product_price" "my_price" {
 must be one of ["per_unit", "tiered_volume", "tiered_graduated", "tiered_flatfee"]; Default: "per_unit"
 - `renewal_duration_amount` (Number) The renewal period duration
 - `renewal_duration_unit` (String) The renewal period duration unit. must be one of ["weeks", "months", "years"]
-- `tax` (String) Parsed as JSON.
+- `tax` (Attributes) (see [below for nested schema](#nestedatt--tax))
 - `termination_time_amount` (Number) The termination period duration
 - `termination_time_unit` (String) The termination period duration unit. must be one of ["weeks", "months", "years"]
 - `tiers` (Attributes List) Defines an array of tiers. Each tier has an upper bound, an unit amount and a flat fee. (see [below for nested schema](#nestedatt--tiers))
@@ -80,13 +80,30 @@ must be one of ["per_unit", "tiered_volume", "tiered_graduated", "tiered_flatfee
 
 - `acl` (Attributes) Access control list (ACL) for an entity. Defines sharing access to external orgs or users. (see [below for nested schema](#nestedatt--acl))
 - `created_at` (String)
-- `id` (String) The price id
+- `id` (String) The ID of this resource.
 - `org` (String) Organization Id the entity belongs to
 - `owners` (Attributes List) (see [below for nested schema](#nestedatt--owners))
 - `schema` (String)
 - `tags` (List of String)
 - `title` (String)
 - `updated_at` (String)
+
+<a id="nestedatt--tax"></a>
+### Nested Schema for `tax`
+
+Optional:
+
+- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--tax--dollar_relation))
+
+<a id="nestedatt--tax--dollar_relation"></a>
+### Nested Schema for `tax.dollar_relation`
+
+Optional:
+
+- `entity_id` (String)
+- `tags` (List of String)
+
+
 
 <a id="nestedatt--tiers"></a>
 ### Nested Schema for `tiers`
@@ -129,4 +146,10 @@ Read-Only:
 - `org_id` (String)
 - `user_id` (String)
 
+## Import
 
+Import is supported using the following syntax:
+
+```shell
+terraform import epilot-product_price.my_epilot-product_price "123e4567-e89b-12d3-a456-426614174000"
+```

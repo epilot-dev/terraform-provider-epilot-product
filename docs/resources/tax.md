@@ -14,10 +14,11 @@ Tax Resource
 
 ```terraform
 resource "epilot-product_tax" "my_tax" {
-  active      = true
+  active      = false
   description = "...my_description..."
   rate        = "...my_rate..."
   region      = "AT"
+  tax_id      = "123e4567-e89b-12d3-a456-426614174000"
   type        = "VAT"
 }
 ```
@@ -28,19 +29,16 @@ resource "epilot-product_tax" "my_tax" {
 ### Required
 
 - `active` (Boolean)
+- `description` (String)
 - `rate` (String)
 - `region` (String) must be one of ["DE", "AT", "CH"]
 - `type` (String) must be one of ["VAT", "Custom"]
-
-### Optional
-
-- `description` (String)
 
 ### Read-Only
 
 - `acl` (Attributes) Access control list (ACL) for an entity. Defines sharing access to external orgs or users. (see [below for nested schema](#nestedatt--acl))
 - `created_at` (String)
-- `id` (String) The tax id
+- `id` (String) The ID of this resource.
 - `org` (String) Organization Id the entity belongs to
 - `owners` (Attributes List) (see [below for nested schema](#nestedatt--owners))
 - `schema` (String)
@@ -67,4 +65,10 @@ Read-Only:
 - `org_id` (String)
 - `user_id` (String)
 
+## Import
 
+Import is supported using the following syntax:
+
+```shell
+terraform import epilot-product_tax.my_epilot-product_tax "123e4567-e89b-12d3-a456-426614174000"
+```
