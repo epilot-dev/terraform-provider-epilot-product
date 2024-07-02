@@ -5,8 +5,9 @@ package provider
 import (
 	"context"
 	"fmt"
+	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk"
-	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/pkg/models/operations"
+	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/operations"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -28,31 +29,39 @@ type PriceDataSource struct {
 
 // PriceDataSourceModel describes the data model.
 type PriceDataSourceModel struct {
-	Active                 types.Bool       `tfsdk:"active"`
-	BillingDurationAmount  types.Number     `tfsdk:"billing_duration_amount"`
-	BillingDurationUnit    types.String     `tfsdk:"billing_duration_unit"`
-	Description            types.String     `tfsdk:"description"`
-	Hydrate                types.Bool       `tfsdk:"hydrate"`
-	ID                     types.String     `tfsdk:"id"`
-	IsCompositePrice       types.Bool       `tfsdk:"is_composite_price"`
-	IsTaxInclusive         types.Bool       `tfsdk:"is_tax_inclusive"`
-	LongDescription        types.String     `tfsdk:"long_description"`
-	NoticeTimeAmount       types.Number     `tfsdk:"notice_time_amount"`
-	NoticeTimeUnit         types.String     `tfsdk:"notice_time_unit"`
-	PriceDisplayInJourneys types.String     `tfsdk:"price_display_in_journeys"`
-	PricingModel           types.String     `tfsdk:"pricing_model"`
-	RenewalDurationAmount  types.Number     `tfsdk:"renewal_duration_amount"`
-	RenewalDurationUnit    types.String     `tfsdk:"renewal_duration_unit"`
-	Tax                    types.String     `tfsdk:"tax"`
-	TerminationTimeAmount  types.Number     `tfsdk:"termination_time_amount"`
-	TerminationTimeUnit    types.String     `tfsdk:"termination_time_unit"`
-	Tiers                  []PriceTier      `tfsdk:"tiers"`
-	Type                   types.String     `tfsdk:"type"`
-	Unit                   *PriceCreateUnit `tfsdk:"unit"`
-	UnitAmount             types.Number     `tfsdk:"unit_amount"`
-	UnitAmountCurrency     types.String     `tfsdk:"unit_amount_currency"`
-	UnitAmountDecimal      types.String     `tfsdk:"unit_amount_decimal"`
-	VariablePrice          types.Bool       `tfsdk:"variable_price"`
+	ACL                    tfTypes.BaseEntityACL     `tfsdk:"acl"`
+	Active                 types.Bool                `tfsdk:"active"`
+	BillingDurationAmount  types.Number              `tfsdk:"billing_duration_amount"`
+	BillingDurationUnit    types.String              `tfsdk:"billing_duration_unit"`
+	CreatedAt              types.String              `tfsdk:"created_at"`
+	Description            types.String              `tfsdk:"description"`
+	Hydrate                types.Bool                `tfsdk:"hydrate"`
+	ID                     types.String              `tfsdk:"id"`
+	IsCompositePrice       types.Bool                `tfsdk:"is_composite_price"`
+	IsTaxInclusive         types.Bool                `tfsdk:"is_tax_inclusive"`
+	LongDescription        types.String              `tfsdk:"long_description"`
+	NoticeTimeAmount       types.Number              `tfsdk:"notice_time_amount"`
+	NoticeTimeUnit         types.String              `tfsdk:"notice_time_unit"`
+	Org                    types.String              `tfsdk:"org"`
+	Owners                 []tfTypes.BaseEntityOwner `tfsdk:"owners"`
+	PriceDisplayInJourneys types.String              `tfsdk:"price_display_in_journeys"`
+	PricingModel           types.String              `tfsdk:"pricing_model"`
+	RenewalDurationAmount  types.Number              `tfsdk:"renewal_duration_amount"`
+	RenewalDurationUnit    types.String              `tfsdk:"renewal_duration_unit"`
+	Schema                 types.String              `tfsdk:"schema"`
+	Tags                   []types.String            `tfsdk:"tags"`
+	Tax                    *tfTypes.BaseRelation     `tfsdk:"tax"`
+	TerminationTimeAmount  types.Number              `tfsdk:"termination_time_amount"`
+	TerminationTimeUnit    types.String              `tfsdk:"termination_time_unit"`
+	Tiers                  []tfTypes.PriceTier       `tfsdk:"tiers"`
+	Title                  types.String              `tfsdk:"title"`
+	Type                   types.String              `tfsdk:"type"`
+	Unit                   *tfTypes.PriceCreateUnit  `tfsdk:"unit"`
+	UnitAmount             types.Number              `tfsdk:"unit_amount"`
+	UnitAmountCurrency     types.String              `tfsdk:"unit_amount_currency"`
+	UnitAmountDecimal      types.String              `tfsdk:"unit_amount_decimal"`
+	UpdatedAt              types.String              `tfsdk:"updated_at"`
+	VariablePrice          types.Bool                `tfsdk:"variable_price"`
 }
 
 // Metadata returns the data source type name.
@@ -66,6 +75,28 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 		MarkdownDescription: "Price DataSource",
 
 		Attributes: map[string]schema.Attribute{
+			"acl": schema.SingleNestedAttribute{
+				Computed: true,
+				Attributes: map[string]schema.Attribute{
+					"additional_properties": schema.StringAttribute{
+						Computed:    true,
+						Description: `Parsed as JSON.`,
+					},
+					"delete": schema.ListAttribute{
+						Computed:    true,
+						ElementType: types.StringType,
+					},
+					"edit": schema.ListAttribute{
+						Computed:    true,
+						ElementType: types.StringType,
+					},
+					"view": schema.ListAttribute{
+						Computed:    true,
+						ElementType: types.StringType,
+					},
+				},
+				Description: `Access control list (ACL) for an entity. Defines sharing access to external orgs or users.`,
+			},
 			"active": schema.BoolAttribute{
 				Computed:    true,
 				Description: `Whether the price can be used for new purchases.`,
@@ -78,6 +109,9 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 				Computed:    true,
 				Description: `The billing period duration unit. must be one of ["weeks", "months", "years"]`,
 			},
+			"created_at": schema.StringAttribute{
+				Computed: true,
+			},
 			"description": schema.StringAttribute{
 				Computed:    true,
 				Description: `A brief description of the price.`,
@@ -87,8 +121,7 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 				Description: `Hydrates entities in relations when passed true`,
 			},
 			"id": schema.StringAttribute{
-				Required:    true,
-				Description: `The price id`,
+				Computed: true,
 			},
 			"is_composite_price": schema.BoolAttribute{
 				Computed:    true,
@@ -96,7 +129,7 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 			},
 			"is_tax_inclusive": schema.BoolAttribute{
 				Computed:    true,
-				Description: `Specifies whether the price is considered ` + "`" + `inclusive` + "`" + ` of taxes or not. Default: false`,
+				Description: `Specifies whether the price is considered ` + "`" + `inclusive` + "`" + ` of taxes or not.`,
 			},
 			"long_description": schema.StringAttribute{
 				Computed:    true,
@@ -110,6 +143,23 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 				Computed:    true,
 				Description: `The notice period duration unit. must be one of ["weeks", "months", "years"]`,
 			},
+			"org": schema.StringAttribute{
+				Computed:    true,
+				Description: `Organization Id the entity belongs to`,
+			},
+			"owners": schema.ListNestedAttribute{
+				Computed: true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"org_id": schema.StringAttribute{
+							Computed: true,
+						},
+						"user_id": schema.StringAttribute{
+							Computed: true,
+						},
+					},
+				},
+			},
 			"price_display_in_journeys": schema.StringAttribute{
 				Computed:    true,
 				Description: `Defines the way the price amount is display in epilot journeys. must be one of ["show_price", "show_as_starting_price", "show_as_on_request"]`,
@@ -122,7 +172,7 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 					`- ` + "`" + `tiered_volume` + "`" + ` indicates that the unit pricing will be computed using tiers attribute. The customer pays the same unit price for all purchased units.` + "\n" +
 					`- ` + "`" + `tiered_flatfee` + "`" + ` While similar to tiered_volume, tiered flat fee charges for the same price (flat) for the entire range instead using the unit price to multiply the quantity.` + "\n" +
 					`` + "\n" +
-					`must be one of ["per_unit", "tiered_volume", "tiered_graduated", "tiered_flatfee"]; Default: "per_unit"`,
+					`must be one of ["per_unit", "tiered_volume", "tiered_graduated", "tiered_flatfee"]`,
 			},
 			"renewal_duration_amount": schema.NumberAttribute{
 				Computed:    true,
@@ -132,9 +182,31 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 				Computed:    true,
 				Description: `The renewal period duration unit. must be one of ["weeks", "months", "years"]`,
 			},
-			"tax": schema.StringAttribute{
+			"schema": schema.StringAttribute{
+				Computed: true,
+			},
+			"tags": schema.ListAttribute{
 				Computed:    true,
-				Description: `Parsed as JSON.`,
+				ElementType: types.StringType,
+			},
+			"tax": schema.SingleNestedAttribute{
+				Computed: true,
+				Attributes: map[string]schema.Attribute{
+					"dollar_relation": schema.ListNestedAttribute{
+						Computed: true,
+						NestedObject: schema.NestedAttributeObject{
+							Attributes: map[string]schema.Attribute{
+								"tags": schema.ListAttribute{
+									Computed:    true,
+									ElementType: types.StringType,
+								},
+								"entity_id": schema.StringAttribute{
+									Computed: true,
+								},
+							},
+						},
+					},
+				},
 			},
 			"termination_time_amount": schema.NumberAttribute{
 				Computed:    true,
@@ -172,9 +244,12 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 				MarkdownDescription: `Defines an array of tiers. Each tier has an upper bound, an unit amount and a flat fee.` + "\n" +
 					``,
 			},
+			"title": schema.StringAttribute{
+				Computed: true,
+			},
 			"type": schema.StringAttribute{
 				Computed:    true,
-				Description: `One of ` + "`" + `one_time` + "`" + ` or ` + "`" + `recurring` + "`" + ` depending on whether the price is for a one-time purchase or a recurring (subscription) purchase. must be one of ["one_time", "recurring"]; Default: "one_time"`,
+				Description: `One of ` + "`" + `one_time` + "`" + ` or ` + "`" + `recurring` + "`" + ` depending on whether the price is for a one-time purchase or a recurring (subscription) purchase. must be one of ["one_time", "recurring"]`,
 			},
 			"unit": schema.SingleNestedAttribute{
 				Computed: true,
@@ -201,9 +276,12 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 				Computed:    true,
 				Description: `The unit amount in cents to be charged, represented as a decimal string with at most 12 decimal places.`,
 			},
+			"updated_at": schema.StringAttribute{
+				Computed: true,
+			},
 			"variable_price": schema.BoolAttribute{
 				Computed:    true,
-				Description: `The flag for prices that can be influenced by external variables such as user input. Default: false`,
+				Description: `The flag for prices that can be influenced by external variables such as user input.`,
 			},
 		},
 	}
@@ -270,12 +348,16 @@ func (r *PriceDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res))
 		return
 	}
+	if res.StatusCode == 404 {
+		resp.State.RemoveResource(ctx)
+		return
+	}
 	if res.StatusCode != 200 {
 		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res.StatusCode), debugResponse(res.RawResponse))
 		return
 	}
-	if res.Price == nil {
-		resp.Diagnostics.AddError("unexpected response from API. No response body", debugResponse(res.RawResponse))
+	if !(res.Price != nil) {
+		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
 		return
 	}
 	data.RefreshFromSharedPrice(res.Price)
