@@ -5,6 +5,10 @@ generation:
     optionalPropertyRendering: withExample
   fixes:
     nameResolutionDec2023: false
+    parameterOrderingFeb2024: false
+    requestResponseComponentNamesFeb2024: false
+  auth:
+    oAuth2ClientCredentialsEnabled: false
   telemetryEnabled: false
 go:
   version: 0.0.1
@@ -23,8 +27,13 @@ go:
   outputModelSuffix: output
   packageName: openapi
 terraform:
-  version: 0.6.0
+  version: 0.7.0
+  additionalDataSources: []
+  additionalDependencies: {}
+  additionalResources: []
+  allowUnknownFieldsInWeakUnions: false
   author: epilot-dev
+  environmentVariables: []
   imports:
     option: openapi
     paths:
