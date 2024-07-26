@@ -3,18 +3,18 @@ info:
   title: Product API
   version: 1.0.0
 tags:
-- name: Product
-  description: Product operations
-- name: Price
-  description: Price operations
-- name: Tax
-  description: Tax operations
+  - name: Product
+    description: Product operations
+  - name: Price
+    description: Price operations
+  - name: Tax
+    description: Tax operations
 security:
-- EpilotAuth: []
-- EpilotOrg: []
+  - EpilotAuth: []
+  - EpilotOrg: []
 servers:
-- url: https://product.sls.epilot.io
-  description: Production server
+  - url: https://product.sls.epilot.io
+    description: Production server
 paths:
   /v1/tax:
     post:
@@ -23,16 +23,16 @@ paths:
       summary: createTax
       description: Create a new tax entity
       tags:
-      - Tax
+        - Tax
       requestBody:
-        $ref: '#/components/requestBodies/TaxCreateRequest'
+        $ref: "#/components/requestBodies/TaxCreateRequest"
       responses:
-        '200':
-          $ref: '#/components/responses/TaxResponse'
-        '400':
-          $ref: '#/components/responses/ClientErrorResponse'
-        '500':
-          $ref: '#/components/responses/ServerErrorResponse'
+        "200":
+          $ref: "#/components/responses/TaxResponse"
+        "400":
+          $ref: "#/components/responses/ClientErrorResponse"
+        "500":
+          $ref: "#/components/responses/ServerErrorResponse"
   /v1/tax/{taxId}:
     get:
       x-speakeasy-entity-operation: Tax#get
@@ -40,68 +40,68 @@ paths:
       summary: getTax
       description: Read a specific tax entity by a given id
       tags:
-      - Tax
+        - Tax
       parameters:
-      - $ref: '#/components/parameters/TaxIdPathParam'
-      - $ref: '#/components/parameters/HydrateQueryParam'
+        - $ref: "#/components/parameters/TaxIdPathParam"
+        - $ref: "#/components/parameters/HydrateQueryParam"
       responses:
-        '200':
-          $ref: '#/components/responses/TaxResponse'
-        '400':
-          $ref: '#/components/responses/ClientErrorResponse'
-        '500':
-          $ref: '#/components/responses/ServerErrorResponse'
+        "200":
+          $ref: "#/components/responses/TaxResponse"
+        "400":
+          $ref: "#/components/responses/ClientErrorResponse"
+        "500":
+          $ref: "#/components/responses/ServerErrorResponse"
     delete:
       x-speakeasy-entity-operation: Tax#delete
       operationId: deleteTax
       summary: deleteTax
       description: Delete a specific tax entity by a given id
       tags:
-      - Tax
+        - Tax
       parameters:
-      - $ref: '#/components/parameters/TaxIdPathParam'
+        - $ref: "#/components/parameters/TaxIdPathParam"
       responses:
-        '200':
-          $ref: '#/components/responses/TaxResponse'
-        '400':
-          $ref: '#/components/responses/ClientErrorResponse'
-        '500':
-          $ref: '#/components/responses/ServerErrorResponse'
+        "200":
+          $ref: "#/components/responses/TaxResponse"
+        "400":
+          $ref: "#/components/responses/ClientErrorResponse"
+        "500":
+          $ref: "#/components/responses/ServerErrorResponse"
     patch:
       operationId: patchTax
       summary: patchTax
       description: Partially update a specific tax entity's properties by a given id and a given payload
       tags:
-      - Tax
+        - Tax
       parameters:
-      - $ref: '#/components/parameters/TaxIdPathParam'
+        - $ref: "#/components/parameters/TaxIdPathParam"
       requestBody:
-        $ref: '#/components/requestBodies/TaxPatchRequest'
+        $ref: "#/components/requestBodies/TaxPatchRequest"
       responses:
-        '200':
-          $ref: '#/components/responses/TaxResponse'
-        '400':
-          $ref: '#/components/responses/ClientErrorResponse'
-        '500':
-          $ref: '#/components/responses/ServerErrorResponse'
+        "200":
+          $ref: "#/components/responses/TaxResponse"
+        "400":
+          $ref: "#/components/responses/ClientErrorResponse"
+        "500":
+          $ref: "#/components/responses/ServerErrorResponse"
     put:
       x-speakeasy-entity-operation: Tax#update
       operationId: updateTax
       summary: updateTax
       description: Completly replace a specific tax entity's properties by a given id and a given payload
       tags:
-      - Tax
+        - Tax
       parameters:
-      - $ref: '#/components/parameters/TaxIdPathParam'
+        - $ref: "#/components/parameters/TaxIdPathParam"
       requestBody:
-        $ref: '#/components/requestBodies/TaxUpdateRequest'
+        $ref: "#/components/requestBodies/TaxUpdateRequest"
       responses:
-        '200':
-          $ref: '#/components/responses/TaxResponse'
-        '400':
-          $ref: '#/components/responses/ClientErrorResponse'
-        '500':
-          $ref: '#/components/responses/ServerErrorResponse'
+        "200":
+          $ref: "#/components/responses/TaxResponse"
+        "400":
+          $ref: "#/components/responses/ClientErrorResponse"
+        "500":
+          $ref: "#/components/responses/ServerErrorResponse"
   /v1/price:
     post:
       x-speakeasy-entity-operation: Price#create
@@ -109,16 +109,16 @@ paths:
       summary: createPrice
       description: Create a new price entity
       tags:
-      - Price
+        - Price
       requestBody:
-        $ref: '#/components/requestBodies/PriceCreateRequest'
+        $ref: "#/components/requestBodies/PriceCreateRequest"
       responses:
-        '200':
-          $ref: '#/components/responses/PriceResponse'
-        '400':
-          $ref: '#/components/responses/ClientErrorResponse'
-        '500':
-          $ref: '#/components/responses/ServerErrorResponse'
+        "200":
+          $ref: "#/components/responses/PriceResponse"
+        "400":
+          $ref: "#/components/responses/ClientErrorResponse"
+        "500":
+          $ref: "#/components/responses/ServerErrorResponse"
   /v1/price/{priceId}:
     get:
       x-speakeasy-entity-operation: Price#get
@@ -126,68 +126,68 @@ paths:
       summary: getPrice
       description: Read a specific price entity by a given id
       tags:
-      - Price
+        - Price
       parameters:
-      - $ref: '#/components/parameters/PriceIdPathParam'
-      - $ref: '#/components/parameters/HydrateQueryParam'
+        - $ref: "#/components/parameters/PriceIdPathParam"
+        - $ref: "#/components/parameters/HydrateQueryParam"
       responses:
-        '200':
-          $ref: '#/components/responses/PriceResponse'
-        '400':
-          $ref: '#/components/responses/ClientErrorResponse'
-        '500':
-          $ref: '#/components/responses/ServerErrorResponse'
+        "200":
+          $ref: "#/components/responses/PriceResponse"
+        "400":
+          $ref: "#/components/responses/ClientErrorResponse"
+        "500":
+          $ref: "#/components/responses/ServerErrorResponse"
     delete:
       x-speakeasy-entity-operation: Price#delete
       operationId: deletePrice
       summary: deletePrice
       description: Delete a specific price entity by a given id
       tags:
-      - Price
+        - Price
       parameters:
-      - $ref: '#/components/parameters/PriceIdPathParam'
+        - $ref: "#/components/parameters/PriceIdPathParam"
       responses:
-        '200':
-          $ref: '#/components/responses/PriceResponse'
-        '400':
-          $ref: '#/components/responses/ClientErrorResponse'
-        '500':
-          $ref: '#/components/responses/ServerErrorResponse'
+        "200":
+          $ref: "#/components/responses/PriceResponse"
+        "400":
+          $ref: "#/components/responses/ClientErrorResponse"
+        "500":
+          $ref: "#/components/responses/ServerErrorResponse"
     patch:
       operationId: patchPrice
       summary: patchPrice
       description: Partially update a specific price entity's properties by a given id and a given payload
       tags:
-      - Price
+        - Price
       parameters:
-      - $ref: '#/components/parameters/PriceIdPathParam'
+        - $ref: "#/components/parameters/PriceIdPathParam"
       requestBody:
-        $ref: '#/components/requestBodies/PricePatchRequest'
+        $ref: "#/components/requestBodies/PricePatchRequest"
       responses:
-        '200':
-          $ref: '#/components/responses/PriceResponse'
-        '400':
-          $ref: '#/components/responses/ClientErrorResponse'
-        '500':
-          $ref: '#/components/responses/ServerErrorResponse'
+        "200":
+          $ref: "#/components/responses/PriceResponse"
+        "400":
+          $ref: "#/components/responses/ClientErrorResponse"
+        "500":
+          $ref: "#/components/responses/ServerErrorResponse"
     put:
       x-speakeasy-entity-operation: Price#update
       operationId: updatePrice
       summary: updatePrice
       description: Completly replace a specific tax entity's properties by a given id and given payload
       tags:
-      - Price
+        - Price
       parameters:
-      - $ref: '#/components/parameters/PriceIdPathParam'
+        - $ref: "#/components/parameters/PriceIdPathParam"
       requestBody:
-        $ref: '#/components/requestBodies/PriceUpdateRequest'
+        $ref: "#/components/requestBodies/PriceUpdateRequest"
       responses:
-        '200':
-          $ref: '#/components/responses/PriceResponse'
-        '400':
-          $ref: '#/components/responses/ClientErrorResponse'
-        '500':
-          $ref: '#/components/responses/ServerErrorResponse'
+        "200":
+          $ref: "#/components/responses/PriceResponse"
+        "400":
+          $ref: "#/components/responses/ClientErrorResponse"
+        "500":
+          $ref: "#/components/responses/ServerErrorResponse"
   /v1/product:
     post:
       x-speakeasy-entity-operation: Product#create
@@ -195,16 +195,16 @@ paths:
       summary: createProduct
       description: Create a new product entity
       tags:
-      - Product
+        - Product
       requestBody:
-        $ref: '#/components/requestBodies/ProductCreateRequest'
+        $ref: "#/components/requestBodies/ProductCreateRequest"
       responses:
-        '200':
-          $ref: '#/components/responses/ProductResponse'
-        '400':
-          $ref: '#/components/responses/ClientErrorResponse'
-        '500':
-          $ref: '#/components/responses/ServerErrorResponse'
+        "200":
+          $ref: "#/components/responses/ProductResponse"
+        "400":
+          $ref: "#/components/responses/ClientErrorResponse"
+        "500":
+          $ref: "#/components/responses/ServerErrorResponse"
   /v1/product/{productId}:
     get:
       x-speakeasy-entity-operation: Product#get
@@ -212,68 +212,68 @@ paths:
       summary: getProduct
       description: Read a specific product entity by a given id
       tags:
-      - Product
+        - Product
       parameters:
-      - $ref: '#/components/parameters/ProductIdPathParam'
-      - $ref: '#/components/parameters/HydrateQueryParam'
+        - $ref: "#/components/parameters/ProductIdPathParam"
+        - $ref: "#/components/parameters/HydrateQueryParam"
       responses:
-        '200':
-          $ref: '#/components/responses/ProductResponse'
-        '400':
-          $ref: '#/components/responses/ClientErrorResponse'
-        '500':
-          $ref: '#/components/responses/ServerErrorResponse'
+        "200":
+          $ref: "#/components/responses/ProductResponse"
+        "400":
+          $ref: "#/components/responses/ClientErrorResponse"
+        "500":
+          $ref: "#/components/responses/ServerErrorResponse"
     delete:
       x-speakeasy-entity-operation: Product#delete
       operationId: deleteProduct
       summary: deleteProduct
       description: Delete a specific product entity by a given id
       tags:
-      - Product
+        - Product
       parameters:
-      - $ref: '#/components/parameters/ProductIdPathParam'
+        - $ref: "#/components/parameters/ProductIdPathParam"
       responses:
-        '200':
-          $ref: '#/components/responses/ProductResponse'
-        '400':
-          $ref: '#/components/responses/ClientErrorResponse'
-        '500':
-          $ref: '#/components/responses/ServerErrorResponse'
+        "200":
+          $ref: "#/components/responses/ProductResponse"
+        "400":
+          $ref: "#/components/responses/ClientErrorResponse"
+        "500":
+          $ref: "#/components/responses/ServerErrorResponse"
     patch:
       operationId: patchProduct
       summary: patchProduct
       description: Partially update a specific product entity's properties by a given id and a given payload
       tags:
-      - Product
+        - Product
       parameters:
-      - $ref: '#/components/parameters/ProductIdPathParam'
+        - $ref: "#/components/parameters/ProductIdPathParam"
       requestBody:
-        $ref: '#/components/requestBodies/ProductPatchRequest'
+        $ref: "#/components/requestBodies/ProductPatchRequest"
       responses:
-        '200':
-          $ref: '#/components/responses/ProductResponse'
-        '400':
-          $ref: '#/components/responses/ClientErrorResponse'
-        '500':
-          $ref: '#/components/responses/ServerErrorResponse'
+        "200":
+          $ref: "#/components/responses/ProductResponse"
+        "400":
+          $ref: "#/components/responses/ClientErrorResponse"
+        "500":
+          $ref: "#/components/responses/ServerErrorResponse"
     put:
       x-speakeasy-entity-operation: Product#update
       operationId: updateProduct
       summary: updateProduct
       description: Completly replace a specific product entity's properties by a given id and given payload
       tags:
-      - Product
+        - Product
       parameters:
-      - $ref: '#/components/parameters/ProductIdPathParam'
+        - $ref: "#/components/parameters/ProductIdPathParam"
       requestBody:
-        $ref: '#/components/requestBodies/ProductUpdateRequest'
+        $ref: "#/components/requestBodies/ProductUpdateRequest"
       responses:
-        '200':
-          $ref: '#/components/responses/ProductResponse'
-        '400':
-          $ref: '#/components/responses/ClientErrorResponse'
-        '500':
-          $ref: '#/components/responses/ServerErrorResponse'
+        "200":
+          $ref: "#/components/responses/ProductResponse"
+        "400":
+          $ref: "#/components/responses/ClientErrorResponse"
+        "500":
+          $ref: "#/components/responses/ServerErrorResponse"
 components:
   securitySchemes:
     EpilotAuth:
@@ -297,12 +297,12 @@ components:
           type: string
           example: Entity not found
       required:
-      - status
-      - message
+        - status
+        - message
     ServerError:
-      $ref: '#/components/schemas/BaseError'
+      $ref: "#/components/schemas/BaseError"
     ClientError:
-      $ref: '#/components/schemas/BaseError'
+      $ref: "#/components/schemas/BaseError"
     BaseUUID:
       type: string
       format: uuid
@@ -321,9 +321,9 @@ components:
             type: object
             properties:
               entity_id:
-                $ref: '#/components/schemas/BaseUUID'
+                $ref: "#/components/schemas/BaseUUID"
               _tags:
-                $ref: '#/components/schemas/BaseTags'
+                $ref: "#/components/schemas/BaseTags"
     BaseImage:
       type: object
       properties:
@@ -333,15 +333,15 @@ components:
             type: object
             properties:
               entity_id:
-                $ref: '#/components/schemas/BaseUUID'
+                $ref: "#/components/schemas/BaseUUID"
     BaseSystemId:
       type: object
       readOnly: true
       properties:
         _id:
-          $ref: '#/components/schemas/BaseUUID'
+          $ref: "#/components/schemas/BaseUUID"
       required:
-      - _id
+        - _id
     BaseEntityOwner:
       description: |
         The user / organization owning this entity.
@@ -351,12 +351,12 @@ components:
       properties:
         org_id:
           type: string
-          example: '123'
+          example: "123"
         user_id:
           type: string
-          example: '123'
+          example: "123"
       required:
-      - org_id
+        - org_id
     BaseEntityAcl:
       type: object
       description: Access control list (ACL) for an entity. Defines sharing access to external orgs or users.
@@ -388,7 +388,7 @@ components:
           type: array
           readOnly: true
           items:
-            $ref: '#/components/schemas/BaseEntityOwner'
+            $ref: "#/components/schemas/BaseEntityOwner"
         _schema:
           readOnly: true
           type: string
@@ -396,7 +396,7 @@ components:
           readOnly: true
           type: string
         _tags:
-          $ref: '#/components/schemas/BaseTags'
+          $ref: "#/components/schemas/BaseTags"
         _created_at:
           readOnly: true
           type: string
@@ -407,18 +407,18 @@ components:
           format: date-time
         _acl:
           readOnly: true
-          $ref: '#/components/schemas/BaseEntityAcl'
+          $ref: "#/components/schemas/BaseEntityAcl"
     BaseSystemFieldsRequired:
       type: object
       required:
-      - _org
-      - _owners
-      - _schema
-      - _title
-      - _tags
-      - _created_at
-      - _updated_at
-      - _acl
+        - _org
+        - _owners
+        - _schema
+        - _title
+        - _tags
+        - _created_at
+        - _updated_at
+        - _acl
     BaseTax:
       x-speakeasy-entity: Tax
       type: object
@@ -430,36 +430,36 @@ components:
         region:
           type: string
           enum:
-          - DE
-          - AT
-          - CH
+            - DE
+            - AT
+            - CH
         rate:
           type: string
         type:
           type: string
           enum:
-          - VAT
-          - Custom
+            - VAT
+            - Custom
     BaseTaxRequired:
       type: object
       required:
-      - active
-      - region
-      - rate
-      - type
+        - active
+        - region
+        - rate
+        - type
     Tax:
       allOf:
-      - $ref: '#/components/schemas/BaseTax'
-      - $ref: '#/components/schemas/BaseTaxRequired'
-      - $ref: '#/components/schemas/BaseSystemId'
+        - $ref: "#/components/schemas/BaseTax"
+        - $ref: "#/components/schemas/BaseTaxRequired"
+        - $ref: "#/components/schemas/BaseSystemId"
       # - $ref: '#/components/schemas/BaseSystemFields'
       # - $ref: '#/components/schemas/BaseSystemFieldsRequired'
     TaxCreate:
       allOf:
-      - $ref: '#/components/schemas/BaseTax'
-      - $ref: '#/components/schemas/BaseTaxRequired'
+        - $ref: "#/components/schemas/BaseTax"
+        - $ref: "#/components/schemas/BaseTaxRequired"
     TaxPatch:
-      $ref: '#/components/schemas/BaseTax'
+      $ref: "#/components/schemas/BaseTax"
     BasePrice:
       x-speakeasy-entity: Price
       type: object
@@ -477,8 +477,8 @@ components:
           type: string
           description: One of `one_time` or `recurring` depending on whether the price is for a one-time purchase or a recurring (subscription) purchase.
           enum:
-          - one_time
-          - recurring
+            - one_time
+            - recurring
           default: one_time
         pricing_model:
           type: string
@@ -489,10 +489,10 @@ components:
             - `tiered_volume` indicates that the unit pricing will be computed using tiers attribute. The customer pays the same unit price for all purchased units.
             - `tiered_flatfee` While similar to tiered_volume, tiered flat fee charges for the same price (flat) for the entire range instead using the unit price to multiply the quantity.
           enum:
-          - per_unit
-          - tiered_volume
-          - tiered_graduated
-          - tiered_flatfee
+            - per_unit
+            - tiered_volume
+            - tiered_graduated
+            - tiered_flatfee
           default: per_unit
         price_components:
           description: A set of [price](/api/pricing#tag/simple_price_schema) components that define the composite price.
@@ -501,7 +501,7 @@ components:
             $relation:
               type: array
               items:
-                  $ref: '#/components/schemas/PriceComponentRelation'
+                $ref: "#/components/schemas/PriceComponentRelation"
         unit_amount:
           description: The unit amount in cents to be charged, represented as a whole integer if possible.
           type: number
@@ -511,7 +511,7 @@ components:
         unit_amount_currency:
           description: Three-letter ISO currency code, in lowercase.
           oneOf:
-          - $ref: '#/components/schemas/Currency'
+            - $ref: "#/components/schemas/Currency"
         is_composite_price:
           description: The flag for prices that contain price components.
           type: boolean
@@ -520,7 +520,7 @@ components:
             Defines an array of tiers. Each tier has an upper bound, an unit amount and a flat fee.
           type: array
           items:
-            $ref: '#/components/schemas/PriceTier'
+            $ref: "#/components/schemas/PriceTier"
         is_tax_inclusive:
           type: boolean
           default: false
@@ -529,9 +529,9 @@ components:
           description: Defines the way the price amount is display in epilot journeys.
           type: string
           enum:
-          - show_price
-          - show_as_starting_price
-          - show_as_on_request
+            - show_price
+            - show_as_starting_price
+            - show_as_on_request
         billing_duration_amount:
           description: The billing period duration
           type: number
@@ -539,9 +539,9 @@ components:
           description: The billing period duration unit
           type: string
           enum:
-          - weeks
-          - months
-          - years
+            - weeks
+            - months
+            - years
         notice_time_amount:
           description: The notice period duration
           type: number
@@ -549,9 +549,9 @@ components:
           description: The notice period duration unit
           type: string
           enum:
-          - weeks
-          - months
-          - years
+            - weeks
+            - months
+            - years
         termination_time_amount:
           description: The termination period duration
           type: number
@@ -559,9 +559,9 @@ components:
           description: The termination period duration unit
           type: string
           enum:
-          - weeks
-          - months
-          - years
+            - weeks
+            - months
+            - years
         renewal_duration_amount:
           description: The renewal period duration
           type: number
@@ -569,9 +569,9 @@ components:
           description: The renewal period duration unit
           type: string
           enum:
-          - weeks
-          - months
-          - years
+            - weeks
+            - months
+            - years
         variable_price:
           description: The flag for prices that can be influenced by external variables such as user input.
           type: boolean
@@ -595,12 +595,12 @@ components:
         unit_amount_decimal:
           type: string
         display_mode:
-          $ref: '#/components/schemas/PriceTierDisplayMode'
+          $ref: "#/components/schemas/PriceTierDisplayMode"
     PriceTierDisplayMode:
       type: string
       enum:
-      - hidden
-      - on_request
+        - hidden
+        - on_request
     Currency:
       type: string
       description: |
@@ -610,22 +610,22 @@ components:
     BasePriceRequired:
       type: object
       required:
-      - active
-      - description
-      - type
+        - active
+        - description
+        - type
     Price:
       allOf:
-      - $ref: '#/components/schemas/BasePrice'
-      - $ref: '#/components/schemas/BasePriceRequired'
-      - $ref: '#/components/schemas/BaseSystemId'
+        - $ref: "#/components/schemas/BasePrice"
+        - $ref: "#/components/schemas/BasePriceRequired"
+        - $ref: "#/components/schemas/BaseSystemId"
       # - $ref: '#/components/schemas/BaseSystemFields'
       # - $ref: '#/components/schemas/BaseSystemFieldsRequired'
     PriceCreate:
       allOf:
-      - $ref: '#/components/schemas/BasePrice'
-      - $ref: '#/components/schemas/BasePriceRequired'
+        - $ref: "#/components/schemas/BasePrice"
+        - $ref: "#/components/schemas/BasePriceRequired"
     PricePatch:
-      $ref: '#/components/schemas/BasePrice'
+      $ref: "#/components/schemas/BasePrice"
     BaseProduct:
       x-speakeasy-entity: Product
       type: object
@@ -633,7 +633,7 @@ components:
         active:
           type: boolean
         price_options:
-          $ref: '#/components/schemas/BaseRelation'
+          $ref: "#/components/schemas/BaseRelation"
           description: A set of [prices](/api/pricing#tag/simple_price_schema) or [composite prices](/api/pricing#tag/dynamic_price_schema) for the current product.
         product_images: {}
         product_downloads: {}
@@ -656,8 +656,8 @@ components:
             | `product` | Represents a physical good |
             | `service` | Represents a service or virtual product |
           enum:
-          - product
-          - service
+            - product
+            - service
           default: product
         description:
           type: string
@@ -668,22 +668,22 @@ components:
     BaseProductRequired:
       type: object
       required:
-      - name
-      - type
-      - active
+        - name
+        - type
+        - active
     Product:
       allOf:
-      - $ref: '#/components/schemas/BaseProduct'
-      - $ref: '#/components/schemas/BaseProductRequired'
-      - $ref: '#/components/schemas/BaseSystemId'
+        - $ref: "#/components/schemas/BaseProduct"
+        - $ref: "#/components/schemas/BaseProductRequired"
+        - $ref: "#/components/schemas/BaseSystemId"
       # - $ref: '#/components/schemas/BaseSystemFields'
       # - $ref: '#/components/schemas/BaseSystemFieldsRequired'
     ProductCreate:
       allOf:
-      - $ref: '#/components/schemas/BaseProduct'
-      - $ref: '#/components/schemas/BaseProductRequired'
+        - $ref: "#/components/schemas/BaseProduct"
+        - $ref: "#/components/schemas/BaseProductRequired"
     ProductPatch:
-      $ref: '#/components/schemas/BaseProduct'
+      $ref: "#/components/schemas/BaseProduct"
     PriceComponentRelation:
       type: object
       properties:
@@ -694,7 +694,7 @@ components:
           type: array
           description: An arbitrary set of tags attached to the composite price - component relation
           items:
-            type: string  
+            type: string
   parameters:
     HydrateQueryParam:
       name: hydrate
@@ -710,7 +710,7 @@ components:
       required: true
       x-speakeasy-match: id
       schema:
-        $ref: '#/components/schemas/BaseUUID'
+        $ref: "#/components/schemas/BaseUUID"
     PriceIdPathParam:
       name: priceId
       description: The price id
@@ -718,7 +718,7 @@ components:
       required: true
       x-speakeasy-match: id
       schema:
-        $ref: '#/components/schemas/BaseUUID'
+        $ref: "#/components/schemas/BaseUUID"
     ProductIdPathParam:
       name: productId
       description: The product id
@@ -726,7 +726,7 @@ components:
       required: true
       x-speakeasy-match: id
       schema:
-        $ref: '#/components/schemas/BaseUUID'
+        $ref: "#/components/schemas/BaseUUID"
   requestBodies:
     TaxCreateRequest:
       description: Tax to create
@@ -734,91 +734,91 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/TaxCreate'
+            $ref: "#/components/schemas/TaxCreate"
     TaxPatchRequest:
       description: Tax to patch
       required: true
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/TaxPatch'
+            $ref: "#/components/schemas/TaxPatch"
     TaxUpdateRequest:
       description: Tax to update
       required: true
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/TaxCreate'
+            $ref: "#/components/schemas/TaxCreate"
     PriceCreateRequest:
       description: Price to create
       required: true
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/PriceCreate'
+            $ref: "#/components/schemas/PriceCreate"
     PricePatchRequest:
       description: Price to patch
       required: true
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/PricePatch'
+            $ref: "#/components/schemas/PricePatch"
     PriceUpdateRequest:
       description: Price to update
       required: true
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/PriceCreate'
+            $ref: "#/components/schemas/PriceCreate"
     ProductCreateRequest:
       description: Product to create
       required: true
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ProductCreate'
+            $ref: "#/components/schemas/ProductCreate"
     ProductPatchRequest:
       description: Product to patch
       required: true
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ProductPatch'
+            $ref: "#/components/schemas/ProductPatch"
     ProductUpdateRequest:
       description: Product to update
       required: true
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ProductCreate'
+            $ref: "#/components/schemas/ProductCreate"
   responses:
     ClientErrorResponse:
       description: Any error based on client data errors
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ClientError'
+            $ref: "#/components/schemas/ClientError"
     ServerErrorResponse:
       description: Any error based on the server-side
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ServerError'
+            $ref: "#/components/schemas/ServerError"
     TaxResponse:
       description: Tax entity response
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Tax'
+            $ref: "#/components/schemas/Tax"
     PriceResponse:
       description: Price entity with id
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Price'
+            $ref: "#/components/schemas/Price"
     ProductResponse:
       description: Product entity response
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Product'
+            $ref: "#/components/schemas/Product"
