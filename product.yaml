@@ -444,7 +444,6 @@ components:
       type: object
       required:
       - active
-      - description
       - region
       - rate
       - type
@@ -453,8 +452,8 @@ components:
       - $ref: '#/components/schemas/BaseTax'
       - $ref: '#/components/schemas/BaseTaxRequired'
       - $ref: '#/components/schemas/BaseSystemId'
-      - $ref: '#/components/schemas/BaseSystemFields'
-      - $ref: '#/components/schemas/BaseSystemFieldsRequired'
+      # - $ref: '#/components/schemas/BaseSystemFields'
+      # - $ref: '#/components/schemas/BaseSystemFieldsRequired'
     TaxCreate:
       allOf:
       - $ref: '#/components/schemas/BaseTax'
@@ -495,6 +494,14 @@ components:
           - tiered_graduated
           - tiered_flatfee
           default: per_unit
+        price_components:
+          description: A set of [price](/api/pricing#tag/simple_price_schema) components that define the composite price.
+          type: object
+          properties:
+            $relation:
+              type: array
+              items:
+                  $ref: '#/components/schemas/PriceComponentRelation'
         unit_amount:
           description: The unit amount in cents to be charged, represented as a whole integer if possible.
           type: number
@@ -571,28 +578,8 @@ components:
           default: false
         unit:
           description: The unit of measurement used for display purposes and possibly for calculations when the price is variable.
-          oneOf:
-          - type: string
-            description: built-in units
-            enum:
-            - kw
-            - kwh
-            - m
-            - m2
-            - l
-            - cubic-meter
-            - cubic-meter-h
-            - ls
-            - a
-            - kva
-            - w
-            - wp
-            - kwp
-          - type: string
-            description: user custom unit
-        tax:
-          $ref: '#/components/schemas/BaseRelation'
-          description: The tax to apply to this price, must be an existing tax
+          type: string
+        tax: {}
     PriceTier:
       type: object
       properties:
@@ -631,8 +618,8 @@ components:
       - $ref: '#/components/schemas/BasePrice'
       - $ref: '#/components/schemas/BasePriceRequired'
       - $ref: '#/components/schemas/BaseSystemId'
-      - $ref: '#/components/schemas/BaseSystemFields'
-      - $ref: '#/components/schemas/BaseSystemFieldsRequired'
+      # - $ref: '#/components/schemas/BaseSystemFields'
+      # - $ref: '#/components/schemas/BaseSystemFieldsRequired'
     PriceCreate:
       allOf:
       - $ref: '#/components/schemas/BasePrice'
@@ -649,6 +636,7 @@ components:
           $ref: '#/components/schemas/BaseRelation'
           description: A set of [prices](/api/pricing#tag/simple_price_schema) or [composite prices](/api/pricing#tag/dynamic_price_schema) for the current product.
         product_images: {}
+        product_downloads: {}
         name:
           type: string
           description: The description for the product
@@ -688,14 +676,25 @@ components:
       - $ref: '#/components/schemas/BaseProduct'
       - $ref: '#/components/schemas/BaseProductRequired'
       - $ref: '#/components/schemas/BaseSystemId'
-      - $ref: '#/components/schemas/BaseSystemFields'
-      - $ref: '#/components/schemas/BaseSystemFieldsRequired'
+      # - $ref: '#/components/schemas/BaseSystemFields'
+      # - $ref: '#/components/schemas/BaseSystemFieldsRequired'
     ProductCreate:
       allOf:
       - $ref: '#/components/schemas/BaseProduct'
       - $ref: '#/components/schemas/BaseProductRequired'
     ProductPatch:
       $ref: '#/components/schemas/BaseProduct'
+    PriceComponentRelation:
+      type: object
+      properties:
+        entity_id:
+          description: The id of the price component
+          type: string
+        _tags:
+          type: array
+          description: An arbitrary set of tags attached to the composite price - component relation
+          items:
+            type: string  
   parameters:
     HydrateQueryParam:
       name: hydrate
@@ -823,4 +822,3 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Product'
-

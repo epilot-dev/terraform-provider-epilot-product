@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 5a857039-7f4b-42d5-86fd-449767242ed2
 management:
-  docChecksum: 4c3c0d4b4e71f2da074bb4aecb29344f
+  docChecksum: d59d7d805e3440a2b3fc9350ab9c87b9
   docVersion: 1.0.0
-  speakeasyVersion: internal
-  generationVersion: 2.230.1
-  releaseVersion: 0.5.4
-  configChecksum: 8b07a760ba1642282d9fef4cd162b6ef
+  speakeasyVersion: 1.346.0
+  generationVersion: 2.379.3
+  releaseVersion: 0.7.0
+  configChecksum: d31a4e2b4f3485ff79942468af450a99
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-product.git
   repoSubDirectory: .
   published: true
@@ -20,17 +20,71 @@ features:
     globalServerURLs: 2.82.0
     unions: 2.85.0
   terraform:
-    additionalProperties: 0.1.2
-    constsAndDefaults: 0.1.2
-    core: 3.8.1
-    globalSecurity: 2.81.2
+    additionalDependencies: 0.1.0
+    constsAndDefaults: 0.1.4
+    core: 3.24.3
+    globalSecurity: 2.81.6
     globalServerURLs: 2.82.1
-    unions: 2.81.7
+    nullables: 0.0.0
 generatedFiles:
   - internal/sdk/price.go
   - internal/sdk/product.go
   - internal/sdk/tax.go
   - internal/sdk/sdk.go
+  - internal/sdk/models/errors/sdkerror.go
+  - internal/sdk/retry/config.go
+  - internal/sdk/types/bigint.go
+  - internal/sdk/types/date.go
+  - internal/sdk/types/datetime.go
+  - internal/sdk/types/decimal.go
+  - internal/sdk/types/pointers.go
+  - internal/sdk/internal/utils/contenttype.go
+  - internal/sdk/internal/utils/form.go
+  - internal/sdk/internal/utils/headers.go
+  - internal/sdk/internal/utils/json.go
+  - internal/sdk/internal/utils/pathparams.go
+  - internal/sdk/internal/utils/queryparams.go
+  - internal/sdk/internal/utils/requestbody.go
+  - internal/sdk/internal/utils/retries.go
+  - internal/sdk/internal/utils/security.go
+  - internal/sdk/internal/utils/utils.go
+  - internal/sdk/models/operations/createprice.go
+  - internal/sdk/models/operations/deleteprice.go
+  - internal/sdk/models/operations/getprice.go
+  - internal/sdk/models/operations/patchprice.go
+  - internal/sdk/models/operations/updateprice.go
+  - internal/sdk/models/operations/createproduct.go
+  - internal/sdk/models/operations/deleteproduct.go
+  - internal/sdk/models/operations/getproduct.go
+  - internal/sdk/models/operations/patchproduct.go
+  - internal/sdk/models/operations/updateproduct.go
+  - internal/sdk/models/operations/createtax.go
+  - internal/sdk/models/operations/deletetax.go
+  - internal/sdk/models/operations/gettax.go
+  - internal/sdk/models/operations/patchtax.go
+  - internal/sdk/models/operations/updatetax.go
+  - internal/sdk/models/shared/servererror.go
+  - internal/sdk/models/shared/price.go
+  - internal/sdk/models/shared/pricetier.go
+  - internal/sdk/models/shared/pricetierdisplaymode.go
+  - internal/sdk/models/shared/pricecomponentrelation.go
+  - internal/sdk/models/shared/clienterror.go
+  - internal/sdk/models/shared/pricecreate.go
+  - internal/sdk/models/shared/pricepatch.go
+  - internal/sdk/models/shared/product.go
+  - internal/sdk/models/shared/baserelation.go
+  - internal/sdk/models/shared/productcreate.go
+  - internal/sdk/models/shared/productpatch.go
+  - internal/sdk/models/shared/tax.go
+  - internal/sdk/models/shared/taxcreate.go
+  - internal/sdk/models/shared/taxpatch.go
+  - internal/sdk/models/shared/security.go
+  - internal/sdk/.gitignore
+  - internal/sdk/models/operations/options.go
+  - internal/sdk/.gitattributes
+  - internal/sdk/internal/hooks/registration.go
+  - internal/sdk/internal/hooks/hooks.go
+  - internal/sdk/CONTRIBUTING.md
   - examples/README.md
   - go.mod
   - go.sum
@@ -59,22 +113,6 @@ generatedFiles:
   - internal/provider/reflect/slice.go
   - internal/provider/reflect/struct.go
   - internal/provider/utils.go
-  - internal/sdk/pkg/models/sdkerrors/sdkerror.go
-  - internal/sdk/pkg/types/bigint.go
-  - internal/sdk/pkg/types/date.go
-  - internal/sdk/pkg/types/datetime.go
-  - internal/sdk/pkg/types/decimal.go
-  - internal/sdk/pkg/types/pointers.go
-  - internal/sdk/pkg/utils/contenttype.go
-  - internal/sdk/pkg/utils/form.go
-  - internal/sdk/pkg/utils/headers.go
-  - internal/sdk/pkg/utils/json.go
-  - internal/sdk/pkg/utils/pathparams.go
-  - internal/sdk/pkg/utils/queryparams.go
-  - internal/sdk/pkg/utils/requestbody.go
-  - internal/sdk/pkg/utils/retries.go
-  - internal/sdk/pkg/utils/security.go
-  - internal/sdk/pkg/utils/utils.go
   - internal/validators/DateValidator.go
   - internal/validators/ExactlyOneChild.go
   - internal/validators/JSONParseValidator.go
@@ -91,53 +129,23 @@ generatedFiles:
   - main.go
   - terraform-registry-manifest.json
   - tools/tools.go
-  - internal/sdk/pkg/models/operations/createprice.go
-  - internal/sdk/pkg/models/operations/deleteprice.go
-  - internal/sdk/pkg/models/operations/getprice.go
-  - internal/sdk/pkg/models/operations/patchprice.go
-  - internal/sdk/pkg/models/operations/updateprice.go
-  - internal/sdk/pkg/models/operations/createproduct.go
-  - internal/sdk/pkg/models/operations/deleteproduct.go
-  - internal/sdk/pkg/models/operations/getproduct.go
-  - internal/sdk/pkg/models/operations/patchproduct.go
-  - internal/sdk/pkg/models/operations/updateproduct.go
-  - internal/sdk/pkg/models/operations/createtax.go
-  - internal/sdk/pkg/models/operations/deletetax.go
-  - internal/sdk/pkg/models/operations/gettax.go
-  - internal/sdk/pkg/models/operations/patchtax.go
-  - internal/sdk/pkg/models/operations/updatetax.go
-  - internal/sdk/pkg/models/shared/servererror.go
-  - internal/sdk/pkg/models/shared/price.go
-  - internal/sdk/pkg/models/shared/pricetier.go
-  - internal/sdk/pkg/models/shared/pricetierdisplaymode.go
-  - internal/sdk/pkg/models/shared/baserelation.go
-  - internal/sdk/pkg/models/shared/baseentityowner.go
-  - internal/sdk/pkg/models/shared/baseentityacl.go
-  - internal/sdk/pkg/models/shared/clienterror.go
-  - internal/sdk/pkg/models/shared/pricecreate.go
-  - internal/sdk/pkg/models/shared/pricepatch.go
-  - internal/sdk/pkg/models/shared/product.go
-  - internal/sdk/pkg/models/shared/productcreate.go
-  - internal/sdk/pkg/models/shared/productpatch.go
-  - internal/sdk/pkg/models/shared/tax.go
-  - internal/sdk/pkg/models/shared/taxcreate.go
-  - internal/sdk/pkg/models/shared/taxpatch.go
-  - internal/sdk/pkg/models/shared/security.go
-  - internal/provider/type_base_entity_acl.go
-  - internal/provider/type_base_entity_owner.go
-  - internal/provider/type_dollar_relation.go
-  - internal/provider/type_base_relation.go
-  - internal/provider/type_price_tier.go
-  - internal/provider/type_price_create_unit.go
+  - internal/provider/types/price_component_relation.go
+  - internal/provider/types/price_create_price_components.go
+  - internal/provider/types/price_tier.go
+  - internal/provider/types/dollar_relation.go
+  - internal/provider/types/base_relation.go
   - USAGE.md
   - internal/provider/provider.go
   - examples/provider/provider.tf
+  - examples/resources/epilot-product_price/import.sh
   - internal/provider/price_resource.go
   - internal/provider/price_resource_sdk.go
   - examples/resources/epilot-product_price/resource.tf
+  - examples/resources/epilot-product_product/import.sh
   - internal/provider/product_resource.go
   - internal/provider/product_resource_sdk.go
   - examples/resources/epilot-product_product/resource.tf
+  - examples/resources/epilot-product_tax/import.sh
   - internal/provider/tax_resource.go
   - internal/provider/tax_resource_sdk.go
   - examples/resources/epilot-product_tax/resource.tf
@@ -151,3 +159,4 @@ generatedFiles:
   - internal/provider/tax_data_source_sdk.go
   - examples/data-sources/epilot-product_tax/data-source.tf
   - .gitattributes
+  - CONTRIBUTING.md
