@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 5a857039-7f4b-42d5-86fd-449767242ed2
 management:
-  docChecksum: b65e946770e3a784f31e803acac5da37
+  docChecksum: eaabb563fad27e9ee9491821eed37c90
   docVersion: 1.0.0
-  speakeasyVersion: 1.346.1
-  generationVersion: 2.379.5
-  releaseVersion: 0.7.1
-  configChecksum: 471b09ecdd5dfbf4b53a91017831717e
+  speakeasyVersion: 1.346.0
+  generationVersion: 2.379.3
+  releaseVersion: 0.8.0
+  configChecksum: b9b4343b0dcae6ca8e16dcda70cadc56
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-product.git
   repoSubDirectory: .
   published: true
@@ -26,6 +26,7 @@ features:
     globalSecurity: 2.81.6
     globalServerURLs: 2.82.1
     nullables: 0.0.0
+    typeOverrides: 2.81.1
 generatedFiles:
   - internal/sdk/price.go
   - internal/sdk/product.go
