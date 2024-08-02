@@ -434,7 +434,6 @@ components:
             - AT
             - CH
         rate:
-          x-speakeasy-type-override: any
           type: string
         type:
           type: string
