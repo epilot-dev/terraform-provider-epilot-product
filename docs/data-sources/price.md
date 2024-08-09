@@ -14,7 +14,7 @@ Price DataSource
 
 ```terraform
 data "epilot-product_price" "my_price" {
-  hydrate  = false
+  hydrate  = true
   price_id = "123e4567-e89b-12d3-a456-426614174000"
 }
 ```
@@ -88,5 +88,3 @@ Read-Only:
 - `unit_amount` (Number)
 - `unit_amount_decimal` (String)
 - `up_to` (Number)
-
-

@@ -61,5 +61,3 @@ Read-Only:
 
 - `entity_id` (String)
 - `tags` (List of String)
-
-
