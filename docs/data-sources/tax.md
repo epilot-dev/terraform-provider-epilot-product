@@ -14,7 +14,7 @@ Tax DataSource
 
 ```terraform
 data "epilot-product_tax" "my_tax" {
-  hydrate = true
+  hydrate = false
   tax_id  = "123e4567-e89b-12d3-a456-426614174000"
 }
 ```
@@ -34,5 +34,3 @@ data "epilot-product_tax" "my_tax" {
 - `rate` (String)
 - `region` (String) must be one of ["DE", "AT", "CH"]
 - `type` (String) must be one of ["VAT", "Custom"]
-
-
