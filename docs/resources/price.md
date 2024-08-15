@@ -26,17 +26,17 @@ resource "epilot-product_price" "my_price" {
   price_display_in_journeys = "show_as_starting_price"
   price_id                  = "123e4567-e89b-12d3-a456-426614174000"
   pricing_model             = "tiered_graduated"
-  renewal_duration_amount   = 66.62
-  renewal_duration_unit     = "weeks"
+  renewal_duration_amount   = 13.87
+  renewal_duration_unit     = "months"
   tax                       = "{ \"see\": \"documentation\" }"
-  termination_time_amount   = 44.65
-  termination_time_unit     = "years"
+  termination_time_amount   = 70.52
+  termination_time_unit     = "weeks"
   type                      = "one_time"
   unit                      = "...my_unit..."
-  unit_amount               = 40.89
+  unit_amount               = 62.81
   unit_amount_currency      = "EUR"
   unit_amount_decimal       = "...my_unit_amount_decimal..."
-  variable_price            = false
+  variable_price            = true
 }
 ```
 
@@ -81,7 +81,15 @@ must be one of ["per_unit", "tiered_volume", "tiered_graduated", "tiered_flatfee
 
 ### Read-Only
 
+- `acl` (Attributes) Access control list (ACL) for an entity. Defines sharing access to external orgs or users. (see [below for nested schema](#nestedatt--acl))
+- `created_at` (String)
 - `id` (String) The ID of this resource.
+- `org` (String) Organization Id the entity belongs to
+- `owners` (Attributes List) (see [below for nested schema](#nestedatt--owners))
+- `schema` (String)
+- `tags` (List of String)
+- `title` (String)
+- `updated_at` (String)
 
 <a id="nestedatt--price_components"></a>
 ### Nested Schema for `price_components`
@@ -111,6 +119,25 @@ Optional:
 - `unit_amount` (Number)
 - `unit_amount_decimal` (String)
 - `up_to` (Number)
+
+
+<a id="nestedatt--acl"></a>
+### Nested Schema for `acl`
+
+Read-Only:
+
+- `delete` (List of String)
+- `edit` (List of String)
+- `view` (List of String)
+
+
+<a id="nestedatt--owners"></a>
+### Nested Schema for `owners`
+
+Read-Only:
+
+- `org_id` (String)
+- `user_id` (String)
 
 ## Import
 

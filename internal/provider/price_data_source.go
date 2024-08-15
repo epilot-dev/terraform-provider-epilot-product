@@ -29,9 +29,11 @@ type PriceDataSource struct {
 
 // PriceDataSourceModel describes the data model.
 type PriceDataSourceModel struct {
+	ACL                    tfTypes.BaseEntityACL               `tfsdk:"acl"`
 	Active                 types.Bool                          `tfsdk:"active"`
 	BillingDurationAmount  types.Number                        `tfsdk:"billing_duration_amount"`
 	BillingDurationUnit    types.String                        `tfsdk:"billing_duration_unit"`
+	CreatedAt              types.String                        `tfsdk:"created_at"`
 	Description            types.String                        `tfsdk:"description"`
 	Hydrate                types.Bool                          `tfsdk:"hydrate"`
 	ID                     types.String                        `tfsdk:"id"`
@@ -40,20 +42,26 @@ type PriceDataSourceModel struct {
 	LongDescription        types.String                        `tfsdk:"long_description"`
 	NoticeTimeAmount       types.Number                        `tfsdk:"notice_time_amount"`
 	NoticeTimeUnit         types.String                        `tfsdk:"notice_time_unit"`
+	Org                    types.String                        `tfsdk:"org"`
+	Owners                 []tfTypes.BaseEntityOwner           `tfsdk:"owners"`
 	PriceComponents        *tfTypes.PriceCreatePriceComponents `tfsdk:"price_components"`
 	PriceDisplayInJourneys types.String                        `tfsdk:"price_display_in_journeys"`
 	PricingModel           types.String                        `tfsdk:"pricing_model"`
 	RenewalDurationAmount  types.Number                        `tfsdk:"renewal_duration_amount"`
 	RenewalDurationUnit    types.String                        `tfsdk:"renewal_duration_unit"`
+	Schema                 types.String                        `tfsdk:"schema"`
+	Tags                   []types.String                      `tfsdk:"tags"`
 	Tax                    types.String                        `tfsdk:"tax"`
 	TerminationTimeAmount  types.Number                        `tfsdk:"termination_time_amount"`
 	TerminationTimeUnit    types.String                        `tfsdk:"termination_time_unit"`
 	Tiers                  []tfTypes.PriceTier                 `tfsdk:"tiers"`
+	Title                  types.String                        `tfsdk:"title"`
 	Type                   types.String                        `tfsdk:"type"`
 	Unit                   types.String                        `tfsdk:"unit"`
 	UnitAmount             types.Number                        `tfsdk:"unit_amount"`
 	UnitAmountCurrency     types.String                        `tfsdk:"unit_amount_currency"`
 	UnitAmountDecimal      types.String                        `tfsdk:"unit_amount_decimal"`
+	UpdatedAt              types.String                        `tfsdk:"updated_at"`
 	VariablePrice          types.Bool                          `tfsdk:"variable_price"`
 }
 
@@ -68,6 +76,24 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 		MarkdownDescription: "Price DataSource",
 
 		Attributes: map[string]schema.Attribute{
+			"acl": schema.SingleNestedAttribute{
+				Computed: true,
+				Attributes: map[string]schema.Attribute{
+					"delete": schema.ListAttribute{
+						Computed:    true,
+						ElementType: types.StringType,
+					},
+					"edit": schema.ListAttribute{
+						Computed:    true,
+						ElementType: types.StringType,
+					},
+					"view": schema.ListAttribute{
+						Computed:    true,
+						ElementType: types.StringType,
+					},
+				},
+				Description: `Access control list (ACL) for an entity. Defines sharing access to external orgs or users.`,
+			},
 			"active": schema.BoolAttribute{
 				Computed:    true,
 				Description: `Whether the price can be used for new purchases.`,
@@ -79,6 +105,9 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 			"billing_duration_unit": schema.StringAttribute{
 				Computed:    true,
 				Description: `The billing period duration unit. must be one of ["weeks", "months", "years"]`,
+			},
+			"created_at": schema.StringAttribute{
+				Computed: true,
 			},
 			"description": schema.StringAttribute{
 				Computed:    true,
@@ -110,6 +139,23 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 			"notice_time_unit": schema.StringAttribute{
 				Computed:    true,
 				Description: `The notice period duration unit. must be one of ["weeks", "months", "years"]`,
+			},
+			"org": schema.StringAttribute{
+				Computed:    true,
+				Description: `Organization Id the entity belongs to`,
+			},
+			"owners": schema.ListNestedAttribute{
+				Computed: true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"org_id": schema.StringAttribute{
+							Computed: true,
+						},
+						"user_id": schema.StringAttribute{
+							Computed: true,
+						},
+					},
+				},
 			},
 			"price_components": schema.SingleNestedAttribute{
 				Computed: true,
@@ -155,6 +201,13 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 				Computed:    true,
 				Description: `The renewal period duration unit. must be one of ["weeks", "months", "years"]`,
 			},
+			"schema": schema.StringAttribute{
+				Computed: true,
+			},
+			"tags": schema.ListAttribute{
+				Computed:    true,
+				ElementType: types.StringType,
+			},
 			"tax": schema.StringAttribute{
 				Computed:    true,
 				Description: `Parsed as JSON.`,
@@ -195,6 +248,9 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 				MarkdownDescription: `Defines an array of tiers. Each tier has an upper bound, an unit amount and a flat fee.` + "\n" +
 					``,
 			},
+			"title": schema.StringAttribute{
+				Computed: true,
+			},
 			"type": schema.StringAttribute{
 				Computed:    true,
 				Description: `One of ` + "`" + `one_time` + "`" + ` or ` + "`" + `recurring` + "`" + ` depending on whether the price is for a one-time purchase or a recurring (subscription) purchase. must be one of ["one_time", "recurring"]`,
@@ -214,6 +270,9 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 			"unit_amount_decimal": schema.StringAttribute{
 				Computed:    true,
 				Description: `The unit amount in cents to be charged, represented as a decimal string with at most 12 decimal places.`,
+			},
+			"updated_at": schema.StringAttribute{
+				Computed: true,
 			},
 			"variable_price": schema.BoolAttribute{
 				Computed:    true,

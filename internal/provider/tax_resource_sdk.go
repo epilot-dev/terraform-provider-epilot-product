@@ -3,8 +3,10 @@
 package provider
 
 import (
+	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/shared"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"time"
 )
 
 func (r *TaxResourceModel) ToSharedTaxCreate() *shared.TaxCreate {
@@ -34,11 +36,88 @@ func (r *TaxResourceModel) ToSharedTaxCreate() *shared.TaxCreate {
 
 func (r *TaxResourceModel) RefreshFromSharedTax(resp *shared.Tax) {
 	if resp != nil {
+		r.ACL.Delete = []types.String{}
+		for _, v := range resp.ACL.Delete {
+			r.ACL.Delete = append(r.ACL.Delete, types.StringValue(v))
+		}
+		r.ACL.Edit = []types.String{}
+		for _, v := range resp.ACL.Edit {
+			r.ACL.Edit = append(r.ACL.Edit, types.StringValue(v))
+		}
+		r.ACL.View = []types.String{}
+		for _, v := range resp.ACL.View {
+			r.ACL.View = append(r.ACL.View, types.StringValue(v))
+		}
+		r.CreatedAt = types.StringValue(resp.CreatedAt.Format(time.RFC3339Nano))
 		r.ID = types.StringValue(resp.ID)
+		r.Org = types.StringValue(resp.Org)
+		r.Owners = []tfTypes.BaseEntityOwner{}
+		if len(r.Owners) > len(resp.Owners) {
+			r.Owners = r.Owners[:len(resp.Owners)]
+		}
+		for ownersCount, ownersItem := range resp.Owners {
+			var owners1 tfTypes.BaseEntityOwner
+			owners1.OrgID = types.StringValue(ownersItem.OrgID)
+			owners1.UserID = types.StringPointerValue(ownersItem.UserID)
+			if ownersCount+1 > len(r.Owners) {
+				r.Owners = append(r.Owners, owners1)
+			} else {
+				r.Owners[ownersCount].OrgID = owners1.OrgID
+				r.Owners[ownersCount].UserID = owners1.UserID
+			}
+		}
+		r.Schema = types.StringValue(resp.Schema)
+		r.Tags = []types.String{}
+		for _, v := range resp.Tags {
+			r.Tags = append(r.Tags, types.StringValue(v))
+		}
+		r.Title = types.StringValue(resp.Title)
+		r.UpdatedAt = types.StringValue(resp.UpdatedAt.Format(time.RFC3339Nano))
 		r.Active = types.BoolValue(resp.Active)
 		r.Description = types.StringPointerValue(resp.Description)
 		r.Rate = types.StringValue(resp.Rate)
 		r.Region = types.StringValue(string(resp.Region))
 		r.Type = types.StringValue(string(resp.Type))
 	}
+}
+
+func (r *TaxResourceModel) ToSharedTaxPatch() *shared.TaxPatch {
+	active := new(bool)
+	if !r.Active.IsUnknown() && !r.Active.IsNull() {
+		*active = r.Active.ValueBool()
+	} else {
+		active = nil
+	}
+	description := new(string)
+	if !r.Description.IsUnknown() && !r.Description.IsNull() {
+		*description = r.Description.ValueString()
+	} else {
+		description = nil
+	}
+	rate := new(string)
+	if !r.Rate.IsUnknown() && !r.Rate.IsNull() {
+		*rate = r.Rate.ValueString()
+	} else {
+		rate = nil
+	}
+	region := new(shared.TaxPatchRegion)
+	if !r.Region.IsUnknown() && !r.Region.IsNull() {
+		*region = shared.TaxPatchRegion(r.Region.ValueString())
+	} else {
+		region = nil
+	}
+	typeVar := new(shared.TaxPatchType)
+	if !r.Type.IsUnknown() && !r.Type.IsNull() {
+		*typeVar = shared.TaxPatchType(r.Type.ValueString())
+	} else {
+		typeVar = nil
+	}
+	out := shared.TaxPatch{
+		Active:      active,
+		Description: description,
+		Rate:        rate,
+		Region:      region,
+		Type:        typeVar,
+	}
+	return &out
 }

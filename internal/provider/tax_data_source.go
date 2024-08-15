@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/operations"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -28,13 +29,21 @@ type TaxDataSource struct {
 
 // TaxDataSourceModel describes the data model.
 type TaxDataSourceModel struct {
-	Active      types.Bool   `tfsdk:"active"`
-	Description types.String `tfsdk:"description"`
-	Hydrate     types.Bool   `tfsdk:"hydrate"`
-	ID          types.String `tfsdk:"id"`
-	Rate        types.String `tfsdk:"rate"`
-	Region      types.String `tfsdk:"region"`
-	Type        types.String `tfsdk:"type"`
+	ACL         tfTypes.BaseEntityACL     `tfsdk:"acl"`
+	Active      types.Bool                `tfsdk:"active"`
+	CreatedAt   types.String              `tfsdk:"created_at"`
+	Description types.String              `tfsdk:"description"`
+	Hydrate     types.Bool                `tfsdk:"hydrate"`
+	ID          types.String              `tfsdk:"id"`
+	Org         types.String              `tfsdk:"org"`
+	Owners      []tfTypes.BaseEntityOwner `tfsdk:"owners"`
+	Rate        types.String              `tfsdk:"rate"`
+	Region      types.String              `tfsdk:"region"`
+	Schema      types.String              `tfsdk:"schema"`
+	Tags        []types.String            `tfsdk:"tags"`
+	Title       types.String              `tfsdk:"title"`
+	Type        types.String              `tfsdk:"type"`
+	UpdatedAt   types.String              `tfsdk:"updated_at"`
 }
 
 // Metadata returns the data source type name.
@@ -48,7 +57,28 @@ func (r *TaxDataSource) Schema(ctx context.Context, req datasource.SchemaRequest
 		MarkdownDescription: "Tax DataSource",
 
 		Attributes: map[string]schema.Attribute{
+			"acl": schema.SingleNestedAttribute{
+				Computed: true,
+				Attributes: map[string]schema.Attribute{
+					"delete": schema.ListAttribute{
+						Computed:    true,
+						ElementType: types.StringType,
+					},
+					"edit": schema.ListAttribute{
+						Computed:    true,
+						ElementType: types.StringType,
+					},
+					"view": schema.ListAttribute{
+						Computed:    true,
+						ElementType: types.StringType,
+					},
+				},
+				Description: `Access control list (ACL) for an entity. Defines sharing access to external orgs or users.`,
+			},
 			"active": schema.BoolAttribute{
+				Computed: true,
+			},
+			"created_at": schema.StringAttribute{
 				Computed: true,
 			},
 			"description": schema.StringAttribute{
@@ -61,6 +91,23 @@ func (r *TaxDataSource) Schema(ctx context.Context, req datasource.SchemaRequest
 			"id": schema.StringAttribute{
 				Computed: true,
 			},
+			"org": schema.StringAttribute{
+				Computed:    true,
+				Description: `Organization Id the entity belongs to`,
+			},
+			"owners": schema.ListNestedAttribute{
+				Computed: true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"org_id": schema.StringAttribute{
+							Computed: true,
+						},
+						"user_id": schema.StringAttribute{
+							Computed: true,
+						},
+					},
+				},
+			},
 			"rate": schema.StringAttribute{
 				Computed: true,
 			},
@@ -68,9 +115,22 @@ func (r *TaxDataSource) Schema(ctx context.Context, req datasource.SchemaRequest
 				Computed:    true,
 				Description: `must be one of ["DE", "AT", "CH"]`,
 			},
+			"schema": schema.StringAttribute{
+				Computed: true,
+			},
+			"tags": schema.ListAttribute{
+				Computed:    true,
+				ElementType: types.StringType,
+			},
+			"title": schema.StringAttribute{
+				Computed: true,
+			},
 			"type": schema.StringAttribute{
 				Computed:    true,
 				Description: `must be one of ["VAT", "Custom"]`,
+			},
+			"updated_at": schema.StringAttribute{
+				Computed: true,
 			},
 		},
 	}

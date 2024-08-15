@@ -28,16 +28,23 @@ data "epilot-product_product" "my_product" {
 
 ### Read-Only
 
+- `acl` (Attributes) Access control list (ACL) for an entity. Defines sharing access to external orgs or users. (see [below for nested schema](#nestedatt--acl))
 - `active` (Boolean)
 - `code` (String) The product code
+- `created_at` (String)
 - `description` (String) A description of the product. Multi-line supported.
 - `feature` (List of String)
 - `id` (String) The ID of this resource.
 - `internal_name` (String) Not visible to customers, only in internal tables
 - `name` (String) The description for the product
+- `org` (String) Organization Id the entity belongs to
+- `owners` (Attributes List) (see [below for nested schema](#nestedatt--owners))
 - `price_options` (Attributes) (see [below for nested schema](#nestedatt--price_options))
 - `product_downloads` (String) Parsed as JSON.
 - `product_images` (String) Parsed as JSON.
+- `schema` (String)
+- `tags` (List of String)
+- `title` (String)
 - `type` (String) The type of Product:
 
 | type | description |
@@ -46,6 +53,26 @@ data "epilot-product_product" "my_product" {
 | `service` | Represents a service or virtual product |
 
 must be one of ["product", "service"]
+- `updated_at` (String)
+
+<a id="nestedatt--acl"></a>
+### Nested Schema for `acl`
+
+Read-Only:
+
+- `delete` (List of String)
+- `edit` (List of String)
+- `view` (List of String)
+
+
+<a id="nestedatt--owners"></a>
+### Nested Schema for `owners`
+
+Read-Only:
+
+- `org_id` (String)
+- `user_id` (String)
+
 
 <a id="nestedatt--price_options"></a>
 ### Nested Schema for `price_options`
@@ -61,5 +88,3 @@ Read-Only:
 
 - `entity_id` (String)
 - `tags` (List of String)
-
-

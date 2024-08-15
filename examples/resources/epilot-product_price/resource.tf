@@ -9,17 +9,16 @@ resource "epilot-product_price" "my_price" {
   notice_time_amount        = 2.66
   notice_time_unit          = "months"
   price_display_in_journeys = "show_as_starting_price"
-  price_id                  = "123e4567-e89b-12d3-a456-426614174000"
   pricing_model             = "tiered_graduated"
-  renewal_duration_amount   = 66.62
-  renewal_duration_unit     = "weeks"
+  renewal_duration_amount   = 13.87
+  renewal_duration_unit     = "months"
   tax                       = "{ \"see\": \"documentation\" }"
-  termination_time_amount   = 44.65
-  termination_time_unit     = "years"
+  termination_time_amount   = 70.52
+  termination_time_unit     = "weeks"
   type                      = "one_time"
   unit                      = "...my_unit..."
-  unit_amount               = 40.89
+  unit_amount               = 62.81
   unit_amount_currency      = "EUR"
   unit_amount_decimal       = "...my_unit_amount_decimal..."
-  variable_price            = false
+  variable_price            = true
 }

@@ -5,6 +5,8 @@ package shared
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/internal/utils"
+	"time"
 )
 
 type Region string
@@ -63,12 +65,47 @@ func (e *TaxType) UnmarshalJSON(data []byte) error {
 }
 
 type Tax struct {
-	ID          string  `json:"_id"`
-	Active      bool    `json:"active"`
-	Description *string `json:"description,omitempty"`
-	Rate        string  `json:"rate"`
-	Region      Region  `json:"region"`
-	Type        TaxType `json:"type"`
+	// Access control list (ACL) for an entity. Defines sharing access to external orgs or users.
+	ACL       BaseEntityACL `json:"_acl"`
+	CreatedAt time.Time     `json:"_created_at"`
+	ID        string        `json:"_id"`
+	// Organization Id the entity belongs to
+	Org         string            `json:"_org"`
+	Owners      []BaseEntityOwner `json:"_owners"`
+	Schema      string            `json:"_schema"`
+	Tags        []string          `json:"_tags"`
+	Title       string            `json:"_title"`
+	UpdatedAt   time.Time         `json:"_updated_at"`
+	Active      bool              `json:"active"`
+	Description *string           `json:"description,omitempty"`
+	Rate        string            `json:"rate"`
+	Region      Region            `json:"region"`
+	Type        TaxType           `json:"type"`
+}
+
+func (t Tax) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(t, "", false)
+}
+
+func (t *Tax) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (o *Tax) GetACL() BaseEntityACL {
+	if o == nil {
+		return BaseEntityACL{}
+	}
+	return o.ACL
+}
+
+func (o *Tax) GetCreatedAt() time.Time {
+	if o == nil {
+		return time.Time{}
+	}
+	return o.CreatedAt
 }
 
 func (o *Tax) GetID() string {
@@ -76,6 +113,48 @@ func (o *Tax) GetID() string {
 		return ""
 	}
 	return o.ID
+}
+
+func (o *Tax) GetOrg() string {
+	if o == nil {
+		return ""
+	}
+	return o.Org
+}
+
+func (o *Tax) GetOwners() []BaseEntityOwner {
+	if o == nil {
+		return []BaseEntityOwner{}
+	}
+	return o.Owners
+}
+
+func (o *Tax) GetSchema() string {
+	if o == nil {
+		return ""
+	}
+	return o.Schema
+}
+
+func (o *Tax) GetTags() []string {
+	if o == nil {
+		return nil
+	}
+	return o.Tags
+}
+
+func (o *Tax) GetTitle() string {
+	if o == nil {
+		return ""
+	}
+	return o.Title
+}
+
+func (o *Tax) GetUpdatedAt() time.Time {
+	if o == nil {
+		return time.Time{}
+	}
+	return o.UpdatedAt
 }
 
 func (o *Tax) GetActive() bool {
