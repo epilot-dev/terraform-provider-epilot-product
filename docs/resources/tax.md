@@ -14,12 +14,13 @@ Tax Resource
 
 ```terraform
 resource "epilot-product_tax" "my_tax" {
+  schema      = "tax"
   active      = false
   description = "...my_description..."
   rate        = "...my_rate..."
-  region      = "AT"
+  region      = "DE"
   tax_id      = "123e4567-e89b-12d3-a456-426614174000"
-  type        = "VAT"
+  type        = "Custom"
 }
 ```
 
@@ -30,16 +31,61 @@ resource "epilot-product_tax" "my_tax" {
 
 - `active` (Boolean)
 - `rate` (String)
-- `region` (String) must be one of ["DE", "AT", "CH"]
+- `region` (String)
 - `type` (String) must be one of ["VAT", "Custom"]
 
 ### Optional
 
+- `additional` (Map of String) Additional fields that are not part of the schema. Requires replacement if changed.
 - `description` (String)
+- `files` (Attributes) Requires replacement if changed. (see [below for nested schema](#nestedatt--files))
+- `schema` (String) must be one of ["tax"]
+- `tags` (List of String) Requires replacement if changed.
 
 ### Read-Only
 
+- `acl` (Attributes) Access control list (ACL) for an entity. Defines sharing access to external orgs or users. (see [below for nested schema](#nestedatt--acl))
+- `created_at` (String)
 - `id` (String) The ID of this resource.
+- `org` (String) Organization Id the entity belongs to
+- `owners` (Attributes List) (see [below for nested schema](#nestedatt--owners))
+- `title` (String)
+- `updated_at` (String)
+
+<a id="nestedatt--files"></a>
+### Nested Schema for `files`
+
+Optional:
+
+- `dollar_relation` (Attributes List) Requires replacement if changed. (see [below for nested schema](#nestedatt--files--dollar_relation))
+
+<a id="nestedatt--files--dollar_relation"></a>
+### Nested Schema for `files.dollar_relation`
+
+Optional:
+
+- `entity_id` (String) Requires replacement if changed.
+- `tags` (List of String) Requires replacement if changed.
+
+
+
+<a id="nestedatt--acl"></a>
+### Nested Schema for `acl`
+
+Read-Only:
+
+- `delete` (List of String)
+- `edit` (List of String)
+- `view` (List of String)
+
+
+<a id="nestedatt--owners"></a>
+### Nested Schema for `owners`
+
+Read-Only:
+
+- `org_id` (String)
+- `user_id` (String)
 
 ## Import
 

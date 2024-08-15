@@ -15,6 +15,7 @@ Tax DataSource
 ```terraform
 data "epilot-product_tax" "my_tax" {
   hydrate = true
+  strict  = false
   tax_id  = "123e4567-e89b-12d3-a456-426614174000"
 }
 ```
@@ -25,14 +26,58 @@ data "epilot-product_tax" "my_tax" {
 ### Optional
 
 - `hydrate` (Boolean) Hydrates entities in relations when passed true
+- `strict` (Boolean) When passed true, the response will contain only fields that match the schema, with non-matching fields included in `__additional`
 
 ### Read-Only
 
+- `acl` (Attributes) Access control list (ACL) for an entity. Defines sharing access to external orgs or users. (see [below for nested schema](#nestedatt--acl))
 - `active` (Boolean)
+- `additional` (Map of String) Additional fields that are not part of the schema
+- `created_at` (String)
 - `description` (String)
+- `files` (Attributes) (see [below for nested schema](#nestedatt--files))
 - `id` (String) The ID of this resource.
+- `org` (String) Organization Id the entity belongs to
+- `owners` (Attributes List) (see [below for nested schema](#nestedatt--owners))
 - `rate` (String)
-- `region` (String) must be one of ["DE", "AT", "CH"]
+- `region` (String)
+- `schema` (String) must be one of ["tax"]
+- `tags` (List of String)
+- `title` (String)
 - `type` (String) must be one of ["VAT", "Custom"]
+- `updated_at` (String)
+
+<a id="nestedatt--acl"></a>
+### Nested Schema for `acl`
+
+Read-Only:
+
+- `delete` (List of String)
+- `edit` (List of String)
+- `view` (List of String)
 
 
+<a id="nestedatt--files"></a>
+### Nested Schema for `files`
+
+Read-Only:
+
+- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--files--dollar_relation))
+
+<a id="nestedatt--files--dollar_relation"></a>
+### Nested Schema for `files.dollar_relation`
+
+Read-Only:
+
+- `entity_id` (String)
+- `tags` (List of String)
+
+
+
+<a id="nestedatt--owners"></a>
+### Nested Schema for `owners`
+
+Read-Only:
+
+- `org_id` (String)
+- `user_id` (String)

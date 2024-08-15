@@ -5,34 +5,30 @@ package shared
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/internal/utils"
+	"time"
 )
 
-type Region string
+type TaxSchema string
 
 const (
-	RegionDe Region = "DE"
-	RegionAt Region = "AT"
-	RegionCh Region = "CH"
+	TaxSchemaTax TaxSchema = "tax"
 )
 
-func (e Region) ToPointer() *Region {
+func (e TaxSchema) ToPointer() *TaxSchema {
 	return &e
 }
-func (e *Region) UnmarshalJSON(data []byte) error {
+func (e *TaxSchema) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 	switch v {
-	case "DE":
-		fallthrough
-	case "AT":
-		fallthrough
-	case "CH":
-		*e = Region(v)
+	case "tax":
+		*e = TaxSchema(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for Region: %v", v)
+		return fmt.Errorf("invalid value for TaxSchema: %v", v)
 	}
 }
 
@@ -63,19 +59,113 @@ func (e *TaxType) UnmarshalJSON(data []byte) error {
 }
 
 type Tax struct {
-	ID          string  `json:"_id"`
-	Active      bool    `json:"active"`
-	Description *string `json:"description,omitempty"`
-	Rate        string  `json:"rate"`
-	Region      Region  `json:"region"`
-	Type        TaxType `json:"type"`
+	// Additional fields that are not part of the schema
+	Additional map[string]any `json:"__additional,omitempty"`
+	// Access control list (ACL) for an entity. Defines sharing access to external orgs or users.
+	ACL       *BaseEntityACL `json:"_acl,omitempty"`
+	CreatedAt *time.Time     `json:"_created_at,omitempty"`
+	Files     *BaseRelation  `json:"_files,omitempty"`
+	ID        *string        `json:"_id,omitempty"`
+	// Organization Id the entity belongs to
+	Org         string            `json:"_org"`
+	Owners      []BaseEntityOwner `json:"_owners,omitempty"`
+	Schema      TaxSchema         `json:"_schema"`
+	Tags        []string          `json:"_tags,omitempty"`
+	Title       *string           `json:"_title,omitempty"`
+	UpdatedAt   *time.Time        `json:"_updated_at,omitempty"`
+	Active      bool              `json:"active"`
+	Description *string           `json:"description,omitempty"`
+	Rate        string            `json:"rate"`
+	Region      string            `json:"region"`
+	Type        TaxType           `json:"type"`
 }
 
-func (o *Tax) GetID() string {
+func (t Tax) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(t, "", false)
+}
+
+func (t *Tax) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (o *Tax) GetAdditional() map[string]any {
+	if o == nil {
+		return nil
+	}
+	return o.Additional
+}
+
+func (o *Tax) GetACL() *BaseEntityACL {
+	if o == nil {
+		return nil
+	}
+	return o.ACL
+}
+
+func (o *Tax) GetCreatedAt() *time.Time {
+	if o == nil {
+		return nil
+	}
+	return o.CreatedAt
+}
+
+func (o *Tax) GetFiles() *BaseRelation {
+	if o == nil {
+		return nil
+	}
+	return o.Files
+}
+
+func (o *Tax) GetID() *string {
+	if o == nil {
+		return nil
+	}
+	return o.ID
+}
+
+func (o *Tax) GetOrg() string {
 	if o == nil {
 		return ""
 	}
-	return o.ID
+	return o.Org
+}
+
+func (o *Tax) GetOwners() []BaseEntityOwner {
+	if o == nil {
+		return nil
+	}
+	return o.Owners
+}
+
+func (o *Tax) GetSchema() TaxSchema {
+	if o == nil {
+		return TaxSchema("")
+	}
+	return o.Schema
+}
+
+func (o *Tax) GetTags() []string {
+	if o == nil {
+		return nil
+	}
+	return o.Tags
+}
+
+func (o *Tax) GetTitle() *string {
+	if o == nil {
+		return nil
+	}
+	return o.Title
+}
+
+func (o *Tax) GetUpdatedAt() *time.Time {
+	if o == nil {
+		return nil
+	}
+	return o.UpdatedAt
 }
 
 func (o *Tax) GetActive() bool {
@@ -99,9 +189,9 @@ func (o *Tax) GetRate() string {
 	return o.Rate
 }
 
-func (o *Tax) GetRegion() Region {
+func (o *Tax) GetRegion() string {
 	if o == nil {
-		return Region("")
+		return ""
 	}
 	return o.Region
 }

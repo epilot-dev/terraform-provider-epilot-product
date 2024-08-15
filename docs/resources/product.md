@@ -14,15 +14,14 @@ Product Resource
 
 ```terraform
 resource "epilot-product_product" "my_product" {
-  active            = true
-  code              = "...my_code..."
-  description       = "...my_description..."
-  internal_name     = "...my_internal_name..."
-  name              = "Bradford Osinski"
-  product_downloads = "{ \"see\": \"documentation\" }"
-  product_images    = "{ \"see\": \"documentation\" }"
-  product_id        = "123e4567-e89b-12d3-a456-426614174000"
-  type              = "product"
+  schema        = "product"
+  active        = false
+  code          = "...my_code..."
+  description   = "...my_description..."
+  internal_name = "...my_internal_name..."
+  name          = "Elbert Stamm"
+  product_id    = "123e4567-e89b-12d3-a456-426614174000"
+  type          = "product"
 }
 ```
 
@@ -36,13 +35,19 @@ resource "epilot-product_product" "my_product" {
 
 ### Optional
 
+- `additional` (Map of String) Additional fields that are not part of the schema
+- `availability_files` (Attributes) (see [below for nested schema](#nestedatt--availability_files))
 - `code` (String) The product code
 - `description` (String) A description of the product. Multi-line supported.
 - `feature` (List of String)
+- `files` (Attributes) (see [below for nested schema](#nestedatt--files))
 - `internal_name` (String) Not visible to customers, only in internal tables
 - `price_options` (Attributes) (see [below for nested schema](#nestedatt--price_options))
-- `product_downloads` (String) Parsed as JSON.
-- `product_images` (String) Parsed as JSON.
+- `product_downloads` (Attributes) (see [below for nested schema](#nestedatt--product_downloads))
+- `product_images` (Attributes) (see [below for nested schema](#nestedatt--product_images))
+- `purpose` (List of String)
+- `schema` (String) must be one of ["product"]
+- `tags` (List of String)
 - `type` (String) The type of Product:
 
 | type | description |
@@ -54,7 +59,47 @@ must be one of ["product", "service"]; Default: "product"
 
 ### Read-Only
 
+- `acl` (Attributes) Access control list (ACL) for an entity. Defines sharing access to external orgs or users. (see [below for nested schema](#nestedatt--acl))
+- `created_at` (String)
 - `id` (String) The ID of this resource.
+- `org` (String) Organization Id the entity belongs to
+- `owners` (Attributes List) (see [below for nested schema](#nestedatt--owners))
+- `title` (String)
+- `updated_at` (String)
+
+<a id="nestedatt--availability_files"></a>
+### Nested Schema for `availability_files`
+
+Optional:
+
+- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--availability_files--dollar_relation))
+
+<a id="nestedatt--availability_files--dollar_relation"></a>
+### Nested Schema for `availability_files.dollar_relation`
+
+Optional:
+
+- `entity_id` (String)
+- `tags` (List of String)
+
+
+
+<a id="nestedatt--files"></a>
+### Nested Schema for `files`
+
+Optional:
+
+- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--files--dollar_relation))
+
+<a id="nestedatt--files--dollar_relation"></a>
+### Nested Schema for `files.dollar_relation`
+
+Optional:
+
+- `entity_id` (String)
+- `tags` (List of String)
+
+
 
 <a id="nestedatt--price_options"></a>
 ### Nested Schema for `price_options`
@@ -70,6 +115,60 @@ Optional:
 
 - `entity_id` (String)
 - `tags` (List of String)
+
+
+
+<a id="nestedatt--product_downloads"></a>
+### Nested Schema for `product_downloads`
+
+Optional:
+
+- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--product_downloads--dollar_relation))
+
+<a id="nestedatt--product_downloads--dollar_relation"></a>
+### Nested Schema for `product_downloads.dollar_relation`
+
+Optional:
+
+- `entity_id` (String)
+- `tags` (List of String)
+
+
+
+<a id="nestedatt--product_images"></a>
+### Nested Schema for `product_images`
+
+Optional:
+
+- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--product_images--dollar_relation))
+
+<a id="nestedatt--product_images--dollar_relation"></a>
+### Nested Schema for `product_images.dollar_relation`
+
+Optional:
+
+- `entity_id` (String)
+- `tags` (List of String)
+
+
+
+<a id="nestedatt--acl"></a>
+### Nested Schema for `acl`
+
+Read-Only:
+
+- `delete` (List of String)
+- `edit` (List of String)
+- `view` (List of String)
+
+
+<a id="nestedatt--owners"></a>
+### Nested Schema for `owners`
+
+Read-Only:
+
+- `org_id` (String)
+- `user_id` (String)
 
 ## Import
 

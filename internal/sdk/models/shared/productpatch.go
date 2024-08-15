@@ -8,6 +8,29 @@ import (
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/internal/utils"
 )
 
+type ProductPatchSchema string
+
+const (
+	ProductPatchSchemaProduct ProductPatchSchema = "product"
+)
+
+func (e ProductPatchSchema) ToPointer() *ProductPatchSchema {
+	return &e
+}
+func (e *ProductPatchSchema) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "product":
+		*e = ProductPatchSchema(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ProductPatchSchema: %v", v)
+	}
+}
+
 // ProductPatchType - The type of Product:
 //
 // | type | description |
@@ -41,7 +64,14 @@ func (e *ProductPatchType) UnmarshalJSON(data []byte) error {
 }
 
 type ProductPatch struct {
-	Active *bool `json:"active,omitempty"`
+	// Additional fields that are not part of the schema
+	Additional        map[string]any      `json:"__additional,omitempty"`
+	AvailabilityFiles *BaseRelation       `json:"_availability_files,omitempty"`
+	Files             *BaseRelation       `json:"_files,omitempty"`
+	Purpose           []string            `json:"_purpose,omitempty"`
+	Schema            *ProductPatchSchema `json:"_schema,omitempty"`
+	Tags              []string            `json:"_tags,omitempty"`
+	Active            *bool               `json:"active,omitempty"`
 	// The product code
 	Code *string `json:"code,omitempty"`
 	// A description of the product. Multi-line supported.
@@ -52,8 +82,8 @@ type ProductPatch struct {
 	// The description for the product
 	Name             *string       `json:"name,omitempty"`
 	PriceOptions     *BaseRelation `json:"price_options,omitempty"`
-	ProductDownloads any           `json:"product_downloads,omitempty"`
-	ProductImages    any           `json:"product_images,omitempty"`
+	ProductDownloads *BaseRelation `json:"product_downloads,omitempty"`
+	ProductImages    *BaseRelation `json:"product_images,omitempty"`
 	// The type of Product:
 	//
 	// | type | description |
@@ -73,6 +103,48 @@ func (p *ProductPatch) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	return nil
+}
+
+func (o *ProductPatch) GetAdditional() map[string]any {
+	if o == nil {
+		return nil
+	}
+	return o.Additional
+}
+
+func (o *ProductPatch) GetAvailabilityFiles() *BaseRelation {
+	if o == nil {
+		return nil
+	}
+	return o.AvailabilityFiles
+}
+
+func (o *ProductPatch) GetFiles() *BaseRelation {
+	if o == nil {
+		return nil
+	}
+	return o.Files
+}
+
+func (o *ProductPatch) GetPurpose() []string {
+	if o == nil {
+		return nil
+	}
+	return o.Purpose
+}
+
+func (o *ProductPatch) GetSchema() *ProductPatchSchema {
+	if o == nil {
+		return nil
+	}
+	return o.Schema
+}
+
+func (o *ProductPatch) GetTags() []string {
+	if o == nil {
+		return nil
+	}
+	return o.Tags
 }
 
 func (o *ProductPatch) GetActive() *bool {
@@ -124,14 +196,14 @@ func (o *ProductPatch) GetPriceOptions() *BaseRelation {
 	return o.PriceOptions
 }
 
-func (o *ProductPatch) GetProductDownloads() any {
+func (o *ProductPatch) GetProductDownloads() *BaseRelation {
 	if o == nil {
 		return nil
 	}
 	return o.ProductDownloads
 }
 
-func (o *ProductPatch) GetProductImages() any {
+func (o *ProductPatch) GetProductImages() *BaseRelation {
 	if o == nil {
 		return nil
 	}

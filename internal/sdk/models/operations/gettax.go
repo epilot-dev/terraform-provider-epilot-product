@@ -3,15 +3,29 @@
 package operations
 
 import (
+	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/internal/utils"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/shared"
 	"net/http"
 )
 
 type GetTaxRequest struct {
 	// Hydrates entities in relations when passed true
-	Hydrate *bool `queryParam:"style=form,explode=true,name=hydrate"`
+	Hydrate *bool `default:"false" queryParam:"style=form,explode=true,name=hydrate"`
+	// When passed true, the response will contain only fields that match the schema, with non-matching fields included in `__additional`
+	Strict *bool `default:"false" queryParam:"style=form,explode=true,name=strict"`
 	// The tax id
 	TaxID string `pathParam:"style=simple,explode=false,name=taxId"`
+}
+
+func (g GetTaxRequest) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(g, "", false)
+}
+
+func (g *GetTaxRequest) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &g, "", false, false); err != nil {
+		return err
+	}
+	return nil
 }
 
 func (o *GetTaxRequest) GetHydrate() *bool {
@@ -19,6 +33,13 @@ func (o *GetTaxRequest) GetHydrate() *bool {
 		return nil
 	}
 	return o.Hydrate
+}
+
+func (o *GetTaxRequest) GetStrict() *bool {
+	if o == nil {
+		return nil
+	}
+	return o.Strict
 }
 
 func (o *GetTaxRequest) GetTaxID() string {

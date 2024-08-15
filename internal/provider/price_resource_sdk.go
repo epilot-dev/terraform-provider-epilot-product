@@ -8,9 +8,49 @@ import (
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/shared"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"math/big"
+	"time"
 )
 
 func (r *PriceResourceModel) ToSharedPriceCreate() *shared.PriceCreate {
+	additional := make(map[string]interface{})
+	for additionalKey, additionalValue := range r.Additional {
+		var additionalInst interface{}
+		_ = json.Unmarshal([]byte(additionalValue.ValueString()), &additionalInst)
+		additional[additionalKey] = additionalInst
+	}
+	var files *shared.BaseRelation
+	if r.Files != nil {
+		var dollarRelation []shared.DollarRelation = []shared.DollarRelation{}
+		for _, dollarRelationItem := range r.Files.DollarRelation {
+			var tags []string = []string{}
+			for _, tagsItem := range dollarRelationItem.Tags {
+				tags = append(tags, tagsItem.ValueString())
+			}
+			entityID := new(string)
+			if !dollarRelationItem.EntityID.IsUnknown() && !dollarRelationItem.EntityID.IsNull() {
+				*entityID = dollarRelationItem.EntityID.ValueString()
+			} else {
+				entityID = nil
+			}
+			dollarRelation = append(dollarRelation, shared.DollarRelation{
+				Tags:     tags,
+				EntityID: entityID,
+			})
+		}
+		files = &shared.BaseRelation{
+			DollarRelation: dollarRelation,
+		}
+	}
+	schema := new(shared.PriceCreateSchema)
+	if !r.Schema.IsUnknown() && !r.Schema.IsNull() {
+		*schema = shared.PriceCreateSchema(r.Schema.ValueString())
+	} else {
+		schema = nil
+	}
+	var tags1 []string = []string{}
+	for _, tagsItem1 := range r.Tags {
+		tags1 = append(tags1, tagsItem1.ValueString())
+	}
 	var active bool
 	active = r.Active.ValueBool()
 
@@ -61,25 +101,25 @@ func (r *PriceResourceModel) ToSharedPriceCreate() *shared.PriceCreate {
 	}
 	var priceComponents *shared.PriceCreatePriceComponents
 	if r.PriceComponents != nil {
-		var dollarRelation []shared.PriceComponentRelation = []shared.PriceComponentRelation{}
-		for _, dollarRelationItem := range r.PriceComponents.DollarRelation {
-			var tags []string = []string{}
-			for _, tagsItem := range dollarRelationItem.Tags {
-				tags = append(tags, tagsItem.ValueString())
+		var dollarRelation1 []shared.PriceComponentRelation = []shared.PriceComponentRelation{}
+		for _, dollarRelationItem1 := range r.PriceComponents.DollarRelation {
+			var tags2 []string = []string{}
+			for _, tagsItem2 := range dollarRelationItem1.Tags {
+				tags2 = append(tags2, tagsItem2.ValueString())
 			}
-			entityID := new(string)
-			if !dollarRelationItem.EntityID.IsUnknown() && !dollarRelationItem.EntityID.IsNull() {
-				*entityID = dollarRelationItem.EntityID.ValueString()
+			entityId1 := new(string)
+			if !dollarRelationItem1.EntityID.IsUnknown() && !dollarRelationItem1.EntityID.IsNull() {
+				*entityId1 = dollarRelationItem1.EntityID.ValueString()
 			} else {
-				entityID = nil
+				entityId1 = nil
 			}
-			dollarRelation = append(dollarRelation, shared.PriceComponentRelation{
-				Tags:     tags,
-				EntityID: entityID,
+			dollarRelation1 = append(dollarRelation1, shared.PriceComponentRelation{
+				Tags:     tags2,
+				EntityID: entityId1,
 			})
 		}
 		priceComponents = &shared.PriceCreatePriceComponents{
-			DollarRelation: dollarRelation,
+			DollarRelation: dollarRelation1,
 		}
 	}
 	priceDisplayInJourneys := new(shared.PriceCreatePriceDisplayInJourneys)
@@ -206,6 +246,10 @@ func (r *PriceResourceModel) ToSharedPriceCreate() *shared.PriceCreate {
 		variablePrice = nil
 	}
 	out := shared.PriceCreate{
+		Additional:             additional,
+		Files:                  files,
+		Schema:                 schema,
+		Tags:                   tags1,
 		Active:                 active,
 		BillingDurationAmount:  billingDurationAmount,
 		BillingDurationUnit:    billingDurationUnit,
@@ -236,7 +280,86 @@ func (r *PriceResourceModel) ToSharedPriceCreate() *shared.PriceCreate {
 
 func (r *PriceResourceModel) RefreshFromSharedPrice(resp *shared.Price) {
 	if resp != nil {
-		r.ID = types.StringValue(resp.ID)
+		if len(resp.Additional) > 0 {
+			r.Additional = make(map[string]types.String)
+			for key, value := range resp.Additional {
+				result, _ := json.Marshal(value)
+				r.Additional[key] = types.StringValue(string(result))
+			}
+		}
+		if resp.ACL == nil {
+			r.ACL = nil
+		} else {
+			r.ACL = &tfTypes.BaseEntityACL{}
+			r.ACL.Delete = []types.String{}
+			for _, v := range resp.ACL.Delete {
+				r.ACL.Delete = append(r.ACL.Delete, types.StringValue(v))
+			}
+			r.ACL.Edit = []types.String{}
+			for _, v := range resp.ACL.Edit {
+				r.ACL.Edit = append(r.ACL.Edit, types.StringValue(v))
+			}
+			r.ACL.View = []types.String{}
+			for _, v := range resp.ACL.View {
+				r.ACL.View = append(r.ACL.View, types.StringValue(v))
+			}
+		}
+		if resp.CreatedAt != nil {
+			r.CreatedAt = types.StringValue(resp.CreatedAt.Format(time.RFC3339Nano))
+		} else {
+			r.CreatedAt = types.StringNull()
+		}
+		if resp.Files == nil {
+			r.Files = nil
+		} else {
+			r.Files = &tfTypes.BaseRelation{}
+			r.Files.DollarRelation = []tfTypes.DollarRelation{}
+			if len(r.Files.DollarRelation) > len(resp.Files.DollarRelation) {
+				r.Files.DollarRelation = r.Files.DollarRelation[:len(resp.Files.DollarRelation)]
+			}
+			for dollarRelationCount, dollarRelationItem := range resp.Files.DollarRelation {
+				var dollarRelation1 tfTypes.DollarRelation
+				dollarRelation1.Tags = []types.String{}
+				for _, v := range dollarRelationItem.Tags {
+					dollarRelation1.Tags = append(dollarRelation1.Tags, types.StringValue(v))
+				}
+				dollarRelation1.EntityID = types.StringPointerValue(dollarRelationItem.EntityID)
+				if dollarRelationCount+1 > len(r.Files.DollarRelation) {
+					r.Files.DollarRelation = append(r.Files.DollarRelation, dollarRelation1)
+				} else {
+					r.Files.DollarRelation[dollarRelationCount].Tags = dollarRelation1.Tags
+					r.Files.DollarRelation[dollarRelationCount].EntityID = dollarRelation1.EntityID
+				}
+			}
+		}
+		r.ID = types.StringPointerValue(resp.ID)
+		r.Org = types.StringValue(resp.Org)
+		r.Owners = []tfTypes.BaseEntityOwner{}
+		if len(r.Owners) > len(resp.Owners) {
+			r.Owners = r.Owners[:len(resp.Owners)]
+		}
+		for ownersCount, ownersItem := range resp.Owners {
+			var owners1 tfTypes.BaseEntityOwner
+			owners1.OrgID = types.StringValue(ownersItem.OrgID)
+			owners1.UserID = types.StringPointerValue(ownersItem.UserID)
+			if ownersCount+1 > len(r.Owners) {
+				r.Owners = append(r.Owners, owners1)
+			} else {
+				r.Owners[ownersCount].OrgID = owners1.OrgID
+				r.Owners[ownersCount].UserID = owners1.UserID
+			}
+		}
+		r.Schema = types.StringValue(string(resp.Schema))
+		r.Tags = []types.String{}
+		for _, v := range resp.Tags {
+			r.Tags = append(r.Tags, types.StringValue(v))
+		}
+		r.Title = types.StringPointerValue(resp.Title)
+		if resp.UpdatedAt != nil {
+			r.UpdatedAt = types.StringValue(resp.UpdatedAt.Format(time.RFC3339Nano))
+		} else {
+			r.UpdatedAt = types.StringNull()
+		}
 		r.Active = types.BoolValue(resp.Active)
 		if resp.BillingDurationAmount != nil {
 			r.BillingDurationAmount = types.NumberValue(big.NewFloat(float64(*resp.BillingDurationAmount)))
@@ -270,18 +393,18 @@ func (r *PriceResourceModel) RefreshFromSharedPrice(resp *shared.Price) {
 			if len(r.PriceComponents.DollarRelation) > len(resp.PriceComponents.DollarRelation) {
 				r.PriceComponents.DollarRelation = r.PriceComponents.DollarRelation[:len(resp.PriceComponents.DollarRelation)]
 			}
-			for dollarRelationCount, dollarRelationItem := range resp.PriceComponents.DollarRelation {
-				var dollarRelation1 tfTypes.PriceComponentRelation
-				dollarRelation1.Tags = []types.String{}
-				for _, v := range dollarRelationItem.Tags {
-					dollarRelation1.Tags = append(dollarRelation1.Tags, types.StringValue(v))
+			for dollarRelationCount1, dollarRelationItem1 := range resp.PriceComponents.DollarRelation {
+				var dollarRelation3 tfTypes.PriceComponentRelation
+				dollarRelation3.Tags = []types.String{}
+				for _, v := range dollarRelationItem1.Tags {
+					dollarRelation3.Tags = append(dollarRelation3.Tags, types.StringValue(v))
 				}
-				dollarRelation1.EntityID = types.StringPointerValue(dollarRelationItem.EntityID)
-				if dollarRelationCount+1 > len(r.PriceComponents.DollarRelation) {
-					r.PriceComponents.DollarRelation = append(r.PriceComponents.DollarRelation, dollarRelation1)
+				dollarRelation3.EntityID = types.StringPointerValue(dollarRelationItem1.EntityID)
+				if dollarRelationCount1+1 > len(r.PriceComponents.DollarRelation) {
+					r.PriceComponents.DollarRelation = append(r.PriceComponents.DollarRelation, dollarRelation3)
 				} else {
-					r.PriceComponents.DollarRelation[dollarRelationCount].Tags = dollarRelation1.Tags
-					r.PriceComponents.DollarRelation[dollarRelationCount].EntityID = dollarRelation1.EntityID
+					r.PriceComponents.DollarRelation[dollarRelationCount1].Tags = dollarRelation3.Tags
+					r.PriceComponents.DollarRelation[dollarRelationCount1].EntityID = dollarRelation3.EntityID
 				}
 			}
 		}
@@ -375,4 +498,277 @@ func (r *PriceResourceModel) RefreshFromSharedPrice(resp *shared.Price) {
 		r.UnitAmountDecimal = types.StringPointerValue(resp.UnitAmountDecimal)
 		r.VariablePrice = types.BoolPointerValue(resp.VariablePrice)
 	}
+}
+
+func (r *PriceResourceModel) ToSharedPricePatch() *shared.PricePatch {
+	additional := make(map[string]interface{})
+	for additionalKey, additionalValue := range r.Additional {
+		var additionalInst interface{}
+		_ = json.Unmarshal([]byte(additionalValue.ValueString()), &additionalInst)
+		additional[additionalKey] = additionalInst
+	}
+	var files *shared.BaseRelation
+	if r.Files != nil {
+		var dollarRelation []shared.DollarRelation = []shared.DollarRelation{}
+		for _, dollarRelationItem := range r.Files.DollarRelation {
+			var tags []string = []string{}
+			for _, tagsItem := range dollarRelationItem.Tags {
+				tags = append(tags, tagsItem.ValueString())
+			}
+			entityID := new(string)
+			if !dollarRelationItem.EntityID.IsUnknown() && !dollarRelationItem.EntityID.IsNull() {
+				*entityID = dollarRelationItem.EntityID.ValueString()
+			} else {
+				entityID = nil
+			}
+			dollarRelation = append(dollarRelation, shared.DollarRelation{
+				Tags:     tags,
+				EntityID: entityID,
+			})
+		}
+		files = &shared.BaseRelation{
+			DollarRelation: dollarRelation,
+		}
+	}
+	schema := new(shared.PricePatchSchema)
+	if !r.Schema.IsUnknown() && !r.Schema.IsNull() {
+		*schema = shared.PricePatchSchema(r.Schema.ValueString())
+	} else {
+		schema = nil
+	}
+	var tags1 []string = []string{}
+	for _, tagsItem1 := range r.Tags {
+		tags1 = append(tags1, tagsItem1.ValueString())
+	}
+	active := new(bool)
+	if !r.Active.IsUnknown() && !r.Active.IsNull() {
+		*active = r.Active.ValueBool()
+	} else {
+		active = nil
+	}
+	billingDurationAmount := new(float64)
+	if !r.BillingDurationAmount.IsUnknown() && !r.BillingDurationAmount.IsNull() {
+		*billingDurationAmount, _ = r.BillingDurationAmount.ValueBigFloat().Float64()
+	} else {
+		billingDurationAmount = nil
+	}
+	billingDurationUnit := new(shared.PricePatchBillingDurationUnit)
+	if !r.BillingDurationUnit.IsUnknown() && !r.BillingDurationUnit.IsNull() {
+		*billingDurationUnit = shared.PricePatchBillingDurationUnit(r.BillingDurationUnit.ValueString())
+	} else {
+		billingDurationUnit = nil
+	}
+	description := new(string)
+	if !r.Description.IsUnknown() && !r.Description.IsNull() {
+		*description = r.Description.ValueString()
+	} else {
+		description = nil
+	}
+	isCompositePrice := new(bool)
+	if !r.IsCompositePrice.IsUnknown() && !r.IsCompositePrice.IsNull() {
+		*isCompositePrice = r.IsCompositePrice.ValueBool()
+	} else {
+		isCompositePrice = nil
+	}
+	isTaxInclusive := new(bool)
+	if !r.IsTaxInclusive.IsUnknown() && !r.IsTaxInclusive.IsNull() {
+		*isTaxInclusive = r.IsTaxInclusive.ValueBool()
+	} else {
+		isTaxInclusive = nil
+	}
+	longDescription := new(string)
+	if !r.LongDescription.IsUnknown() && !r.LongDescription.IsNull() {
+		*longDescription = r.LongDescription.ValueString()
+	} else {
+		longDescription = nil
+	}
+	noticeTimeAmount := new(float64)
+	if !r.NoticeTimeAmount.IsUnknown() && !r.NoticeTimeAmount.IsNull() {
+		*noticeTimeAmount, _ = r.NoticeTimeAmount.ValueBigFloat().Float64()
+	} else {
+		noticeTimeAmount = nil
+	}
+	noticeTimeUnit := new(shared.PricePatchNoticeTimeUnit)
+	if !r.NoticeTimeUnit.IsUnknown() && !r.NoticeTimeUnit.IsNull() {
+		*noticeTimeUnit = shared.PricePatchNoticeTimeUnit(r.NoticeTimeUnit.ValueString())
+	} else {
+		noticeTimeUnit = nil
+	}
+	var priceComponents *shared.PricePatchPriceComponents
+	if r.PriceComponents != nil {
+		var dollarRelation1 []shared.PriceComponentRelation = []shared.PriceComponentRelation{}
+		for _, dollarRelationItem1 := range r.PriceComponents.DollarRelation {
+			var tags2 []string = []string{}
+			for _, tagsItem2 := range dollarRelationItem1.Tags {
+				tags2 = append(tags2, tagsItem2.ValueString())
+			}
+			entityId1 := new(string)
+			if !dollarRelationItem1.EntityID.IsUnknown() && !dollarRelationItem1.EntityID.IsNull() {
+				*entityId1 = dollarRelationItem1.EntityID.ValueString()
+			} else {
+				entityId1 = nil
+			}
+			dollarRelation1 = append(dollarRelation1, shared.PriceComponentRelation{
+				Tags:     tags2,
+				EntityID: entityId1,
+			})
+		}
+		priceComponents = &shared.PricePatchPriceComponents{
+			DollarRelation: dollarRelation1,
+		}
+	}
+	priceDisplayInJourneys := new(shared.PricePatchPriceDisplayInJourneys)
+	if !r.PriceDisplayInJourneys.IsUnknown() && !r.PriceDisplayInJourneys.IsNull() {
+		*priceDisplayInJourneys = shared.PricePatchPriceDisplayInJourneys(r.PriceDisplayInJourneys.ValueString())
+	} else {
+		priceDisplayInJourneys = nil
+	}
+	pricingModel := new(shared.PricePatchPricingModel)
+	if !r.PricingModel.IsUnknown() && !r.PricingModel.IsNull() {
+		*pricingModel = shared.PricePatchPricingModel(r.PricingModel.ValueString())
+	} else {
+		pricingModel = nil
+	}
+	renewalDurationAmount := new(float64)
+	if !r.RenewalDurationAmount.IsUnknown() && !r.RenewalDurationAmount.IsNull() {
+		*renewalDurationAmount, _ = r.RenewalDurationAmount.ValueBigFloat().Float64()
+	} else {
+		renewalDurationAmount = nil
+	}
+	renewalDurationUnit := new(shared.PricePatchRenewalDurationUnit)
+	if !r.RenewalDurationUnit.IsUnknown() && !r.RenewalDurationUnit.IsNull() {
+		*renewalDurationUnit = shared.PricePatchRenewalDurationUnit(r.RenewalDurationUnit.ValueString())
+	} else {
+		renewalDurationUnit = nil
+	}
+	var tax interface{}
+	if !r.Tax.IsUnknown() && !r.Tax.IsNull() {
+		_ = json.Unmarshal([]byte(r.Tax.ValueString()), &tax)
+	}
+	terminationTimeAmount := new(float64)
+	if !r.TerminationTimeAmount.IsUnknown() && !r.TerminationTimeAmount.IsNull() {
+		*terminationTimeAmount, _ = r.TerminationTimeAmount.ValueBigFloat().Float64()
+	} else {
+		terminationTimeAmount = nil
+	}
+	terminationTimeUnit := new(shared.PricePatchTerminationTimeUnit)
+	if !r.TerminationTimeUnit.IsUnknown() && !r.TerminationTimeUnit.IsNull() {
+		*terminationTimeUnit = shared.PricePatchTerminationTimeUnit(r.TerminationTimeUnit.ValueString())
+	} else {
+		terminationTimeUnit = nil
+	}
+	var tiers []shared.PriceTier = []shared.PriceTier{}
+	for _, tiersItem := range r.Tiers {
+		displayMode := new(shared.PriceTierDisplayMode)
+		if !tiersItem.DisplayMode.IsUnknown() && !tiersItem.DisplayMode.IsNull() {
+			*displayMode = shared.PriceTierDisplayMode(tiersItem.DisplayMode.ValueString())
+		} else {
+			displayMode = nil
+		}
+		flatFeeAmount := new(float64)
+		if !tiersItem.FlatFeeAmount.IsUnknown() && !tiersItem.FlatFeeAmount.IsNull() {
+			*flatFeeAmount, _ = tiersItem.FlatFeeAmount.ValueBigFloat().Float64()
+		} else {
+			flatFeeAmount = nil
+		}
+		flatFeeAmountDecimal := new(string)
+		if !tiersItem.FlatFeeAmountDecimal.IsUnknown() && !tiersItem.FlatFeeAmountDecimal.IsNull() {
+			*flatFeeAmountDecimal = tiersItem.FlatFeeAmountDecimal.ValueString()
+		} else {
+			flatFeeAmountDecimal = nil
+		}
+		unitAmount := new(float64)
+		if !tiersItem.UnitAmount.IsUnknown() && !tiersItem.UnitAmount.IsNull() {
+			*unitAmount, _ = tiersItem.UnitAmount.ValueBigFloat().Float64()
+		} else {
+			unitAmount = nil
+		}
+		unitAmountDecimal := new(string)
+		if !tiersItem.UnitAmountDecimal.IsUnknown() && !tiersItem.UnitAmountDecimal.IsNull() {
+			*unitAmountDecimal = tiersItem.UnitAmountDecimal.ValueString()
+		} else {
+			unitAmountDecimal = nil
+		}
+		upTo := new(float64)
+		if !tiersItem.UpTo.IsUnknown() && !tiersItem.UpTo.IsNull() {
+			*upTo, _ = tiersItem.UpTo.ValueBigFloat().Float64()
+		} else {
+			upTo = nil
+		}
+		tiers = append(tiers, shared.PriceTier{
+			DisplayMode:          displayMode,
+			FlatFeeAmount:        flatFeeAmount,
+			FlatFeeAmountDecimal: flatFeeAmountDecimal,
+			UnitAmount:           unitAmount,
+			UnitAmountDecimal:    unitAmountDecimal,
+			UpTo:                 upTo,
+		})
+	}
+	typeVar := new(shared.PricePatchType)
+	if !r.Type.IsUnknown() && !r.Type.IsNull() {
+		*typeVar = shared.PricePatchType(r.Type.ValueString())
+	} else {
+		typeVar = nil
+	}
+	unit := new(string)
+	if !r.Unit.IsUnknown() && !r.Unit.IsNull() {
+		*unit = r.Unit.ValueString()
+	} else {
+		unit = nil
+	}
+	unitAmount1 := new(float64)
+	if !r.UnitAmount.IsUnknown() && !r.UnitAmount.IsNull() {
+		*unitAmount1, _ = r.UnitAmount.ValueBigFloat().Float64()
+	} else {
+		unitAmount1 = nil
+	}
+	unitAmountCurrency := new(string)
+	if !r.UnitAmountCurrency.IsUnknown() && !r.UnitAmountCurrency.IsNull() {
+		*unitAmountCurrency = r.UnitAmountCurrency.ValueString()
+	} else {
+		unitAmountCurrency = nil
+	}
+	unitAmountDecimal1 := new(string)
+	if !r.UnitAmountDecimal.IsUnknown() && !r.UnitAmountDecimal.IsNull() {
+		*unitAmountDecimal1 = r.UnitAmountDecimal.ValueString()
+	} else {
+		unitAmountDecimal1 = nil
+	}
+	variablePrice := new(bool)
+	if !r.VariablePrice.IsUnknown() && !r.VariablePrice.IsNull() {
+		*variablePrice = r.VariablePrice.ValueBool()
+	} else {
+		variablePrice = nil
+	}
+	out := shared.PricePatch{
+		Additional:             additional,
+		Files:                  files,
+		Schema:                 schema,
+		Tags:                   tags1,
+		Active:                 active,
+		BillingDurationAmount:  billingDurationAmount,
+		BillingDurationUnit:    billingDurationUnit,
+		Description:            description,
+		IsCompositePrice:       isCompositePrice,
+		IsTaxInclusive:         isTaxInclusive,
+		LongDescription:        longDescription,
+		NoticeTimeAmount:       noticeTimeAmount,
+		NoticeTimeUnit:         noticeTimeUnit,
+		PriceComponents:        priceComponents,
+		PriceDisplayInJourneys: priceDisplayInJourneys,
+		PricingModel:           pricingModel,
+		RenewalDurationAmount:  renewalDurationAmount,
+		RenewalDurationUnit:    renewalDurationUnit,
+		Tax:                    tax,
+		TerminationTimeAmount:  terminationTimeAmount,
+		TerminationTimeUnit:    terminationTimeUnit,
+		Tiers:                  tiers,
+		Type:                   typeVar,
+		Unit:                   unit,
+		UnitAmount:             unitAmount1,
+		UnitAmountCurrency:     unitAmountCurrency,
+		UnitAmountDecimal:      unitAmountDecimal1,
+		VariablePrice:          variablePrice,
+	}
+	return &out
 }

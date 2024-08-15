@@ -14,6 +14,7 @@ Price Resource
 
 ```terraform
 resource "epilot-product_price" "my_price" {
+  schema                    = "price"
   active                    = true
   billing_duration_amount   = 66.76
   billing_duration_unit     = "weeks"
@@ -26,17 +27,17 @@ resource "epilot-product_price" "my_price" {
   price_display_in_journeys = "show_as_starting_price"
   price_id                  = "123e4567-e89b-12d3-a456-426614174000"
   pricing_model             = "tiered_graduated"
-  renewal_duration_amount   = 66.62
-  renewal_duration_unit     = "weeks"
+  renewal_duration_amount   = 13.87
+  renewal_duration_unit     = "months"
   tax                       = "{ \"see\": \"documentation\" }"
-  termination_time_amount   = 44.65
-  termination_time_unit     = "years"
+  termination_time_amount   = 70.52
+  termination_time_unit     = "weeks"
   type                      = "one_time"
   unit                      = "...my_unit..."
-  unit_amount               = 40.89
+  unit_amount               = 62.81
   unit_amount_currency      = "EUR"
   unit_amount_decimal       = "...my_unit_amount_decimal..."
-  variable_price            = false
+  variable_price            = true
 }
 ```
 
@@ -50,8 +51,10 @@ resource "epilot-product_price" "my_price" {
 
 ### Optional
 
+- `additional` (Map of String) Additional fields that are not part of the schema
 - `billing_duration_amount` (Number) The billing period duration
 - `billing_duration_unit` (String) The billing period duration unit. must be one of ["weeks", "months", "years"]
+- `files` (Attributes) (see [below for nested schema](#nestedatt--files))
 - `is_composite_price` (Boolean) The flag for prices that contain price components.
 - `is_tax_inclusive` (Boolean) Specifies whether the price is considered `inclusive` of taxes or not. Default: false
 - `long_description` (String) A detailed description of the price. This is shown on the order document and order table. Multi-line supported.
@@ -68,6 +71,8 @@ resource "epilot-product_price" "my_price" {
 must be one of ["per_unit", "tiered_volume", "tiered_graduated", "tiered_flatfee"]; Default: "per_unit"
 - `renewal_duration_amount` (Number) The renewal period duration
 - `renewal_duration_unit` (String) The renewal period duration unit. must be one of ["weeks", "months", "years"]
+- `schema` (String) must be one of ["price"]
+- `tags` (List of String)
 - `tax` (String) Parsed as JSON.
 - `termination_time_amount` (Number) The termination period duration
 - `termination_time_unit` (String) The termination period duration unit. must be one of ["weeks", "months", "years"]
@@ -81,7 +86,30 @@ must be one of ["per_unit", "tiered_volume", "tiered_graduated", "tiered_flatfee
 
 ### Read-Only
 
+- `acl` (Attributes) Access control list (ACL) for an entity. Defines sharing access to external orgs or users. (see [below for nested schema](#nestedatt--acl))
+- `created_at` (String)
 - `id` (String) The ID of this resource.
+- `org` (String) Organization Id the entity belongs to
+- `owners` (Attributes List) (see [below for nested schema](#nestedatt--owners))
+- `title` (String)
+- `updated_at` (String)
+
+<a id="nestedatt--files"></a>
+### Nested Schema for `files`
+
+Optional:
+
+- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--files--dollar_relation))
+
+<a id="nestedatt--files--dollar_relation"></a>
+### Nested Schema for `files.dollar_relation`
+
+Optional:
+
+- `entity_id` (String)
+- `tags` (List of String)
+
+
 
 <a id="nestedatt--price_components"></a>
 ### Nested Schema for `price_components`
@@ -111,6 +139,25 @@ Optional:
 - `unit_amount` (Number)
 - `unit_amount_decimal` (String)
 - `up_to` (Number)
+
+
+<a id="nestedatt--acl"></a>
+### Nested Schema for `acl`
+
+Read-Only:
+
+- `delete` (List of String)
+- `edit` (List of String)
+- `view` (List of String)
+
+
+<a id="nestedatt--owners"></a>
+### Nested Schema for `owners`
+
+Read-Only:
+
+- `org_id` (String)
+- `user_id` (String)
 
 ## Import
 

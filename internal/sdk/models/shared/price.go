@@ -6,7 +6,31 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/internal/utils"
+	"time"
 )
+
+type Schema string
+
+const (
+	SchemaPrice Schema = "price"
+)
+
+func (e Schema) ToPointer() *Schema {
+	return &e
+}
+func (e *Schema) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "price":
+		*e = Schema(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for Schema: %v", v)
+	}
+}
 
 // BillingDurationUnit - The billing period duration unit
 type BillingDurationUnit string
@@ -235,7 +259,20 @@ func (e *Type) UnmarshalJSON(data []byte) error {
 }
 
 type Price struct {
-	ID string `json:"_id"`
+	// Additional fields that are not part of the schema
+	Additional map[string]any `json:"__additional,omitempty"`
+	// Access control list (ACL) for an entity. Defines sharing access to external orgs or users.
+	ACL       *BaseEntityACL `json:"_acl,omitempty"`
+	CreatedAt *time.Time     `json:"_created_at,omitempty"`
+	Files     *BaseRelation  `json:"_files,omitempty"`
+	ID        *string        `json:"_id,omitempty"`
+	// Organization Id the entity belongs to
+	Org       string            `json:"_org"`
+	Owners    []BaseEntityOwner `json:"_owners,omitempty"`
+	Schema    Schema            `json:"_schema"`
+	Tags      []string          `json:"_tags,omitempty"`
+	Title     *string           `json:"_title,omitempty"`
+	UpdatedAt *time.Time        `json:"_updated_at,omitempty"`
 	// Whether the price can be used for new purchases.
 	Active bool `json:"active"`
 	// The billing period duration
@@ -302,11 +339,81 @@ func (p *Price) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (o *Price) GetID() string {
+func (o *Price) GetAdditional() map[string]any {
+	if o == nil {
+		return nil
+	}
+	return o.Additional
+}
+
+func (o *Price) GetACL() *BaseEntityACL {
+	if o == nil {
+		return nil
+	}
+	return o.ACL
+}
+
+func (o *Price) GetCreatedAt() *time.Time {
+	if o == nil {
+		return nil
+	}
+	return o.CreatedAt
+}
+
+func (o *Price) GetFiles() *BaseRelation {
+	if o == nil {
+		return nil
+	}
+	return o.Files
+}
+
+func (o *Price) GetID() *string {
+	if o == nil {
+		return nil
+	}
+	return o.ID
+}
+
+func (o *Price) GetOrg() string {
 	if o == nil {
 		return ""
 	}
-	return o.ID
+	return o.Org
+}
+
+func (o *Price) GetOwners() []BaseEntityOwner {
+	if o == nil {
+		return nil
+	}
+	return o.Owners
+}
+
+func (o *Price) GetSchema() Schema {
+	if o == nil {
+		return Schema("")
+	}
+	return o.Schema
+}
+
+func (o *Price) GetTags() []string {
+	if o == nil {
+		return nil
+	}
+	return o.Tags
+}
+
+func (o *Price) GetTitle() *string {
+	if o == nil {
+		return nil
+	}
+	return o.Title
+}
+
+func (o *Price) GetUpdatedAt() *time.Time {
+	if o == nil {
+		return nil
+	}
+	return o.UpdatedAt
 }
 
 func (o *Price) GetActive() bool {

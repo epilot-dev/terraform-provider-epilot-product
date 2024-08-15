@@ -14,8 +14,9 @@ Product DataSource
 
 ```terraform
 data "epilot-product_product" "my_product" {
-  hydrate    = true
+  hydrate    = false
   product_id = "123e4567-e89b-12d3-a456-426614174000"
+  strict     = true
 }
 ```
 
@@ -25,19 +26,31 @@ data "epilot-product_product" "my_product" {
 ### Optional
 
 - `hydrate` (Boolean) Hydrates entities in relations when passed true
+- `strict` (Boolean) When passed true, the response will contain only fields that match the schema, with non-matching fields included in `__additional`
 
 ### Read-Only
 
+- `acl` (Attributes) Access control list (ACL) for an entity. Defines sharing access to external orgs or users. (see [below for nested schema](#nestedatt--acl))
 - `active` (Boolean)
+- `additional` (Map of String) Additional fields that are not part of the schema
+- `availability_files` (Attributes) (see [below for nested schema](#nestedatt--availability_files))
 - `code` (String) The product code
+- `created_at` (String)
 - `description` (String) A description of the product. Multi-line supported.
 - `feature` (List of String)
+- `files` (Attributes) (see [below for nested schema](#nestedatt--files))
 - `id` (String) The ID of this resource.
 - `internal_name` (String) Not visible to customers, only in internal tables
 - `name` (String) The description for the product
+- `org` (String) Organization Id the entity belongs to
+- `owners` (Attributes List) (see [below for nested schema](#nestedatt--owners))
 - `price_options` (Attributes) (see [below for nested schema](#nestedatt--price_options))
-- `product_downloads` (String) Parsed as JSON.
-- `product_images` (String) Parsed as JSON.
+- `product_downloads` (Attributes) (see [below for nested schema](#nestedatt--product_downloads))
+- `product_images` (Attributes) (see [below for nested schema](#nestedatt--product_images))
+- `purpose` (List of String)
+- `schema` (String) must be one of ["product"]
+- `tags` (List of String)
+- `title` (String)
 - `type` (String) The type of Product:
 
 | type | description |
@@ -46,6 +59,60 @@ data "epilot-product_product" "my_product" {
 | `service` | Represents a service or virtual product |
 
 must be one of ["product", "service"]
+- `updated_at` (String)
+
+<a id="nestedatt--acl"></a>
+### Nested Schema for `acl`
+
+Read-Only:
+
+- `delete` (List of String)
+- `edit` (List of String)
+- `view` (List of String)
+
+
+<a id="nestedatt--availability_files"></a>
+### Nested Schema for `availability_files`
+
+Read-Only:
+
+- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--availability_files--dollar_relation))
+
+<a id="nestedatt--availability_files--dollar_relation"></a>
+### Nested Schema for `availability_files.dollar_relation`
+
+Read-Only:
+
+- `entity_id` (String)
+- `tags` (List of String)
+
+
+
+<a id="nestedatt--files"></a>
+### Nested Schema for `files`
+
+Read-Only:
+
+- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--files--dollar_relation))
+
+<a id="nestedatt--files--dollar_relation"></a>
+### Nested Schema for `files.dollar_relation`
+
+Read-Only:
+
+- `entity_id` (String)
+- `tags` (List of String)
+
+
+
+<a id="nestedatt--owners"></a>
+### Nested Schema for `owners`
+
+Read-Only:
+
+- `org_id` (String)
+- `user_id` (String)
+
 
 <a id="nestedatt--price_options"></a>
 ### Nested Schema for `price_options`
@@ -63,3 +130,35 @@ Read-Only:
 - `tags` (List of String)
 
 
+
+<a id="nestedatt--product_downloads"></a>
+### Nested Schema for `product_downloads`
+
+Read-Only:
+
+- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--product_downloads--dollar_relation))
+
+<a id="nestedatt--product_downloads--dollar_relation"></a>
+### Nested Schema for `product_downloads.dollar_relation`
+
+Read-Only:
+
+- `entity_id` (String)
+- `tags` (List of String)
+
+
+
+<a id="nestedatt--product_images"></a>
+### Nested Schema for `product_images`
+
+Read-Only:
+
+- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--product_images--dollar_relation))
+
+<a id="nestedatt--product_images--dollar_relation"></a>
+### Nested Schema for `product_images.dollar_relation`
+
+Read-Only:
+
+- `entity_id` (String)
+- `tags` (List of String)

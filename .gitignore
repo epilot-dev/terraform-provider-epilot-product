@@ -2,3 +2,6 @@
 .terraform*
 *.tfstate*
 .DS_Store
+
+original.yaml
+original_modified.yaml
