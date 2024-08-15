@@ -16,6 +16,7 @@ Price DataSource
 data "epilot-product_price" "my_price" {
   hydrate  = true
   price_id = "123e4567-e89b-12d3-a456-426614174000"
+  strict   = true
 }
 ```
 
@@ -25,15 +26,18 @@ data "epilot-product_price" "my_price" {
 ### Optional
 
 - `hydrate` (Boolean) Hydrates entities in relations when passed true
+- `strict` (Boolean) When passed true, the response will contain only fields that match the schema, with non-matching fields included in `__additional`
 
 ### Read-Only
 
 - `acl` (Attributes) Access control list (ACL) for an entity. Defines sharing access to external orgs or users. (see [below for nested schema](#nestedatt--acl))
 - `active` (Boolean) Whether the price can be used for new purchases.
+- `additional` (Map of String) Additional fields that are not part of the schema
 - `billing_duration_amount` (Number) The billing period duration
 - `billing_duration_unit` (String) The billing period duration unit. must be one of ["weeks", "months", "years"]
 - `created_at` (String)
 - `description` (String) A brief description of the price.
+- `files` (Attributes) (see [below for nested schema](#nestedatt--files))
 - `id` (String) The ID of this resource.
 - `is_composite_price` (Boolean) The flag for prices that contain price components.
 - `is_tax_inclusive` (Boolean) Specifies whether the price is considered `inclusive` of taxes or not.
@@ -53,7 +57,7 @@ data "epilot-product_price" "my_price" {
 must be one of ["per_unit", "tiered_volume", "tiered_graduated", "tiered_flatfee"]
 - `renewal_duration_amount` (Number) The renewal period duration
 - `renewal_duration_unit` (String) The renewal period duration unit. must be one of ["weeks", "months", "years"]
-- `schema` (String)
+- `schema` (String) must be one of ["price"]
 - `tags` (List of String)
 - `tax` (String) Parsed as JSON.
 - `termination_time_amount` (Number) The termination period duration
@@ -76,6 +80,23 @@ Read-Only:
 - `delete` (List of String)
 - `edit` (List of String)
 - `view` (List of String)
+
+
+<a id="nestedatt--files"></a>
+### Nested Schema for `files`
+
+Read-Only:
+
+- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--files--dollar_relation))
+
+<a id="nestedatt--files--dollar_relation"></a>
+### Nested Schema for `files.dollar_relation`
+
+Read-Only:
+
+- `entity_id` (String)
+- `tags` (List of String)
+
 
 
 <a id="nestedatt--owners"></a>

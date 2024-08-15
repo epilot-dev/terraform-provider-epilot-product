@@ -7,32 +7,26 @@ import (
 	"fmt"
 )
 
-type TaxCreateRegion string
+type TaxCreateSchema string
 
 const (
-	TaxCreateRegionDe TaxCreateRegion = "DE"
-	TaxCreateRegionAt TaxCreateRegion = "AT"
-	TaxCreateRegionCh TaxCreateRegion = "CH"
+	TaxCreateSchemaTax TaxCreateSchema = "tax"
 )
 
-func (e TaxCreateRegion) ToPointer() *TaxCreateRegion {
+func (e TaxCreateSchema) ToPointer() *TaxCreateSchema {
 	return &e
 }
-func (e *TaxCreateRegion) UnmarshalJSON(data []byte) error {
+func (e *TaxCreateSchema) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 	switch v {
-	case "DE":
-		fallthrough
-	case "AT":
-		fallthrough
-	case "CH":
-		*e = TaxCreateRegion(v)
+	case "tax":
+		*e = TaxCreateSchema(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for TaxCreateRegion: %v", v)
+		return fmt.Errorf("invalid value for TaxCreateSchema: %v", v)
 	}
 }
 
@@ -63,11 +57,44 @@ func (e *TaxCreateType) UnmarshalJSON(data []byte) error {
 }
 
 type TaxCreate struct {
-	Active      bool            `json:"active"`
-	Description *string         `json:"description,omitempty"`
-	Rate        string          `json:"rate"`
-	Region      TaxCreateRegion `json:"region"`
-	Type        TaxCreateType   `json:"type"`
+	// Additional fields that are not part of the schema
+	Additional  map[string]any   `json:"__additional,omitempty"`
+	Files       *BaseRelation    `json:"_files,omitempty"`
+	Schema      *TaxCreateSchema `json:"_schema,omitempty"`
+	Tags        []string         `json:"_tags,omitempty"`
+	Active      bool             `json:"active"`
+	Description *string          `json:"description,omitempty"`
+	Rate        string           `json:"rate"`
+	Region      string           `json:"region"`
+	Type        TaxCreateType    `json:"type"`
+}
+
+func (o *TaxCreate) GetAdditional() map[string]any {
+	if o == nil {
+		return nil
+	}
+	return o.Additional
+}
+
+func (o *TaxCreate) GetFiles() *BaseRelation {
+	if o == nil {
+		return nil
+	}
+	return o.Files
+}
+
+func (o *TaxCreate) GetSchema() *TaxCreateSchema {
+	if o == nil {
+		return nil
+	}
+	return o.Schema
+}
+
+func (o *TaxCreate) GetTags() []string {
+	if o == nil {
+		return nil
+	}
+	return o.Tags
 }
 
 func (o *TaxCreate) GetActive() bool {
@@ -91,9 +118,9 @@ func (o *TaxCreate) GetRate() string {
 	return o.Rate
 }
 
-func (o *TaxCreate) GetRegion() TaxCreateRegion {
+func (o *TaxCreate) GetRegion() string {
 	if o == nil {
-		return TaxCreateRegion("")
+		return ""
 	}
 	return o.Region
 }

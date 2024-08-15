@@ -12,6 +12,45 @@ import (
 )
 
 func (r *PriceResourceModel) ToSharedPriceCreate() *shared.PriceCreate {
+	additional := make(map[string]interface{})
+	for additionalKey, additionalValue := range r.Additional {
+		var additionalInst interface{}
+		_ = json.Unmarshal([]byte(additionalValue.ValueString()), &additionalInst)
+		additional[additionalKey] = additionalInst
+	}
+	var files *shared.BaseRelation
+	if r.Files != nil {
+		var dollarRelation []shared.DollarRelation = []shared.DollarRelation{}
+		for _, dollarRelationItem := range r.Files.DollarRelation {
+			var tags []string = []string{}
+			for _, tagsItem := range dollarRelationItem.Tags {
+				tags = append(tags, tagsItem.ValueString())
+			}
+			entityID := new(string)
+			if !dollarRelationItem.EntityID.IsUnknown() && !dollarRelationItem.EntityID.IsNull() {
+				*entityID = dollarRelationItem.EntityID.ValueString()
+			} else {
+				entityID = nil
+			}
+			dollarRelation = append(dollarRelation, shared.DollarRelation{
+				Tags:     tags,
+				EntityID: entityID,
+			})
+		}
+		files = &shared.BaseRelation{
+			DollarRelation: dollarRelation,
+		}
+	}
+	schema := new(shared.PriceCreateSchema)
+	if !r.Schema.IsUnknown() && !r.Schema.IsNull() {
+		*schema = shared.PriceCreateSchema(r.Schema.ValueString())
+	} else {
+		schema = nil
+	}
+	var tags1 []string = []string{}
+	for _, tagsItem1 := range r.Tags {
+		tags1 = append(tags1, tagsItem1.ValueString())
+	}
 	var active bool
 	active = r.Active.ValueBool()
 
@@ -62,25 +101,25 @@ func (r *PriceResourceModel) ToSharedPriceCreate() *shared.PriceCreate {
 	}
 	var priceComponents *shared.PriceCreatePriceComponents
 	if r.PriceComponents != nil {
-		var dollarRelation []shared.PriceComponentRelation = []shared.PriceComponentRelation{}
-		for _, dollarRelationItem := range r.PriceComponents.DollarRelation {
-			var tags []string = []string{}
-			for _, tagsItem := range dollarRelationItem.Tags {
-				tags = append(tags, tagsItem.ValueString())
+		var dollarRelation1 []shared.PriceComponentRelation = []shared.PriceComponentRelation{}
+		for _, dollarRelationItem1 := range r.PriceComponents.DollarRelation {
+			var tags2 []string = []string{}
+			for _, tagsItem2 := range dollarRelationItem1.Tags {
+				tags2 = append(tags2, tagsItem2.ValueString())
 			}
-			entityID := new(string)
-			if !dollarRelationItem.EntityID.IsUnknown() && !dollarRelationItem.EntityID.IsNull() {
-				*entityID = dollarRelationItem.EntityID.ValueString()
+			entityId1 := new(string)
+			if !dollarRelationItem1.EntityID.IsUnknown() && !dollarRelationItem1.EntityID.IsNull() {
+				*entityId1 = dollarRelationItem1.EntityID.ValueString()
 			} else {
-				entityID = nil
+				entityId1 = nil
 			}
-			dollarRelation = append(dollarRelation, shared.PriceComponentRelation{
-				Tags:     tags,
-				EntityID: entityID,
+			dollarRelation1 = append(dollarRelation1, shared.PriceComponentRelation{
+				Tags:     tags2,
+				EntityID: entityId1,
 			})
 		}
 		priceComponents = &shared.PriceCreatePriceComponents{
-			DollarRelation: dollarRelation,
+			DollarRelation: dollarRelation1,
 		}
 	}
 	priceDisplayInJourneys := new(shared.PriceCreatePriceDisplayInJourneys)
@@ -207,6 +246,10 @@ func (r *PriceResourceModel) ToSharedPriceCreate() *shared.PriceCreate {
 		variablePrice = nil
 	}
 	out := shared.PriceCreate{
+		Additional:             additional,
+		Files:                  files,
+		Schema:                 schema,
+		Tags:                   tags1,
 		Active:                 active,
 		BillingDurationAmount:  billingDurationAmount,
 		BillingDurationUnit:    billingDurationUnit,
@@ -237,20 +280,59 @@ func (r *PriceResourceModel) ToSharedPriceCreate() *shared.PriceCreate {
 
 func (r *PriceResourceModel) RefreshFromSharedPrice(resp *shared.Price) {
 	if resp != nil {
-		r.ACL.Delete = []types.String{}
-		for _, v := range resp.ACL.Delete {
-			r.ACL.Delete = append(r.ACL.Delete, types.StringValue(v))
+		if len(resp.Additional) > 0 {
+			r.Additional = make(map[string]types.String)
+			for key, value := range resp.Additional {
+				result, _ := json.Marshal(value)
+				r.Additional[key] = types.StringValue(string(result))
+			}
 		}
-		r.ACL.Edit = []types.String{}
-		for _, v := range resp.ACL.Edit {
-			r.ACL.Edit = append(r.ACL.Edit, types.StringValue(v))
+		if resp.ACL == nil {
+			r.ACL = nil
+		} else {
+			r.ACL = &tfTypes.BaseEntityACL{}
+			r.ACL.Delete = []types.String{}
+			for _, v := range resp.ACL.Delete {
+				r.ACL.Delete = append(r.ACL.Delete, types.StringValue(v))
+			}
+			r.ACL.Edit = []types.String{}
+			for _, v := range resp.ACL.Edit {
+				r.ACL.Edit = append(r.ACL.Edit, types.StringValue(v))
+			}
+			r.ACL.View = []types.String{}
+			for _, v := range resp.ACL.View {
+				r.ACL.View = append(r.ACL.View, types.StringValue(v))
+			}
 		}
-		r.ACL.View = []types.String{}
-		for _, v := range resp.ACL.View {
-			r.ACL.View = append(r.ACL.View, types.StringValue(v))
+		if resp.CreatedAt != nil {
+			r.CreatedAt = types.StringValue(resp.CreatedAt.Format(time.RFC3339Nano))
+		} else {
+			r.CreatedAt = types.StringNull()
 		}
-		r.CreatedAt = types.StringValue(resp.CreatedAt.Format(time.RFC3339Nano))
-		r.ID = types.StringValue(resp.ID)
+		if resp.Files == nil {
+			r.Files = nil
+		} else {
+			r.Files = &tfTypes.BaseRelation{}
+			r.Files.DollarRelation = []tfTypes.DollarRelation{}
+			if len(r.Files.DollarRelation) > len(resp.Files.DollarRelation) {
+				r.Files.DollarRelation = r.Files.DollarRelation[:len(resp.Files.DollarRelation)]
+			}
+			for dollarRelationCount, dollarRelationItem := range resp.Files.DollarRelation {
+				var dollarRelation1 tfTypes.DollarRelation
+				dollarRelation1.Tags = []types.String{}
+				for _, v := range dollarRelationItem.Tags {
+					dollarRelation1.Tags = append(dollarRelation1.Tags, types.StringValue(v))
+				}
+				dollarRelation1.EntityID = types.StringPointerValue(dollarRelationItem.EntityID)
+				if dollarRelationCount+1 > len(r.Files.DollarRelation) {
+					r.Files.DollarRelation = append(r.Files.DollarRelation, dollarRelation1)
+				} else {
+					r.Files.DollarRelation[dollarRelationCount].Tags = dollarRelation1.Tags
+					r.Files.DollarRelation[dollarRelationCount].EntityID = dollarRelation1.EntityID
+				}
+			}
+		}
+		r.ID = types.StringPointerValue(resp.ID)
 		r.Org = types.StringValue(resp.Org)
 		r.Owners = []tfTypes.BaseEntityOwner{}
 		if len(r.Owners) > len(resp.Owners) {
@@ -267,13 +349,17 @@ func (r *PriceResourceModel) RefreshFromSharedPrice(resp *shared.Price) {
 				r.Owners[ownersCount].UserID = owners1.UserID
 			}
 		}
-		r.Schema = types.StringValue(resp.Schema)
+		r.Schema = types.StringValue(string(resp.Schema))
 		r.Tags = []types.String{}
 		for _, v := range resp.Tags {
 			r.Tags = append(r.Tags, types.StringValue(v))
 		}
-		r.Title = types.StringValue(resp.Title)
-		r.UpdatedAt = types.StringValue(resp.UpdatedAt.Format(time.RFC3339Nano))
+		r.Title = types.StringPointerValue(resp.Title)
+		if resp.UpdatedAt != nil {
+			r.UpdatedAt = types.StringValue(resp.UpdatedAt.Format(time.RFC3339Nano))
+		} else {
+			r.UpdatedAt = types.StringNull()
+		}
 		r.Active = types.BoolValue(resp.Active)
 		if resp.BillingDurationAmount != nil {
 			r.BillingDurationAmount = types.NumberValue(big.NewFloat(float64(*resp.BillingDurationAmount)))
@@ -307,18 +393,18 @@ func (r *PriceResourceModel) RefreshFromSharedPrice(resp *shared.Price) {
 			if len(r.PriceComponents.DollarRelation) > len(resp.PriceComponents.DollarRelation) {
 				r.PriceComponents.DollarRelation = r.PriceComponents.DollarRelation[:len(resp.PriceComponents.DollarRelation)]
 			}
-			for dollarRelationCount, dollarRelationItem := range resp.PriceComponents.DollarRelation {
-				var dollarRelation1 tfTypes.PriceComponentRelation
-				dollarRelation1.Tags = []types.String{}
-				for _, v := range dollarRelationItem.Tags {
-					dollarRelation1.Tags = append(dollarRelation1.Tags, types.StringValue(v))
+			for dollarRelationCount1, dollarRelationItem1 := range resp.PriceComponents.DollarRelation {
+				var dollarRelation3 tfTypes.PriceComponentRelation
+				dollarRelation3.Tags = []types.String{}
+				for _, v := range dollarRelationItem1.Tags {
+					dollarRelation3.Tags = append(dollarRelation3.Tags, types.StringValue(v))
 				}
-				dollarRelation1.EntityID = types.StringPointerValue(dollarRelationItem.EntityID)
-				if dollarRelationCount+1 > len(r.PriceComponents.DollarRelation) {
-					r.PriceComponents.DollarRelation = append(r.PriceComponents.DollarRelation, dollarRelation1)
+				dollarRelation3.EntityID = types.StringPointerValue(dollarRelationItem1.EntityID)
+				if dollarRelationCount1+1 > len(r.PriceComponents.DollarRelation) {
+					r.PriceComponents.DollarRelation = append(r.PriceComponents.DollarRelation, dollarRelation3)
 				} else {
-					r.PriceComponents.DollarRelation[dollarRelationCount].Tags = dollarRelation1.Tags
-					r.PriceComponents.DollarRelation[dollarRelationCount].EntityID = dollarRelation1.EntityID
+					r.PriceComponents.DollarRelation[dollarRelationCount1].Tags = dollarRelation3.Tags
+					r.PriceComponents.DollarRelation[dollarRelationCount1].EntityID = dollarRelation3.EntityID
 				}
 			}
 		}
@@ -415,6 +501,45 @@ func (r *PriceResourceModel) RefreshFromSharedPrice(resp *shared.Price) {
 }
 
 func (r *PriceResourceModel) ToSharedPricePatch() *shared.PricePatch {
+	additional := make(map[string]interface{})
+	for additionalKey, additionalValue := range r.Additional {
+		var additionalInst interface{}
+		_ = json.Unmarshal([]byte(additionalValue.ValueString()), &additionalInst)
+		additional[additionalKey] = additionalInst
+	}
+	var files *shared.BaseRelation
+	if r.Files != nil {
+		var dollarRelation []shared.DollarRelation = []shared.DollarRelation{}
+		for _, dollarRelationItem := range r.Files.DollarRelation {
+			var tags []string = []string{}
+			for _, tagsItem := range dollarRelationItem.Tags {
+				tags = append(tags, tagsItem.ValueString())
+			}
+			entityID := new(string)
+			if !dollarRelationItem.EntityID.IsUnknown() && !dollarRelationItem.EntityID.IsNull() {
+				*entityID = dollarRelationItem.EntityID.ValueString()
+			} else {
+				entityID = nil
+			}
+			dollarRelation = append(dollarRelation, shared.DollarRelation{
+				Tags:     tags,
+				EntityID: entityID,
+			})
+		}
+		files = &shared.BaseRelation{
+			DollarRelation: dollarRelation,
+		}
+	}
+	schema := new(shared.PricePatchSchema)
+	if !r.Schema.IsUnknown() && !r.Schema.IsNull() {
+		*schema = shared.PricePatchSchema(r.Schema.ValueString())
+	} else {
+		schema = nil
+	}
+	var tags1 []string = []string{}
+	for _, tagsItem1 := range r.Tags {
+		tags1 = append(tags1, tagsItem1.ValueString())
+	}
 	active := new(bool)
 	if !r.Active.IsUnknown() && !r.Active.IsNull() {
 		*active = r.Active.ValueBool()
@@ -471,25 +596,25 @@ func (r *PriceResourceModel) ToSharedPricePatch() *shared.PricePatch {
 	}
 	var priceComponents *shared.PricePatchPriceComponents
 	if r.PriceComponents != nil {
-		var dollarRelation []shared.PriceComponentRelation = []shared.PriceComponentRelation{}
-		for _, dollarRelationItem := range r.PriceComponents.DollarRelation {
-			var tags []string = []string{}
-			for _, tagsItem := range dollarRelationItem.Tags {
-				tags = append(tags, tagsItem.ValueString())
+		var dollarRelation1 []shared.PriceComponentRelation = []shared.PriceComponentRelation{}
+		for _, dollarRelationItem1 := range r.PriceComponents.DollarRelation {
+			var tags2 []string = []string{}
+			for _, tagsItem2 := range dollarRelationItem1.Tags {
+				tags2 = append(tags2, tagsItem2.ValueString())
 			}
-			entityID := new(string)
-			if !dollarRelationItem.EntityID.IsUnknown() && !dollarRelationItem.EntityID.IsNull() {
-				*entityID = dollarRelationItem.EntityID.ValueString()
+			entityId1 := new(string)
+			if !dollarRelationItem1.EntityID.IsUnknown() && !dollarRelationItem1.EntityID.IsNull() {
+				*entityId1 = dollarRelationItem1.EntityID.ValueString()
 			} else {
-				entityID = nil
+				entityId1 = nil
 			}
-			dollarRelation = append(dollarRelation, shared.PriceComponentRelation{
-				Tags:     tags,
-				EntityID: entityID,
+			dollarRelation1 = append(dollarRelation1, shared.PriceComponentRelation{
+				Tags:     tags2,
+				EntityID: entityId1,
 			})
 		}
 		priceComponents = &shared.PricePatchPriceComponents{
-			DollarRelation: dollarRelation,
+			DollarRelation: dollarRelation1,
 		}
 	}
 	priceDisplayInJourneys := new(shared.PricePatchPriceDisplayInJourneys)
@@ -616,6 +741,10 @@ func (r *PriceResourceModel) ToSharedPricePatch() *shared.PricePatch {
 		variablePrice = nil
 	}
 	out := shared.PricePatch{
+		Additional:             additional,
+		Files:                  files,
+		Schema:                 schema,
+		Tags:                   tags1,
 		Active:                 active,
 		BillingDurationAmount:  billingDurationAmount,
 		BillingDurationUnit:    billingDurationUnit,

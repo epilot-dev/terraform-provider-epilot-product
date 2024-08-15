@@ -8,6 +8,29 @@ import (
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/internal/utils"
 )
 
+type ProductCreateSchema string
+
+const (
+	ProductCreateSchemaProduct ProductCreateSchema = "product"
+)
+
+func (e ProductCreateSchema) ToPointer() *ProductCreateSchema {
+	return &e
+}
+func (e *ProductCreateSchema) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "product":
+		*e = ProductCreateSchema(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ProductCreateSchema: %v", v)
+	}
+}
+
 // ProductCreateType - The type of Product:
 //
 // | type | description |
@@ -41,7 +64,14 @@ func (e *ProductCreateType) UnmarshalJSON(data []byte) error {
 }
 
 type ProductCreate struct {
-	Active bool `json:"active"`
+	// Additional fields that are not part of the schema
+	Additional        map[string]any       `json:"__additional,omitempty"`
+	AvailabilityFiles *BaseRelation        `json:"_availability_files,omitempty"`
+	Files             *BaseRelation        `json:"_files,omitempty"`
+	Purpose           []string             `json:"_purpose,omitempty"`
+	Schema            *ProductCreateSchema `json:"_schema,omitempty"`
+	Tags              []string             `json:"_tags,omitempty"`
+	Active            bool                 `json:"active"`
 	// The product code
 	Code *string `json:"code,omitempty"`
 	// A description of the product. Multi-line supported.
@@ -52,8 +82,8 @@ type ProductCreate struct {
 	// The description for the product
 	Name             string        `json:"name"`
 	PriceOptions     *BaseRelation `json:"price_options,omitempty"`
-	ProductDownloads any           `json:"product_downloads,omitempty"`
-	ProductImages    any           `json:"product_images,omitempty"`
+	ProductDownloads *BaseRelation `json:"product_downloads,omitempty"`
+	ProductImages    *BaseRelation `json:"product_images,omitempty"`
 	// The type of Product:
 	//
 	// | type | description |
@@ -73,6 +103,48 @@ func (p *ProductCreate) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	return nil
+}
+
+func (o *ProductCreate) GetAdditional() map[string]any {
+	if o == nil {
+		return nil
+	}
+	return o.Additional
+}
+
+func (o *ProductCreate) GetAvailabilityFiles() *BaseRelation {
+	if o == nil {
+		return nil
+	}
+	return o.AvailabilityFiles
+}
+
+func (o *ProductCreate) GetFiles() *BaseRelation {
+	if o == nil {
+		return nil
+	}
+	return o.Files
+}
+
+func (o *ProductCreate) GetPurpose() []string {
+	if o == nil {
+		return nil
+	}
+	return o.Purpose
+}
+
+func (o *ProductCreate) GetSchema() *ProductCreateSchema {
+	if o == nil {
+		return nil
+	}
+	return o.Schema
+}
+
+func (o *ProductCreate) GetTags() []string {
+	if o == nil {
+		return nil
+	}
+	return o.Tags
 }
 
 func (o *ProductCreate) GetActive() bool {
@@ -124,14 +196,14 @@ func (o *ProductCreate) GetPriceOptions() *BaseRelation {
 	return o.PriceOptions
 }
 
-func (o *ProductCreate) GetProductDownloads() any {
+func (o *ProductCreate) GetProductDownloads() *BaseRelation {
 	if o == nil {
 		return nil
 	}
 	return o.ProductDownloads
 }
 
-func (o *ProductCreate) GetProductImages() any {
+func (o *ProductCreate) GetProductImages() *BaseRelation {
 	if o == nil {
 		return nil
 	}

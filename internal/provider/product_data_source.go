@@ -29,26 +29,31 @@ type ProductDataSource struct {
 
 // ProductDataSourceModel describes the data model.
 type ProductDataSourceModel struct {
-	ACL              tfTypes.BaseEntityACL     `tfsdk:"acl"`
-	Active           types.Bool                `tfsdk:"active"`
-	Code             types.String              `tfsdk:"code"`
-	CreatedAt        types.String              `tfsdk:"created_at"`
-	Description      types.String              `tfsdk:"description"`
-	Feature          []types.String            `tfsdk:"feature"`
-	Hydrate          types.Bool                `tfsdk:"hydrate"`
-	ID               types.String              `tfsdk:"id"`
-	InternalName     types.String              `tfsdk:"internal_name"`
-	Name             types.String              `tfsdk:"name"`
-	Org              types.String              `tfsdk:"org"`
-	Owners           []tfTypes.BaseEntityOwner `tfsdk:"owners"`
-	PriceOptions     *tfTypes.BaseRelation     `tfsdk:"price_options"`
-	ProductDownloads types.String              `tfsdk:"product_downloads"`
-	ProductImages    types.String              `tfsdk:"product_images"`
-	Schema           types.String              `tfsdk:"schema"`
-	Tags             []types.String            `tfsdk:"tags"`
-	Title            types.String              `tfsdk:"title"`
-	Type             types.String              `tfsdk:"type"`
-	UpdatedAt        types.String              `tfsdk:"updated_at"`
+	ACL               *tfTypes.BaseEntityACL    `tfsdk:"acl"`
+	Active            types.Bool                `tfsdk:"active"`
+	Additional        map[string]types.String   `tfsdk:"additional"`
+	AvailabilityFiles *tfTypes.BaseRelation     `tfsdk:"availability_files"`
+	Code              types.String              `tfsdk:"code"`
+	CreatedAt         types.String              `tfsdk:"created_at"`
+	Description       types.String              `tfsdk:"description"`
+	Feature           []types.String            `tfsdk:"feature"`
+	Files             *tfTypes.BaseRelation     `tfsdk:"files"`
+	Hydrate           types.Bool                `tfsdk:"hydrate"`
+	ID                types.String              `tfsdk:"id"`
+	InternalName      types.String              `tfsdk:"internal_name"`
+	Name              types.String              `tfsdk:"name"`
+	Org               types.String              `tfsdk:"org"`
+	Owners            []tfTypes.BaseEntityOwner `tfsdk:"owners"`
+	PriceOptions      *tfTypes.BaseRelation     `tfsdk:"price_options"`
+	ProductDownloads  *tfTypes.BaseRelation     `tfsdk:"product_downloads"`
+	ProductImages     *tfTypes.BaseRelation     `tfsdk:"product_images"`
+	Purpose           []types.String            `tfsdk:"purpose"`
+	Schema            types.String              `tfsdk:"schema"`
+	Strict            types.Bool                `tfsdk:"strict"`
+	Tags              []types.String            `tfsdk:"tags"`
+	Title             types.String              `tfsdk:"title"`
+	Type              types.String              `tfsdk:"type"`
+	UpdatedAt         types.String              `tfsdk:"updated_at"`
 }
 
 // Metadata returns the data source type name.
@@ -83,6 +88,30 @@ func (r *ProductDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 			"active": schema.BoolAttribute{
 				Computed: true,
 			},
+			"additional": schema.MapAttribute{
+				Computed:    true,
+				ElementType: types.StringType,
+				Description: `Additional fields that are not part of the schema`,
+			},
+			"availability_files": schema.SingleNestedAttribute{
+				Computed: true,
+				Attributes: map[string]schema.Attribute{
+					"dollar_relation": schema.ListNestedAttribute{
+						Computed: true,
+						NestedObject: schema.NestedAttributeObject{
+							Attributes: map[string]schema.Attribute{
+								"tags": schema.ListAttribute{
+									Computed:    true,
+									ElementType: types.StringType,
+								},
+								"entity_id": schema.StringAttribute{
+									Computed: true,
+								},
+							},
+						},
+					},
+				},
+			},
 			"code": schema.StringAttribute{
 				Computed:    true,
 				Description: `The product code`,
@@ -98,7 +127,27 @@ func (r *ProductDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 				Computed:    true,
 				ElementType: types.StringType,
 			},
+			"files": schema.SingleNestedAttribute{
+				Computed: true,
+				Attributes: map[string]schema.Attribute{
+					"dollar_relation": schema.ListNestedAttribute{
+						Computed: true,
+						NestedObject: schema.NestedAttributeObject{
+							Attributes: map[string]schema.Attribute{
+								"tags": schema.ListAttribute{
+									Computed:    true,
+									ElementType: types.StringType,
+								},
+								"entity_id": schema.StringAttribute{
+									Computed: true,
+								},
+							},
+						},
+					},
+				},
+			},
 			"hydrate": schema.BoolAttribute{
+				Computed:    true,
 				Optional:    true,
 				Description: `Hydrates entities in relations when passed true`,
 			},
@@ -149,16 +198,56 @@ func (r *ProductDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 					},
 				},
 			},
-			"product_downloads": schema.StringAttribute{
-				Computed:    true,
-				Description: `Parsed as JSON.`,
+			"product_downloads": schema.SingleNestedAttribute{
+				Computed: true,
+				Attributes: map[string]schema.Attribute{
+					"dollar_relation": schema.ListNestedAttribute{
+						Computed: true,
+						NestedObject: schema.NestedAttributeObject{
+							Attributes: map[string]schema.Attribute{
+								"tags": schema.ListAttribute{
+									Computed:    true,
+									ElementType: types.StringType,
+								},
+								"entity_id": schema.StringAttribute{
+									Computed: true,
+								},
+							},
+						},
+					},
+				},
 			},
-			"product_images": schema.StringAttribute{
+			"product_images": schema.SingleNestedAttribute{
+				Computed: true,
+				Attributes: map[string]schema.Attribute{
+					"dollar_relation": schema.ListNestedAttribute{
+						Computed: true,
+						NestedObject: schema.NestedAttributeObject{
+							Attributes: map[string]schema.Attribute{
+								"tags": schema.ListAttribute{
+									Computed:    true,
+									ElementType: types.StringType,
+								},
+								"entity_id": schema.StringAttribute{
+									Computed: true,
+								},
+							},
+						},
+					},
+				},
+			},
+			"purpose": schema.ListAttribute{
 				Computed:    true,
-				Description: `Parsed as JSON.`,
+				ElementType: types.StringType,
 			},
 			"schema": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: `must be one of ["product"]`,
+			},
+			"strict": schema.BoolAttribute{
+				Computed:    true,
+				Optional:    true,
+				Description: `When passed true, the response will contain only fields that match the schema, with non-matching fields included in ` + "`" + `__additional` + "`" + ``,
 			},
 			"tags": schema.ListAttribute{
 				Computed:    true,
@@ -232,9 +321,16 @@ func (r *ProductDataSource) Read(ctx context.Context, req datasource.ReadRequest
 	var productID string
 	productID = data.ID.ValueString()
 
+	strict := new(bool)
+	if !data.Strict.IsUnknown() && !data.Strict.IsNull() {
+		*strict = data.Strict.ValueBool()
+	} else {
+		strict = nil
+	}
 	request := operations.GetProductRequest{
 		Hydrate:   hydrate,
 		ProductID: productID,
+		Strict:    strict,
 	}
 	res, err := r.client.Product.GetProduct(ctx, request)
 	if err != nil {

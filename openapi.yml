@@ -42,7 +42,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/TaxIdPathParam"
         - $ref: "#/components/parameters/HydrateQueryParam"
-        - $ref: "#/components/parameters/HydrateQueryParam"
+        - $ref: "#/components/parameters/StrictQueryParam"
       responses:
         "200":
           $ref: "#/components/responses/TaxResponse"

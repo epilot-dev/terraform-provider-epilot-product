@@ -1,4 +1,5 @@
 resource "epilot-product_price" "my_price" {
+  schema                    = "price"
   active                    = true
   billing_duration_amount   = 66.76
   billing_duration_unit     = "weeks"
@@ -9,6 +10,7 @@ resource "epilot-product_price" "my_price" {
   notice_time_amount        = 2.66
   notice_time_unit          = "months"
   price_display_in_journeys = "show_as_starting_price"
+  price_id                  = "123e4567-e89b-12d3-a456-426614174000"
   pricing_model             = "tiered_graduated"
   renewal_duration_amount   = 13.87
   renewal_duration_unit     = "months"

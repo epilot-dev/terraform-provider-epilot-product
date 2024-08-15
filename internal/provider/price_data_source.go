@@ -29,12 +29,14 @@ type PriceDataSource struct {
 
 // PriceDataSourceModel describes the data model.
 type PriceDataSourceModel struct {
-	ACL                    tfTypes.BaseEntityACL               `tfsdk:"acl"`
+	ACL                    *tfTypes.BaseEntityACL              `tfsdk:"acl"`
 	Active                 types.Bool                          `tfsdk:"active"`
+	Additional             map[string]types.String             `tfsdk:"additional"`
 	BillingDurationAmount  types.Number                        `tfsdk:"billing_duration_amount"`
 	BillingDurationUnit    types.String                        `tfsdk:"billing_duration_unit"`
 	CreatedAt              types.String                        `tfsdk:"created_at"`
 	Description            types.String                        `tfsdk:"description"`
+	Files                  *tfTypes.BaseRelation               `tfsdk:"files"`
 	Hydrate                types.Bool                          `tfsdk:"hydrate"`
 	ID                     types.String                        `tfsdk:"id"`
 	IsCompositePrice       types.Bool                          `tfsdk:"is_composite_price"`
@@ -50,6 +52,7 @@ type PriceDataSourceModel struct {
 	RenewalDurationAmount  types.Number                        `tfsdk:"renewal_duration_amount"`
 	RenewalDurationUnit    types.String                        `tfsdk:"renewal_duration_unit"`
 	Schema                 types.String                        `tfsdk:"schema"`
+	Strict                 types.Bool                          `tfsdk:"strict"`
 	Tags                   []types.String                      `tfsdk:"tags"`
 	Tax                    types.String                        `tfsdk:"tax"`
 	TerminationTimeAmount  types.Number                        `tfsdk:"termination_time_amount"`
@@ -98,6 +101,11 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 				Computed:    true,
 				Description: `Whether the price can be used for new purchases.`,
 			},
+			"additional": schema.MapAttribute{
+				Computed:    true,
+				ElementType: types.StringType,
+				Description: `Additional fields that are not part of the schema`,
+			},
 			"billing_duration_amount": schema.NumberAttribute{
 				Computed:    true,
 				Description: `The billing period duration`,
@@ -113,7 +121,27 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 				Computed:    true,
 				Description: `A brief description of the price.`,
 			},
+			"files": schema.SingleNestedAttribute{
+				Computed: true,
+				Attributes: map[string]schema.Attribute{
+					"dollar_relation": schema.ListNestedAttribute{
+						Computed: true,
+						NestedObject: schema.NestedAttributeObject{
+							Attributes: map[string]schema.Attribute{
+								"tags": schema.ListAttribute{
+									Computed:    true,
+									ElementType: types.StringType,
+								},
+								"entity_id": schema.StringAttribute{
+									Computed: true,
+								},
+							},
+						},
+					},
+				},
+			},
 			"hydrate": schema.BoolAttribute{
+				Computed:    true,
 				Optional:    true,
 				Description: `Hydrates entities in relations when passed true`,
 			},
@@ -202,7 +230,13 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 				Description: `The renewal period duration unit. must be one of ["weeks", "months", "years"]`,
 			},
 			"schema": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: `must be one of ["price"]`,
+			},
+			"strict": schema.BoolAttribute{
+				Computed:    true,
+				Optional:    true,
+				Description: `When passed true, the response will contain only fields that match the schema, with non-matching fields included in ` + "`" + `__additional` + "`" + ``,
 			},
 			"tags": schema.ListAttribute{
 				Computed:    true,
@@ -329,9 +363,16 @@ func (r *PriceDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 	var priceID string
 	priceID = data.ID.ValueString()
 
+	strict := new(bool)
+	if !data.Strict.IsUnknown() && !data.Strict.IsNull() {
+		*strict = data.Strict.ValueBool()
+	} else {
+		strict = nil
+	}
 	request := operations.GetPriceRequest{
 		Hydrate: hydrate,
 		PriceID: priceID,
+		Strict:  strict,
 	}
 	res, err := r.client.Price.GetPrice(ctx, request)
 	if err != nil {

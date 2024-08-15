@@ -9,6 +9,29 @@ import (
 	"time"
 )
 
+type ProductSchema string
+
+const (
+	ProductSchemaProduct ProductSchema = "product"
+)
+
+func (e ProductSchema) ToPointer() *ProductSchema {
+	return &e
+}
+func (e *ProductSchema) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "product":
+		*e = ProductSchema(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for ProductSchema: %v", v)
+	}
+}
+
 // ProductType - The type of Product:
 //
 // | type | description |
@@ -42,17 +65,22 @@ func (e *ProductType) UnmarshalJSON(data []byte) error {
 }
 
 type Product struct {
+	// Additional fields that are not part of the schema
+	Additional map[string]any `json:"__additional,omitempty"`
 	// Access control list (ACL) for an entity. Defines sharing access to external orgs or users.
-	ACL       BaseEntityACL `json:"_acl"`
-	CreatedAt time.Time     `json:"_created_at"`
-	ID        string        `json:"_id"`
+	ACL               *BaseEntityACL `json:"_acl,omitempty"`
+	AvailabilityFiles *BaseRelation  `json:"_availability_files,omitempty"`
+	CreatedAt         *time.Time     `json:"_created_at,omitempty"`
+	Files             *BaseRelation  `json:"_files,omitempty"`
+	ID                *string        `json:"_id,omitempty"`
 	// Organization Id the entity belongs to
 	Org       string            `json:"_org"`
-	Owners    []BaseEntityOwner `json:"_owners"`
-	Schema    string            `json:"_schema"`
-	Tags      []string          `json:"_tags"`
-	Title     string            `json:"_title"`
-	UpdatedAt time.Time         `json:"_updated_at"`
+	Owners    []BaseEntityOwner `json:"_owners,omitempty"`
+	Purpose   []string          `json:"_purpose,omitempty"`
+	Schema    ProductSchema     `json:"_schema"`
+	Tags      []string          `json:"_tags,omitempty"`
+	Title     *string           `json:"_title,omitempty"`
+	UpdatedAt *time.Time        `json:"_updated_at,omitempty"`
 	Active    bool              `json:"active"`
 	// The product code
 	Code *string `json:"code,omitempty"`
@@ -64,8 +92,8 @@ type Product struct {
 	// The description for the product
 	Name             string        `json:"name"`
 	PriceOptions     *BaseRelation `json:"price_options,omitempty"`
-	ProductDownloads any           `json:"product_downloads,omitempty"`
-	ProductImages    any           `json:"product_images,omitempty"`
+	ProductDownloads *BaseRelation `json:"product_downloads,omitempty"`
+	ProductImages    *BaseRelation `json:"product_images,omitempty"`
 	// The type of Product:
 	//
 	// | type | description |
@@ -87,23 +115,44 @@ func (p *Product) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (o *Product) GetACL() BaseEntityACL {
+func (o *Product) GetAdditional() map[string]any {
 	if o == nil {
-		return BaseEntityACL{}
+		return nil
+	}
+	return o.Additional
+}
+
+func (o *Product) GetACL() *BaseEntityACL {
+	if o == nil {
+		return nil
 	}
 	return o.ACL
 }
 
-func (o *Product) GetCreatedAt() time.Time {
+func (o *Product) GetAvailabilityFiles() *BaseRelation {
 	if o == nil {
-		return time.Time{}
+		return nil
+	}
+	return o.AvailabilityFiles
+}
+
+func (o *Product) GetCreatedAt() *time.Time {
+	if o == nil {
+		return nil
 	}
 	return o.CreatedAt
 }
 
-func (o *Product) GetID() string {
+func (o *Product) GetFiles() *BaseRelation {
 	if o == nil {
-		return ""
+		return nil
+	}
+	return o.Files
+}
+
+func (o *Product) GetID() *string {
+	if o == nil {
+		return nil
 	}
 	return o.ID
 }
@@ -117,14 +166,21 @@ func (o *Product) GetOrg() string {
 
 func (o *Product) GetOwners() []BaseEntityOwner {
 	if o == nil {
-		return []BaseEntityOwner{}
+		return nil
 	}
 	return o.Owners
 }
 
-func (o *Product) GetSchema() string {
+func (o *Product) GetPurpose() []string {
 	if o == nil {
-		return ""
+		return nil
+	}
+	return o.Purpose
+}
+
+func (o *Product) GetSchema() ProductSchema {
+	if o == nil {
+		return ProductSchema("")
 	}
 	return o.Schema
 }
@@ -136,16 +192,16 @@ func (o *Product) GetTags() []string {
 	return o.Tags
 }
 
-func (o *Product) GetTitle() string {
+func (o *Product) GetTitle() *string {
 	if o == nil {
-		return ""
+		return nil
 	}
 	return o.Title
 }
 
-func (o *Product) GetUpdatedAt() time.Time {
+func (o *Product) GetUpdatedAt() *time.Time {
 	if o == nil {
-		return time.Time{}
+		return nil
 	}
 	return o.UpdatedAt
 }
@@ -199,14 +255,14 @@ func (o *Product) GetPriceOptions() *BaseRelation {
 	return o.PriceOptions
 }
 
-func (o *Product) GetProductDownloads() any {
+func (o *Product) GetProductDownloads() *BaseRelation {
 	if o == nil {
 		return nil
 	}
 	return o.ProductDownloads
 }
 
-func (o *Product) GetProductImages() any {
+func (o *Product) GetProductImages() *BaseRelation {
 	if o == nil {
 		return nil
 	}

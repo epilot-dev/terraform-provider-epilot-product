@@ -3,6 +3,7 @@
 package provider
 
 import (
+	"encoding/json"
 	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/shared"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -10,6 +11,45 @@ import (
 )
 
 func (r *TaxResourceModel) ToSharedTaxCreate() *shared.TaxCreate {
+	additional := make(map[string]interface{})
+	for additionalKey, additionalValue := range r.Additional {
+		var additionalInst interface{}
+		_ = json.Unmarshal([]byte(additionalValue.ValueString()), &additionalInst)
+		additional[additionalKey] = additionalInst
+	}
+	var files *shared.BaseRelation
+	if r.Files != nil {
+		var dollarRelation []shared.DollarRelation = []shared.DollarRelation{}
+		for _, dollarRelationItem := range r.Files.DollarRelation {
+			var tags []string = []string{}
+			for _, tagsItem := range dollarRelationItem.Tags {
+				tags = append(tags, tagsItem.ValueString())
+			}
+			entityID := new(string)
+			if !dollarRelationItem.EntityID.IsUnknown() && !dollarRelationItem.EntityID.IsNull() {
+				*entityID = dollarRelationItem.EntityID.ValueString()
+			} else {
+				entityID = nil
+			}
+			dollarRelation = append(dollarRelation, shared.DollarRelation{
+				Tags:     tags,
+				EntityID: entityID,
+			})
+		}
+		files = &shared.BaseRelation{
+			DollarRelation: dollarRelation,
+		}
+	}
+	schema := new(shared.TaxCreateSchema)
+	if !r.Schema.IsUnknown() && !r.Schema.IsNull() {
+		*schema = shared.TaxCreateSchema(r.Schema.ValueString())
+	} else {
+		schema = nil
+	}
+	var tags1 []string = []string{}
+	for _, tagsItem1 := range r.Tags {
+		tags1 = append(tags1, tagsItem1.ValueString())
+	}
 	var active bool
 	active = r.Active.ValueBool()
 
@@ -22,9 +62,15 @@ func (r *TaxResourceModel) ToSharedTaxCreate() *shared.TaxCreate {
 	var rate string
 	rate = r.Rate.ValueString()
 
-	region := shared.TaxCreateRegion(r.Region.ValueString())
+	var region string
+	region = r.Region.ValueString()
+
 	typeVar := shared.TaxCreateType(r.Type.ValueString())
 	out := shared.TaxCreate{
+		Additional:  additional,
+		Files:       files,
+		Schema:      schema,
+		Tags:        tags1,
 		Active:      active,
 		Description: description,
 		Rate:        rate,
@@ -36,20 +82,59 @@ func (r *TaxResourceModel) ToSharedTaxCreate() *shared.TaxCreate {
 
 func (r *TaxResourceModel) RefreshFromSharedTax(resp *shared.Tax) {
 	if resp != nil {
-		r.ACL.Delete = []types.String{}
-		for _, v := range resp.ACL.Delete {
-			r.ACL.Delete = append(r.ACL.Delete, types.StringValue(v))
+		if len(resp.Additional) > 0 {
+			r.Additional = make(map[string]types.String)
+			for key, value := range resp.Additional {
+				result, _ := json.Marshal(value)
+				r.Additional[key] = types.StringValue(string(result))
+			}
 		}
-		r.ACL.Edit = []types.String{}
-		for _, v := range resp.ACL.Edit {
-			r.ACL.Edit = append(r.ACL.Edit, types.StringValue(v))
+		if resp.ACL == nil {
+			r.ACL = nil
+		} else {
+			r.ACL = &tfTypes.BaseEntityACL{}
+			r.ACL.Delete = []types.String{}
+			for _, v := range resp.ACL.Delete {
+				r.ACL.Delete = append(r.ACL.Delete, types.StringValue(v))
+			}
+			r.ACL.Edit = []types.String{}
+			for _, v := range resp.ACL.Edit {
+				r.ACL.Edit = append(r.ACL.Edit, types.StringValue(v))
+			}
+			r.ACL.View = []types.String{}
+			for _, v := range resp.ACL.View {
+				r.ACL.View = append(r.ACL.View, types.StringValue(v))
+			}
 		}
-		r.ACL.View = []types.String{}
-		for _, v := range resp.ACL.View {
-			r.ACL.View = append(r.ACL.View, types.StringValue(v))
+		if resp.CreatedAt != nil {
+			r.CreatedAt = types.StringValue(resp.CreatedAt.Format(time.RFC3339Nano))
+		} else {
+			r.CreatedAt = types.StringNull()
 		}
-		r.CreatedAt = types.StringValue(resp.CreatedAt.Format(time.RFC3339Nano))
-		r.ID = types.StringValue(resp.ID)
+		if resp.Files == nil {
+			r.Files = nil
+		} else {
+			r.Files = &tfTypes.BaseRelation{}
+			r.Files.DollarRelation = []tfTypes.DollarRelation{}
+			if len(r.Files.DollarRelation) > len(resp.Files.DollarRelation) {
+				r.Files.DollarRelation = r.Files.DollarRelation[:len(resp.Files.DollarRelation)]
+			}
+			for dollarRelationCount, dollarRelationItem := range resp.Files.DollarRelation {
+				var dollarRelation1 tfTypes.DollarRelation
+				dollarRelation1.Tags = []types.String{}
+				for _, v := range dollarRelationItem.Tags {
+					dollarRelation1.Tags = append(dollarRelation1.Tags, types.StringValue(v))
+				}
+				dollarRelation1.EntityID = types.StringPointerValue(dollarRelationItem.EntityID)
+				if dollarRelationCount+1 > len(r.Files.DollarRelation) {
+					r.Files.DollarRelation = append(r.Files.DollarRelation, dollarRelation1)
+				} else {
+					r.Files.DollarRelation[dollarRelationCount].Tags = dollarRelation1.Tags
+					r.Files.DollarRelation[dollarRelationCount].EntityID = dollarRelation1.EntityID
+				}
+			}
+		}
+		r.ID = types.StringPointerValue(resp.ID)
 		r.Org = types.StringValue(resp.Org)
 		r.Owners = []tfTypes.BaseEntityOwner{}
 		if len(r.Owners) > len(resp.Owners) {
@@ -66,22 +151,32 @@ func (r *TaxResourceModel) RefreshFromSharedTax(resp *shared.Tax) {
 				r.Owners[ownersCount].UserID = owners1.UserID
 			}
 		}
-		r.Schema = types.StringValue(resp.Schema)
+		r.Schema = types.StringValue(string(resp.Schema))
 		r.Tags = []types.String{}
 		for _, v := range resp.Tags {
 			r.Tags = append(r.Tags, types.StringValue(v))
 		}
-		r.Title = types.StringValue(resp.Title)
-		r.UpdatedAt = types.StringValue(resp.UpdatedAt.Format(time.RFC3339Nano))
+		r.Title = types.StringPointerValue(resp.Title)
+		if resp.UpdatedAt != nil {
+			r.UpdatedAt = types.StringValue(resp.UpdatedAt.Format(time.RFC3339Nano))
+		} else {
+			r.UpdatedAt = types.StringNull()
+		}
 		r.Active = types.BoolValue(resp.Active)
 		r.Description = types.StringPointerValue(resp.Description)
 		r.Rate = types.StringValue(resp.Rate)
-		r.Region = types.StringValue(string(resp.Region))
+		r.Region = types.StringValue(resp.Region)
 		r.Type = types.StringValue(string(resp.Type))
 	}
 }
 
 func (r *TaxResourceModel) ToSharedTaxPatch() *shared.TaxPatch {
+	schema := new(shared.TaxPatchSchema)
+	if !r.Schema.IsUnknown() && !r.Schema.IsNull() {
+		*schema = shared.TaxPatchSchema(r.Schema.ValueString())
+	} else {
+		schema = nil
+	}
 	active := new(bool)
 	if !r.Active.IsUnknown() && !r.Active.IsNull() {
 		*active = r.Active.ValueBool()
@@ -100,9 +195,9 @@ func (r *TaxResourceModel) ToSharedTaxPatch() *shared.TaxPatch {
 	} else {
 		rate = nil
 	}
-	region := new(shared.TaxPatchRegion)
+	region := new(string)
 	if !r.Region.IsUnknown() && !r.Region.IsNull() {
-		*region = shared.TaxPatchRegion(r.Region.ValueString())
+		*region = r.Region.ValueString()
 	} else {
 		region = nil
 	}
@@ -113,6 +208,7 @@ func (r *TaxResourceModel) ToSharedTaxPatch() *shared.TaxPatch {
 		typeVar = nil
 	}
 	out := shared.TaxPatch{
+		Schema:      schema,
 		Active:      active,
 		Description: description,
 		Rate:        rate,

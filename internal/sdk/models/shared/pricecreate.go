@@ -8,6 +8,29 @@ import (
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/internal/utils"
 )
 
+type PriceCreateSchema string
+
+const (
+	PriceCreateSchemaPrice PriceCreateSchema = "price"
+)
+
+func (e PriceCreateSchema) ToPointer() *PriceCreateSchema {
+	return &e
+}
+func (e *PriceCreateSchema) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "price":
+		*e = PriceCreateSchema(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for PriceCreateSchema: %v", v)
+	}
+}
+
 // PriceCreateBillingDurationUnit - The billing period duration unit
 type PriceCreateBillingDurationUnit string
 
@@ -235,6 +258,11 @@ func (e *PriceCreateType) UnmarshalJSON(data []byte) error {
 }
 
 type PriceCreate struct {
+	// Additional fields that are not part of the schema
+	Additional map[string]any     `json:"__additional,omitempty"`
+	Files      *BaseRelation      `json:"_files,omitempty"`
+	Schema     *PriceCreateSchema `json:"_schema,omitempty"`
+	Tags       []string           `json:"_tags,omitempty"`
 	// Whether the price can be used for new purchases.
 	Active bool `json:"active"`
 	// The billing period duration
@@ -299,6 +327,34 @@ func (p *PriceCreate) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	return nil
+}
+
+func (o *PriceCreate) GetAdditional() map[string]any {
+	if o == nil {
+		return nil
+	}
+	return o.Additional
+}
+
+func (o *PriceCreate) GetFiles() *BaseRelation {
+	if o == nil {
+		return nil
+	}
+	return o.Files
+}
+
+func (o *PriceCreate) GetSchema() *PriceCreateSchema {
+	if o == nil {
+		return nil
+	}
+	return o.Schema
+}
+
+func (o *PriceCreate) GetTags() []string {
+	if o == nil {
+		return nil
+	}
+	return o.Tags
 }
 
 func (o *PriceCreate) GetActive() bool {
