@@ -7,32 +7,26 @@ import (
 	"fmt"
 )
 
-type TaxPatchRegion string
+type TaxPatchSchema string
 
 const (
-	TaxPatchRegionDe TaxPatchRegion = "DE"
-	TaxPatchRegionAt TaxPatchRegion = "AT"
-	TaxPatchRegionCh TaxPatchRegion = "CH"
+	TaxPatchSchemaTax TaxPatchSchema = "tax"
 )
 
-func (e TaxPatchRegion) ToPointer() *TaxPatchRegion {
+func (e TaxPatchSchema) ToPointer() *TaxPatchSchema {
 	return &e
 }
-func (e *TaxPatchRegion) UnmarshalJSON(data []byte) error {
+func (e *TaxPatchSchema) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 	switch v {
-	case "DE":
-		fallthrough
-	case "AT":
-		fallthrough
-	case "CH":
-		*e = TaxPatchRegion(v)
+	case "tax":
+		*e = TaxPatchSchema(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for TaxPatchRegion: %v", v)
+		return fmt.Errorf("invalid value for TaxPatchSchema: %v", v)
 	}
 }
 
@@ -63,11 +57,19 @@ func (e *TaxPatchType) UnmarshalJSON(data []byte) error {
 }
 
 type TaxPatch struct {
+	Schema      *TaxPatchSchema `json:"_schema,omitempty"`
 	Active      *bool           `json:"active,omitempty"`
 	Description *string         `json:"description,omitempty"`
 	Rate        *string         `json:"rate,omitempty"`
-	Region      *TaxPatchRegion `json:"region,omitempty"`
+	Region      *string         `json:"region,omitempty"`
 	Type        *TaxPatchType   `json:"type,omitempty"`
+}
+
+func (o *TaxPatch) GetSchema() *TaxPatchSchema {
+	if o == nil {
+		return nil
+	}
+	return o.Schema
 }
 
 func (o *TaxPatch) GetActive() *bool {
@@ -91,7 +93,7 @@ func (o *TaxPatch) GetRate() *string {
 	return o.Rate
 }
 
-func (o *TaxPatch) GetRegion() *TaxPatchRegion {
+func (o *TaxPatch) GetRegion() *string {
 	if o == nil {
 		return nil
 	}

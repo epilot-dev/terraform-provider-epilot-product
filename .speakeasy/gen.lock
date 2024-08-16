@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 5a857039-7f4b-42d5-86fd-449767242ed2
 management:
-  docChecksum: 519003a80fc186d9212473c4735d8d59
+  docChecksum: 55725ad10d8537d14bc22ff018518cde
   docVersion: 1.0.0
-  speakeasyVersion: 1.368.0
+  speakeasyVersion: 1.372.0
   generationVersion: 2.399.0
-  releaseVersion: 0.10.1
-  configChecksum: 4cabd9d07eafe8a2ad97051a68f360c1
+  releaseVersion: 0.10.2
+  configChecksum: 7300c01d33ff202a9e839150d63b1292
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-product.git
   repoSubDirectory: .
   published: true
@@ -69,11 +69,13 @@ generatedFiles:
   - internal/sdk/models/shared/pricetier.go
   - internal/sdk/models/shared/pricetierdisplaymode.go
   - internal/sdk/models/shared/pricecomponentrelation.go
+  - internal/sdk/models/shared/baseentityowner.go
+  - internal/sdk/models/shared/baserelation.go
+  - internal/sdk/models/shared/baseentityacl.go
   - internal/sdk/models/shared/clienterror.go
   - internal/sdk/models/shared/pricecreate.go
   - internal/sdk/models/shared/pricepatch.go
   - internal/sdk/models/shared/product.go
-  - internal/sdk/models/shared/baserelation.go
   - internal/sdk/models/shared/productcreate.go
   - internal/sdk/models/shared/productpatch.go
   - internal/sdk/models/shared/tax.go
@@ -129,34 +131,8 @@ generatedFiles:
   - main.go
   - terraform-registry-manifest.json
   - tools/tools.go
-  - internal/provider/types/price_component_relation.go
-  - internal/provider/types/price_create_price_components.go
-  - internal/provider/types/price_tier.go
-  - internal/provider/types/dollar_relation.go
-  - internal/provider/types/base_relation.go
   - USAGE.md
   - internal/provider/provider.go
   - examples/provider/provider.tf
-  - examples/resources/epilot-product_price/import.sh
-  - internal/provider/price_resource.go
-  - internal/provider/price_resource_sdk.go
-  - examples/resources/epilot-product_price/resource.tf
-  - examples/resources/epilot-product_product/import.sh
-  - internal/provider/product_resource.go
-  - internal/provider/product_resource_sdk.go
-  - examples/resources/epilot-product_product/resource.tf
-  - examples/resources/epilot-product_tax/import.sh
-  - internal/provider/tax_resource.go
-  - internal/provider/tax_resource_sdk.go
-  - examples/resources/epilot-product_tax/resource.tf
-  - internal/provider/price_data_source.go
-  - internal/provider/price_data_source_sdk.go
-  - examples/data-sources/epilot-product_price/data-source.tf
-  - internal/provider/product_data_source.go
-  - internal/provider/product_data_source_sdk.go
-  - examples/data-sources/epilot-product_product/data-source.tf
-  - internal/provider/tax_data_source.go
-  - internal/provider/tax_data_source_sdk.go
-  - examples/data-sources/epilot-product_tax/data-source.tf
   - .gitattributes
   - CONTRIBUTING.md

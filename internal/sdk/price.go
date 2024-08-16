@@ -588,7 +588,7 @@ func (s *Price) PatchPrice(ctx context.Context, request operations.PatchPriceReq
 }
 
 // UpdatePrice - updatePrice
-// Completly replace a specific tax entity's properties by a given id and given payload
+// Completly replace a specific price entity's properties by a given id and given payload
 func (s *Price) UpdatePrice(ctx context.Context, request operations.UpdatePriceRequest, opts ...operations.Option) (*operations.UpdatePriceResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,

@@ -8,6 +8,29 @@ import (
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/internal/utils"
 )
 
+type PricePatchSchema string
+
+const (
+	PricePatchSchemaPrice PricePatchSchema = "price"
+)
+
+func (e PricePatchSchema) ToPointer() *PricePatchSchema {
+	return &e
+}
+func (e *PricePatchSchema) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "price":
+		*e = PricePatchSchema(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for PricePatchSchema: %v", v)
+	}
+}
+
 // PricePatchBillingDurationUnit - The billing period duration unit
 type PricePatchBillingDurationUnit string
 
@@ -235,6 +258,11 @@ func (e *PricePatchType) UnmarshalJSON(data []byte) error {
 }
 
 type PricePatch struct {
+	// Additional fields that are not part of the schema
+	Additional map[string]any    `json:"__additional,omitempty"`
+	Files      *BaseRelation     `json:"_files,omitempty"`
+	Schema     *PricePatchSchema `json:"_schema,omitempty"`
+	Tags       []string          `json:"_tags,omitempty"`
 	// Whether the price can be used for new purchases.
 	Active *bool `json:"active,omitempty"`
 	// The billing period duration
@@ -299,6 +327,34 @@ func (p *PricePatch) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	return nil
+}
+
+func (o *PricePatch) GetAdditional() map[string]any {
+	if o == nil {
+		return nil
+	}
+	return o.Additional
+}
+
+func (o *PricePatch) GetFiles() *BaseRelation {
+	if o == nil {
+		return nil
+	}
+	return o.Files
+}
+
+func (o *PricePatch) GetSchema() *PricePatchSchema {
+	if o == nil {
+		return nil
+	}
+	return o.Schema
+}
+
+func (o *PricePatch) GetTags() []string {
+	if o == nil {
+		return nil
+	}
+	return o.Tags
 }
 
 func (o *PricePatch) GetActive() *bool {
