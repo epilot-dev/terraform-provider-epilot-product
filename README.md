@@ -64,7 +64,7 @@ terraform {
   required_providers {
     epilot-product = {
       source  = "epilot-dev/epilot-product"
-      version = "0.10.2"
+      version = "0.10.3"
     }
   }
 }
@@ -99,6 +99,12 @@ TF_REATTACH_PROVIDERS=... terraform apply
 <!-- End SDK Example Usage [usage] -->
 
 
+
+<!-- Start Available Resources and Operations [operations] -->
+## Available Resources and Operations
+
+
+<!-- End Available Resources and Operations [operations] -->
 
 <!-- Placeholder for Future Speakeasy SDK Sections -->
 
