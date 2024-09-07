@@ -3,10 +3,10 @@ id: 5a857039-7f4b-42d5-86fd-449767242ed2
 management:
   docChecksum: b259c047bd5361a42ff6ebf291557015
   docVersion: 1.0.0
-  speakeasyVersion: 1.390.7
-  generationVersion: 2.409.8
-  releaseVersion: 0.10.4
-  configChecksum: 1ffadd962a5fbaa8054b4641b477e9f0
+  speakeasyVersion: 1.392.1
+  generationVersion: 2.411.9
+  releaseVersion: 0.10.5
+  configChecksum: d1007f22f98a4ca33da84ce78fb0fdb5
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-product.git
   repoSubDirectory: .
   published: true
@@ -22,72 +22,17 @@ features:
   terraform:
     additionalDependencies: 0.1.0
     constsAndDefaults: 0.1.4
-    core: 3.24.8
+    core: 3.24.9
     envVarSecurityUsage: 0.1.0
     globalSecurity: 2.81.8
     globalServerURLs: 2.82.1
     nullables: 0.0.0
 generatedFiles:
-  - internal/sdk/price.go
-  - internal/sdk/product.go
-  - internal/sdk/tax.go
-  - internal/sdk/sdk.go
-  - internal/sdk/models/errors/sdkerror.go
-  - internal/sdk/retry/config.go
-  - internal/sdk/types/bigint.go
-  - internal/sdk/types/date.go
-  - internal/sdk/types/datetime.go
-  - internal/sdk/types/decimal.go
-  - internal/sdk/types/pointers.go
-  - internal/sdk/internal/utils/contenttype.go
-  - internal/sdk/internal/utils/form.go
-  - internal/sdk/internal/utils/headers.go
-  - internal/sdk/internal/utils/json.go
-  - internal/sdk/internal/utils/pathparams.go
-  - internal/sdk/internal/utils/queryparams.go
-  - internal/sdk/internal/utils/requestbody.go
-  - internal/sdk/internal/utils/retries.go
-  - internal/sdk/internal/utils/security.go
-  - internal/sdk/internal/utils/utils.go
-  - internal/sdk/models/operations/createprice.go
-  - internal/sdk/models/operations/deleteprice.go
-  - internal/sdk/models/operations/getprice.go
-  - internal/sdk/models/operations/patchprice.go
-  - internal/sdk/models/operations/updateprice.go
-  - internal/sdk/models/operations/createproduct.go
-  - internal/sdk/models/operations/deleteproduct.go
-  - internal/sdk/models/operations/getproduct.go
-  - internal/sdk/models/operations/patchproduct.go
-  - internal/sdk/models/operations/updateproduct.go
-  - internal/sdk/models/operations/createtax.go
-  - internal/sdk/models/operations/deletetax.go
-  - internal/sdk/models/operations/gettax.go
-  - internal/sdk/models/operations/patchtax.go
-  - internal/sdk/models/operations/updatetax.go
-  - internal/sdk/models/shared/servererror.go
-  - internal/sdk/models/shared/price.go
-  - internal/sdk/models/shared/pricetier.go
-  - internal/sdk/models/shared/pricetierdisplaymode.go
-  - internal/sdk/models/shared/pricecomponentrelation.go
-  - internal/sdk/models/shared/baseentityowner.go
-  - internal/sdk/models/shared/baserelation.go
-  - internal/sdk/models/shared/baseentityacl.go
-  - internal/sdk/models/shared/clienterror.go
-  - internal/sdk/models/shared/pricecreate.go
-  - internal/sdk/models/shared/pricepatch.go
-  - internal/sdk/models/shared/product.go
-  - internal/sdk/models/shared/productcreate.go
-  - internal/sdk/models/shared/productpatch.go
-  - internal/sdk/models/shared/tax.go
-  - internal/sdk/models/shared/taxcreate.go
-  - internal/sdk/models/shared/taxpatch.go
-  - internal/sdk/models/shared/security.go
-  - internal/sdk/.gitignore
-  - internal/sdk/models/operations/options.go
-  - internal/sdk/.gitattributes
-  - internal/sdk/internal/hooks/hooks.go
-  - internal/sdk/CONTRIBUTING.md
+  - .gitattributes
+  - CONTRIBUTING.md
+  - USAGE.md
   - examples/README.md
+  - examples/provider/provider.tf
   - go.mod
   - go.sum
   - internal/planmodifiers/boolplanmodifier/suppress_diff.go
@@ -100,6 +45,7 @@ generatedFiles:
   - internal/planmodifiers/setplanmodifier/suppress_diff.go
   - internal/planmodifiers/stringplanmodifier/suppress_diff.go
   - internal/planmodifiers/utils/state_check.go
+  - internal/provider/provider.go
   - internal/provider/reflect/diags.go
   - internal/provider/reflect/doc.go
   - internal/provider/reflect/generic_attr_value.go
@@ -115,6 +61,65 @@ generatedFiles:
   - internal/provider/reflect/slice.go
   - internal/provider/reflect/struct.go
   - internal/provider/utils.go
+  - internal/sdk/.gitattributes
+  - internal/sdk/.gitignore
+  - internal/sdk/CONTRIBUTING.md
+  - internal/sdk/internal/hooks/hooks.go
+  - internal/sdk/internal/utils/contenttype.go
+  - internal/sdk/internal/utils/form.go
+  - internal/sdk/internal/utils/headers.go
+  - internal/sdk/internal/utils/json.go
+  - internal/sdk/internal/utils/pathparams.go
+  - internal/sdk/internal/utils/queryparams.go
+  - internal/sdk/internal/utils/requestbody.go
+  - internal/sdk/internal/utils/retries.go
+  - internal/sdk/internal/utils/security.go
+  - internal/sdk/internal/utils/utils.go
+  - internal/sdk/models/errors/sdkerror.go
+  - internal/sdk/models/operations/createprice.go
+  - internal/sdk/models/operations/createproduct.go
+  - internal/sdk/models/operations/createtax.go
+  - internal/sdk/models/operations/deleteprice.go
+  - internal/sdk/models/operations/deleteproduct.go
+  - internal/sdk/models/operations/deletetax.go
+  - internal/sdk/models/operations/getprice.go
+  - internal/sdk/models/operations/getproduct.go
+  - internal/sdk/models/operations/gettax.go
+  - internal/sdk/models/operations/options.go
+  - internal/sdk/models/operations/patchprice.go
+  - internal/sdk/models/operations/patchproduct.go
+  - internal/sdk/models/operations/patchtax.go
+  - internal/sdk/models/operations/updateprice.go
+  - internal/sdk/models/operations/updateproduct.go
+  - internal/sdk/models/operations/updatetax.go
+  - internal/sdk/models/shared/baseentityacl.go
+  - internal/sdk/models/shared/baseentityowner.go
+  - internal/sdk/models/shared/baserelation.go
+  - internal/sdk/models/shared/clienterror.go
+  - internal/sdk/models/shared/price.go
+  - internal/sdk/models/shared/pricecomponentrelation.go
+  - internal/sdk/models/shared/pricecreate.go
+  - internal/sdk/models/shared/pricepatch.go
+  - internal/sdk/models/shared/pricetier.go
+  - internal/sdk/models/shared/pricetierdisplaymode.go
+  - internal/sdk/models/shared/product.go
+  - internal/sdk/models/shared/productcreate.go
+  - internal/sdk/models/shared/productpatch.go
+  - internal/sdk/models/shared/security.go
+  - internal/sdk/models/shared/servererror.go
+  - internal/sdk/models/shared/tax.go
+  - internal/sdk/models/shared/taxcreate.go
+  - internal/sdk/models/shared/taxpatch.go
+  - internal/sdk/price.go
+  - internal/sdk/product.go
+  - internal/sdk/retry/config.go
+  - internal/sdk/sdk.go
+  - internal/sdk/tax.go
+  - internal/sdk/types/bigint.go
+  - internal/sdk/types/date.go
+  - internal/sdk/types/datetime.go
+  - internal/sdk/types/decimal.go
+  - internal/sdk/types/pointers.go
   - internal/validators/DateValidator.go
   - internal/validators/ExactlyOneChild.go
   - internal/validators/JSONParseValidator.go
@@ -131,8 +136,196 @@ generatedFiles:
   - main.go
   - terraform-registry-manifest.json
   - tools/tools.go
-  - USAGE.md
-  - internal/provider/provider.go
-  - examples/provider/provider.tf
-  - .gitattributes
-  - CONTRIBUTING.md
+examples:
+  createPrice:
+    speakeasy-default-create-price:
+      requestBody:
+        application/json: {"__additional": {}, "_files": {"$relation": []}, "active": false, "description": "Programmable discrete groupware", "unit_amount_currency": "EUR"}
+      responses:
+        "201":
+          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_org": "<value>", "_owners": [], "_schema": "price", "active": false, "description": "Ameliorated incremental hub", "unit_amount_currency": "EUR"}
+        "400":
+          application/json: {"message": "Entity not found", "status": 404}
+        "500":
+          application/json: {"message": "Entity not found", "status": 404}
+  deletePrice:
+    speakeasy-default-delete-price:
+      parameters:
+        path:
+          priceId: "123e4567-e89b-12d3-a456-426614174000"
+      responses:
+        "200":
+          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_org": "<value>", "_owners": [], "_schema": "price", "active": true, "description": "Persistent actuating data-warehouse", "unit_amount_currency": "EUR"}
+        "400":
+          application/json: {"message": "Entity not found", "status": 404}
+        "500":
+          application/json: {"message": "Entity not found", "status": 404}
+  getPrice:
+    speakeasy-default-get-price:
+      parameters:
+        path:
+          priceId: "123e4567-e89b-12d3-a456-426614174000"
+        query: {}
+      responses:
+        "200":
+          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_org": "<value>", "_owners": [], "_schema": "price", "active": false, "description": "Decentralized multi-state capacity", "unit_amount_currency": "EUR"}
+        "400":
+          application/json: {"message": "Entity not found", "status": 404}
+        "500":
+          application/json: {"message": "Entity not found", "status": 404}
+  patchPrice:
+    speakeasy-default-patch-price:
+      parameters:
+        path:
+          priceId: "123e4567-e89b-12d3-a456-426614174000"
+      requestBody:
+        application/json: {"__additional": {}, "_files": {"$relation": []}, "unit_amount_currency": "EUR"}
+      responses:
+        "200":
+          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_org": "<value>", "_owners": [], "_schema": "price", "active": true, "description": "Re-contextualized mission-critical intranet", "unit_amount_currency": "EUR"}
+        "400":
+          application/json: {"message": "Entity not found", "status": 404}
+        "500":
+          application/json: {"message": "Entity not found", "status": 404}
+  updatePrice:
+    speakeasy-default-update-price:
+      parameters:
+        path:
+          priceId: "123e4567-e89b-12d3-a456-426614174000"
+      requestBody:
+        application/json: {"__additional": {}, "_files": {"$relation": []}, "active": false, "description": "Profit-focused grid-enabled installation", "unit_amount_currency": "EUR"}
+      responses:
+        "200":
+          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_org": "<value>", "_owners": [], "_schema": "price", "active": false, "description": "Balanced scalable contingency", "unit_amount_currency": "EUR"}
+        "400":
+          application/json: {"message": "Entity not found", "status": 404}
+        "500":
+          application/json: {"message": "Entity not found", "status": 404}
+  createProduct:
+    speakeasy-default-create-product:
+      requestBody:
+        application/json: {"__additional": {}, "_availability_files": {"$relation": []}, "_files": {"$relation": []}, "active": true, "name": "<value>", "price_options": {"$relation": []}, "product_downloads": {"$relation": []}, "product_images": {"$relation": []}}
+      responses:
+        "201":
+          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_availability_files": {"$relation": []}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_org": "<value>", "_owners": [], "_schema": "product", "active": false, "name": "<value>", "price_options": {"$relation": []}, "product_downloads": {"$relation": []}, "product_images": {"$relation": []}}
+        "400":
+          application/json: {"message": "Entity not found", "status": 404}
+        "500":
+          application/json: {"message": "Entity not found", "status": 404}
+  deleteProduct:
+    speakeasy-default-delete-product:
+      parameters:
+        path:
+          productId: "123e4567-e89b-12d3-a456-426614174000"
+      responses:
+        "200":
+          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_availability_files": {"$relation": []}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_org": "<value>", "_owners": [], "_schema": "product", "active": true, "name": "<value>", "price_options": {"$relation": []}, "product_downloads": {"$relation": []}, "product_images": {"$relation": []}}
+        "400":
+          application/json: {"message": "Entity not found", "status": 404}
+        "500":
+          application/json: {"message": "Entity not found", "status": 404}
+  getProduct:
+    speakeasy-default-get-product:
+      parameters:
+        path:
+          productId: "123e4567-e89b-12d3-a456-426614174000"
+        query: {}
+      responses:
+        "200":
+          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_availability_files": {"$relation": []}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_org": "<value>", "_owners": [], "_schema": "product", "active": false, "name": "<value>", "price_options": {"$relation": []}, "product_downloads": {"$relation": []}, "product_images": {"$relation": []}}
+        "400":
+          application/json: {"message": "Entity not found", "status": 404}
+        "500":
+          application/json: {"message": "Entity not found", "status": 404}
+  patchProduct:
+    speakeasy-default-patch-product:
+      parameters:
+        path:
+          productId: "123e4567-e89b-12d3-a456-426614174000"
+      requestBody:
+        application/json: {"__additional": {}, "_availability_files": {"$relation": []}, "_files": {"$relation": []}, "price_options": {"$relation": []}, "product_downloads": {"$relation": []}, "product_images": {"$relation": []}}
+      responses:
+        "200":
+          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_availability_files": {"$relation": []}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_org": "<value>", "_owners": [], "_schema": "product", "active": false, "name": "<value>", "price_options": {"$relation": []}, "product_downloads": {"$relation": []}, "product_images": {"$relation": []}}
+        "400":
+          application/json: {"message": "Entity not found", "status": 404}
+        "500":
+          application/json: {"message": "Entity not found", "status": 404}
+  updateProduct:
+    speakeasy-default-update-product:
+      parameters:
+        path:
+          productId: "123e4567-e89b-12d3-a456-426614174000"
+      requestBody:
+        application/json: {"__additional": {}, "_availability_files": {"$relation": []}, "_files": {"$relation": []}, "active": false, "name": "<value>", "price_options": {"$relation": []}, "product_downloads": {"$relation": []}, "product_images": {"$relation": []}}
+      responses:
+        "200":
+          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_availability_files": {"$relation": []}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_org": "<value>", "_owners": [], "_schema": "product", "active": false, "name": "<value>", "price_options": {"$relation": []}, "product_downloads": {"$relation": []}, "product_images": {"$relation": []}}
+        "400":
+          application/json: {"message": "Entity not found", "status": 404}
+        "500":
+          application/json: {"message": "Entity not found", "status": 404}
+  createTax:
+    speakeasy-default-create-tax:
+      requestBody:
+        application/json: {"__additional": {}, "_files": {"$relation": []}, "active": true, "rate": "<value>", "region": "DE", "type": "VAT"}
+      responses:
+        "201":
+          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_org": "<value>", "_owners": [], "_schema": "tax", "active": false, "rate": "<value>", "region": "DE", "type": "Custom"}
+        "400":
+          application/json: {"message": "Entity not found", "status": 404}
+        "500":
+          application/json: {"message": "Entity not found", "status": 404}
+  deleteTax:
+    speakeasy-default-delete-tax:
+      parameters:
+        path:
+          taxId: "123e4567-e89b-12d3-a456-426614174000"
+      responses:
+        "200":
+          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_org": "<value>", "_owners": [], "_schema": "tax", "active": false, "rate": "<value>", "region": "DE", "type": "Custom"}
+        "400":
+          application/json: {"message": "Entity not found", "status": 404}
+        "500":
+          application/json: {"message": "Entity not found", "status": 404}
+  getTax:
+    speakeasy-default-get-tax:
+      parameters:
+        path:
+          taxId: "123e4567-e89b-12d3-a456-426614174000"
+        query: {}
+      responses:
+        "200":
+          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_org": "<value>", "_owners": [], "_schema": "tax", "active": true, "rate": "<value>", "region": "DE", "type": "Custom"}
+        "400":
+          application/json: {"message": "Entity not found", "status": 404}
+        "500":
+          application/json: {"message": "Entity not found", "status": 404}
+  patchTax:
+    speakeasy-default-patch-tax:
+      parameters:
+        path:
+          taxId: "123e4567-e89b-12d3-a456-426614174000"
+      requestBody:
+        application/json: {"region": "DE"}
+      responses:
+        "200":
+          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_org": "<value>", "_owners": [], "_schema": "tax", "active": true, "rate": "<value>", "region": "DE", "type": "VAT"}
+        "400":
+          application/json: {"message": "Entity not found", "status": 404}
+        "500":
+          application/json: {"message": "Entity not found", "status": 404}
+  updateTax:
+    speakeasy-default-update-tax:
+      parameters:
+        path:
+          taxId: "123e4567-e89b-12d3-a456-426614174000"
+      requestBody:
+        application/json: {"__additional": {}, "_files": {"$relation": []}, "active": true, "rate": "<value>", "region": "DE", "type": "Custom"}
+      responses:
+        "200":
+          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_org": "<value>", "_owners": [], "_schema": "tax", "active": false, "rate": "<value>", "region": "DE", "type": "Custom"}
+        "400":
+          application/json: {"message": "Entity not found", "status": 404}
+        "500":
+          application/json: {"message": "Entity not found", "status": 404}

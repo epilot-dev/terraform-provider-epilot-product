@@ -117,17 +117,25 @@ func (s *Price) CreatePrice(ctx context.Context, request shared.PriceCreate, opt
 		RawResponse: httpRes,
 	}
 
-	rawBody, err := io.ReadAll(httpRes.Body)
-	if err != nil {
-		return nil, fmt.Errorf("error reading response body: %w", err)
+	getRawBody := func() ([]byte, error) {
+		rawBody, err := io.ReadAll(httpRes.Body)
+		if err != nil {
+			return nil, fmt.Errorf("error reading response body: %w", err)
+		}
+		httpRes.Body.Close()
+		httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
+		return rawBody, nil
 	}
-	httpRes.Body.Close()
-	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
 	switch {
 	case httpRes.StatusCode == 201:
 		switch {
 		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			var out shared.Price
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
@@ -135,11 +143,21 @@ func (s *Price) CreatePrice(ctx context.Context, request shared.PriceCreate, opt
 
 			res.Price = &out
 		default:
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			return nil, errors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		switch {
 		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			var out shared.ClientError
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
@@ -147,11 +165,21 @@ func (s *Price) CreatePrice(ctx context.Context, request shared.PriceCreate, opt
 
 			res.ClientError = &out
 		default:
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			return nil, errors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
 		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			var out shared.ServerError
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
@@ -159,9 +187,19 @@ func (s *Price) CreatePrice(ctx context.Context, request shared.PriceCreate, opt
 
 			res.ServerError = &out
 		default:
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			return nil, errors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	default:
+		rawBody, err := getRawBody()
+		if err != nil {
+			return nil, err
+		}
+
 		return nil, errors.NewSDKError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
@@ -253,17 +291,25 @@ func (s *Price) DeletePrice(ctx context.Context, request operations.DeletePriceR
 		RawResponse: httpRes,
 	}
 
-	rawBody, err := io.ReadAll(httpRes.Body)
-	if err != nil {
-		return nil, fmt.Errorf("error reading response body: %w", err)
+	getRawBody := func() ([]byte, error) {
+		rawBody, err := io.ReadAll(httpRes.Body)
+		if err != nil {
+			return nil, fmt.Errorf("error reading response body: %w", err)
+		}
+		httpRes.Body.Close()
+		httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
+		return rawBody, nil
 	}
-	httpRes.Body.Close()
-	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
 	switch {
 	case httpRes.StatusCode == 200:
 		switch {
 		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			var out shared.Price
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
@@ -271,11 +317,21 @@ func (s *Price) DeletePrice(ctx context.Context, request operations.DeletePriceR
 
 			res.Price = &out
 		default:
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			return nil, errors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		switch {
 		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			var out shared.ClientError
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
@@ -283,11 +339,21 @@ func (s *Price) DeletePrice(ctx context.Context, request operations.DeletePriceR
 
 			res.ClientError = &out
 		default:
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			return nil, errors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
 		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			var out shared.ServerError
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
@@ -295,9 +361,19 @@ func (s *Price) DeletePrice(ctx context.Context, request operations.DeletePriceR
 
 			res.ServerError = &out
 		default:
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			return nil, errors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	default:
+		rawBody, err := getRawBody()
+		if err != nil {
+			return nil, err
+		}
+
 		return nil, errors.NewSDKError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
@@ -393,17 +469,25 @@ func (s *Price) GetPrice(ctx context.Context, request operations.GetPriceRequest
 		RawResponse: httpRes,
 	}
 
-	rawBody, err := io.ReadAll(httpRes.Body)
-	if err != nil {
-		return nil, fmt.Errorf("error reading response body: %w", err)
+	getRawBody := func() ([]byte, error) {
+		rawBody, err := io.ReadAll(httpRes.Body)
+		if err != nil {
+			return nil, fmt.Errorf("error reading response body: %w", err)
+		}
+		httpRes.Body.Close()
+		httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
+		return rawBody, nil
 	}
-	httpRes.Body.Close()
-	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
 	switch {
 	case httpRes.StatusCode == 200:
 		switch {
 		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			var out shared.Price
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
@@ -411,11 +495,21 @@ func (s *Price) GetPrice(ctx context.Context, request operations.GetPriceRequest
 
 			res.Price = &out
 		default:
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			return nil, errors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		switch {
 		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			var out shared.ClientError
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
@@ -423,11 +517,21 @@ func (s *Price) GetPrice(ctx context.Context, request operations.GetPriceRequest
 
 			res.ClientError = &out
 		default:
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			return nil, errors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
 		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			var out shared.ServerError
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
@@ -435,9 +539,19 @@ func (s *Price) GetPrice(ctx context.Context, request operations.GetPriceRequest
 
 			res.ServerError = &out
 		default:
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			return nil, errors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	default:
+		rawBody, err := getRawBody()
+		if err != nil {
+			return nil, err
+		}
+
 		return nil, errors.NewSDKError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
@@ -535,17 +649,25 @@ func (s *Price) PatchPrice(ctx context.Context, request operations.PatchPriceReq
 		RawResponse: httpRes,
 	}
 
-	rawBody, err := io.ReadAll(httpRes.Body)
-	if err != nil {
-		return nil, fmt.Errorf("error reading response body: %w", err)
+	getRawBody := func() ([]byte, error) {
+		rawBody, err := io.ReadAll(httpRes.Body)
+		if err != nil {
+			return nil, fmt.Errorf("error reading response body: %w", err)
+		}
+		httpRes.Body.Close()
+		httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
+		return rawBody, nil
 	}
-	httpRes.Body.Close()
-	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
 	switch {
 	case httpRes.StatusCode == 200:
 		switch {
 		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			var out shared.Price
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
@@ -553,11 +675,21 @@ func (s *Price) PatchPrice(ctx context.Context, request operations.PatchPriceReq
 
 			res.Price = &out
 		default:
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			return nil, errors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		switch {
 		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			var out shared.ClientError
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
@@ -565,11 +697,21 @@ func (s *Price) PatchPrice(ctx context.Context, request operations.PatchPriceReq
 
 			res.ClientError = &out
 		default:
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			return nil, errors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
 		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			var out shared.ServerError
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
@@ -577,9 +719,19 @@ func (s *Price) PatchPrice(ctx context.Context, request operations.PatchPriceReq
 
 			res.ServerError = &out
 		default:
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			return nil, errors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	default:
+		rawBody, err := getRawBody()
+		if err != nil {
+			return nil, err
+		}
+
 		return nil, errors.NewSDKError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
@@ -677,17 +829,25 @@ func (s *Price) UpdatePrice(ctx context.Context, request operations.UpdatePriceR
 		RawResponse: httpRes,
 	}
 
-	rawBody, err := io.ReadAll(httpRes.Body)
-	if err != nil {
-		return nil, fmt.Errorf("error reading response body: %w", err)
+	getRawBody := func() ([]byte, error) {
+		rawBody, err := io.ReadAll(httpRes.Body)
+		if err != nil {
+			return nil, fmt.Errorf("error reading response body: %w", err)
+		}
+		httpRes.Body.Close()
+		httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
+		return rawBody, nil
 	}
-	httpRes.Body.Close()
-	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
 	switch {
 	case httpRes.StatusCode == 200:
 		switch {
 		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			var out shared.Price
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
@@ -695,11 +855,21 @@ func (s *Price) UpdatePrice(ctx context.Context, request operations.UpdatePriceR
 
 			res.Price = &out
 		default:
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			return nil, errors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 400:
 		switch {
 		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			var out shared.ClientError
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
@@ -707,11 +877,21 @@ func (s *Price) UpdatePrice(ctx context.Context, request operations.UpdatePriceR
 
 			res.ClientError = &out
 		default:
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			return nil, errors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	case httpRes.StatusCode == 500:
 		switch {
 		case utils.MatchContentType(httpRes.Header.Get("Content-Type"), `application/json`):
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			var out shared.ServerError
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
@@ -719,9 +899,19 @@ func (s *Price) UpdatePrice(ctx context.Context, request operations.UpdatePriceR
 
 			res.ServerError = &out
 		default:
+			rawBody, err := getRawBody()
+			if err != nil {
+				return nil, err
+			}
+
 			return nil, errors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
 	default:
+		rawBody, err := getRawBody()
+		if err != nil {
+			return nil, err
+		}
+
 		return nil, errors.NewSDKError("unknown status code returned", httpRes.StatusCode, string(rawBody), httpRes)
 	}
 
