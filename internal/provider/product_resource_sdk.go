@@ -63,6 +63,10 @@ func (r *ProductResourceModel) ToSharedProductCreate() *shared.ProductCreate {
 			DollarRelation: dollarRelation1,
 		}
 	}
+	var manifest []string = []string{}
+	for _, manifestItem := range r.Manifest {
+		manifest = append(manifest, manifestItem.ValueString())
+	}
 	var purpose []string = []string{}
 	for _, purposeItem := range r.Purpose {
 		purpose = append(purpose, purposeItem.ValueString())
@@ -186,6 +190,7 @@ func (r *ProductResourceModel) ToSharedProductCreate() *shared.ProductCreate {
 		Additional:        additional,
 		AvailabilityFiles: availabilityFiles,
 		Files:             files,
+		Manifest:          manifest,
 		Purpose:           purpose,
 		Schema:            schema,
 		Tags:              tags2,
@@ -281,6 +286,10 @@ func (r *ProductResourceModel) RefreshFromSharedProduct(resp *shared.Product) {
 			}
 		}
 		r.ID = types.StringPointerValue(resp.ID)
+		r.Manifest = []types.String{}
+		for _, v := range resp.Manifest {
+			r.Manifest = append(r.Manifest, types.StringValue(v))
+		}
 		r.Org = types.StringValue(resp.Org)
 		r.Owners = []tfTypes.BaseEntityOwner{}
 		if len(r.Owners) > len(resp.Owners) {
@@ -454,6 +463,10 @@ func (r *ProductResourceModel) ToSharedProductPatch() *shared.ProductPatch {
 			DollarRelation: dollarRelation1,
 		}
 	}
+	var manifest []string = []string{}
+	for _, manifestItem := range r.Manifest {
+		manifest = append(manifest, manifestItem.ValueString())
+	}
 	var purpose []string = []string{}
 	for _, purposeItem := range r.Purpose {
 		purpose = append(purpose, purposeItem.ValueString())
@@ -583,6 +596,7 @@ func (r *ProductResourceModel) ToSharedProductPatch() *shared.ProductPatch {
 		Additional:        additional,
 		AvailabilityFiles: availabilityFiles,
 		Files:             files,
+		Manifest:          manifest,
 		Purpose:           purpose,
 		Schema:            schema,
 		Tags:              tags2,

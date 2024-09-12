@@ -40,6 +40,10 @@ func (r *TaxResourceModel) ToSharedTaxCreate() *shared.TaxCreate {
 			DollarRelation: dollarRelation,
 		}
 	}
+	var manifest []string = []string{}
+	for _, manifestItem := range r.Manifest {
+		manifest = append(manifest, manifestItem.ValueString())
+	}
 	schema := new(shared.TaxCreateSchema)
 	if !r.Schema.IsUnknown() && !r.Schema.IsNull() {
 		*schema = shared.TaxCreateSchema(r.Schema.ValueString())
@@ -69,6 +73,7 @@ func (r *TaxResourceModel) ToSharedTaxCreate() *shared.TaxCreate {
 	out := shared.TaxCreate{
 		Additional:  additional,
 		Files:       files,
+		Manifest:    manifest,
 		Schema:      schema,
 		Tags:        tags1,
 		Active:      active,
@@ -135,6 +140,10 @@ func (r *TaxResourceModel) RefreshFromSharedTax(resp *shared.Tax) {
 			}
 		}
 		r.ID = types.StringPointerValue(resp.ID)
+		r.Manifest = []types.String{}
+		for _, v := range resp.Manifest {
+			r.Manifest = append(r.Manifest, types.StringValue(v))
+		}
 		r.Org = types.StringValue(resp.Org)
 		r.Owners = []tfTypes.BaseEntityOwner{}
 		if len(r.Owners) > len(resp.Owners) {

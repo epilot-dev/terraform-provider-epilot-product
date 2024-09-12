@@ -65,6 +65,10 @@ func (r *TaxDataSourceModel) RefreshFromSharedTax(resp *shared.Tax) {
 			}
 		}
 		r.ID = types.StringPointerValue(resp.ID)
+		r.Manifest = []types.String{}
+		for _, v := range resp.Manifest {
+			r.Manifest = append(r.Manifest, types.StringValue(v))
+		}
 		r.Org = types.StringValue(resp.Org)
 		r.Owners = []tfTypes.BaseEntityOwner{}
 		if len(r.Owners) > len(resp.Owners) {

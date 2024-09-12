@@ -41,6 +41,7 @@ type ProductDataSourceModel struct {
 	Hydrate           types.Bool                `tfsdk:"hydrate"`
 	ID                types.String              `tfsdk:"id"`
 	InternalName      types.String              `tfsdk:"internal_name"`
+	Manifest          []types.String            `tfsdk:"manifest"`
 	Name              types.String              `tfsdk:"name"`
 	Org               types.String              `tfsdk:"org"`
 	Owners            []tfTypes.BaseEntityOwner `tfsdk:"owners"`
@@ -100,12 +101,12 @@ func (r *ProductDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 						Computed: true,
 						NestedObject: schema.NestedAttributeObject{
 							Attributes: map[string]schema.Attribute{
+								"entity_id": schema.StringAttribute{
+									Computed: true,
+								},
 								"tags": schema.ListAttribute{
 									Computed:    true,
 									ElementType: types.StringType,
-								},
-								"entity_id": schema.StringAttribute{
-									Computed: true,
 								},
 							},
 						},
@@ -134,12 +135,12 @@ func (r *ProductDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 						Computed: true,
 						NestedObject: schema.NestedAttributeObject{
 							Attributes: map[string]schema.Attribute{
+								"entity_id": schema.StringAttribute{
+									Computed: true,
+								},
 								"tags": schema.ListAttribute{
 									Computed:    true,
 									ElementType: types.StringType,
-								},
-								"entity_id": schema.StringAttribute{
-									Computed: true,
 								},
 							},
 						},
@@ -157,6 +158,11 @@ func (r *ProductDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 			"internal_name": schema.StringAttribute{
 				Computed:    true,
 				Description: `Not visible to customers, only in internal tables`,
+			},
+			"manifest": schema.ListAttribute{
+				Computed:    true,
+				ElementType: types.StringType,
+				Description: `Manifest ID used to create/update the entity`,
 			},
 			"name": schema.StringAttribute{
 				Computed:    true,
@@ -186,12 +192,12 @@ func (r *ProductDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 						Computed: true,
 						NestedObject: schema.NestedAttributeObject{
 							Attributes: map[string]schema.Attribute{
+								"entity_id": schema.StringAttribute{
+									Computed: true,
+								},
 								"tags": schema.ListAttribute{
 									Computed:    true,
 									ElementType: types.StringType,
-								},
-								"entity_id": schema.StringAttribute{
-									Computed: true,
 								},
 							},
 						},
@@ -205,12 +211,12 @@ func (r *ProductDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 						Computed: true,
 						NestedObject: schema.NestedAttributeObject{
 							Attributes: map[string]schema.Attribute{
+								"entity_id": schema.StringAttribute{
+									Computed: true,
+								},
 								"tags": schema.ListAttribute{
 									Computed:    true,
 									ElementType: types.StringType,
-								},
-								"entity_id": schema.StringAttribute{
-									Computed: true,
 								},
 							},
 						},
@@ -224,12 +230,12 @@ func (r *ProductDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 						Computed: true,
 						NestedObject: schema.NestedAttributeObject{
 							Attributes: map[string]schema.Attribute{
+								"entity_id": schema.StringAttribute{
+									Computed: true,
+								},
 								"tags": schema.ListAttribute{
 									Computed:    true,
 									ElementType: types.StringType,
-								},
-								"entity_id": schema.StringAttribute{
-									Computed: true,
 								},
 							},
 						},
@@ -241,8 +247,7 @@ func (r *ProductDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 				ElementType: types.StringType,
 			},
 			"schema": schema.StringAttribute{
-				Computed:    true,
-				Description: `must be one of ["product"]`,
+				Computed: true,
 			},
 			"strict": schema.BoolAttribute{
 				Computed:    true,
@@ -263,9 +268,7 @@ func (r *ProductDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 					`| type | description |` + "\n" +
 					`|----| ----|` + "\n" +
 					`| ` + "`" + `product` + "`" + ` | Represents a physical good |` + "\n" +
-					`| ` + "`" + `service` + "`" + ` | Represents a service or virtual product |` + "\n" +
-					`` + "\n" +
-					`must be one of ["product", "service"]`,
+					`| ` + "`" + `service` + "`" + ` | Represents a service or virtual product |`,
 			},
 			"updated_at": schema.StringAttribute{
 				Computed: true,

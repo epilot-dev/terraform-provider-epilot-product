@@ -14,9 +14,8 @@ Product DataSource
 
 ```terraform
 data "epilot-product_product" "my_product" {
-  hydrate    = false
-  product_id = "123e4567-e89b-12d3-a456-426614174000"
-  strict     = true
+  hydrate = false
+  strict  = false
 }
 ```
 
@@ -41,6 +40,7 @@ data "epilot-product_product" "my_product" {
 - `files` (Attributes) (see [below for nested schema](#nestedatt--files))
 - `id` (String) The ID of this resource.
 - `internal_name` (String) Not visible to customers, only in internal tables
+- `manifest` (List of String) Manifest ID used to create/update the entity
 - `name` (String) The description for the product
 - `org` (String) Organization Id the entity belongs to
 - `owners` (Attributes List) (see [below for nested schema](#nestedatt--owners))
@@ -48,7 +48,7 @@ data "epilot-product_product" "my_product" {
 - `product_downloads` (Attributes) (see [below for nested schema](#nestedatt--product_downloads))
 - `product_images` (Attributes) (see [below for nested schema](#nestedatt--product_images))
 - `purpose` (List of String)
-- `schema` (String) must be one of ["product"]
+- `schema` (String)
 - `tags` (List of String)
 - `title` (String)
 - `type` (String) The type of Product:
@@ -57,8 +57,6 @@ data "epilot-product_product" "my_product" {
 |----| ----|
 | `product` | Represents a physical good |
 | `service` | Represents a service or virtual product |
-
-must be one of ["product", "service"]
 - `updated_at` (String)
 
 <a id="nestedatt--acl"></a>

@@ -1,9 +1,27 @@
 resource "epilot-product_tax" "my_tax" {
-  schema      = "tax"
-  active      = false
+  active = false
+  additional = {
+    "see" : jsonencode("documentation"),
+  }
   description = "...my_description..."
-  rate        = "...my_rate..."
-  region      = "DE"
-  tax_id      = "123e4567-e89b-12d3-a456-426614174000"
-  type        = "Custom"
+  files = {
+    dollar_relation = [
+      {
+        entity_id = "123e4567-e89b-12d3-a456-426614174000"
+        tags = [
+          "..."
+        ]
+      }
+    ]
+  }
+  manifest = [
+    "123e4567-e89b-12d3-a456-426614174000"
+  ]
+  rate   = "...my_rate..."
+  region = "DE"
+  schema = "tax"
+  tags = [
+    "..."
+  ]
+  type = "VAT"
 }

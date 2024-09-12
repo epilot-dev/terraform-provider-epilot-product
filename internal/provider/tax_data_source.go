@@ -37,6 +37,7 @@ type TaxDataSourceModel struct {
 	Files       *tfTypes.BaseRelation     `tfsdk:"files"`
 	Hydrate     types.Bool                `tfsdk:"hydrate"`
 	ID          types.String              `tfsdk:"id"`
+	Manifest    []types.String            `tfsdk:"manifest"`
 	Org         types.String              `tfsdk:"org"`
 	Owners      []tfTypes.BaseEntityOwner `tfsdk:"owners"`
 	Rate        types.String              `tfsdk:"rate"`
@@ -99,12 +100,12 @@ func (r *TaxDataSource) Schema(ctx context.Context, req datasource.SchemaRequest
 						Computed: true,
 						NestedObject: schema.NestedAttributeObject{
 							Attributes: map[string]schema.Attribute{
+								"entity_id": schema.StringAttribute{
+									Computed: true,
+								},
 								"tags": schema.ListAttribute{
 									Computed:    true,
 									ElementType: types.StringType,
-								},
-								"entity_id": schema.StringAttribute{
-									Computed: true,
 								},
 							},
 						},
@@ -118,6 +119,11 @@ func (r *TaxDataSource) Schema(ctx context.Context, req datasource.SchemaRequest
 			},
 			"id": schema.StringAttribute{
 				Computed: true,
+			},
+			"manifest": schema.ListAttribute{
+				Computed:    true,
+				ElementType: types.StringType,
+				Description: `Manifest ID used to create/update the entity`,
 			},
 			"org": schema.StringAttribute{
 				Computed:    true,
@@ -143,8 +149,7 @@ func (r *TaxDataSource) Schema(ctx context.Context, req datasource.SchemaRequest
 				Computed: true,
 			},
 			"schema": schema.StringAttribute{
-				Computed:    true,
-				Description: `must be one of ["tax"]`,
+				Computed: true,
 			},
 			"strict": schema.BoolAttribute{
 				Computed:    true,
@@ -159,8 +164,7 @@ func (r *TaxDataSource) Schema(ctx context.Context, req datasource.SchemaRequest
 				Computed: true,
 			},
 			"type": schema.StringAttribute{
-				Computed:    true,
-				Description: `must be one of ["VAT", "Custom"]`,
+				Computed: true,
 			},
 			"updated_at": schema.StringAttribute{
 				Computed: true,

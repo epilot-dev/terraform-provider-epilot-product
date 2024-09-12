@@ -14,13 +14,31 @@ Tax Resource
 
 ```terraform
 resource "epilot-product_tax" "my_tax" {
-  schema      = "tax"
-  active      = false
+  active = false
+  additional = {
+    "see" : jsonencode("documentation"),
+  }
   description = "...my_description..."
-  rate        = "...my_rate..."
-  region      = "DE"
-  tax_id      = "123e4567-e89b-12d3-a456-426614174000"
-  type        = "Custom"
+  files = {
+    dollar_relation = [
+      {
+        entity_id = "123e4567-e89b-12d3-a456-426614174000"
+        tags = [
+          "..."
+        ]
+      }
+    ]
+  }
+  manifest = [
+    "123e4567-e89b-12d3-a456-426614174000"
+  ]
+  rate   = "...my_rate..."
+  region = "DE"
+  schema = "tax"
+  tags = [
+    "..."
+  ]
+  type = "VAT"
 }
 ```
 
@@ -39,7 +57,8 @@ resource "epilot-product_tax" "my_tax" {
 - `additional` (Map of String) Additional fields that are not part of the schema. Requires replacement if changed.
 - `description` (String)
 - `files` (Attributes) Requires replacement if changed. (see [below for nested schema](#nestedatt--files))
-- `schema` (String) must be one of ["tax"]
+- `manifest` (List of String) Manifest ID used to create/update the entity. Requires replacement if changed.
+- `schema` (String) must be "tax"
 - `tags` (List of String) Requires replacement if changed.
 
 ### Read-Only

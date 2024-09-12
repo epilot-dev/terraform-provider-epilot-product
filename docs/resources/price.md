@@ -14,30 +14,68 @@ Price Resource
 
 ```terraform
 resource "epilot-product_price" "my_price" {
-  schema                    = "price"
-  active                    = true
-  billing_duration_amount   = 66.76
-  billing_duration_unit     = "weeks"
-  description               = "...my_description..."
-  is_composite_price        = false
-  is_tax_inclusive          = true
-  long_description          = "...my_long_description..."
-  notice_time_amount        = 2.66
-  notice_time_unit          = "months"
-  price_display_in_journeys = "show_as_starting_price"
-  price_id                  = "123e4567-e89b-12d3-a456-426614174000"
+  active = false
+  additional = {
+    "see" : jsonencode("documentation"),
+  }
+  billing_duration_amount = 4.23
+  billing_duration_unit   = "years"
+  description             = "...my_description..."
+  files = {
+    dollar_relation = [
+      {
+        entity_id = "123e4567-e89b-12d3-a456-426614174000"
+        tags = [
+          "..."
+        ]
+      }
+    ]
+  }
+  is_composite_price = false
+  is_tax_inclusive   = false
+  long_description   = "...my_long_description..."
+  manifest = [
+    "123e4567-e89b-12d3-a456-426614174000"
+  ]
+  notice_time_amount = 7.88
+  notice_time_unit   = "weeks"
+  price_components = {
+    dollar_relation = [
+      {
+        entity_id = "...my_entity_id..."
+        tags = [
+          "..."
+        ]
+      }
+    ]
+  }
+  price_display_in_journeys = "show_price"
   pricing_model             = "tiered_graduated"
-  renewal_duration_amount   = 13.87
-  renewal_duration_unit     = "months"
-  tax                       = "{ \"see\": \"documentation\" }"
-  termination_time_amount   = 70.52
-  termination_time_unit     = "weeks"
-  type                      = "one_time"
-  unit                      = "...my_unit..."
-  unit_amount               = 62.81
-  unit_amount_currency      = "EUR"
-  unit_amount_decimal       = "...my_unit_amount_decimal..."
-  variable_price            = true
+  renewal_duration_amount   = 3.79
+  renewal_duration_unit     = "years"
+  schema                    = "price"
+  tags = [
+    "..."
+  ]
+  tax                     = "{ \"see\": \"documentation\" }"
+  termination_time_amount = 2.23
+  termination_time_unit   = "years"
+  tiers = [
+    {
+      display_mode            = "on_request"
+      flat_fee_amount         = 1.58
+      flat_fee_amount_decimal = "...my_flat_fee_amount_decimal..."
+      unit_amount             = 4.92
+      unit_amount_decimal     = "...my_unit_amount_decimal..."
+      up_to                   = 5.32
+    }
+  ]
+  type                 = "one_time"
+  unit                 = "...my_unit..."
+  unit_amount          = 6.37
+  unit_amount_currency = "EUR"
+  unit_amount_decimal  = "...my_unit_amount_decimal..."
+  variable_price       = true
 }
 ```
 
@@ -58,6 +96,7 @@ resource "epilot-product_price" "my_price" {
 - `is_composite_price` (Boolean) The flag for prices that contain price components.
 - `is_tax_inclusive` (Boolean) Specifies whether the price is considered `inclusive` of taxes or not. Default: false
 - `long_description` (String) A detailed description of the price. This is shown on the order document and order table. Multi-line supported.
+- `manifest` (List of String) Manifest ID used to create/update the entity
 - `notice_time_amount` (Number) The notice period duration
 - `notice_time_unit` (String) The notice period duration unit. must be one of ["weeks", "months", "years"]
 - `price_components` (Attributes) A set of [price](/api/pricing#tag/simple_price_schema) components that define the composite price. (see [below for nested schema](#nestedatt--price_components))
@@ -67,17 +106,16 @@ resource "epilot-product_price" "my_price" {
 - `tiered_graduated` indicates that the unit pricing will be computed using tiers attribute. The customer pays the price per unit in every range their purchase rises through.
 - `tiered_volume` indicates that the unit pricing will be computed using tiers attribute. The customer pays the same unit price for all purchased units.
 - `tiered_flatfee` While similar to tiered_volume, tiered flat fee charges for the same price (flat) for the entire range instead using the unit price to multiply the quantity.
-
-must be one of ["per_unit", "tiered_volume", "tiered_graduated", "tiered_flatfee"]; Default: "per_unit"
+Default: "per_unit"; must be one of ["per_unit", "tiered_volume", "tiered_graduated", "tiered_flatfee"]
 - `renewal_duration_amount` (Number) The renewal period duration
 - `renewal_duration_unit` (String) The renewal period duration unit. must be one of ["weeks", "months", "years"]
-- `schema` (String) must be one of ["price"]
+- `schema` (String) must be "price"
 - `tags` (List of String)
 - `tax` (String) Parsed as JSON.
 - `termination_time_amount` (Number) The termination period duration
 - `termination_time_unit` (String) The termination period duration unit. must be one of ["weeks", "months", "years"]
 - `tiers` (Attributes List) Defines an array of tiers. Each tier has an upper bound, an unit amount and a flat fee. (see [below for nested schema](#nestedatt--tiers))
-- `type` (String) One of `one_time` or `recurring` depending on whether the price is for a one-time purchase or a recurring (subscription) purchase. must be one of ["one_time", "recurring"]; Default: "one_time"
+- `type` (String) One of `one_time` or `recurring` depending on whether the price is for a one-time purchase or a recurring (subscription) purchase. Default: "one_time"; must be one of ["one_time", "recurring"]
 - `unit` (String) The unit of measurement used for display purposes and possibly for calculations when the price is variable.
 - `unit_amount` (Number) The unit amount in cents to be charged, represented as a whole integer if possible.
 - `unit_amount_currency` (String) Three-letter ISO currency code, in lowercase.

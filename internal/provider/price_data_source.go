@@ -42,6 +42,7 @@ type PriceDataSourceModel struct {
 	IsCompositePrice       types.Bool                          `tfsdk:"is_composite_price"`
 	IsTaxInclusive         types.Bool                          `tfsdk:"is_tax_inclusive"`
 	LongDescription        types.String                        `tfsdk:"long_description"`
+	Manifest               []types.String                      `tfsdk:"manifest"`
 	NoticeTimeAmount       types.Number                        `tfsdk:"notice_time_amount"`
 	NoticeTimeUnit         types.String                        `tfsdk:"notice_time_unit"`
 	Org                    types.String                        `tfsdk:"org"`
@@ -112,7 +113,7 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 			},
 			"billing_duration_unit": schema.StringAttribute{
 				Computed:    true,
-				Description: `The billing period duration unit. must be one of ["weeks", "months", "years"]`,
+				Description: `The billing period duration unit`,
 			},
 			"created_at": schema.StringAttribute{
 				Computed: true,
@@ -128,12 +129,12 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 						Computed: true,
 						NestedObject: schema.NestedAttributeObject{
 							Attributes: map[string]schema.Attribute{
+								"entity_id": schema.StringAttribute{
+									Computed: true,
+								},
 								"tags": schema.ListAttribute{
 									Computed:    true,
 									ElementType: types.StringType,
-								},
-								"entity_id": schema.StringAttribute{
-									Computed: true,
 								},
 							},
 						},
@@ -160,13 +161,18 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 				Computed:    true,
 				Description: `A detailed description of the price. This is shown on the order document and order table. Multi-line supported.`,
 			},
+			"manifest": schema.ListAttribute{
+				Computed:    true,
+				ElementType: types.StringType,
+				Description: `Manifest ID used to create/update the entity`,
+			},
 			"notice_time_amount": schema.NumberAttribute{
 				Computed:    true,
 				Description: `The notice period duration`,
 			},
 			"notice_time_unit": schema.StringAttribute{
 				Computed:    true,
-				Description: `The notice period duration unit. must be one of ["weeks", "months", "years"]`,
+				Description: `The notice period duration unit`,
 			},
 			"org": schema.StringAttribute{
 				Computed:    true,
@@ -192,14 +198,14 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 						Computed: true,
 						NestedObject: schema.NestedAttributeObject{
 							Attributes: map[string]schema.Attribute{
+								"entity_id": schema.StringAttribute{
+									Computed:    true,
+									Description: `The id of the price component`,
+								},
 								"tags": schema.ListAttribute{
 									Computed:    true,
 									ElementType: types.StringType,
 									Description: `An arbitrary set of tags attached to the composite price - component relation`,
-								},
-								"entity_id": schema.StringAttribute{
-									Computed:    true,
-									Description: `The id of the price component`,
 								},
 							},
 						},
@@ -209,7 +215,7 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 			},
 			"price_display_in_journeys": schema.StringAttribute{
 				Computed:    true,
-				Description: `Defines the way the price amount is display in epilot journeys. must be one of ["show_price", "show_as_starting_price", "show_as_on_request"]`,
+				Description: `Defines the way the price amount is display in epilot journeys.`,
 			},
 			"pricing_model": schema.StringAttribute{
 				Computed: true,
@@ -217,9 +223,7 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 					`- ` + "`" + `per_unit` + "`" + ` indicates that the fixed amount (specified in unit_amount or unit_amount_decimal) will be charged per unit in quantity` + "\n" +
 					`- ` + "`" + `tiered_graduated` + "`" + ` indicates that the unit pricing will be computed using tiers attribute. The customer pays the price per unit in every range their purchase rises through.` + "\n" +
 					`- ` + "`" + `tiered_volume` + "`" + ` indicates that the unit pricing will be computed using tiers attribute. The customer pays the same unit price for all purchased units.` + "\n" +
-					`- ` + "`" + `tiered_flatfee` + "`" + ` While similar to tiered_volume, tiered flat fee charges for the same price (flat) for the entire range instead using the unit price to multiply the quantity.` + "\n" +
-					`` + "\n" +
-					`must be one of ["per_unit", "tiered_volume", "tiered_graduated", "tiered_flatfee"]`,
+					`- ` + "`" + `tiered_flatfee` + "`" + ` While similar to tiered_volume, tiered flat fee charges for the same price (flat) for the entire range instead using the unit price to multiply the quantity.`,
 			},
 			"renewal_duration_amount": schema.NumberAttribute{
 				Computed:    true,
@@ -227,11 +231,10 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 			},
 			"renewal_duration_unit": schema.StringAttribute{
 				Computed:    true,
-				Description: `The renewal period duration unit. must be one of ["weeks", "months", "years"]`,
+				Description: `The renewal period duration unit`,
 			},
 			"schema": schema.StringAttribute{
-				Computed:    true,
-				Description: `must be one of ["price"]`,
+				Computed: true,
 			},
 			"strict": schema.BoolAttribute{
 				Computed:    true,
@@ -252,15 +255,14 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 			},
 			"termination_time_unit": schema.StringAttribute{
 				Computed:    true,
-				Description: `The termination period duration unit. must be one of ["weeks", "months", "years"]`,
+				Description: `The termination period duration unit`,
 			},
 			"tiers": schema.ListNestedAttribute{
 				Computed: true,
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"display_mode": schema.StringAttribute{
-							Computed:    true,
-							Description: `must be one of ["hidden", "on_request"]`,
+							Computed: true,
 						},
 						"flat_fee_amount": schema.NumberAttribute{
 							Computed: true,
@@ -279,15 +281,14 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 						},
 					},
 				},
-				MarkdownDescription: `Defines an array of tiers. Each tier has an upper bound, an unit amount and a flat fee.` + "\n" +
-					``,
+				Description: `Defines an array of tiers. Each tier has an upper bound, an unit amount and a flat fee.`,
 			},
 			"title": schema.StringAttribute{
 				Computed: true,
 			},
 			"type": schema.StringAttribute{
 				Computed:    true,
-				Description: `One of ` + "`" + `one_time` + "`" + ` or ` + "`" + `recurring` + "`" + ` depending on whether the price is for a one-time purchase or a recurring (subscription) purchase. must be one of ["one_time", "recurring"]`,
+				Description: `One of ` + "`" + `one_time` + "`" + ` or ` + "`" + `recurring` + "`" + ` depending on whether the price is for a one-time purchase or a recurring (subscription) purchase.`,
 			},
 			"unit": schema.StringAttribute{
 				Computed:    true,

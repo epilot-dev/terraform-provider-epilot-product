@@ -41,6 +41,10 @@ func (r *PriceResourceModel) ToSharedPriceCreate() *shared.PriceCreate {
 			DollarRelation: dollarRelation,
 		}
 	}
+	var manifest []string = []string{}
+	for _, manifestItem := range r.Manifest {
+		manifest = append(manifest, manifestItem.ValueString())
+	}
 	schema := new(shared.PriceCreateSchema)
 	if !r.Schema.IsUnknown() && !r.Schema.IsNull() {
 		*schema = shared.PriceCreateSchema(r.Schema.ValueString())
@@ -248,6 +252,7 @@ func (r *PriceResourceModel) ToSharedPriceCreate() *shared.PriceCreate {
 	out := shared.PriceCreate{
 		Additional:             additional,
 		Files:                  files,
+		Manifest:               manifest,
 		Schema:                 schema,
 		Tags:                   tags1,
 		Active:                 active,
@@ -333,6 +338,10 @@ func (r *PriceResourceModel) RefreshFromSharedPrice(resp *shared.Price) {
 			}
 		}
 		r.ID = types.StringPointerValue(resp.ID)
+		r.Manifest = []types.String{}
+		for _, v := range resp.Manifest {
+			r.Manifest = append(r.Manifest, types.StringValue(v))
+		}
 		r.Org = types.StringValue(resp.Org)
 		r.Owners = []tfTypes.BaseEntityOwner{}
 		if len(r.Owners) > len(resp.Owners) {
@@ -529,6 +538,10 @@ func (r *PriceResourceModel) ToSharedPricePatch() *shared.PricePatch {
 		files = &shared.BaseRelation{
 			DollarRelation: dollarRelation,
 		}
+	}
+	var manifest []string = []string{}
+	for _, manifestItem := range r.Manifest {
+		manifest = append(manifest, manifestItem.ValueString())
 	}
 	schema := new(shared.PricePatchSchema)
 	if !r.Schema.IsUnknown() && !r.Schema.IsNull() {
@@ -743,6 +756,7 @@ func (r *PriceResourceModel) ToSharedPricePatch() *shared.PricePatch {
 	out := shared.PricePatch{
 		Additional:             additional,
 		Files:                  files,
+		Manifest:               manifest,
 		Schema:                 schema,
 		Tags:                   tags1,
 		Active:                 active,

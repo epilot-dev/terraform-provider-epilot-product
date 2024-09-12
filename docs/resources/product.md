@@ -14,14 +14,78 @@ Product Resource
 
 ```terraform
 resource "epilot-product_product" "my_product" {
-  schema        = "product"
-  active        = false
-  code          = "...my_code..."
-  description   = "...my_description..."
+  active = false
+  additional = {
+    "see" : jsonencode("documentation"),
+  }
+  availability_files = {
+    dollar_relation = [
+      {
+        entity_id = "123e4567-e89b-12d3-a456-426614174000"
+        tags = [
+          "..."
+        ]
+      }
+    ]
+  }
+  code        = "...my_code..."
+  description = "...my_description..."
+  feature = [
+    "{ \"see\": \"documentation\" }"
+  ]
+  files = {
+    dollar_relation = [
+      {
+        entity_id = "123e4567-e89b-12d3-a456-426614174000"
+        tags = [
+          "..."
+        ]
+      }
+    ]
+  }
   internal_name = "...my_internal_name..."
-  name          = "Elbert Stamm"
-  product_id    = "123e4567-e89b-12d3-a456-426614174000"
-  type          = "product"
+  manifest = [
+    "123e4567-e89b-12d3-a456-426614174000"
+  ]
+  name = "...my_name..."
+  price_options = {
+    dollar_relation = [
+      {
+        entity_id = "123e4567-e89b-12d3-a456-426614174000"
+        tags = [
+          "..."
+        ]
+      }
+    ]
+  }
+  product_downloads = {
+    dollar_relation = [
+      {
+        entity_id = "123e4567-e89b-12d3-a456-426614174000"
+        tags = [
+          "..."
+        ]
+      }
+    ]
+  }
+  product_images = {
+    dollar_relation = [
+      {
+        entity_id = "123e4567-e89b-12d3-a456-426614174000"
+        tags = [
+          "..."
+        ]
+      }
+    ]
+  }
+  purpose = [
+    "..."
+  ]
+  schema = "product"
+  tags = [
+    "..."
+  ]
+  type = "service"
 }
 ```
 
@@ -42,11 +106,12 @@ resource "epilot-product_product" "my_product" {
 - `feature` (List of String)
 - `files` (Attributes) (see [below for nested schema](#nestedatt--files))
 - `internal_name` (String) Not visible to customers, only in internal tables
+- `manifest` (List of String) Manifest ID used to create/update the entity
 - `price_options` (Attributes) (see [below for nested schema](#nestedatt--price_options))
 - `product_downloads` (Attributes) (see [below for nested schema](#nestedatt--product_downloads))
 - `product_images` (Attributes) (see [below for nested schema](#nestedatt--product_images))
 - `purpose` (List of String)
-- `schema` (String) must be one of ["product"]
+- `schema` (String) must be "product"
 - `tags` (List of String)
 - `type` (String) The type of Product:
 
@@ -54,8 +119,7 @@ resource "epilot-product_product" "my_product" {
 |----| ----|
 | `product` | Represents a physical good |
 | `service` | Represents a service or virtual product |
-
-must be one of ["product", "service"]; Default: "product"
+Default: "product"; must be one of ["product", "service"]
 
 ### Read-Only
 

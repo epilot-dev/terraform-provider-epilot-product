@@ -14,9 +14,8 @@ Tax DataSource
 
 ```terraform
 data "epilot-product_tax" "my_tax" {
-  hydrate = true
+  hydrate = false
   strict  = false
-  tax_id  = "123e4567-e89b-12d3-a456-426614174000"
 }
 ```
 
@@ -37,14 +36,15 @@ data "epilot-product_tax" "my_tax" {
 - `description` (String)
 - `files` (Attributes) (see [below for nested schema](#nestedatt--files))
 - `id` (String) The ID of this resource.
+- `manifest` (List of String) Manifest ID used to create/update the entity
 - `org` (String) Organization Id the entity belongs to
 - `owners` (Attributes List) (see [below for nested schema](#nestedatt--owners))
 - `rate` (String)
 - `region` (String)
-- `schema` (String) must be one of ["tax"]
+- `schema` (String)
 - `tags` (List of String)
 - `title` (String)
-- `type` (String) must be one of ["VAT", "Custom"]
+- `type` (String)
 - `updated_at` (String)
 
 <a id="nestedatt--acl"></a>
