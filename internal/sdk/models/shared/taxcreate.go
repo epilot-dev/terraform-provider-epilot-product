@@ -58,8 +58,10 @@ func (e *TaxCreateType) UnmarshalJSON(data []byte) error {
 
 type TaxCreate struct {
 	// Additional fields that are not part of the schema
-	Additional  map[string]any   `json:"__additional,omitempty"`
-	Files       *BaseRelation    `json:"_files,omitempty"`
+	Additional map[string]any `json:"__additional,omitempty"`
+	Files      *BaseRelation  `json:"_files,omitempty"`
+	// Manifest ID used to create/update the entity
+	Manifest    []string         `json:"_manifest,omitempty"`
 	Schema      *TaxCreateSchema `json:"_schema,omitempty"`
 	Tags        []string         `json:"_tags,omitempty"`
 	Active      bool             `json:"active"`
@@ -81,6 +83,13 @@ func (o *TaxCreate) GetFiles() *BaseRelation {
 		return nil
 	}
 	return o.Files
+}
+
+func (o *TaxCreate) GetManifest() []string {
+	if o == nil {
+		return nil
+	}
+	return o.Manifest
 }
 
 func (o *TaxCreate) GetSchema() *TaxCreateSchema {

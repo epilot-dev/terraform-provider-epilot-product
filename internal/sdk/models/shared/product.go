@@ -73,6 +73,8 @@ type Product struct {
 	CreatedAt         *time.Time     `json:"_created_at,omitempty"`
 	Files             *BaseRelation  `json:"_files,omitempty"`
 	ID                *string        `json:"_id,omitempty"`
+	// Manifest ID used to create/update the entity
+	Manifest []string `json:"_manifest,omitempty"`
 	// Organization Id the entity belongs to
 	Org       string            `json:"_org"`
 	Owners    []BaseEntityOwner `json:"_owners,omitempty"`
@@ -155,6 +157,13 @@ func (o *Product) GetID() *string {
 		return nil
 	}
 	return o.ID
+}
+
+func (o *Product) GetManifest() []string {
+	if o == nil {
+		return nil
+	}
+	return o.Manifest
 }
 
 func (o *Product) GetOrg() string {

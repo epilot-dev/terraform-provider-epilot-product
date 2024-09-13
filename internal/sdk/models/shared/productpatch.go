@@ -65,13 +65,15 @@ func (e *ProductPatchType) UnmarshalJSON(data []byte) error {
 
 type ProductPatch struct {
 	// Additional fields that are not part of the schema
-	Additional        map[string]any      `json:"__additional,omitempty"`
-	AvailabilityFiles *BaseRelation       `json:"_availability_files,omitempty"`
-	Files             *BaseRelation       `json:"_files,omitempty"`
-	Purpose           []string            `json:"_purpose,omitempty"`
-	Schema            *ProductPatchSchema `json:"_schema,omitempty"`
-	Tags              []string            `json:"_tags,omitempty"`
-	Active            *bool               `json:"active,omitempty"`
+	Additional        map[string]any `json:"__additional,omitempty"`
+	AvailabilityFiles *BaseRelation  `json:"_availability_files,omitempty"`
+	Files             *BaseRelation  `json:"_files,omitempty"`
+	// Manifest ID used to create/update the entity
+	Manifest []string            `json:"_manifest,omitempty"`
+	Purpose  []string            `json:"_purpose,omitempty"`
+	Schema   *ProductPatchSchema `json:"_schema,omitempty"`
+	Tags     []string            `json:"_tags,omitempty"`
+	Active   *bool               `json:"active,omitempty"`
 	// The product code
 	Code *string `json:"code,omitempty"`
 	// A description of the product. Multi-line supported.
@@ -124,6 +126,13 @@ func (o *ProductPatch) GetFiles() *BaseRelation {
 		return nil
 	}
 	return o.Files
+}
+
+func (o *ProductPatch) GetManifest() []string {
+	if o == nil {
+		return nil
+	}
+	return o.Manifest
 }
 
 func (o *ProductPatch) GetPurpose() []string {
