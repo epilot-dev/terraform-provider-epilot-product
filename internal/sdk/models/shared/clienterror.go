@@ -2,6 +2,7 @@
 
 package shared
 
+// ClientError - Any error based on client data errors
 type ClientError struct {
 	Message string `json:"message"`
 	Status  int64  `json:"status"`

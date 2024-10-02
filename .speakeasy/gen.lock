@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 5a857039-7f4b-42d5-86fd-449767242ed2
 management:
-  docChecksum: e4360dfb76bc6a89e63423a01fb462d3
+  docChecksum: 04fe01694edca3a886389031394a0148
   docVersion: 1.0.0
-  speakeasyVersion: 1.396.7
-  generationVersion: 2.415.6
-  releaseVersion: 0.10.5
-  configChecksum: d1007f22f98a4ca33da84ce78fb0fdb5
+  speakeasyVersion: 1.405.6
+  generationVersion: 2.428.1
+  releaseVersion: 0.11.0
+  configChecksum: b72aef552739dc67ea5c8e6f5b63de59
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-product.git
   repoSubDirectory: .
   published: true
@@ -22,27 +22,17 @@ features:
   terraform:
     additionalDependencies: 0.1.0
     constsAndDefaults: 0.1.4
-    core: 3.24.11
+    core: 3.24.15
     envVarSecurityUsage: 0.1.0
     globalSecurity: 2.81.8
     globalServerURLs: 2.82.1
     nullables: 0.0.0
-    retries: 2.81.1
 generatedFiles:
   - .gitattributes
   - CONTRIBUTING.md
   - USAGE.md
   - examples/README.md
-  - examples/data-sources/epilot-product_price/data-source.tf
-  - examples/data-sources/epilot-product_product/data-source.tf
-  - examples/data-sources/epilot-product_tax/data-source.tf
   - examples/provider/provider.tf
-  - examples/resources/epilot-product_price/import.sh
-  - examples/resources/epilot-product_price/resource.tf
-  - examples/resources/epilot-product_product/import.sh
-  - examples/resources/epilot-product_product/resource.tf
-  - examples/resources/epilot-product_tax/import.sh
-  - examples/resources/epilot-product_tax/resource.tf
   - go.mod
   - go.sum
   - internal/planmodifiers/boolplanmodifier/suppress_diff.go
@@ -55,14 +45,6 @@ generatedFiles:
   - internal/planmodifiers/setplanmodifier/suppress_diff.go
   - internal/planmodifiers/stringplanmodifier/suppress_diff.go
   - internal/planmodifiers/utils/state_check.go
-  - internal/provider/price_data_source.go
-  - internal/provider/price_data_source_sdk.go
-  - internal/provider/price_resource.go
-  - internal/provider/price_resource_sdk.go
-  - internal/provider/product_data_source.go
-  - internal/provider/product_data_source_sdk.go
-  - internal/provider/product_resource.go
-  - internal/provider/product_resource_sdk.go
   - internal/provider/provider.go
   - internal/provider/reflect/diags.go
   - internal/provider/reflect/doc.go
@@ -78,17 +60,6 @@ generatedFiles:
   - internal/provider/reflect/primitive.go
   - internal/provider/reflect/slice.go
   - internal/provider/reflect/struct.go
-  - internal/provider/tax_data_source.go
-  - internal/provider/tax_data_source_sdk.go
-  - internal/provider/tax_resource.go
-  - internal/provider/tax_resource_sdk.go
-  - internal/provider/types/base_entity_acl.go
-  - internal/provider/types/base_entity_owner.go
-  - internal/provider/types/base_relation.go
-  - internal/provider/types/dollar_relation.go
-  - internal/provider/types/price_component_relation.go
-  - internal/provider/types/price_create_price_components.go
-  - internal/provider/types/price_tier.go
   - internal/provider/utils.go
   - internal/sdk/.gitattributes
   - internal/sdk/.gitignore

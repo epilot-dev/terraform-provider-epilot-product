@@ -56,6 +56,7 @@ func (e *TaxPatchType) UnmarshalJSON(data []byte) error {
 	}
 }
 
+// TaxPatch - Tax to patch
 type TaxPatch struct {
 	Schema      *TaxPatchSchema `json:"_schema,omitempty"`
 	Active      *bool           `json:"active,omitempty"`

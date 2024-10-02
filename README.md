@@ -78,7 +78,7 @@ terraform {
   required_providers {
     epilot-product = {
       source  = "epilot-dev/epilot-product"
-      version = "0.10.5"
+      version = "0.11.0"
     }
   }
 }
@@ -140,14 +140,7 @@ provider_installation {
 
 ### Resources
 
-* [epilot-product_price](docs/resources/price.md)
-* [epilot-product_product](docs/resources/product.md)
-* [epilot-product_tax](docs/resources/tax.md)
 ### Data Sources
-
-* [epilot-product_price](docs/data-sources/price.md)
-* [epilot-product_product](docs/data-sources/product.md)
-* [epilot-product_tax](docs/data-sources/tax.md)
 <!-- End Available Resources and Data Sources [operations] -->
 
 <!-- Placeholder for Future Speakeasy SDK Sections -->
