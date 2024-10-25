@@ -64,11 +64,11 @@ type TaxPatch struct {
 	Manifest    []string        `json:"_manifest,omitempty"`
 	Schema      *TaxPatchSchema `json:"_schema,omitempty"`
 	Tags        []string        `json:"_tags,omitempty"`
-	Active      bool            `json:"active"`
+	Active      *bool           `json:"active,omitempty"`
 	Description *string         `json:"description,omitempty"`
-	Rate        string          `json:"rate"`
-	Region      string          `json:"region"`
-	Type        TaxPatchType    `json:"type"`
+	Rate        *string         `json:"rate,omitempty"`
+	Region      *string         `json:"region,omitempty"`
+	Type        *TaxPatchType   `json:"type,omitempty"`
 }
 
 func (o *TaxPatch) GetAdditional() map[string]any {
@@ -106,9 +106,9 @@ func (o *TaxPatch) GetTags() []string {
 	return o.Tags
 }
 
-func (o *TaxPatch) GetActive() bool {
+func (o *TaxPatch) GetActive() *bool {
 	if o == nil {
-		return false
+		return nil
 	}
 	return o.Active
 }
@@ -120,23 +120,23 @@ func (o *TaxPatch) GetDescription() *string {
 	return o.Description
 }
 
-func (o *TaxPatch) GetRate() string {
+func (o *TaxPatch) GetRate() *string {
 	if o == nil {
-		return ""
+		return nil
 	}
 	return o.Rate
 }
 
-func (o *TaxPatch) GetRegion() string {
+func (o *TaxPatch) GetRegion() *string {
 	if o == nil {
-		return ""
+		return nil
 	}
 	return o.Region
 }
 
-func (o *TaxPatch) GetType() TaxPatchType {
+func (o *TaxPatch) GetType() *TaxPatchType {
 	if o == nil {
-		return TaxPatchType("")
+		return nil
 	}
 	return o.Type
 }

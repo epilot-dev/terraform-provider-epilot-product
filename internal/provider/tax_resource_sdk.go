@@ -223,22 +223,36 @@ func (r *TaxResourceModel) ToSharedTaxPatch() *shared.TaxPatch {
 	for _, tagsItem1 := range r.Tags {
 		tags1 = append(tags1, tagsItem1.ValueString())
 	}
-	var active bool
-	active = r.Active.ValueBool()
-
+	active := new(bool)
+	if !r.Active.IsUnknown() && !r.Active.IsNull() {
+		*active = r.Active.ValueBool()
+	} else {
+		active = nil
+	}
 	description := new(string)
 	if !r.Description.IsUnknown() && !r.Description.IsNull() {
 		*description = r.Description.ValueString()
 	} else {
 		description = nil
 	}
-	var rate string
-	rate = r.Rate.ValueString()
-
-	var region string
-	region = r.Region.ValueString()
-
-	typeVar := shared.TaxPatchType(r.Type.ValueString())
+	rate := new(string)
+	if !r.Rate.IsUnknown() && !r.Rate.IsNull() {
+		*rate = r.Rate.ValueString()
+	} else {
+		rate = nil
+	}
+	region := new(string)
+	if !r.Region.IsUnknown() && !r.Region.IsNull() {
+		*region = r.Region.ValueString()
+	} else {
+		region = nil
+	}
+	typeVar := new(shared.TaxPatchType)
+	if !r.Type.IsUnknown() && !r.Type.IsNull() {
+		*typeVar = shared.TaxPatchType(r.Type.ValueString())
+	} else {
+		typeVar = nil
+	}
 	out := shared.TaxPatch{
 		Additional:  additional,
 		Files:       files,

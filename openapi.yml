@@ -451,7 +451,6 @@ components:
     TaxPatch:
       allOf:
         - $ref: "#/components/schemas/BaseTax"
-        - $ref: "#/components/schemas/BaseTaxRequired"
         - $ref: "#/components/schemas/BaseSystemFields"
     BasePrice:
       type: object
