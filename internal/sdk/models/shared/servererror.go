@@ -2,6 +2,7 @@
 
 package shared
 
+// ServerError - Any error based on the server-side
 type ServerError struct {
 	Message string `json:"message"`
 	Status  int64  `json:"status"`

@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 5a857039-7f4b-42d5-86fd-449767242ed2
 management:
-  docChecksum: e4360dfb76bc6a89e63423a01fb462d3
+  docChecksum: fdec2a87622dada6eb26dd0b357315a7
   docVersion: 1.0.0
-  speakeasyVersion: 1.396.7
-  generationVersion: 2.415.6
-  releaseVersion: 0.10.5
-  configChecksum: d1007f22f98a4ca33da84ce78fb0fdb5
+  speakeasyVersion: 1.420.0
+  generationVersion: 2.438.15
+  releaseVersion: 0.11.0
+  configChecksum: b72aef552739dc67ea5c8e6f5b63de59
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-product.git
   repoSubDirectory: .
   published: true
@@ -22,9 +22,9 @@ features:
   terraform:
     additionalDependencies: 0.1.0
     constsAndDefaults: 0.1.4
-    core: 3.24.11
+    core: 3.25.0
     envVarSecurityUsage: 0.1.0
-    globalSecurity: 2.81.8
+    globalSecurity: 2.81.9
     globalServerURLs: 2.82.1
     nullables: 0.0.0
     retries: 2.81.1
@@ -336,7 +336,7 @@ examples:
         path:
           taxId: "123e4567-e89b-12d3-a456-426614174000"
       requestBody:
-        application/json: {"region": "DE"}
+        application/json: {"__additional": {}, "_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": false, "rate": "<value>", "region": "DE", "type": "Custom"}
       responses:
         "200":
           application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [], "_schema": "tax", "active": true, "rate": "<value>", "region": "DE", "type": "VAT"}

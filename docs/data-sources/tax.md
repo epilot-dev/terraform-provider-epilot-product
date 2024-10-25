@@ -14,7 +14,7 @@ Tax DataSource
 
 ```terraform
 data "epilot-product_tax" "my_tax" {
-  hydrate = false
+  hydrate = true
   strict  = false
 }
 ```

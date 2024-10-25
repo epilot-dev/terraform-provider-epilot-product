@@ -1,5 +1,5 @@
 resource "epilot-product_price" "my_price" {
-  active = false
+  active = true
   additional = {
     "see" : jsonencode("documentation"),
   }
@@ -16,7 +16,7 @@ resource "epilot-product_price" "my_price" {
       }
     ]
   }
-  is_composite_price = false
+  is_composite_price = true
   is_tax_inclusive   = false
   long_description   = "...my_long_description..."
   manifest = [
@@ -60,5 +60,5 @@ resource "epilot-product_price" "my_price" {
   unit_amount          = 6.37
   unit_amount_currency = "EUR"
   unit_amount_decimal  = "...my_unit_amount_decimal..."
-  variable_price       = true
+  variable_price       = false
 }

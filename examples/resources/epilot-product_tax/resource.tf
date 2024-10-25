@@ -1,5 +1,5 @@
 resource "epilot-product_tax" "my_tax" {
-  active = false
+  active = true
   additional = {
     "see" : jsonencode("documentation"),
   }

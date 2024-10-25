@@ -180,44 +180,71 @@ func (r *TaxResourceModel) RefreshFromSharedTax(resp *shared.Tax) {
 }
 
 func (r *TaxResourceModel) ToSharedTaxPatch() *shared.TaxPatch {
+	additional := make(map[string]interface{})
+	for additionalKey, additionalValue := range r.Additional {
+		var additionalInst interface{}
+		_ = json.Unmarshal([]byte(additionalValue.ValueString()), &additionalInst)
+		additional[additionalKey] = additionalInst
+	}
+	var files *shared.BaseRelation
+	if r.Files != nil {
+		var dollarRelation []shared.DollarRelation = []shared.DollarRelation{}
+		for _, dollarRelationItem := range r.Files.DollarRelation {
+			var tags []string = []string{}
+			for _, tagsItem := range dollarRelationItem.Tags {
+				tags = append(tags, tagsItem.ValueString())
+			}
+			entityID := new(string)
+			if !dollarRelationItem.EntityID.IsUnknown() && !dollarRelationItem.EntityID.IsNull() {
+				*entityID = dollarRelationItem.EntityID.ValueString()
+			} else {
+				entityID = nil
+			}
+			dollarRelation = append(dollarRelation, shared.DollarRelation{
+				Tags:     tags,
+				EntityID: entityID,
+			})
+		}
+		files = &shared.BaseRelation{
+			DollarRelation: dollarRelation,
+		}
+	}
+	var manifest []string = []string{}
+	for _, manifestItem := range r.Manifest {
+		manifest = append(manifest, manifestItem.ValueString())
+	}
 	schema := new(shared.TaxPatchSchema)
 	if !r.Schema.IsUnknown() && !r.Schema.IsNull() {
 		*schema = shared.TaxPatchSchema(r.Schema.ValueString())
 	} else {
 		schema = nil
 	}
-	active := new(bool)
-	if !r.Active.IsUnknown() && !r.Active.IsNull() {
-		*active = r.Active.ValueBool()
-	} else {
-		active = nil
+	var tags1 []string = []string{}
+	for _, tagsItem1 := range r.Tags {
+		tags1 = append(tags1, tagsItem1.ValueString())
 	}
+	var active bool
+	active = r.Active.ValueBool()
+
 	description := new(string)
 	if !r.Description.IsUnknown() && !r.Description.IsNull() {
 		*description = r.Description.ValueString()
 	} else {
 		description = nil
 	}
-	rate := new(string)
-	if !r.Rate.IsUnknown() && !r.Rate.IsNull() {
-		*rate = r.Rate.ValueString()
-	} else {
-		rate = nil
-	}
-	region := new(string)
-	if !r.Region.IsUnknown() && !r.Region.IsNull() {
-		*region = r.Region.ValueString()
-	} else {
-		region = nil
-	}
-	typeVar := new(shared.TaxPatchType)
-	if !r.Type.IsUnknown() && !r.Type.IsNull() {
-		*typeVar = shared.TaxPatchType(r.Type.ValueString())
-	} else {
-		typeVar = nil
-	}
+	var rate string
+	rate = r.Rate.ValueString()
+
+	var region string
+	region = r.Region.ValueString()
+
+	typeVar := shared.TaxPatchType(r.Type.ValueString())
 	out := shared.TaxPatch{
+		Additional:  additional,
+		Files:       files,
+		Manifest:    manifest,
 		Schema:      schema,
+		Tags:        tags1,
 		Active:      active,
 		Description: description,
 		Rate:        rate,

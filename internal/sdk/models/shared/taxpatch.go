@@ -57,12 +57,39 @@ func (e *TaxPatchType) UnmarshalJSON(data []byte) error {
 }
 
 type TaxPatch struct {
+	// Additional fields that are not part of the schema
+	Additional map[string]any `json:"__additional,omitempty"`
+	Files      *BaseRelation  `json:"_files,omitempty"`
+	// Manifest ID used to create/update the entity
+	Manifest    []string        `json:"_manifest,omitempty"`
 	Schema      *TaxPatchSchema `json:"_schema,omitempty"`
-	Active      *bool           `json:"active,omitempty"`
+	Tags        []string        `json:"_tags,omitempty"`
+	Active      bool            `json:"active"`
 	Description *string         `json:"description,omitempty"`
-	Rate        *string         `json:"rate,omitempty"`
-	Region      *string         `json:"region,omitempty"`
-	Type        *TaxPatchType   `json:"type,omitempty"`
+	Rate        string          `json:"rate"`
+	Region      string          `json:"region"`
+	Type        TaxPatchType    `json:"type"`
+}
+
+func (o *TaxPatch) GetAdditional() map[string]any {
+	if o == nil {
+		return nil
+	}
+	return o.Additional
+}
+
+func (o *TaxPatch) GetFiles() *BaseRelation {
+	if o == nil {
+		return nil
+	}
+	return o.Files
+}
+
+func (o *TaxPatch) GetManifest() []string {
+	if o == nil {
+		return nil
+	}
+	return o.Manifest
 }
 
 func (o *TaxPatch) GetSchema() *TaxPatchSchema {
@@ -72,9 +99,16 @@ func (o *TaxPatch) GetSchema() *TaxPatchSchema {
 	return o.Schema
 }
 
-func (o *TaxPatch) GetActive() *bool {
+func (o *TaxPatch) GetTags() []string {
 	if o == nil {
 		return nil
+	}
+	return o.Tags
+}
+
+func (o *TaxPatch) GetActive() bool {
+	if o == nil {
+		return false
 	}
 	return o.Active
 }
@@ -86,23 +120,23 @@ func (o *TaxPatch) GetDescription() *string {
 	return o.Description
 }
 
-func (o *TaxPatch) GetRate() *string {
+func (o *TaxPatch) GetRate() string {
 	if o == nil {
-		return nil
+		return ""
 	}
 	return o.Rate
 }
 
-func (o *TaxPatch) GetRegion() *string {
+func (o *TaxPatch) GetRegion() string {
 	if o == nil {
-		return nil
+		return ""
 	}
 	return o.Region
 }
 
-func (o *TaxPatch) GetType() *TaxPatchType {
+func (o *TaxPatch) GetType() TaxPatchType {
 	if o == nil {
-		return nil
+		return TaxPatchType("")
 	}
 	return o.Type
 }

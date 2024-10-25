@@ -5,10 +5,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	speakeasy_listplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/listplanmodifier"
-	speakeasy_mapplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/mapplanmodifier"
-	speakeasy_objectplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/objectplanmodifier"
-	speakeasy_stringplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/stringplanmodifier"
 	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/operations"
@@ -19,11 +15,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/mapplanmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/objectplanmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
@@ -93,14 +84,10 @@ func (r *TaxResource) Schema(ctx context.Context, req resource.SchemaRequest, re
 				Required: true,
 			},
 			"additional": schema.MapAttribute{
-				Computed: true,
-				Optional: true,
-				PlanModifiers: []planmodifier.Map{
-					mapplanmodifier.RequiresReplaceIfConfigured(),
-					speakeasy_mapplanmodifier.SuppressDiff(speakeasy_mapplanmodifier.ExplicitSuppress),
-				},
+				Computed:    true,
+				Optional:    true,
 				ElementType: types.StringType,
-				Description: `Additional fields that are not part of the schema. Requires replacement if changed.`,
+				Description: `Additional fields that are not part of the schema`,
 				Validators: []validator.Map{
 					mapvalidator.ValueStringsAre(validators.IsValidJSON()),
 				},
@@ -118,65 +105,37 @@ func (r *TaxResource) Schema(ctx context.Context, req resource.SchemaRequest, re
 			"files": schema.SingleNestedAttribute{
 				Computed: true,
 				Optional: true,
-				PlanModifiers: []planmodifier.Object{
-					objectplanmodifier.RequiresReplaceIfConfigured(),
-					speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
-				},
 				Attributes: map[string]schema.Attribute{
 					"dollar_relation": schema.ListNestedAttribute{
 						Computed: true,
 						Optional: true,
-						PlanModifiers: []planmodifier.List{
-							listplanmodifier.RequiresReplaceIfConfigured(),
-							speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
-						},
 						NestedObject: schema.NestedAttributeObject{
 							Validators: []validator.Object{
 								speakeasy_objectvalidators.NotNull(),
-							},
-							PlanModifiers: []planmodifier.Object{
-								objectplanmodifier.RequiresReplaceIfConfigured(),
-								speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
 							},
 							Attributes: map[string]schema.Attribute{
 								"entity_id": schema.StringAttribute{
 									Computed: true,
 									Optional: true,
-									PlanModifiers: []planmodifier.String{
-										stringplanmodifier.RequiresReplaceIfConfigured(),
-										speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
-									},
-									Description: `Requires replacement if changed.`,
 								},
 								"tags": schema.ListAttribute{
-									Computed: true,
-									Optional: true,
-									PlanModifiers: []planmodifier.List{
-										listplanmodifier.RequiresReplaceIfConfigured(),
-										speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
-									},
+									Computed:    true,
+									Optional:    true,
 									ElementType: types.StringType,
-									Description: `Requires replacement if changed.`,
 								},
 							},
 						},
-						Description: `Requires replacement if changed.`,
 					},
 				},
-				Description: `Requires replacement if changed.`,
 			},
 			"id": schema.StringAttribute{
 				Computed: true,
 			},
 			"manifest": schema.ListAttribute{
-				Computed: true,
-				Optional: true,
-				PlanModifiers: []planmodifier.List{
-					listplanmodifier.RequiresReplaceIfConfigured(),
-					speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
-				},
+				Computed:    true,
+				Optional:    true,
 				ElementType: types.StringType,
-				Description: `Manifest ID used to create/update the entity. Requires replacement if changed.`,
+				Description: `Manifest ID used to create/update the entity`,
 			},
 			"org": schema.StringAttribute{
 				Computed:    true,
@@ -210,14 +169,9 @@ func (r *TaxResource) Schema(ctx context.Context, req resource.SchemaRequest, re
 				},
 			},
 			"tags": schema.ListAttribute{
-				Computed: true,
-				Optional: true,
-				PlanModifiers: []planmodifier.List{
-					listplanmodifier.RequiresReplaceIfConfigured(),
-					speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
-				},
+				Computed:    true,
+				Optional:    true,
 				ElementType: types.StringType,
-				Description: `Requires replacement if changed.`,
 			},
 			"title": schema.StringAttribute{
 				Computed: true,

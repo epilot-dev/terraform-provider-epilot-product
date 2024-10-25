@@ -14,7 +14,7 @@ Tax Resource
 
 ```terraform
 resource "epilot-product_tax" "my_tax" {
-  active = false
+  active = true
   additional = {
     "see" : jsonencode("documentation"),
   }
@@ -54,12 +54,12 @@ resource "epilot-product_tax" "my_tax" {
 
 ### Optional
 
-- `additional` (Map of String) Additional fields that are not part of the schema. Requires replacement if changed.
+- `additional` (Map of String) Additional fields that are not part of the schema
 - `description` (String)
-- `files` (Attributes) Requires replacement if changed. (see [below for nested schema](#nestedatt--files))
-- `manifest` (List of String) Manifest ID used to create/update the entity. Requires replacement if changed.
+- `files` (Attributes) (see [below for nested schema](#nestedatt--files))
+- `manifest` (List of String) Manifest ID used to create/update the entity
 - `schema` (String) must be "tax"
-- `tags` (List of String) Requires replacement if changed.
+- `tags` (List of String)
 
 ### Read-Only
 
@@ -76,15 +76,15 @@ resource "epilot-product_tax" "my_tax" {
 
 Optional:
 
-- `dollar_relation` (Attributes List) Requires replacement if changed. (see [below for nested schema](#nestedatt--files--dollar_relation))
+- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--files--dollar_relation))
 
 <a id="nestedatt--files--dollar_relation"></a>
 ### Nested Schema for `files.dollar_relation`
 
 Optional:
 
-- `entity_id` (String) Requires replacement if changed.
-- `tags` (List of String) Requires replacement if changed.
+- `entity_id` (String)
+- `tags` (List of String)
 
 
 
