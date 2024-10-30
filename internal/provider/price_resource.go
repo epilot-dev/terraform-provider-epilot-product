@@ -5,6 +5,12 @@ package provider
 import (
 	"context"
 	"fmt"
+	speakeasy_boolplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/boolplanmodifier"
+	speakeasy_listplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/listplanmodifier"
+	speakeasy_mapplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/mapplanmodifier"
+	speakeasy_numberplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/numberplanmodifier"
+	speakeasy_objectplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/objectplanmodifier"
+	speakeasy_stringplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/stringplanmodifier"
 	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/operations"
@@ -16,6 +22,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -85,29 +92,47 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 		Attributes: map[string]schema.Attribute{
 			"acl": schema.SingleNestedAttribute{
 				Computed: true,
+				PlanModifiers: []planmodifier.Object{
+					speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
+				},
 				Attributes: map[string]schema.Attribute{
 					"delete": schema.ListAttribute{
-						Computed:    true,
+						Computed: true,
+						PlanModifiers: []planmodifier.List{
+							speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
+						},
 						ElementType: types.StringType,
 					},
 					"edit": schema.ListAttribute{
-						Computed:    true,
+						Computed: true,
+						PlanModifiers: []planmodifier.List{
+							speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
+						},
 						ElementType: types.StringType,
 					},
 					"view": schema.ListAttribute{
-						Computed:    true,
+						Computed: true,
+						PlanModifiers: []planmodifier.List{
+							speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
+						},
 						ElementType: types.StringType,
 					},
 				},
 				Description: `Access control list (ACL) for an entity. Defines sharing access to external orgs or users.`,
 			},
 			"active": schema.BoolAttribute{
-				Required:    true,
+				Required: true,
+				PlanModifiers: []planmodifier.Bool{
+					speakeasy_boolplanmodifier.SuppressDiff(speakeasy_boolplanmodifier.ExplicitSuppress),
+				},
 				Description: `Whether the price can be used for new purchases.`,
 			},
 			"additional": schema.MapAttribute{
-				Computed:    true,
-				Optional:    true,
+				Computed: true,
+				Optional: true,
+				PlanModifiers: []planmodifier.Map{
+					speakeasy_mapplanmodifier.SuppressDiff(speakeasy_mapplanmodifier.ExplicitSuppress),
+				},
 				ElementType: types.StringType,
 				Description: `Additional fields that are not part of the schema`,
 				Validators: []validator.Map{
@@ -115,13 +140,19 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 				},
 			},
 			"billing_duration_amount": schema.NumberAttribute{
-				Computed:    true,
-				Optional:    true,
+				Computed: true,
+				Optional: true,
+				PlanModifiers: []planmodifier.Number{
+					speakeasy_numberplanmodifier.SuppressDiff(speakeasy_numberplanmodifier.ExplicitSuppress),
+				},
 				Description: `The billing period duration`,
 			},
 			"billing_duration_unit": schema.StringAttribute{
-				Computed:    true,
-				Optional:    true,
+				Computed: true,
+				Optional: true,
+				PlanModifiers: []planmodifier.String{
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+				},
 				Description: `The billing period duration unit. must be one of ["weeks", "months", "years"]`,
 				Validators: []validator.String{
 					stringvalidator.OneOf(
@@ -133,33 +164,54 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 			},
 			"created_at": schema.StringAttribute{
 				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+				},
 				Validators: []validator.String{
 					validators.IsRFC3339(),
 				},
 			},
 			"description": schema.StringAttribute{
-				Required:    true,
+				Required: true,
+				PlanModifiers: []planmodifier.String{
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+				},
 				Description: `A brief description of the price.`,
 			},
 			"files": schema.SingleNestedAttribute{
 				Computed: true,
 				Optional: true,
+				PlanModifiers: []planmodifier.Object{
+					speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
+				},
 				Attributes: map[string]schema.Attribute{
 					"dollar_relation": schema.ListNestedAttribute{
 						Computed: true,
 						Optional: true,
+						PlanModifiers: []planmodifier.List{
+							speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
+						},
 						NestedObject: schema.NestedAttributeObject{
 							Validators: []validator.Object{
 								speakeasy_objectvalidators.NotNull(),
+							},
+							PlanModifiers: []planmodifier.Object{
+								speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
 							},
 							Attributes: map[string]schema.Attribute{
 								"entity_id": schema.StringAttribute{
 									Computed: true,
 									Optional: true,
+									PlanModifiers: []planmodifier.String{
+										speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+									},
 								},
 								"tags": schema.ListAttribute{
-									Computed:    true,
-									Optional:    true,
+									Computed: true,
+									Optional: true,
+									PlanModifiers: []planmodifier.List{
+										speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
+									},
 									ElementType: types.StringType,
 								},
 							},
@@ -169,37 +221,58 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 			},
 			"id": schema.StringAttribute{
 				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+				},
 			},
 			"is_composite_price": schema.BoolAttribute{
-				Computed:    true,
-				Optional:    true,
+				Computed: true,
+				Optional: true,
+				PlanModifiers: []planmodifier.Bool{
+					speakeasy_boolplanmodifier.SuppressDiff(speakeasy_boolplanmodifier.ExplicitSuppress),
+				},
 				Description: `The flag for prices that contain price components.`,
 			},
 			"is_tax_inclusive": schema.BoolAttribute{
-				Computed:    true,
-				Optional:    true,
-				Default:     booldefault.StaticBool(false),
+				Computed: true,
+				Optional: true,
+				Default:  booldefault.StaticBool(false),
+				PlanModifiers: []planmodifier.Bool{
+					speakeasy_boolplanmodifier.SuppressDiff(speakeasy_boolplanmodifier.ExplicitSuppress),
+				},
 				Description: `Specifies whether the price is considered ` + "`" + `inclusive` + "`" + ` of taxes or not. Default: false`,
 			},
 			"long_description": schema.StringAttribute{
-				Computed:    true,
-				Optional:    true,
+				Computed: true,
+				Optional: true,
+				PlanModifiers: []planmodifier.String{
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+				},
 				Description: `A detailed description of the price. This is shown on the order document and order table. Multi-line supported.`,
 			},
 			"manifest": schema.ListAttribute{
-				Computed:    true,
-				Optional:    true,
+				Computed: true,
+				Optional: true,
+				PlanModifiers: []planmodifier.List{
+					speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
+				},
 				ElementType: types.StringType,
 				Description: `Manifest ID used to create/update the entity`,
 			},
 			"notice_time_amount": schema.NumberAttribute{
-				Computed:    true,
-				Optional:    true,
+				Computed: true,
+				Optional: true,
+				PlanModifiers: []planmodifier.Number{
+					speakeasy_numberplanmodifier.SuppressDiff(speakeasy_numberplanmodifier.ExplicitSuppress),
+				},
 				Description: `The notice period duration`,
 			},
 			"notice_time_unit": schema.StringAttribute{
-				Computed:    true,
-				Optional:    true,
+				Computed: true,
+				Optional: true,
+				PlanModifiers: []planmodifier.String{
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+				},
 				Description: `The notice period duration unit. must be one of ["weeks", "months", "years"]`,
 				Validators: []validator.String{
 					stringvalidator.OneOf(
@@ -210,18 +283,33 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 				},
 			},
 			"org": schema.StringAttribute{
-				Computed:    true,
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+				},
 				Description: `Organization Id the entity belongs to`,
 			},
 			"owners": schema.ListNestedAttribute{
 				Computed: true,
+				PlanModifiers: []planmodifier.List{
+					speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
+				},
 				NestedObject: schema.NestedAttributeObject{
+					PlanModifiers: []planmodifier.Object{
+						speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
+					},
 					Attributes: map[string]schema.Attribute{
 						"org_id": schema.StringAttribute{
 							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+							},
 						},
 						"user_id": schema.StringAttribute{
 							Computed: true,
+							PlanModifiers: []planmodifier.String{
+								speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+							},
 						},
 					},
 				},
@@ -229,23 +317,38 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 			"price_components": schema.SingleNestedAttribute{
 				Computed: true,
 				Optional: true,
+				PlanModifiers: []planmodifier.Object{
+					speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
+				},
 				Attributes: map[string]schema.Attribute{
 					"dollar_relation": schema.ListNestedAttribute{
 						Computed: true,
 						Optional: true,
+						PlanModifiers: []planmodifier.List{
+							speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
+						},
 						NestedObject: schema.NestedAttributeObject{
 							Validators: []validator.Object{
 								speakeasy_objectvalidators.NotNull(),
 							},
+							PlanModifiers: []planmodifier.Object{
+								speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
+							},
 							Attributes: map[string]schema.Attribute{
 								"entity_id": schema.StringAttribute{
-									Computed:    true,
-									Optional:    true,
+									Computed: true,
+									Optional: true,
+									PlanModifiers: []planmodifier.String{
+										speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+									},
 									Description: `The id of the price component`,
 								},
 								"tags": schema.ListAttribute{
-									Computed:    true,
-									Optional:    true,
+									Computed: true,
+									Optional: true,
+									PlanModifiers: []planmodifier.List{
+										speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
+									},
 									ElementType: types.StringType,
 									Description: `An arbitrary set of tags attached to the composite price - component relation`,
 								},
@@ -256,8 +359,11 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 				Description: `A set of [price](/api/pricing#tag/simple_price_schema) components that define the composite price.`,
 			},
 			"price_display_in_journeys": schema.StringAttribute{
-				Computed:    true,
-				Optional:    true,
+				Computed: true,
+				Optional: true,
+				PlanModifiers: []planmodifier.String{
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+				},
 				Description: `Defines the way the price amount is display in epilot journeys. must be one of ["show_price", "show_as_starting_price", "show_as_on_request"]`,
 				Validators: []validator.String{
 					stringvalidator.OneOf(
@@ -271,6 +377,9 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 				Computed: true,
 				Optional: true,
 				Default:  stringdefault.StaticString("per_unit"),
+				PlanModifiers: []planmodifier.String{
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+				},
 				MarkdownDescription: `Describes how to compute the price per period. Either ` + "`" + `per_unit` + "`" + `, ` + "`" + `tiered_graduated` + "`" + ` or ` + "`" + `tiered_volume` + "`" + `.` + "\n" +
 					`- ` + "`" + `per_unit` + "`" + ` indicates that the fixed amount (specified in unit_amount or unit_amount_decimal) will be charged per unit in quantity` + "\n" +
 					`- ` + "`" + `tiered_graduated` + "`" + ` indicates that the unit pricing will be computed using tiers attribute. The customer pays the price per unit in every range their purchase rises through.` + "\n" +
@@ -287,13 +396,19 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 				},
 			},
 			"renewal_duration_amount": schema.NumberAttribute{
-				Computed:    true,
-				Optional:    true,
+				Computed: true,
+				Optional: true,
+				PlanModifiers: []planmodifier.Number{
+					speakeasy_numberplanmodifier.SuppressDiff(speakeasy_numberplanmodifier.ExplicitSuppress),
+				},
 				Description: `The renewal period duration`,
 			},
 			"renewal_duration_unit": schema.StringAttribute{
-				Computed:    true,
-				Optional:    true,
+				Computed: true,
+				Optional: true,
+				PlanModifiers: []planmodifier.String{
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+				},
 				Description: `The renewal period duration unit. must be one of ["weeks", "months", "years"]`,
 				Validators: []validator.String{
 					stringvalidator.OneOf(
@@ -304,34 +419,49 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 				},
 			},
 			"schema": schema.StringAttribute{
-				Computed:    true,
-				Optional:    true,
+				Computed: true,
+				Optional: true,
+				PlanModifiers: []planmodifier.String{
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+				},
 				Description: `must be "price"`,
 				Validators: []validator.String{
 					stringvalidator.OneOf("price"),
 				},
 			},
 			"tags": schema.ListAttribute{
-				Computed:    true,
-				Optional:    true,
+				Computed: true,
+				Optional: true,
+				PlanModifiers: []planmodifier.List{
+					speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
+				},
 				ElementType: types.StringType,
 			},
 			"tax": schema.StringAttribute{
-				Computed:    true,
-				Optional:    true,
+				Computed: true,
+				Optional: true,
+				PlanModifiers: []planmodifier.String{
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+				},
 				Description: `Parsed as JSON.`,
 				Validators: []validator.String{
 					validators.IsValidJSON(),
 				},
 			},
 			"termination_time_amount": schema.NumberAttribute{
-				Computed:    true,
-				Optional:    true,
+				Computed: true,
+				Optional: true,
+				PlanModifiers: []planmodifier.Number{
+					speakeasy_numberplanmodifier.SuppressDiff(speakeasy_numberplanmodifier.ExplicitSuppress),
+				},
 				Description: `The termination period duration`,
 			},
 			"termination_time_unit": schema.StringAttribute{
-				Computed:    true,
-				Optional:    true,
+				Computed: true,
+				Optional: true,
+				PlanModifiers: []planmodifier.String{
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+				},
 				Description: `The termination period duration unit. must be one of ["weeks", "months", "years"]`,
 				Validators: []validator.String{
 					stringvalidator.OneOf(
@@ -344,14 +474,23 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 			"tiers": schema.ListNestedAttribute{
 				Computed: true,
 				Optional: true,
+				PlanModifiers: []planmodifier.List{
+					speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
+				},
 				NestedObject: schema.NestedAttributeObject{
 					Validators: []validator.Object{
 						speakeasy_objectvalidators.NotNull(),
 					},
+					PlanModifiers: []planmodifier.Object{
+						speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
+					},
 					Attributes: map[string]schema.Attribute{
 						"display_mode": schema.StringAttribute{
-							Computed:    true,
-							Optional:    true,
+							Computed: true,
+							Optional: true,
+							PlanModifiers: []planmodifier.String{
+								speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+							},
 							Description: `must be one of ["hidden", "on_request"]`,
 							Validators: []validator.String{
 								stringvalidator.OneOf(
@@ -363,22 +502,37 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 						"flat_fee_amount": schema.NumberAttribute{
 							Computed: true,
 							Optional: true,
+							PlanModifiers: []planmodifier.Number{
+								speakeasy_numberplanmodifier.SuppressDiff(speakeasy_numberplanmodifier.ExplicitSuppress),
+							},
 						},
 						"flat_fee_amount_decimal": schema.StringAttribute{
 							Computed: true,
 							Optional: true,
+							PlanModifiers: []planmodifier.String{
+								speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+							},
 						},
 						"unit_amount": schema.NumberAttribute{
 							Computed: true,
 							Optional: true,
+							PlanModifiers: []planmodifier.Number{
+								speakeasy_numberplanmodifier.SuppressDiff(speakeasy_numberplanmodifier.ExplicitSuppress),
+							},
 						},
 						"unit_amount_decimal": schema.StringAttribute{
 							Computed: true,
 							Optional: true,
+							PlanModifiers: []planmodifier.String{
+								speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+							},
 						},
 						"up_to": schema.NumberAttribute{
 							Computed: true,
 							Optional: true,
+							PlanModifiers: []planmodifier.Number{
+								speakeasy_numberplanmodifier.SuppressDiff(speakeasy_numberplanmodifier.ExplicitSuppress),
+							},
 						},
 					},
 				},
@@ -386,11 +540,17 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 			},
 			"title": schema.StringAttribute{
 				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+				},
 			},
 			"type": schema.StringAttribute{
-				Computed:    true,
-				Optional:    true,
-				Default:     stringdefault.StaticString("one_time"),
+				Computed: true,
+				Optional: true,
+				Default:  stringdefault.StaticString("one_time"),
+				PlanModifiers: []planmodifier.String{
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+				},
 				Description: `One of ` + "`" + `one_time` + "`" + ` or ` + "`" + `recurring` + "`" + ` depending on whether the price is for a one-time purchase or a recurring (subscription) purchase. Default: "one_time"; must be one of ["one_time", "recurring"]`,
 				Validators: []validator.String{
 					stringvalidator.OneOf(
@@ -400,35 +560,53 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 				},
 			},
 			"unit": schema.StringAttribute{
-				Computed:    true,
-				Optional:    true,
+				Computed: true,
+				Optional: true,
+				PlanModifiers: []planmodifier.String{
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+				},
 				Description: `The unit of measurement used for display purposes and possibly for calculations when the price is variable.`,
 			},
 			"unit_amount": schema.NumberAttribute{
-				Computed:    true,
-				Optional:    true,
+				Computed: true,
+				Optional: true,
+				PlanModifiers: []planmodifier.Number{
+					speakeasy_numberplanmodifier.SuppressDiff(speakeasy_numberplanmodifier.ExplicitSuppress),
+				},
 				Description: `The unit amount in cents to be charged, represented as a whole integer if possible.`,
 			},
 			"unit_amount_currency": schema.StringAttribute{
-				Computed:    true,
-				Optional:    true,
+				Computed: true,
+				Optional: true,
+				PlanModifiers: []planmodifier.String{
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+				},
 				Description: `Three-letter ISO currency code, in lowercase.`,
 			},
 			"unit_amount_decimal": schema.StringAttribute{
-				Computed:    true,
-				Optional:    true,
+				Computed: true,
+				Optional: true,
+				PlanModifiers: []planmodifier.String{
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+				},
 				Description: `The unit amount in cents to be charged, represented as a decimal string with at most 12 decimal places.`,
 			},
 			"updated_at": schema.StringAttribute{
 				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+				},
 				Validators: []validator.String{
 					validators.IsRFC3339(),
 				},
 			},
 			"variable_price": schema.BoolAttribute{
-				Computed:    true,
-				Optional:    true,
-				Default:     booldefault.StaticBool(false),
+				Computed: true,
+				Optional: true,
+				Default:  booldefault.StaticBool(false),
+				PlanModifiers: []planmodifier.Bool{
+					speakeasy_boolplanmodifier.SuppressDiff(speakeasy_boolplanmodifier.ExplicitSuppress),
+				},
 				Description: `The flag for prices that can be influenced by external variables such as user input. Default: false`,
 			},
 		},
@@ -519,12 +697,12 @@ func (r *PriceResource) Read(ctx context.Context, req resource.ReadRequest, resp
 		return
 	}
 
-	// read.price.hydrateread.price.hydrate impedance mismatch: boolean != classtrace=["Price#create.req"]
+	// read.price.hydrateread.price.hydrate impedance mismatch: boolean != classtrace=["Price#create.req","Price.create"]
 	var hydrate *bool
 	var priceID string
 	priceID = data.ID.ValueString()
 
-	// read.price.strictread.price.strict impedance mismatch: boolean != classtrace=["Price#create.req"]
+	// read.price.strictread.price.strict impedance mismatch: boolean != classtrace=["Price#create.req","Price.create"]
 	var strict *bool
 	request := operations.GetPriceRequest{
 		Hydrate: hydrate,
