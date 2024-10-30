@@ -351,6 +351,7 @@ components:
             example: org:456
     BaseSystemFields:
       type: object
+      x-speakeasy-param-suppress-computed-diff: true 
       properties:
         _tags:
           $ref: "#/components/schemas/BaseTags"
@@ -371,6 +372,7 @@ components:
           example: {}
     BaseSystemReadonlyFields:
       type: object
+      x-speakeasy-param-suppress-computed-diff: true 
       properties:
         _id:
           $ref: "#/components/schemas/BaseUUID"
