@@ -1,0 +1,9 @@
+workflowVersion: 1.0.0
+sources:
+    my-source:
+        inputs:
+            - location: https://docs.api.epilot.io/product.yaml
+targets:
+    terraform:
+        target: terraform
+        source: my-source
