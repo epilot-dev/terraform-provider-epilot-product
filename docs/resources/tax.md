@@ -16,7 +16,7 @@ Tax Resource
 resource "epilot-product_tax" "my_tax" {
   active = true
   additional = {
-    "see" : jsonencode("documentation"),
+    key = jsonencode("value"),
   }
   description = "...my_description..."
   files = {

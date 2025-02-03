@@ -2,6 +2,7 @@ openapi: 3.0.3
 info:
   title: Product API
   version: 1.0.0
+
 tags:
   - name: Product
     description: Product operations
@@ -9,6 +10,39 @@ tags:
     description: Price operations
   - name: Tax
     description: Tax operations
+  - name: Coupon
+    description: Coupon operations
+  - name: product_schema
+    x-displayName: Product
+    description: |
+      <SchemaDefinition schemaRef="#/components/schemas/Product" />
+  - name: price_schema
+    x-displayName: Price
+    description: |
+      <SchemaDefinition schemaRef="#/components/schemas/Price" />
+  - name: tax_schema
+    x-displayName: Tax
+    description: |
+      <SchemaDefinition schemaRef="#/components/schemas/Tax" />
+  - name: coupon_schema
+    x-displayName: Coupon
+    description: |
+      <SchemaDefinition schemaRef="#/components/schemas/Coupon" />
+
+x-tagGroups:
+  - name: APIs
+    tags:
+      - Product
+      - Price
+      - Tax
+      - Coupon
+  - name: Schemas
+    tags:
+      - product_schema
+      - price_schema
+      - tax_schema
+      - coupon_schema
+
 security:
   - EpilotAuth: []
   - EpilotOrg: []
@@ -16,6 +50,90 @@ servers:
   - url: https://product.sls.epilot.io
     description: Production server
 paths:
+  /v1/coupon:
+    post:
+      operationId: createCoupon
+      summary: createCoupon
+      description: Create a new coupon entity
+      tags:
+        - Coupon
+      requestBody:
+        $ref: "#/components/requestBodies/CouponCreateRequest"
+      responses:
+        "201":
+          $ref: "#/components/responses/CouponResponse"
+        "400":
+          $ref: "#/components/responses/ClientErrorResponse"
+        "500":
+          $ref: "#/components/responses/ServerErrorResponse"
+
+  /v1/coupon/{couponId}:
+    get:
+      operationId: getCoupon
+      summary: getCoupon
+      description: Read a specific coupon entity by a given id
+      tags:
+        - Coupon
+      parameters:
+        - $ref: "#/components/parameters/CouponIdPathParam"
+        - $ref: "#/components/parameters/HydrateQueryParam"
+        - $ref: "#/components/parameters/StrictQueryParam"
+      responses:
+        "200":
+          $ref: "#/components/responses/CouponResponse"
+        "400":
+          $ref: "#/components/responses/ClientErrorResponse"
+        "500":
+          $ref: "#/components/responses/ServerErrorResponse"
+    delete:
+      operationId: deleteCoupon
+      summary: deleteCoupon
+      description: Delete a specific coupon entity by a given id
+      tags:
+        - Coupon
+      parameters:
+        - $ref: "#/components/parameters/CouponIdPathParam"
+      responses:
+        "200":
+          $ref: "#/components/responses/CouponResponse"
+        "400":
+          $ref: "#/components/responses/ClientErrorResponse"
+        "500":
+          $ref: "#/components/responses/ServerErrorResponse"
+    patch:
+      operationId: patchCoupon
+      summary: patchCoupon
+      description: Partially update a specific coupon entity's properties by a given id and a given payload
+      tags:
+        - Coupon
+      parameters:
+        - $ref: "#/components/parameters/CouponIdPathParam"
+      requestBody:
+        $ref: "#/components/requestBodies/CouponPatchRequest"
+      responses:
+        "200":
+          $ref: "#/components/responses/CouponResponse"
+        "400":
+          $ref: "#/components/responses/ClientErrorResponse"
+        "500":
+          $ref: "#/components/responses/ServerErrorResponse"
+    put:
+      operationId: updateCoupon
+      summary: updateCoupon
+      description: Completly replace a specific coupon entity's properties by a given id and a given payload
+      tags:
+        - Coupon
+      parameters:
+        - $ref: "#/components/parameters/CouponIdPathParam"
+      requestBody:
+        $ref: "#/components/requestBodies/CouponUpdateRequest"
+      responses:
+        "200":
+          $ref: "#/components/responses/CouponResponse"
+        "400":
+          $ref: "#/components/responses/ClientErrorResponse"
+        "500":
+          $ref: "#/components/responses/ServerErrorResponse"
   /v1/tax:
     post:
       operationId: createTax
@@ -450,9 +568,84 @@ components:
         - $ref: "#/components/schemas/BaseTax"
         - $ref: "#/components/schemas/BaseTaxRequired"
         - $ref: "#/components/schemas/BaseSystemFields"
+    BaseCoupon:
+      type: object
+      properties:
+        _schema:
+          type: string
+          enum:
+            - coupon
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+          enum: ['fixed', 'percentage']
+        category:
+          type: string
+          enum: ['discount', 'cashback']
+        percentage_value:
+          type: string
+          description: Use if type is set to percentage. The percentage to be discounted, represented as a whole integer.
+        fixed_value:
+          description: Use if type is set to fixed. The fixed amount in cents to be discounted, represented as a whole integer.
+          type: number
+        fixed_value_decimal:
+          description: Use if type is set to fixed. The unit amount in cents to be discounted, represented as a decimal string with at most 12 decimal places.
+          type: string
+        fixed_value_currency:
+          description: Use if type is set to fixed. Three-letter ISO currency code, in lowercase.
+          oneOf:
+            - $ref: '#/components/schemas/Currency'
+        cashback_period:
+          type: string
+          description: The cashback period, for now it's limited to either 0 months or 12 months
+          enum: ['0', '12']
+        active:
+          type: boolean
+        requires_promo_code:
+          type: boolean
+          description: Whether the coupon requires a promo code to be applied
+        prices:
+          $ref: "#/components/schemas/BaseRelation"
+        # promo codes are now part of the coupon:
+        promo_codes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PromoCode'
+        promo_code_usage:
+          type: object
+          additionalProperties:
+            type: number
+          description: Map of ids of promo codes with their usage count
+          x-speakeasy-type-override: any
+    BaseCouponRequired:
+      type: object
+      required:
+        - name
+        - type
+        - category
+        - active
+    Coupon:
+      allOf:
+        - $ref: "#/components/schemas/BaseSystemReadonlyFields"
+        - $ref: "#/components/schemas/BaseCoupon"
+        - $ref: "#/components/schemas/BaseCouponRequired"
+        - $ref: "#/components/schemas/BaseSystemFieldsRequired"
+        - $ref: "#/components/schemas/BaseSystemFields"
+    CouponCreate:
+      allOf:
+        - $ref: "#/components/schemas/BaseCoupon"
+        - $ref: "#/components/schemas/BaseCouponRequired"
+        - $ref: "#/components/schemas/BaseSystemFields"
     TaxPatch:
       allOf:
         - $ref: "#/components/schemas/BaseTax"
+        - $ref: "#/components/schemas/BaseSystemFields"
+    CouponPatch:
+      allOf:
+        - $ref: "#/components/schemas/BaseCoupon"
         - $ref: "#/components/schemas/BaseSystemFields"
     BasePrice:
       type: object
@@ -535,40 +728,48 @@ components:
         billing_duration_unit:
           description: The billing period duration unit
           type: string
+          nullable: true
           enum:
             - weeks
             - months
             - years
+            - null
         notice_time_amount:
           description: The notice period duration
           type: number
         notice_time_unit:
           description: The notice period duration unit
           type: string
+          nullable: true
           enum:
             - weeks
             - months
             - years
+            - null
         termination_time_amount:
           description: The termination period duration
           type: number
         termination_time_unit:
           description: The termination period duration unit
           type: string
+          nullable: true
           enum:
             - weeks
             - months
             - years
+            - null
         renewal_duration_amount:
           description: The renewal period duration
           type: number
         renewal_duration_unit:
           description: The renewal period duration unit
           type: string
+          nullable: true
           enum:
             - weeks
             - months
             - years
+            - null
         variable_price:
           description: The flag for prices that can be influenced by external variables such as user input.
           type: boolean
@@ -610,6 +811,25 @@ components:
         - active
         - description
         - type
+    PromoCode:
+      type: object
+      required:
+        - id
+        - code
+      properties:
+        id:
+          type: string
+          description: The id of the promo code
+        code:
+          type: string
+          description: The code of the promo code
+        has_usage_limit:
+          type: boolean
+          description: Whether the promo code has a usage limit
+        usage_limit:
+          type: number
+          nullable: true
+          description: The usage limit of the promo code
     Price:
       allOf:
         - $ref: "#/components/schemas/BaseSystemReadonlyFields"
@@ -732,6 +952,13 @@ components:
       required: true
       schema:
         $ref: "#/components/schemas/BaseUUID"
+    CouponIdPathParam:
+      name: couponId
+      description: The coupon id
+      in: path
+      required: true
+      schema:
+        $ref: "#/components/schemas/BaseUUID"
     PriceIdPathParam:
       name: priceId
       description: The price id
@@ -747,6 +974,13 @@ components:
       schema:
         $ref: "#/components/schemas/BaseUUID"
   requestBodies:
+    CouponCreateRequest:
+      description: Coupon to create
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CouponCreate"
     TaxCreateRequest:
       description: Tax to create
       required: true
@@ -761,6 +995,13 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/TaxPatch"
+    CouponPatchRequest:
+      description: Coupon to patch
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CouponPatch"
     TaxUpdateRequest:
       description: Tax to update
       required: true
@@ -768,6 +1009,13 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/TaxCreate"
+    CouponUpdateRequest:
+      description: Coupon to update
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CouponCreate"
     PriceCreateRequest:
       description: Price to create
       required: true
@@ -829,6 +1077,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/Tax"
+    CouponResponse:
+      description: Coupon entity response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Coupon"
     PriceResponse:
       description: Price entity with id
       content:

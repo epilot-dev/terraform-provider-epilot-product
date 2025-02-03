@@ -66,3 +66,21 @@ actions:
   - target: $["components"]["parameters"]["ProductIdPathParam"]
     update:
       x-speakeasy-match: id
+
+  # Coupon
+  - target: $["paths"]["/v1/coupon"]["post"]
+    update:
+      x-speakeasy-entity-operation: Coupon#create
+  - target: $["paths"]["/v1/coupon/{couponId}"]["get"]
+    update:
+      x-speakeasy-entity-operation: Coupon#get
+  - target: $["paths"]["/v1/coupon/{couponId}"]["patch"]
+    update:
+      x-speakeasy-entity-operation: Coupon#update
+  - target: $["paths"]["/v1/coupon/{couponId}"]["delete"]
+    update:
+      x-speakeasy-entity-operation: Coupon#delete
+  - target: $["components"]["parameters"]["CouponIdPathParam"]
+    update:
+      x-speakeasy-match: id
+  

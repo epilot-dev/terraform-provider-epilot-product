@@ -16,23 +16,23 @@ import (
 	"net/url"
 )
 
-// Product operations
-type Product struct {
+// Coupon operations
+type Coupon struct {
 	sdkConfiguration sdkConfiguration
 }
 
-func newProduct(sdkConfig sdkConfiguration) *Product {
-	return &Product{
+func newCoupon(sdkConfig sdkConfiguration) *Coupon {
+	return &Coupon{
 		sdkConfiguration: sdkConfig,
 	}
 }
 
-// CreateProduct - createProduct
-// Create a new product entity
-func (s *Product) CreateProduct(ctx context.Context, request shared.ProductCreate, opts ...operations.Option) (*operations.CreateProductResponse, error) {
+// CreateCoupon - createCoupon
+// Create a new coupon entity
+func (s *Coupon) CreateCoupon(ctx context.Context, request shared.CouponCreate, opts ...operations.Option) (*operations.CreateCouponResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
-		OperationID:    "createProduct",
+		OperationID:    "createCoupon",
 		OAuth2Scopes:   []string{},
 		SecuritySource: s.sdkConfiguration.Security,
 	}
@@ -55,7 +55,7 @@ func (s *Product) CreateProduct(ctx context.Context, request shared.ProductCreat
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := url.JoinPath(baseURL, "/v1/product")
+	opURL, err := url.JoinPath(baseURL, "/v1/coupon")
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -189,7 +189,7 @@ func (s *Product) CreateProduct(ctx context.Context, request shared.ProductCreat
 		}
 	}
 
-	res := &operations.CreateProductResponse{
+	res := &operations.CreateCouponResponse{
 		StatusCode:  httpRes.StatusCode,
 		ContentType: httpRes.Header.Get("Content-Type"),
 		RawResponse: httpRes,
@@ -204,12 +204,12 @@ func (s *Product) CreateProduct(ctx context.Context, request shared.ProductCreat
 				return nil, err
 			}
 
-			var out shared.Product
+			var out shared.Coupon
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			res.Product = &out
+			res.Coupon = &out
 		default:
 			rawBody, err := utils.ConsumeRawBody(httpRes)
 			if err != nil {
@@ -271,12 +271,12 @@ func (s *Product) CreateProduct(ctx context.Context, request shared.ProductCreat
 
 }
 
-// DeleteProduct - deleteProduct
-// Delete a specific product entity by a given id
-func (s *Product) DeleteProduct(ctx context.Context, request operations.DeleteProductRequest, opts ...operations.Option) (*operations.DeleteProductResponse, error) {
+// DeleteCoupon - deleteCoupon
+// Delete a specific coupon entity by a given id
+func (s *Coupon) DeleteCoupon(ctx context.Context, request operations.DeleteCouponRequest, opts ...operations.Option) (*operations.DeleteCouponResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
-		OperationID:    "deleteProduct",
+		OperationID:    "deleteCoupon",
 		OAuth2Scopes:   []string{},
 		SecuritySource: s.sdkConfiguration.Security,
 	}
@@ -299,7 +299,7 @@ func (s *Product) DeleteProduct(ctx context.Context, request operations.DeletePr
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/v1/product/{productId}", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/v1/coupon/{couponId}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -425,7 +425,7 @@ func (s *Product) DeleteProduct(ctx context.Context, request operations.DeletePr
 		}
 	}
 
-	res := &operations.DeleteProductResponse{
+	res := &operations.DeleteCouponResponse{
 		StatusCode:  httpRes.StatusCode,
 		ContentType: httpRes.Header.Get("Content-Type"),
 		RawResponse: httpRes,
@@ -440,12 +440,12 @@ func (s *Product) DeleteProduct(ctx context.Context, request operations.DeletePr
 				return nil, err
 			}
 
-			var out shared.Product
+			var out shared.Coupon
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			res.Product = &out
+			res.Coupon = &out
 		default:
 			rawBody, err := utils.ConsumeRawBody(httpRes)
 			if err != nil {
@@ -507,12 +507,12 @@ func (s *Product) DeleteProduct(ctx context.Context, request operations.DeletePr
 
 }
 
-// GetProduct - getProduct
-// Read a specific product entity by a given id
-func (s *Product) GetProduct(ctx context.Context, request operations.GetProductRequest, opts ...operations.Option) (*operations.GetProductResponse, error) {
+// GetCoupon - getCoupon
+// Read a specific coupon entity by a given id
+func (s *Coupon) GetCoupon(ctx context.Context, request operations.GetCouponRequest, opts ...operations.Option) (*operations.GetCouponResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
-		OperationID:    "getProduct",
+		OperationID:    "getCoupon",
 		OAuth2Scopes:   []string{},
 		SecuritySource: s.sdkConfiguration.Security,
 	}
@@ -535,7 +535,7 @@ func (s *Product) GetProduct(ctx context.Context, request operations.GetProductR
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/v1/product/{productId}", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/v1/coupon/{couponId}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
@@ -665,7 +665,7 @@ func (s *Product) GetProduct(ctx context.Context, request operations.GetProductR
 		}
 	}
 
-	res := &operations.GetProductResponse{
+	res := &operations.GetCouponResponse{
 		StatusCode:  httpRes.StatusCode,
 		ContentType: httpRes.Header.Get("Content-Type"),
 		RawResponse: httpRes,
@@ -680,12 +680,12 @@ func (s *Product) GetProduct(ctx context.Context, request operations.GetProductR
 				return nil, err
 			}
 
-			var out shared.Product
+			var out shared.Coupon
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			res.Product = &out
+			res.Coupon = &out
 		default:
 			rawBody, err := utils.ConsumeRawBody(httpRes)
 			if err != nil {
@@ -747,12 +747,12 @@ func (s *Product) GetProduct(ctx context.Context, request operations.GetProductR
 
 }
 
-// PatchProduct - patchProduct
-// Partially update a specific product entity's properties by a given id and a given payload
-func (s *Product) PatchProduct(ctx context.Context, request operations.PatchProductRequest, opts ...operations.Option) (*operations.PatchProductResponse, error) {
+// PatchCoupon - patchCoupon
+// Partially update a specific coupon entity's properties by a given id and a given payload
+func (s *Coupon) PatchCoupon(ctx context.Context, request operations.PatchCouponRequest, opts ...operations.Option) (*operations.PatchCouponResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
-		OperationID:    "patchProduct",
+		OperationID:    "patchCoupon",
 		OAuth2Scopes:   []string{},
 		SecuritySource: s.sdkConfiguration.Security,
 	}
@@ -775,12 +775,12 @@ func (s *Product) PatchProduct(ctx context.Context, request operations.PatchProd
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/v1/product/{productId}", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/v1/coupon/{couponId}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
 
-	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "ProductPatch", "json", `request:"mediaType=application/json"`)
+	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "CouponPatch", "json", `request:"mediaType=application/json"`)
 	if err != nil {
 		return nil, err
 	}
@@ -909,7 +909,7 @@ func (s *Product) PatchProduct(ctx context.Context, request operations.PatchProd
 		}
 	}
 
-	res := &operations.PatchProductResponse{
+	res := &operations.PatchCouponResponse{
 		StatusCode:  httpRes.StatusCode,
 		ContentType: httpRes.Header.Get("Content-Type"),
 		RawResponse: httpRes,
@@ -924,12 +924,12 @@ func (s *Product) PatchProduct(ctx context.Context, request operations.PatchProd
 				return nil, err
 			}
 
-			var out shared.Product
+			var out shared.Coupon
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			res.Product = &out
+			res.Coupon = &out
 		default:
 			rawBody, err := utils.ConsumeRawBody(httpRes)
 			if err != nil {
@@ -991,12 +991,12 @@ func (s *Product) PatchProduct(ctx context.Context, request operations.PatchProd
 
 }
 
-// UpdateProduct - updateProduct
-// Completly replace a specific product entity's properties by a given id and given payload
-func (s *Product) UpdateProduct(ctx context.Context, request operations.UpdateProductRequest, opts ...operations.Option) (*operations.UpdateProductResponse, error) {
+// UpdateCoupon - updateCoupon
+// Completly replace a specific coupon entity's properties by a given id and a given payload
+func (s *Coupon) UpdateCoupon(ctx context.Context, request operations.UpdateCouponRequest, opts ...operations.Option) (*operations.UpdateCouponResponse, error) {
 	hookCtx := hooks.HookContext{
 		Context:        ctx,
-		OperationID:    "updateProduct",
+		OperationID:    "updateCoupon",
 		OAuth2Scopes:   []string{},
 		SecuritySource: s.sdkConfiguration.Security,
 	}
@@ -1019,12 +1019,12 @@ func (s *Product) UpdateProduct(ctx context.Context, request operations.UpdatePr
 	} else {
 		baseURL = *o.ServerURL
 	}
-	opURL, err := utils.GenerateURL(ctx, baseURL, "/v1/product/{productId}", request, nil)
+	opURL, err := utils.GenerateURL(ctx, baseURL, "/v1/coupon/{couponId}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
 
-	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "ProductCreate", "json", `request:"mediaType=application/json"`)
+	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "CouponCreate", "json", `request:"mediaType=application/json"`)
 	if err != nil {
 		return nil, err
 	}
@@ -1153,7 +1153,7 @@ func (s *Product) UpdateProduct(ctx context.Context, request operations.UpdatePr
 		}
 	}
 
-	res := &operations.UpdateProductResponse{
+	res := &operations.UpdateCouponResponse{
 		StatusCode:  httpRes.StatusCode,
 		ContentType: httpRes.Header.Get("Content-Type"),
 		RawResponse: httpRes,
@@ -1168,12 +1168,12 @@ func (s *Product) UpdateProduct(ctx context.Context, request operations.UpdatePr
 				return nil, err
 			}
 
-			var out shared.Product
+			var out shared.Coupon
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out, ""); err != nil {
 				return nil, err
 			}
 
-			res.Product = &out
+			res.Coupon = &out
 		default:
 			rawBody, err := utils.ConsumeRawBody(httpRes)
 			if err != nil {

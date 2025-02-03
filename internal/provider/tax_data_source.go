@@ -113,7 +113,6 @@ func (r *TaxDataSource) Schema(ctx context.Context, req datasource.SchemaRequest
 				},
 			},
 			"hydrate": schema.BoolAttribute{
-				Computed:    true,
 				Optional:    true,
 				Description: `Hydrates entities in relations when passed true`,
 			},
@@ -152,7 +151,6 @@ func (r *TaxDataSource) Schema(ctx context.Context, req datasource.SchemaRequest
 				Computed: true,
 			},
 			"strict": schema.BoolAttribute{
-				Computed:    true,
 				Optional:    true,
 				Description: `When passed true, the response will contain only fields that match the schema, with non-matching fields included in ` + "`" + `__additional` + "`" + ``,
 			},

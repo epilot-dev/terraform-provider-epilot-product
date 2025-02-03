@@ -15,57 +15,59 @@ import (
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
-var _ datasource.DataSource = &ProductDataSource{}
-var _ datasource.DataSourceWithConfigure = &ProductDataSource{}
+var _ datasource.DataSource = &CouponDataSource{}
+var _ datasource.DataSourceWithConfigure = &CouponDataSource{}
 
-func NewProductDataSource() datasource.DataSource {
-	return &ProductDataSource{}
+func NewCouponDataSource() datasource.DataSource {
+	return &CouponDataSource{}
 }
 
-// ProductDataSource is the data source implementation.
-type ProductDataSource struct {
+// CouponDataSource is the data source implementation.
+type CouponDataSource struct {
 	client *sdk.SDK
 }
 
-// ProductDataSourceModel describes the data model.
-type ProductDataSourceModel struct {
-	ACL               *tfTypes.BaseEntityACL    `tfsdk:"acl"`
-	Active            types.Bool                `tfsdk:"active"`
-	Additional        map[string]types.String   `tfsdk:"additional"`
-	AvailabilityFiles *tfTypes.BaseRelation     `tfsdk:"availability_files"`
-	Code              types.String              `tfsdk:"code"`
-	CreatedAt         types.String              `tfsdk:"created_at"`
-	Description       types.String              `tfsdk:"description"`
-	Feature           []types.String            `tfsdk:"feature"`
-	Files             *tfTypes.BaseRelation     `tfsdk:"files"`
-	Hydrate           types.Bool                `tfsdk:"hydrate"`
-	ID                types.String              `tfsdk:"id"`
-	InternalName      types.String              `tfsdk:"internal_name"`
-	Manifest          []types.String            `tfsdk:"manifest"`
-	Name              types.String              `tfsdk:"name"`
-	Org               types.String              `tfsdk:"org"`
-	Owners            []tfTypes.BaseEntityOwner `tfsdk:"owners"`
-	PriceOptions      *tfTypes.BaseRelation     `tfsdk:"price_options"`
-	ProductDownloads  *tfTypes.BaseRelation     `tfsdk:"product_downloads"`
-	ProductImages     *tfTypes.BaseRelation     `tfsdk:"product_images"`
-	Purpose           []types.String            `tfsdk:"purpose"`
-	Schema            types.String              `tfsdk:"schema"`
-	Strict            types.Bool                `tfsdk:"strict"`
-	Tags              []types.String            `tfsdk:"tags"`
-	Title             types.String              `tfsdk:"title"`
-	Type              types.String              `tfsdk:"type"`
-	UpdatedAt         types.String              `tfsdk:"updated_at"`
+// CouponDataSourceModel describes the data model.
+type CouponDataSourceModel struct {
+	ACL                *tfTypes.BaseEntityACL    `tfsdk:"acl"`
+	Active             types.Bool                `tfsdk:"active"`
+	Additional         map[string]types.String   `tfsdk:"additional"`
+	CashbackPeriod     types.String              `tfsdk:"cashback_period"`
+	Category           types.String              `tfsdk:"category"`
+	CreatedAt          types.String              `tfsdk:"created_at"`
+	Description        types.String              `tfsdk:"description"`
+	Files              *tfTypes.BaseRelation     `tfsdk:"files"`
+	FixedValue         types.Number              `tfsdk:"fixed_value"`
+	FixedValueCurrency types.String              `tfsdk:"fixed_value_currency"`
+	FixedValueDecimal  types.String              `tfsdk:"fixed_value_decimal"`
+	Hydrate            types.Bool                `tfsdk:"hydrate"`
+	ID                 types.String              `tfsdk:"id"`
+	Manifest           []types.String            `tfsdk:"manifest"`
+	Name               types.String              `tfsdk:"name"`
+	Org                types.String              `tfsdk:"org"`
+	Owners             []tfTypes.BaseEntityOwner `tfsdk:"owners"`
+	PercentageValue    types.String              `tfsdk:"percentage_value"`
+	Prices             *tfTypes.BaseRelation     `tfsdk:"prices"`
+	PromoCodeUsage     types.String              `tfsdk:"promo_code_usage"`
+	PromoCodes         []tfTypes.PromoCode       `tfsdk:"promo_codes"`
+	RequiresPromoCode  types.Bool                `tfsdk:"requires_promo_code"`
+	Schema             types.String              `tfsdk:"schema"`
+	Strict             types.Bool                `tfsdk:"strict"`
+	Tags               []types.String            `tfsdk:"tags"`
+	Title              types.String              `tfsdk:"title"`
+	Type               types.String              `tfsdk:"type"`
+	UpdatedAt          types.String              `tfsdk:"updated_at"`
 }
 
 // Metadata returns the data source type name.
-func (r *ProductDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_product"
+func (r *CouponDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_coupon"
 }
 
 // Schema defines the schema for the data source.
-func (r *ProductDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (r *CouponDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Product DataSource",
+		MarkdownDescription: "Coupon DataSource",
 
 		Attributes: map[string]schema.Attribute{
 			"acl": schema.SingleNestedAttribute{
@@ -94,39 +96,18 @@ func (r *ProductDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 				ElementType: types.StringType,
 				Description: `Additional fields that are not part of the schema`,
 			},
-			"availability_files": schema.SingleNestedAttribute{
-				Computed: true,
-				Attributes: map[string]schema.Attribute{
-					"dollar_relation": schema.ListNestedAttribute{
-						Computed: true,
-						NestedObject: schema.NestedAttributeObject{
-							Attributes: map[string]schema.Attribute{
-								"entity_id": schema.StringAttribute{
-									Computed: true,
-								},
-								"tags": schema.ListAttribute{
-									Computed:    true,
-									ElementType: types.StringType,
-								},
-							},
-						},
-					},
-				},
-			},
-			"code": schema.StringAttribute{
+			"cashback_period": schema.StringAttribute{
 				Computed:    true,
-				Description: `The product code`,
+				Description: `The cashback period, for now it's limited to either 0 months or 12 months`,
+			},
+			"category": schema.StringAttribute{
+				Computed: true,
 			},
 			"created_at": schema.StringAttribute{
 				Computed: true,
 			},
 			"description": schema.StringAttribute{
-				Computed:    true,
-				Description: `A description of the product. Multi-line supported.`,
-			},
-			"feature": schema.ListAttribute{
-				Computed:    true,
-				ElementType: types.StringType,
+				Computed: true,
 			},
 			"files": schema.SingleNestedAttribute{
 				Computed: true,
@@ -147,6 +128,18 @@ func (r *ProductDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 					},
 				},
 			},
+			"fixed_value": schema.NumberAttribute{
+				Computed:    true,
+				Description: `Use if type is set to fixed. The fixed amount in cents to be discounted, represented as a whole integer.`,
+			},
+			"fixed_value_currency": schema.StringAttribute{
+				Computed:    true,
+				Description: `Use if type is set to fixed. Three-letter ISO currency code, in lowercase.`,
+			},
+			"fixed_value_decimal": schema.StringAttribute{
+				Computed:    true,
+				Description: `Use if type is set to fixed. The unit amount in cents to be discounted, represented as a decimal string with at most 12 decimal places.`,
+			},
 			"hydrate": schema.BoolAttribute{
 				Optional:    true,
 				Description: `Hydrates entities in relations when passed true`,
@@ -154,18 +147,13 @@ func (r *ProductDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 			"id": schema.StringAttribute{
 				Computed: true,
 			},
-			"internal_name": schema.StringAttribute{
-				Computed:    true,
-				Description: `Not visible to customers, only in internal tables`,
-			},
 			"manifest": schema.ListAttribute{
 				Computed:    true,
 				ElementType: types.StringType,
 				Description: `Manifest ID used to create/update the entity`,
 			},
 			"name": schema.StringAttribute{
-				Computed:    true,
-				Description: `The description for the product`,
+				Computed: true,
 			},
 			"org": schema.StringAttribute{
 				Computed:    true,
@@ -184,66 +172,59 @@ func (r *ProductDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 					},
 				},
 			},
-			"price_options": schema.SingleNestedAttribute{
-				Computed: true,
-				Attributes: map[string]schema.Attribute{
-					"dollar_relation": schema.ListNestedAttribute{
-						Computed: true,
-						NestedObject: schema.NestedAttributeObject{
-							Attributes: map[string]schema.Attribute{
-								"entity_id": schema.StringAttribute{
-									Computed: true,
-								},
-								"tags": schema.ListAttribute{
-									Computed:    true,
-									ElementType: types.StringType,
-								},
-							},
-						},
-					},
-				},
-			},
-			"product_downloads": schema.SingleNestedAttribute{
-				Computed: true,
-				Attributes: map[string]schema.Attribute{
-					"dollar_relation": schema.ListNestedAttribute{
-						Computed: true,
-						NestedObject: schema.NestedAttributeObject{
-							Attributes: map[string]schema.Attribute{
-								"entity_id": schema.StringAttribute{
-									Computed: true,
-								},
-								"tags": schema.ListAttribute{
-									Computed:    true,
-									ElementType: types.StringType,
-								},
-							},
-						},
-					},
-				},
-			},
-			"product_images": schema.SingleNestedAttribute{
-				Computed: true,
-				Attributes: map[string]schema.Attribute{
-					"dollar_relation": schema.ListNestedAttribute{
-						Computed: true,
-						NestedObject: schema.NestedAttributeObject{
-							Attributes: map[string]schema.Attribute{
-								"entity_id": schema.StringAttribute{
-									Computed: true,
-								},
-								"tags": schema.ListAttribute{
-									Computed:    true,
-									ElementType: types.StringType,
-								},
-							},
-						},
-					},
-				},
-			},
-			"purpose": schema.ListAttribute{
+			"percentage_value": schema.StringAttribute{
 				Computed:    true,
-				ElementType: types.StringType,
+				Description: `Use if type is set to percentage. The percentage to be discounted, represented as a whole integer.`,
+			},
+			"prices": schema.SingleNestedAttribute{
+				Computed: true,
+				Attributes: map[string]schema.Attribute{
+					"dollar_relation": schema.ListNestedAttribute{
+						Computed: true,
+						NestedObject: schema.NestedAttributeObject{
+							Attributes: map[string]schema.Attribute{
+								"entity_id": schema.StringAttribute{
+									Computed: true,
+								},
+								"tags": schema.ListAttribute{
+									Computed:    true,
+									ElementType: types.StringType,
+								},
+							},
+						},
+					},
+				},
+			},
+			"promo_code_usage": schema.StringAttribute{
+				Computed:    true,
+				Description: `Map of ids of promo codes with their usage count. Parsed as JSON.`,
+			},
+			"promo_codes": schema.ListNestedAttribute{
+				Computed: true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"code": schema.StringAttribute{
+							Computed:    true,
+							Description: `The code of the promo code`,
+						},
+						"has_usage_limit": schema.BoolAttribute{
+							Computed:    true,
+							Description: `Whether the promo code has a usage limit`,
+						},
+						"id": schema.StringAttribute{
+							Computed:    true,
+							Description: `The id of the promo code`,
+						},
+						"usage_limit": schema.NumberAttribute{
+							Computed:    true,
+							Description: `The usage limit of the promo code`,
+						},
+					},
+				},
+			},
+			"requires_promo_code": schema.BoolAttribute{
+				Computed:    true,
+				Description: `Whether the coupon requires a promo code to be applied`,
 			},
 			"schema": schema.StringAttribute{
 				Computed: true,
@@ -261,12 +242,6 @@ func (r *ProductDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 			},
 			"type": schema.StringAttribute{
 				Computed: true,
-				MarkdownDescription: `The type of Product:` + "\n" +
-					`` + "\n" +
-					`| type | description |` + "\n" +
-					`|----| ----|` + "\n" +
-					`| ` + "`" + `product` + "`" + ` | Represents a physical good |` + "\n" +
-					`| ` + "`" + `service` + "`" + ` | Represents a service or virtual product |`,
 			},
 			"updated_at": schema.StringAttribute{
 				Computed: true,
@@ -275,7 +250,7 @@ func (r *ProductDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 	}
 }
 
-func (r *ProductDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
+func (r *CouponDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	// Prevent panic if the provider has not been configured.
 	if req.ProviderData == nil {
 		return
@@ -295,8 +270,8 @@ func (r *ProductDataSource) Configure(ctx context.Context, req datasource.Config
 	r.client = client
 }
 
-func (r *ProductDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data *ProductDataSourceModel
+func (r *CouponDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var data *CouponDataSourceModel
 	var item types.Object
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &item)...)
@@ -313,27 +288,27 @@ func (r *ProductDataSource) Read(ctx context.Context, req datasource.ReadRequest
 		return
 	}
 
+	var couponID string
+	couponID = data.ID.ValueString()
+
 	hydrate := new(bool)
 	if !data.Hydrate.IsUnknown() && !data.Hydrate.IsNull() {
 		*hydrate = data.Hydrate.ValueBool()
 	} else {
 		hydrate = nil
 	}
-	var productID string
-	productID = data.ID.ValueString()
-
 	strict := new(bool)
 	if !data.Strict.IsUnknown() && !data.Strict.IsNull() {
 		*strict = data.Strict.ValueBool()
 	} else {
 		strict = nil
 	}
-	request := operations.GetProductRequest{
-		Hydrate:   hydrate,
-		ProductID: productID,
-		Strict:    strict,
+	request := operations.GetCouponRequest{
+		CouponID: couponID,
+		Hydrate:  hydrate,
+		Strict:   strict,
 	}
-	res, err := r.client.Product.GetProduct(ctx, request)
+	res, err := r.client.Coupon.GetCoupon(ctx, request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -353,11 +328,11 @@ func (r *ProductDataSource) Read(ctx context.Context, req datasource.ReadRequest
 		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res.StatusCode), debugResponse(res.RawResponse))
 		return
 	}
-	if !(res.Product != nil) {
+	if !(res.Coupon != nil) {
 		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
 		return
 	}
-	data.RefreshFromSharedProduct(res.Product)
+	data.RefreshFromSharedCoupon(res.Coupon)
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)

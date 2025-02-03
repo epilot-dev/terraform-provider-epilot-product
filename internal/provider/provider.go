@@ -87,10 +87,13 @@ func (p *EpilotProductProvider) Configure(ctx context.Context, req provider.Conf
 		EpilotOrg:  epilotOrg,
 	}
 
+	httpClient := http.DefaultClient
+	httpClient.Transport = NewLoggingHTTPTransport(http.DefaultTransport)
+
 	opts := []sdk.SDKOption{
 		sdk.WithServerURL(ServerURL),
 		sdk.WithSecurity(security),
-		sdk.WithClient(http.DefaultClient),
+		sdk.WithClient(httpClient),
 	}
 	client := sdk.New(opts...)
 
@@ -100,6 +103,7 @@ func (p *EpilotProductProvider) Configure(ctx context.Context, req provider.Conf
 
 func (p *EpilotProductProvider) Resources(ctx context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
+		NewCouponResource,
 		NewPriceResource,
 		NewProductResource,
 		NewTaxResource,
@@ -108,6 +112,7 @@ func (p *EpilotProductProvider) Resources(ctx context.Context) []func() resource
 
 func (p *EpilotProductProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
+		NewCouponDataSource,
 		NewPriceDataSource,
 		NewProductDataSource,
 		NewTaxDataSource,

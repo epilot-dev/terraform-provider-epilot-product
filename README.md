@@ -62,10 +62,14 @@ TF_REATTACH_PROVIDERS=... terraform apply
 
 <!-- Start Table of Contents [toc] -->
 ## Table of Contents
+<!-- $toc-max-depth=2 -->
+* [epilot-product](#epilot-product)
+  * [SDK Installation](#sdk-installation)
+  * [SDK Example Usage](#sdk-example-usage)
+  * [Installation](#installation)
+  * [Testing the provider locally](#testing-the-provider-locally)
+  * [Available Resources and Data Sources](#available-resources-and-data-sources)
 
-* [Installation](#installation)
-* [Available Resources and Data Sources](#available-resources-and-data-sources)
-* [Testing the provider locally](#testing-the-provider-locally)
 <!-- End Table of Contents [toc] -->
 
 <!-- Start Installation [installation] -->
@@ -78,7 +82,7 @@ terraform {
   required_providers {
     epilot-product = {
       source  = "epilot-dev/epilot-product"
-      version = "0.11.5"
+      version = "0.13.0"
     }
   }
 }
@@ -140,11 +144,13 @@ provider_installation {
 
 ### Resources
 
+* [epilot-product_coupon](docs/resources/coupon.md)
 * [epilot-product_price](docs/resources/price.md)
 * [epilot-product_product](docs/resources/product.md)
 * [epilot-product_tax](docs/resources/tax.md)
 ### Data Sources
 
+* [epilot-product_coupon](docs/data-sources/coupon.md)
 * [epilot-product_price](docs/data-sources/price.md)
 * [epilot-product_product](docs/data-sources/product.md)
 * [epilot-product_tax](docs/data-sources/tax.md)

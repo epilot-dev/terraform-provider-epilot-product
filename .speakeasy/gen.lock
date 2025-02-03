@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 5a857039-7f4b-42d5-86fd-449767242ed2
 management:
-  docChecksum: 9e3d08aa4c4e92fee60362eb116ea477
+  docChecksum: 97efa3b1aa177815f42f9c43ccd68478
   docVersion: 1.0.0
-  speakeasyVersion: 1.422.1
-  generationVersion: 2.438.15
-  releaseVersion: 0.11.5
-  configChecksum: 2a1d7870feb5d7f02fd1530a5d48bc65
+  speakeasyVersion: 1.481.1
+  generationVersion: 2.500.5
+  releaseVersion: 0.13.0
+  configChecksum: 21d1fc775c09f1deaad2a1fd3996a795
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-product.git
   repoSubDirectory: .
   published: true
@@ -21,22 +21,25 @@ features:
     unions: 2.85.0
   terraform:
     additionalDependencies: 0.1.0
-    constsAndDefaults: 0.1.4
-    core: 3.25.0
+    constsAndDefaults: 0.2.0
+    core: 3.29.3
     envVarSecurityUsage: 0.1.0
     globalSecurity: 2.81.9
     globalServerURLs: 2.82.1
     nullables: 0.0.0
-    retries: 2.81.1
+    retries: 2.81.2
+    typeOverrides: 2.81.1
 generatedFiles:
   - .gitattributes
-  - CONTRIBUTING.md
   - USAGE.md
   - examples/README.md
+  - examples/data-sources/epilot-product_coupon/data-source.tf
   - examples/data-sources/epilot-product_price/data-source.tf
   - examples/data-sources/epilot-product_product/data-source.tf
   - examples/data-sources/epilot-product_tax/data-source.tf
   - examples/provider/provider.tf
+  - examples/resources/epilot-product_coupon/import.sh
+  - examples/resources/epilot-product_coupon/resource.tf
   - examples/resources/epilot-product_price/import.sh
   - examples/resources/epilot-product_price/resource.tf
   - examples/resources/epilot-product_product/import.sh
@@ -55,6 +58,10 @@ generatedFiles:
   - internal/planmodifiers/setplanmodifier/suppress_diff.go
   - internal/planmodifiers/stringplanmodifier/suppress_diff.go
   - internal/planmodifiers/utils/state_check.go
+  - internal/provider/coupon_data_source.go
+  - internal/provider/coupon_data_source_sdk.go
+  - internal/provider/coupon_resource.go
+  - internal/provider/coupon_resource_sdk.go
   - internal/provider/price_data_source.go
   - internal/provider/price_data_source_sdk.go
   - internal/provider/price_resource.go
@@ -89,12 +96,13 @@ generatedFiles:
   - internal/provider/types/price_component_relation.go
   - internal/provider/types/price_create_price_components.go
   - internal/provider/types/price_tier.go
+  - internal/provider/types/promo_code.go
   - internal/provider/utils.go
   - internal/sdk/.gitattributes
-  - internal/sdk/.gitignore
-  - internal/sdk/CONTRIBUTING.md
+  - internal/sdk/coupon.go
   - internal/sdk/internal/hooks/hooks.go
   - internal/sdk/internal/utils/contenttype.go
+  - internal/sdk/internal/utils/env.go
   - internal/sdk/internal/utils/form.go
   - internal/sdk/internal/utils/headers.go
   - internal/sdk/internal/utils/json.go
@@ -105,19 +113,24 @@ generatedFiles:
   - internal/sdk/internal/utils/security.go
   - internal/sdk/internal/utils/utils.go
   - internal/sdk/models/errors/sdkerror.go
+  - internal/sdk/models/operations/createcoupon.go
   - internal/sdk/models/operations/createprice.go
   - internal/sdk/models/operations/createproduct.go
   - internal/sdk/models/operations/createtax.go
+  - internal/sdk/models/operations/deletecoupon.go
   - internal/sdk/models/operations/deleteprice.go
   - internal/sdk/models/operations/deleteproduct.go
   - internal/sdk/models/operations/deletetax.go
+  - internal/sdk/models/operations/getcoupon.go
   - internal/sdk/models/operations/getprice.go
   - internal/sdk/models/operations/getproduct.go
   - internal/sdk/models/operations/gettax.go
   - internal/sdk/models/operations/options.go
+  - internal/sdk/models/operations/patchcoupon.go
   - internal/sdk/models/operations/patchprice.go
   - internal/sdk/models/operations/patchproduct.go
   - internal/sdk/models/operations/patchtax.go
+  - internal/sdk/models/operations/updatecoupon.go
   - internal/sdk/models/operations/updateprice.go
   - internal/sdk/models/operations/updateproduct.go
   - internal/sdk/models/operations/updatetax.go
@@ -125,6 +138,9 @@ generatedFiles:
   - internal/sdk/models/shared/baseentityowner.go
   - internal/sdk/models/shared/baserelation.go
   - internal/sdk/models/shared/clienterror.go
+  - internal/sdk/models/shared/coupon.go
+  - internal/sdk/models/shared/couponcreate.go
+  - internal/sdk/models/shared/couponpatch.go
   - internal/sdk/models/shared/price.go
   - internal/sdk/models/shared/pricecomponentrelation.go
   - internal/sdk/models/shared/pricecreate.go
@@ -134,6 +150,7 @@ generatedFiles:
   - internal/sdk/models/shared/product.go
   - internal/sdk/models/shared/productcreate.go
   - internal/sdk/models/shared/productpatch.go
+  - internal/sdk/models/shared/promocode.go
   - internal/sdk/models/shared/security.go
   - internal/sdk/models/shared/servererror.go
   - internal/sdk/models/shared/tax.go
@@ -166,13 +183,79 @@ generatedFiles:
   - terraform-registry-manifest.json
   - tools/tools.go
 examples:
+  createCoupon:
+    speakeasy-default-create-coupon:
+      requestBody:
+        application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": false, "category": "discount", "fixed_value_currency": "EUR", "name": "<value>", "prices": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "type": "fixed"}
+      responses:
+        "201":
+          application/json: {"_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [{"org_id": "123", "user_id": "123"}, {"org_id": "123", "user_id": "123"}, {"org_id": "123", "user_id": "123"}], "_schema": "coupon", "active": false, "category": "discount", "fixed_value_currency": "EUR", "name": "<value>", "prices": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "type": "percentage"}
+        "400":
+          application/json: {"message": "Entity not found", "status": 404}
+        "500":
+          application/json: {"message": "Entity not found", "status": 404}
+  deleteCoupon:
+    speakeasy-default-delete-coupon:
+      parameters:
+        path:
+          couponId: "123e4567-e89b-12d3-a456-426614174000"
+      responses:
+        "200":
+          application/json: {"_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [{"org_id": "123", "user_id": "123"}], "_schema": "coupon", "active": true, "category": "discount", "fixed_value_currency": "EUR", "name": "<value>", "prices": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "type": "percentage"}
+        "400":
+          application/json: {"message": "Entity not found", "status": 404}
+        "500":
+          application/json: {"message": "Entity not found", "status": 404}
+  getCoupon:
+    speakeasy-default-get-coupon:
+      parameters:
+        path:
+          couponId: "123e4567-e89b-12d3-a456-426614174000"
+        query:
+          hydrate: false
+          strict: false
+      responses:
+        "200":
+          application/json: {"_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [{"org_id": "123", "user_id": "123"}, {"org_id": "123", "user_id": "123"}, {"org_id": "123", "user_id": "123"}], "_schema": "coupon", "active": true, "category": "discount", "fixed_value_currency": "EUR", "name": "<value>", "prices": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "type": "fixed"}
+        "400":
+          application/json: {"message": "Entity not found", "status": 404}
+        "500":
+          application/json: {"message": "Entity not found", "status": 404}
+  patchCoupon:
+    speakeasy-default-patch-coupon:
+      parameters:
+        path:
+          couponId: "123e4567-e89b-12d3-a456-426614174000"
+      requestBody:
+        application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "fixed_value_currency": "EUR", "prices": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}}
+      responses:
+        "200":
+          application/json: {"_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [{"org_id": "123", "user_id": "123"}, {"org_id": "123", "user_id": "123"}, {"org_id": "123", "user_id": "123"}], "_schema": "coupon", "active": false, "category": "cashback", "fixed_value_currency": "EUR", "name": "<value>", "prices": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "type": "fixed"}
+        "400":
+          application/json: {"message": "Entity not found", "status": 404}
+        "500":
+          application/json: {"message": "Entity not found", "status": 404}
+  updateCoupon:
+    speakeasy-default-update-coupon:
+      parameters:
+        path:
+          couponId: "123e4567-e89b-12d3-a456-426614174000"
+      requestBody:
+        application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": true, "category": "discount", "fixed_value_currency": "EUR", "name": "<value>", "prices": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "type": "fixed"}
+      responses:
+        "200":
+          application/json: {"_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [{"org_id": "123", "user_id": "123"}], "_schema": "coupon", "active": false, "category": "discount", "fixed_value_currency": "EUR", "name": "<value>", "prices": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "type": "percentage"}
+        "400":
+          application/json: {"message": "Entity not found", "status": 404}
+        "500":
+          application/json: {"message": "Entity not found", "status": 404}
   createPrice:
     speakeasy-default-create-price:
       requestBody:
-        application/json: {"__additional": {}, "_files": {"$relation": []}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": false, "description": "Programmable discrete groupware", "unit_amount_currency": "EUR"}
+        application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": true, "description": "cap likewise off same tensely outside veg married worth", "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
       responses:
         "201":
-          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [], "_schema": "price", "active": false, "description": "Ameliorated incremental hub", "unit_amount_currency": "EUR"}
+          application/json: {"_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [{"org_id": "123", "user_id": "123"}, {"org_id": "123", "user_id": "123"}], "_schema": "price", "active": true, "description": "psst rout bus", "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -184,7 +267,7 @@ examples:
           priceId: "123e4567-e89b-12d3-a456-426614174000"
       responses:
         "200":
-          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [], "_schema": "price", "active": true, "description": "Persistent actuating data-warehouse", "unit_amount_currency": "EUR"}
+          application/json: {"_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [{"org_id": "123", "user_id": "123"}], "_schema": "price", "active": true, "description": "manipulate ugh upon discontinue major however", "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -194,10 +277,12 @@ examples:
       parameters:
         path:
           priceId: "123e4567-e89b-12d3-a456-426614174000"
-        query: {}
+        query:
+          hydrate: false
+          strict: false
       responses:
         "200":
-          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [], "_schema": "price", "active": false, "description": "Decentralized multi-state capacity", "unit_amount_currency": "EUR"}
+          application/json: {"_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [{"org_id": "123", "user_id": "123"}, {"org_id": "123", "user_id": "123"}], "_schema": "price", "active": false, "description": "bah popularity capsize per mostly bravely whereas when", "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -208,10 +293,10 @@ examples:
         path:
           priceId: "123e4567-e89b-12d3-a456-426614174000"
       requestBody:
-        application/json: {"__additional": {}, "_files": {"$relation": []}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "unit_amount_currency": "EUR"}
+        application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
       responses:
         "200":
-          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [], "_schema": "price", "active": true, "description": "Re-contextualized mission-critical intranet", "unit_amount_currency": "EUR"}
+          application/json: {"_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [{"org_id": "123", "user_id": "123"}], "_schema": "price", "active": false, "description": "voluntarily considering phew and when old gah valuable and", "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -222,10 +307,10 @@ examples:
         path:
           priceId: "123e4567-e89b-12d3-a456-426614174000"
       requestBody:
-        application/json: {"__additional": {}, "_files": {"$relation": []}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": false, "description": "Profit-focused grid-enabled installation", "unit_amount_currency": "EUR"}
+        application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": true, "description": "wherever between ah tuber stiffen fraternise", "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
       responses:
         "200":
-          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [], "_schema": "price", "active": false, "description": "Balanced scalable contingency", "unit_amount_currency": "EUR"}
+          application/json: {"_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [{"org_id": "123", "user_id": "123"}, {"org_id": "123", "user_id": "123"}], "_schema": "price", "active": false, "description": "what horse majestically hm relieve jaywalk", "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -233,10 +318,10 @@ examples:
   createProduct:
     speakeasy-default-create-product:
       requestBody:
-        application/json: {"__additional": {}, "_availability_files": {"$relation": []}, "_files": {"$relation": []}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": true, "name": "<value>", "price_options": {"$relation": []}, "product_downloads": {"$relation": []}, "product_images": {"$relation": []}}
+        application/json: {"_availability_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": false, "name": "<value>", "price_options": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "product_downloads": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "product_images": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "type": "product"}
       responses:
         "201":
-          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_availability_files": {"$relation": []}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [], "_schema": "product", "active": false, "name": "<value>", "price_options": {"$relation": []}, "product_downloads": {"$relation": []}, "product_images": {"$relation": []}}
+          application/json: {"_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_availability_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [{"org_id": "123", "user_id": "123"}, {"org_id": "123", "user_id": "123"}, {"org_id": "123", "user_id": "123"}], "_schema": "product", "active": false, "name": "<value>", "price_options": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "product_downloads": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "product_images": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "type": "product"}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -248,7 +333,7 @@ examples:
           productId: "123e4567-e89b-12d3-a456-426614174000"
       responses:
         "200":
-          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_availability_files": {"$relation": []}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [], "_schema": "product", "active": true, "name": "<value>", "price_options": {"$relation": []}, "product_downloads": {"$relation": []}, "product_images": {"$relation": []}}
+          application/json: {"_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_availability_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [{"org_id": "123", "user_id": "123"}, {"org_id": "123", "user_id": "123"}, {"org_id": "123", "user_id": "123"}], "_schema": "product", "active": true, "name": "<value>", "price_options": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "product_downloads": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "product_images": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "type": "product"}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -258,10 +343,12 @@ examples:
       parameters:
         path:
           productId: "123e4567-e89b-12d3-a456-426614174000"
-        query: {}
+        query:
+          hydrate: false
+          strict: false
       responses:
         "200":
-          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_availability_files": {"$relation": []}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [], "_schema": "product", "active": false, "name": "<value>", "price_options": {"$relation": []}, "product_downloads": {"$relation": []}, "product_images": {"$relation": []}}
+          application/json: {"_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_availability_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [{"org_id": "123", "user_id": "123"}, {"org_id": "123", "user_id": "123"}], "_schema": "product", "active": true, "name": "<value>", "price_options": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "product_downloads": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "product_images": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "type": "product"}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -272,10 +359,10 @@ examples:
         path:
           productId: "123e4567-e89b-12d3-a456-426614174000"
       requestBody:
-        application/json: {"__additional": {}, "_availability_files": {"$relation": []}, "_files": {"$relation": []}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "price_options": {"$relation": []}, "product_downloads": {"$relation": []}, "product_images": {"$relation": []}}
+        application/json: {"_availability_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "price_options": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "product_downloads": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "product_images": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "type": "product"}
       responses:
         "200":
-          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_availability_files": {"$relation": []}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [], "_schema": "product", "active": false, "name": "<value>", "price_options": {"$relation": []}, "product_downloads": {"$relation": []}, "product_images": {"$relation": []}}
+          application/json: {"_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_availability_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [{"org_id": "123", "user_id": "123"}], "_schema": "product", "active": false, "name": "<value>", "price_options": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "product_downloads": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "product_images": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "type": "product"}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -286,10 +373,10 @@ examples:
         path:
           productId: "123e4567-e89b-12d3-a456-426614174000"
       requestBody:
-        application/json: {"__additional": {}, "_availability_files": {"$relation": []}, "_files": {"$relation": []}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": false, "name": "<value>", "price_options": {"$relation": []}, "product_downloads": {"$relation": []}, "product_images": {"$relation": []}}
+        application/json: {"_availability_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": false, "name": "<value>", "price_options": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "product_downloads": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "product_images": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "type": "product"}
       responses:
         "200":
-          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_availability_files": {"$relation": []}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [], "_schema": "product", "active": false, "name": "<value>", "price_options": {"$relation": []}, "product_downloads": {"$relation": []}, "product_images": {"$relation": []}}
+          application/json: {"_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_availability_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [{"org_id": "123", "user_id": "123"}, {"org_id": "123", "user_id": "123"}, {"org_id": "123", "user_id": "123"}], "_schema": "product", "active": true, "name": "<value>", "price_options": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "product_downloads": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "product_images": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "type": "product"}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -297,10 +384,10 @@ examples:
   createTax:
     speakeasy-default-create-tax:
       requestBody:
-        application/json: {"__additional": {}, "_files": {"$relation": []}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": true, "rate": "<value>", "region": "DE", "type": "VAT"}
+        application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": false, "rate": "<value>", "region": "DE", "type": "VAT"}
       responses:
         "201":
-          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [], "_schema": "tax", "active": false, "rate": "<value>", "region": "DE", "type": "Custom"}
+          application/json: {"_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [{"org_id": "123", "user_id": "123"}, {"org_id": "123", "user_id": "123"}], "_schema": "tax", "active": false, "rate": "<value>", "region": "DE", "type": "VAT"}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -312,7 +399,7 @@ examples:
           taxId: "123e4567-e89b-12d3-a456-426614174000"
       responses:
         "200":
-          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [], "_schema": "tax", "active": false, "rate": "<value>", "region": "DE", "type": "Custom"}
+          application/json: {"_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [{"org_id": "123", "user_id": "123"}, {"org_id": "123", "user_id": "123"}], "_schema": "tax", "active": false, "rate": "<value>", "region": "DE", "type": "VAT"}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -322,10 +409,12 @@ examples:
       parameters:
         path:
           taxId: "123e4567-e89b-12d3-a456-426614174000"
-        query: {}
+        query:
+          hydrate: false
+          strict: false
       responses:
         "200":
-          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [], "_schema": "tax", "active": true, "rate": "<value>", "region": "DE", "type": "Custom"}
+          application/json: {"_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [{"org_id": "123", "user_id": "123"}, {"org_id": "123", "user_id": "123"}], "_schema": "tax", "active": false, "rate": "<value>", "region": "DE", "type": "VAT"}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -336,10 +425,10 @@ examples:
         path:
           taxId: "123e4567-e89b-12d3-a456-426614174000"
       requestBody:
-        application/json: {"__additional": {}, "_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": false, "rate": "<value>", "region": "DE", "type": "Custom"}
+        application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "region": "DE"}
       responses:
         "200":
-          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [], "_schema": "tax", "active": true, "rate": "<value>", "region": "DE", "type": "VAT"}
+          application/json: {"_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [{"org_id": "123", "user_id": "123"}, {"org_id": "123", "user_id": "123"}, {"org_id": "123", "user_id": "123"}], "_schema": "tax", "active": false, "rate": "<value>", "region": "DE", "type": "VAT"}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -350,11 +439,13 @@ examples:
         path:
           taxId: "123e4567-e89b-12d3-a456-426614174000"
       requestBody:
-        application/json: {"__additional": {}, "_files": {"$relation": []}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": true, "rate": "<value>", "region": "DE", "type": "Custom"}
+        application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": true, "rate": "<value>", "region": "DE", "type": "VAT"}
       responses:
         "200":
-          application/json: {"__additional": {}, "_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": []}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [], "_schema": "tax", "active": false, "rate": "<value>", "region": "DE", "type": "Custom"}
+          application/json: {"_acl": {"delete": ["org:456"], "edit": ["org:456"], "view": ["org:456"]}, "_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}, {"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_owners": [{"org_id": "123", "user_id": "123"}, {"org_id": "123", "user_id": "123"}, {"org_id": "123", "user_id": "123"}], "_schema": "tax", "active": true, "rate": "<value>", "region": "DE", "type": "VAT"}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
           application/json: {"message": "Entity not found", "status": 404}
+examplesVersion: 1.0.0
+generatedTests: {}

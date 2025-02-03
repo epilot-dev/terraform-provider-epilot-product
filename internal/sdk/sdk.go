@@ -69,6 +69,8 @@ func (c *sdkConfiguration) GetServerDetails() (string, map[string]string) {
 }
 
 type SDK struct {
+	// Coupon operations
+	Coupon *Coupon
 	// Price operations
 	Price *Price
 	// Product operations
@@ -152,9 +154,9 @@ func New(opts ...SDKOption) *SDK {
 		sdkConfiguration: sdkConfiguration{
 			Language:          "go",
 			OpenAPIDocVersion: "1.0.0",
-			SDKVersion:        "0.0.1",
-			GenVersion:        "2.438.15",
-			UserAgent:         "speakeasy-sdk/go 0.0.1 2.438.15 1.0.0 github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk",
+			SDKVersion:        "0.13.0",
+			GenVersion:        "2.500.5",
+			UserAgent:         "speakeasy-sdk/terraform 0.13.0 2.500.5 1.0.0 github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk",
 			Hooks:             hooks.New(),
 		},
 	}
@@ -173,6 +175,8 @@ func New(opts ...SDKOption) *SDK {
 	if serverURL != currentServerURL {
 		sdk.sdkConfiguration.ServerURL = serverURL
 	}
+
+	sdk.Coupon = newCoupon(sdk.sdkConfiguration)
 
 	sdk.Price = newPrice(sdk.sdkConfiguration)
 

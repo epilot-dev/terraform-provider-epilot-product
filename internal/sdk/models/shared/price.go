@@ -9,26 +9,26 @@ import (
 	"time"
 )
 
-type Schema string
+type PriceSchema string
 
 const (
-	SchemaPrice Schema = "price"
+	PriceSchemaPrice PriceSchema = "price"
 )
 
-func (e Schema) ToPointer() *Schema {
+func (e PriceSchema) ToPointer() *PriceSchema {
 	return &e
 }
-func (e *Schema) UnmarshalJSON(data []byte) error {
+func (e *PriceSchema) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 	switch v {
 	case "price":
-		*e = Schema(v)
+		*e = PriceSchema(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for Schema: %v", v)
+		return fmt.Errorf("invalid value for PriceSchema: %v", v)
 	}
 }
 
@@ -231,18 +231,18 @@ func (e *TerminationTimeUnit) UnmarshalJSON(data []byte) error {
 	}
 }
 
-// Type - One of `one_time` or `recurring` depending on whether the price is for a one-time purchase or a recurring (subscription) purchase.
-type Type string
+// PriceType - One of `one_time` or `recurring` depending on whether the price is for a one-time purchase or a recurring (subscription) purchase.
+type PriceType string
 
 const (
-	TypeOneTime   Type = "one_time"
-	TypeRecurring Type = "recurring"
+	PriceTypeOneTime   PriceType = "one_time"
+	PriceTypeRecurring PriceType = "recurring"
 )
 
-func (e Type) ToPointer() *Type {
+func (e PriceType) ToPointer() *PriceType {
 	return &e
 }
-func (e *Type) UnmarshalJSON(data []byte) error {
+func (e *PriceType) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -251,10 +251,10 @@ func (e *Type) UnmarshalJSON(data []byte) error {
 	case "one_time":
 		fallthrough
 	case "recurring":
-		*e = Type(v)
+		*e = PriceType(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for Type: %v", v)
+		return fmt.Errorf("invalid value for PriceType: %v", v)
 	}
 }
 
@@ -271,7 +271,7 @@ type Price struct {
 	// Organization Id the entity belongs to
 	Org       string            `json:"_org"`
 	Owners    []BaseEntityOwner `json:"_owners,omitempty"`
-	Schema    Schema            `json:"_schema"`
+	Schema    PriceSchema       `json:"_schema"`
 	Tags      []string          `json:"_tags,omitempty"`
 	Title     *string           `json:"_title,omitempty"`
 	UpdatedAt *time.Time        `json:"_updated_at,omitempty"`
@@ -317,7 +317,7 @@ type Price struct {
 	//
 	Tiers []PriceTier `json:"tiers,omitempty"`
 	// One of `one_time` or `recurring` depending on whether the price is for a one-time purchase or a recurring (subscription) purchase.
-	Type *Type `default:"one_time" json:"type"`
+	Type *PriceType `default:"one_time" json:"type"`
 	// The unit of measurement used for display purposes and possibly for calculations when the price is variable.
 	Unit *string `json:"unit,omitempty"`
 	// The unit amount in cents to be charged, represented as a whole integer if possible.
@@ -397,9 +397,9 @@ func (o *Price) GetOwners() []BaseEntityOwner {
 	return o.Owners
 }
 
-func (o *Price) GetSchema() Schema {
+func (o *Price) GetSchema() PriceSchema {
 	if o == nil {
-		return Schema("")
+		return PriceSchema("")
 	}
 	return o.Schema
 }
@@ -551,7 +551,7 @@ func (o *Price) GetTiers() []PriceTier {
 	return o.Tiers
 }
 
-func (o *Price) GetType() *Type {
+func (o *Price) GetType() *PriceType {
 	if o == nil {
 		return nil
 	}
