@@ -29,6 +29,9 @@ actions:
   - target: $["paths"]["/v1/price/{priceId}"]["delete"]
     update:
       x-speakeasy-entity-operation: Price#delete
+  - target: $["components"]["schemas"]["Price"]
+    update:
+      x-speakeasy-entity: Price
   - target: $["components"]["parameters"]["PriceIdPathParam"]
     update:
       x-speakeasy-match: id
@@ -46,6 +49,9 @@ actions:
   - target: $["paths"]["/v1/tax/{taxId}"]["delete"]
     update:
       x-speakeasy-entity-operation: Tax#delete
+  - target: $["components"]["schemas"]["Tax"]
+    update:
+      x-speakeasy-entity: Tax
   - target: $["components"]["parameters"]["TaxIdPathParam"]
     update:
       x-speakeasy-match: id
@@ -63,6 +69,9 @@ actions:
   - target: $["paths"]["/v1/product/{productId}"]["delete"]
     update:
       x-speakeasy-entity-operation: Product#delete
+  - target: $["components"]["schemas"]["Product"]
+    update:
+      x-speakeasy-entity: Product
   - target: $["components"]["parameters"]["ProductIdPathParam"]
     update:
       x-speakeasy-match: id
@@ -80,7 +89,20 @@ actions:
   - target: $["paths"]["/v1/coupon/{couponId}"]["delete"]
     update:
       x-speakeasy-entity-operation: Coupon#delete
+  - target: $["components"]["schemas"]["Coupon"]
+    update:
+      x-speakeasy-entity: Coupon
   - target: $["components"]["parameters"]["CouponIdPathParam"]
     update:
       x-speakeasy-match: id
   
+  # overrides
+  - target: $["components"]["schemas"]["BaseSystemReadonlyFields"]
+    update:
+      x-speakeasy-param-suppress-computed-diff: true 
+  - target: $["components"]["schemas"]["BaseSystemFields"]
+    update:
+      x-speakeasy-param-suppress-computed-diff: true
+  - target: $["components"]["schemas"]["BaseCoupon"]["properties"]["promo_code_usage"]
+    update:
+      x-speakeasy-type-override: any
