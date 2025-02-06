@@ -102,21 +102,11 @@ func (p *EpilotProductProvider) Configure(ctx context.Context, req provider.Conf
 }
 
 func (p *EpilotProductProvider) Resources(ctx context.Context) []func() resource.Resource {
-	return []func() resource.Resource{
-		NewCouponResource,
-		NewPriceResource,
-		NewProductResource,
-		NewTaxResource,
-	}
+	return []func() resource.Resource{}
 }
 
 func (p *EpilotProductProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
-	return []func() datasource.DataSource{
-		NewCouponDataSource,
-		NewPriceDataSource,
-		NewProductDataSource,
-		NewTaxDataSource,
-	}
+	return []func() datasource.DataSource{}
 }
 
 func New(version string) func() provider.Provider {

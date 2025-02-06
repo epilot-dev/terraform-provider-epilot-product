@@ -144,8 +144,8 @@ type Coupon struct {
 	PercentageValue *string       `json:"percentage_value,omitempty"`
 	Prices          *BaseRelation `json:"prices,omitempty"`
 	// Map of ids of promo codes with their usage count
-	PromoCodeUsage any         `json:"promo_code_usage,omitempty"`
-	PromoCodes     []PromoCode `json:"promo_codes,omitempty"`
+	PromoCodeUsage map[string]float64 `json:"promo_code_usage,omitempty"`
+	PromoCodes     []PromoCode        `json:"promo_codes,omitempty"`
 	// Whether the coupon requires a promo code to be applied
 	RequiresPromoCode *bool `json:"requires_promo_code,omitempty"`
 	Type              Type  `json:"type"`
@@ -316,7 +316,7 @@ func (o *Coupon) GetPrices() *BaseRelation {
 	return o.Prices
 }
 
-func (o *Coupon) GetPromoCodeUsage() any {
+func (o *Coupon) GetPromoCodeUsage() map[string]float64 {
 	if o == nil {
 		return nil
 	}

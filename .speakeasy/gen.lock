@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 5a857039-7f4b-42d5-86fd-449767242ed2
 management:
-  docChecksum: 97efa3b1aa177815f42f9c43ccd68478
+  docChecksum: 3c8ba614264f6f4ec6452cd5d7fb6887
   docVersion: 1.0.0
-  speakeasyVersion: 1.481.1
-  generationVersion: 2.500.5
-  releaseVersion: 0.13.0
-  configChecksum: 21d1fc775c09f1deaad2a1fd3996a795
+  speakeasyVersion: 1.484.1
+  generationVersion: 2.503.2
+  releaseVersion: 0.14.0
+  configChecksum: f867ea61c31c039835d9e21eaf043442
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-product.git
   repoSubDirectory: .
   published: true
@@ -22,30 +22,16 @@ features:
   terraform:
     additionalDependencies: 0.1.0
     constsAndDefaults: 0.2.0
-    core: 3.29.3
+    core: 3.29.4
     envVarSecurityUsage: 0.1.0
     globalSecurity: 2.81.9
     globalServerURLs: 2.82.1
     nullables: 0.0.0
-    retries: 2.81.2
-    typeOverrides: 2.81.1
 generatedFiles:
   - .gitattributes
   - USAGE.md
   - examples/README.md
-  - examples/data-sources/epilot-product_coupon/data-source.tf
-  - examples/data-sources/epilot-product_price/data-source.tf
-  - examples/data-sources/epilot-product_product/data-source.tf
-  - examples/data-sources/epilot-product_tax/data-source.tf
   - examples/provider/provider.tf
-  - examples/resources/epilot-product_coupon/import.sh
-  - examples/resources/epilot-product_coupon/resource.tf
-  - examples/resources/epilot-product_price/import.sh
-  - examples/resources/epilot-product_price/resource.tf
-  - examples/resources/epilot-product_product/import.sh
-  - examples/resources/epilot-product_product/resource.tf
-  - examples/resources/epilot-product_tax/import.sh
-  - examples/resources/epilot-product_tax/resource.tf
   - go.mod
   - go.sum
   - internal/planmodifiers/boolplanmodifier/suppress_diff.go
@@ -58,18 +44,6 @@ generatedFiles:
   - internal/planmodifiers/setplanmodifier/suppress_diff.go
   - internal/planmodifiers/stringplanmodifier/suppress_diff.go
   - internal/planmodifiers/utils/state_check.go
-  - internal/provider/coupon_data_source.go
-  - internal/provider/coupon_data_source_sdk.go
-  - internal/provider/coupon_resource.go
-  - internal/provider/coupon_resource_sdk.go
-  - internal/provider/price_data_source.go
-  - internal/provider/price_data_source_sdk.go
-  - internal/provider/price_resource.go
-  - internal/provider/price_resource_sdk.go
-  - internal/provider/product_data_source.go
-  - internal/provider/product_data_source_sdk.go
-  - internal/provider/product_resource.go
-  - internal/provider/product_resource_sdk.go
   - internal/provider/provider.go
   - internal/provider/reflect/diags.go
   - internal/provider/reflect/doc.go
@@ -85,18 +59,6 @@ generatedFiles:
   - internal/provider/reflect/primitive.go
   - internal/provider/reflect/slice.go
   - internal/provider/reflect/struct.go
-  - internal/provider/tax_data_source.go
-  - internal/provider/tax_data_source_sdk.go
-  - internal/provider/tax_resource.go
-  - internal/provider/tax_resource_sdk.go
-  - internal/provider/types/base_entity_acl.go
-  - internal/provider/types/base_entity_owner.go
-  - internal/provider/types/base_relation.go
-  - internal/provider/types/dollar_relation.go
-  - internal/provider/types/price_component_relation.go
-  - internal/provider/types/price_create_price_components.go
-  - internal/provider/types/price_tier.go
-  - internal/provider/types/promo_code.go
   - internal/provider/utils.go
   - internal/sdk/.gitattributes
   - internal/sdk/coupon.go
