@@ -28,9 +28,11 @@ go:
   outputModelSuffix: output
   packageName: openapi
 terraform:
-  version: 0.13.1
+  version: 0.14.0
   additionalDataSources: []
   additionalDependencies: {}
+  additionalProviderAttributes:
+    httpHeaders: ""
   additionalResources: []
   allowUnknownFieldsInWeakUnions: false
   author: epilot-dev
