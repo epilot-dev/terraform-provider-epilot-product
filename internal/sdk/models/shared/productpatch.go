@@ -74,6 +74,8 @@ type ProductPatch struct {
 	Schema   *ProductPatchSchema `json:"_schema,omitempty"`
 	Tags     []string            `json:"_tags,omitempty"`
 	Active   *bool               `json:"active,omitempty"`
+	// The categories of the product
+	Categories []string `json:"categories,omitempty"`
 	// The product code
 	Code *string `json:"code,omitempty"`
 	// A description of the product. Multi-line supported.
@@ -161,6 +163,13 @@ func (o *ProductPatch) GetActive() *bool {
 		return nil
 	}
 	return o.Active
+}
+
+func (o *ProductPatch) GetCategories() []string {
+	if o == nil {
+		return nil
+	}
+	return o.Categories
 }
 
 func (o *ProductPatch) GetCode() *string {

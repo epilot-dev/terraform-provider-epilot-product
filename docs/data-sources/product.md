@@ -33,6 +33,7 @@ data "epilot-product_product" "my_product" {
 - `active` (Boolean)
 - `additional` (Map of String) Additional fields that are not part of the schema
 - `availability_files` (Attributes) (see [below for nested schema](#nestedatt--availability_files))
+- `categories` (List of String) The categories of the product
 - `code` (String) The product code
 - `created_at` (String)
 - `description` (String) A description of the product. Multi-line supported.

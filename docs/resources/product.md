@@ -28,6 +28,9 @@ resource "epilot-product_product" "my_product" {
       }
     ]
   }
+  categories = [
+    "..."
+  ]
   code        = "...my_code..."
   description = "...my_description..."
   feature = [
@@ -101,6 +104,7 @@ resource "epilot-product_product" "my_product" {
 
 - `additional` (Map of String) Additional fields that are not part of the schema
 - `availability_files` (Attributes) (see [below for nested schema](#nestedatt--availability_files))
+- `categories` (List of String) The categories of the product
 - `code` (String) The product code
 - `description` (String) A description of the product. Multi-line supported.
 - `feature` (List of String)

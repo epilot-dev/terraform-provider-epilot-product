@@ -13,6 +13,9 @@ resource "epilot-product_product" "my_product" {
       }
     ]
   }
+  categories = [
+    "..."
+  ]
   code        = "...my_code..."
   description = "...my_description..."
   feature = [

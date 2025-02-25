@@ -74,6 +74,8 @@ type ProductCreate struct {
 	Schema   *ProductCreateSchema `json:"_schema,omitempty"`
 	Tags     []string             `json:"_tags,omitempty"`
 	Active   bool                 `json:"active"`
+	// The categories of the product
+	Categories []string `json:"categories,omitempty"`
 	// The product code
 	Code *string `json:"code,omitempty"`
 	// A description of the product. Multi-line supported.
@@ -161,6 +163,13 @@ func (o *ProductCreate) GetActive() bool {
 		return false
 	}
 	return o.Active
+}
+
+func (o *ProductCreate) GetCategories() []string {
+	if o == nil {
+		return nil
+	}
+	return o.Categories
 }
 
 func (o *ProductCreate) GetCode() *string {

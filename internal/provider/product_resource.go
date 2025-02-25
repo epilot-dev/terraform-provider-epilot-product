@@ -47,6 +47,7 @@ type ProductResourceModel struct {
 	Active            types.Bool                `tfsdk:"active"`
 	Additional        map[string]types.String   `tfsdk:"additional"`
 	AvailabilityFiles *tfTypes.BaseRelation     `tfsdk:"availability_files"`
+	Categories        []types.String            `tfsdk:"categories"`
 	Code              types.String              `tfsdk:"code"`
 	CreatedAt         types.String              `tfsdk:"created_at"`
 	Description       types.String              `tfsdk:"description"`
@@ -165,6 +166,15 @@ func (r *ProductResource) Schema(ctx context.Context, req resource.SchemaRequest
 						},
 					},
 				},
+			},
+			"categories": schema.ListAttribute{
+				Computed: true,
+				Optional: true,
+				PlanModifiers: []planmodifier.List{
+					speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
+				},
+				ElementType: types.StringType,
+				Description: `The categories of the product`,
 			},
 			"code": schema.StringAttribute{
 				Computed: true,

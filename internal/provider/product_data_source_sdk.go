@@ -124,6 +124,10 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(resp *shared.Product) 
 			r.UpdatedAt = types.StringNull()
 		}
 		r.Active = types.BoolValue(resp.Active)
+		r.Categories = []types.String{}
+		for _, v := range resp.Categories {
+			r.Categories = append(r.Categories, types.StringValue(v))
+		}
 		r.Code = types.StringPointerValue(resp.Code)
 		r.Description = types.StringPointerValue(resp.Description)
 		r.Feature = nil

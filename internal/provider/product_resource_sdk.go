@@ -84,6 +84,10 @@ func (r *ProductResourceModel) ToSharedProductCreate() *shared.ProductCreate {
 	var active bool
 	active = r.Active.ValueBool()
 
+	var categories []string = []string{}
+	for _, categoriesItem := range r.Categories {
+		categories = append(categories, categoriesItem.ValueString())
+	}
 	code := new(string)
 	if !r.Code.IsUnknown() && !r.Code.IsNull() {
 		*code = r.Code.ValueString()
@@ -195,6 +199,7 @@ func (r *ProductResourceModel) ToSharedProductCreate() *shared.ProductCreate {
 		Schema:            schema,
 		Tags:              tags2,
 		Active:            active,
+		Categories:        categories,
 		Code:              code,
 		Description:       description,
 		Feature:           feature,
@@ -322,6 +327,10 @@ func (r *ProductResourceModel) RefreshFromSharedProduct(resp *shared.Product) {
 			r.UpdatedAt = types.StringNull()
 		}
 		r.Active = types.BoolValue(resp.Active)
+		r.Categories = []types.String{}
+		for _, v := range resp.Categories {
+			r.Categories = append(r.Categories, types.StringValue(v))
+		}
 		r.Code = types.StringPointerValue(resp.Code)
 		r.Description = types.StringPointerValue(resp.Description)
 		r.Feature = nil
@@ -487,6 +496,10 @@ func (r *ProductResourceModel) ToSharedProductPatch() *shared.ProductPatch {
 	} else {
 		active = nil
 	}
+	var categories []string = []string{}
+	for _, categoriesItem := range r.Categories {
+		categories = append(categories, categoriesItem.ValueString())
+	}
 	code := new(string)
 	if !r.Code.IsUnknown() && !r.Code.IsNull() {
 		*code = r.Code.ValueString()
@@ -601,6 +614,7 @@ func (r *ProductResourceModel) ToSharedProductPatch() *shared.ProductPatch {
 		Schema:            schema,
 		Tags:              tags2,
 		Active:            active,
+		Categories:        categories,
 		Code:              code,
 		Description:       description,
 		Feature:           feature,

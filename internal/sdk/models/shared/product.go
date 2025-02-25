@@ -84,6 +84,8 @@ type Product struct {
 	Title     *string           `json:"_title,omitempty"`
 	UpdatedAt *time.Time        `json:"_updated_at,omitempty"`
 	Active    bool              `json:"active"`
+	// The categories of the product
+	Categories []string `json:"categories,omitempty"`
 	// The product code
 	Code *string `json:"code,omitempty"`
 	// A description of the product. Multi-line supported.
@@ -220,6 +222,13 @@ func (o *Product) GetActive() bool {
 		return false
 	}
 	return o.Active
+}
+
+func (o *Product) GetCategories() []string {
+	if o == nil {
+		return nil
+	}
+	return o.Categories
 }
 
 func (o *Product) GetCode() *string {
