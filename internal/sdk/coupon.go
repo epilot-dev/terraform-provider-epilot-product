@@ -30,13 +30,6 @@ func newCoupon(sdkConfig sdkConfiguration) *Coupon {
 // CreateCoupon - createCoupon
 // Create a new coupon entity
 func (s *Coupon) CreateCoupon(ctx context.Context, request shared.CouponCreate, opts ...operations.Option) (*operations.CreateCouponResponse, error) {
-	hookCtx := hooks.HookContext{
-		Context:        ctx,
-		OperationID:    "createCoupon",
-		OAuth2Scopes:   []string{},
-		SecuritySource: s.sdkConfiguration.Security,
-	}
-
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,
@@ -60,6 +53,13 @@ func (s *Coupon) CreateCoupon(ctx context.Context, request shared.CouponCreate, 
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
 
+	hookCtx := hooks.HookContext{
+		BaseURL:        baseURL,
+		Context:        ctx,
+		OperationID:    "createCoupon",
+		OAuth2Scopes:   []string{},
+		SecuritySource: s.sdkConfiguration.Security,
+	}
 	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "Request", "json", `request:"mediaType=application/json"`)
 	if err != nil {
 		return nil, err
@@ -274,13 +274,6 @@ func (s *Coupon) CreateCoupon(ctx context.Context, request shared.CouponCreate, 
 // DeleteCoupon - deleteCoupon
 // Delete a specific coupon entity by a given id
 func (s *Coupon) DeleteCoupon(ctx context.Context, request operations.DeleteCouponRequest, opts ...operations.Option) (*operations.DeleteCouponResponse, error) {
-	hookCtx := hooks.HookContext{
-		Context:        ctx,
-		OperationID:    "deleteCoupon",
-		OAuth2Scopes:   []string{},
-		SecuritySource: s.sdkConfiguration.Security,
-	}
-
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,
@@ -302,6 +295,14 @@ func (s *Coupon) DeleteCoupon(ctx context.Context, request operations.DeleteCoup
 	opURL, err := utils.GenerateURL(ctx, baseURL, "/v1/coupon/{couponId}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
+	}
+
+	hookCtx := hooks.HookContext{
+		BaseURL:        baseURL,
+		Context:        ctx,
+		OperationID:    "deleteCoupon",
+		OAuth2Scopes:   []string{},
+		SecuritySource: s.sdkConfiguration.Security,
 	}
 
 	timeout := o.Timeout
@@ -510,13 +511,6 @@ func (s *Coupon) DeleteCoupon(ctx context.Context, request operations.DeleteCoup
 // GetCoupon - getCoupon
 // Read a specific coupon entity by a given id
 func (s *Coupon) GetCoupon(ctx context.Context, request operations.GetCouponRequest, opts ...operations.Option) (*operations.GetCouponResponse, error) {
-	hookCtx := hooks.HookContext{
-		Context:        ctx,
-		OperationID:    "getCoupon",
-		OAuth2Scopes:   []string{},
-		SecuritySource: s.sdkConfiguration.Security,
-	}
-
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,
@@ -538,6 +532,14 @@ func (s *Coupon) GetCoupon(ctx context.Context, request operations.GetCouponRequ
 	opURL, err := utils.GenerateURL(ctx, baseURL, "/v1/coupon/{couponId}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
+	}
+
+	hookCtx := hooks.HookContext{
+		BaseURL:        baseURL,
+		Context:        ctx,
+		OperationID:    "getCoupon",
+		OAuth2Scopes:   []string{},
+		SecuritySource: s.sdkConfiguration.Security,
 	}
 
 	timeout := o.Timeout
@@ -750,13 +752,6 @@ func (s *Coupon) GetCoupon(ctx context.Context, request operations.GetCouponRequ
 // PatchCoupon - patchCoupon
 // Partially update a specific coupon entity's properties by a given id and a given payload
 func (s *Coupon) PatchCoupon(ctx context.Context, request operations.PatchCouponRequest, opts ...operations.Option) (*operations.PatchCouponResponse, error) {
-	hookCtx := hooks.HookContext{
-		Context:        ctx,
-		OperationID:    "patchCoupon",
-		OAuth2Scopes:   []string{},
-		SecuritySource: s.sdkConfiguration.Security,
-	}
-
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,
@@ -780,6 +775,13 @@ func (s *Coupon) PatchCoupon(ctx context.Context, request operations.PatchCoupon
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
 
+	hookCtx := hooks.HookContext{
+		BaseURL:        baseURL,
+		Context:        ctx,
+		OperationID:    "patchCoupon",
+		OAuth2Scopes:   []string{},
+		SecuritySource: s.sdkConfiguration.Security,
+	}
 	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "CouponPatch", "json", `request:"mediaType=application/json"`)
 	if err != nil {
 		return nil, err
@@ -994,13 +996,6 @@ func (s *Coupon) PatchCoupon(ctx context.Context, request operations.PatchCoupon
 // UpdateCoupon - updateCoupon
 // Completly replace a specific coupon entity's properties by a given id and a given payload
 func (s *Coupon) UpdateCoupon(ctx context.Context, request operations.UpdateCouponRequest, opts ...operations.Option) (*operations.UpdateCouponResponse, error) {
-	hookCtx := hooks.HookContext{
-		Context:        ctx,
-		OperationID:    "updateCoupon",
-		OAuth2Scopes:   []string{},
-		SecuritySource: s.sdkConfiguration.Security,
-	}
-
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,
@@ -1024,6 +1019,13 @@ func (s *Coupon) UpdateCoupon(ctx context.Context, request operations.UpdateCoup
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
 
+	hookCtx := hooks.HookContext{
+		BaseURL:        baseURL,
+		Context:        ctx,
+		OperationID:    "updateCoupon",
+		OAuth2Scopes:   []string{},
+		SecuritySource: s.sdkConfiguration.Security,
+	}
 	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "CouponCreate", "json", `request:"mediaType=application/json"`)
 	if err != nil {
 		return nil, err
