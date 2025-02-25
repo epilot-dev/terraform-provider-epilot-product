@@ -16,7 +16,7 @@ Price Resource
 resource "epilot-product_price" "my_price" {
   active = true
   additional = {
-    key = jsonencode("value"),
+    key = jsonencode("value")
   }
   billing_duration_amount = 4.23
   billing_duration_unit   = "years"

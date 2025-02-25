@@ -16,7 +16,7 @@ Coupon Resource
 resource "epilot-product_coupon" "my_coupon" {
   active = true
   additional = {
-    key = jsonencode("value"),
+    key = jsonencode("value")
   }
   cashback_period = "12"
   category        = "discount"

@@ -35,7 +35,7 @@ type TaxDataSourceModel struct {
 	CreatedAt   types.String              `tfsdk:"created_at"`
 	Description types.String              `tfsdk:"description"`
 	Files       *tfTypes.BaseRelation     `tfsdk:"files"`
-	Hydrate     types.Bool                `tfsdk:"hydrate"`
+	Hydrate     types.Bool                `queryParam:"style=form,explode=true,name=hydrate" tfsdk:"hydrate"`
 	ID          types.String              `tfsdk:"id"`
 	Manifest    []types.String            `tfsdk:"manifest"`
 	Org         types.String              `tfsdk:"org"`
@@ -43,7 +43,7 @@ type TaxDataSourceModel struct {
 	Rate        types.String              `tfsdk:"rate"`
 	Region      types.String              `tfsdk:"region"`
 	Schema      types.String              `tfsdk:"schema"`
-	Strict      types.Bool                `tfsdk:"strict"`
+	Strict      types.Bool                `queryParam:"style=form,explode=true,name=strict" tfsdk:"strict"`
 	Tags        []types.String            `tfsdk:"tags"`
 	Title       types.String              `tfsdk:"title"`
 	Type        types.String              `tfsdk:"type"`
