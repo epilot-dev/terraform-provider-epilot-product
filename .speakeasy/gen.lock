@@ -3,10 +3,10 @@ id: 5a857039-7f4b-42d5-86fd-449767242ed2
 management:
   docChecksum: 78906e12510e40d7a0542d3f3d1af1d2
   docVersion: 1.0.0
-  speakeasyVersion: 1.477.0
-  generationVersion: 2.497.0
-  releaseVersion: 0.13.2
-  configChecksum: 1780bf7cb790b98fc91aacbc52331119
+  speakeasyVersion: 1.521.1
+  generationVersion: 2.558.5
+  releaseVersion: 0.14.0
+  configChecksum: a9fa44acac5bc88af5c2d3694b0e688b
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-product.git
   repoSubDirectory: .
   published: true
@@ -21,10 +21,10 @@ features:
     unions: 2.85.0
   terraform:
     additionalDependencies: 0.1.0
-    constsAndDefaults: 0.2.0
-    core: 3.29.0
+    constsAndDefaults: 0.2.1
+    core: 3.36.1
     envVarSecurityUsage: 0.1.0
-    globalSecurity: 2.81.9
+    globalSecurity: 2.81.10
     globalServerURLs: 2.82.1
     nullables: 0.0.0
     retries: 2.81.2
@@ -49,7 +49,9 @@ generatedFiles:
   - go.mod
   - go.sum
   - internal/planmodifiers/boolplanmodifier/suppress_diff.go
+  - internal/planmodifiers/float32planmodifier/suppress_diff.go
   - internal/planmodifiers/float64planmodifier/suppress_diff.go
+  - internal/planmodifiers/int32planmodifier/suppress_diff.go
   - internal/planmodifiers/int64planmodifier/suppress_diff.go
   - internal/planmodifiers/listplanmodifier/suppress_diff.go
   - internal/planmodifiers/mapplanmodifier/suppress_diff.go
@@ -171,7 +173,9 @@ generatedFiles:
   - internal/validators/JSONParseValidator.go
   - internal/validators/RFC3339Validator.go
   - internal/validators/boolvalidators/not_null.go
+  - internal/validators/float32validators/not_null.go
   - internal/validators/float64validators/not_null.go
+  - internal/validators/int32validators/not_null.go
   - internal/validators/int64validators/not_null.go
   - internal/validators/listvalidators/not_null.go
   - internal/validators/mapvalidators/not_null.go

@@ -30,13 +30,6 @@ func newTax(sdkConfig sdkConfiguration) *Tax {
 // CreateTax - createTax
 // Create a new tax entity
 func (s *Tax) CreateTax(ctx context.Context, request shared.TaxCreate, opts ...operations.Option) (*operations.CreateTaxResponse, error) {
-	hookCtx := hooks.HookContext{
-		Context:        ctx,
-		OperationID:    "createTax",
-		OAuth2Scopes:   []string{},
-		SecuritySource: s.sdkConfiguration.Security,
-	}
-
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,
@@ -60,6 +53,13 @@ func (s *Tax) CreateTax(ctx context.Context, request shared.TaxCreate, opts ...o
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
 
+	hookCtx := hooks.HookContext{
+		BaseURL:        baseURL,
+		Context:        ctx,
+		OperationID:    "createTax",
+		OAuth2Scopes:   []string{},
+		SecuritySource: s.sdkConfiguration.Security,
+	}
 	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "Request", "json", `request:"mediaType=application/json"`)
 	if err != nil {
 		return nil, err
@@ -274,13 +274,6 @@ func (s *Tax) CreateTax(ctx context.Context, request shared.TaxCreate, opts ...o
 // DeleteTax - deleteTax
 // Delete a specific tax entity by a given id
 func (s *Tax) DeleteTax(ctx context.Context, request operations.DeleteTaxRequest, opts ...operations.Option) (*operations.DeleteTaxResponse, error) {
-	hookCtx := hooks.HookContext{
-		Context:        ctx,
-		OperationID:    "deleteTax",
-		OAuth2Scopes:   []string{},
-		SecuritySource: s.sdkConfiguration.Security,
-	}
-
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,
@@ -302,6 +295,14 @@ func (s *Tax) DeleteTax(ctx context.Context, request operations.DeleteTaxRequest
 	opURL, err := utils.GenerateURL(ctx, baseURL, "/v1/tax/{taxId}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
+	}
+
+	hookCtx := hooks.HookContext{
+		BaseURL:        baseURL,
+		Context:        ctx,
+		OperationID:    "deleteTax",
+		OAuth2Scopes:   []string{},
+		SecuritySource: s.sdkConfiguration.Security,
 	}
 
 	timeout := o.Timeout
@@ -510,13 +511,6 @@ func (s *Tax) DeleteTax(ctx context.Context, request operations.DeleteTaxRequest
 // GetTax - getTax
 // Read a specific tax entity by a given id
 func (s *Tax) GetTax(ctx context.Context, request operations.GetTaxRequest, opts ...operations.Option) (*operations.GetTaxResponse, error) {
-	hookCtx := hooks.HookContext{
-		Context:        ctx,
-		OperationID:    "getTax",
-		OAuth2Scopes:   []string{},
-		SecuritySource: s.sdkConfiguration.Security,
-	}
-
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,
@@ -538,6 +532,14 @@ func (s *Tax) GetTax(ctx context.Context, request operations.GetTaxRequest, opts
 	opURL, err := utils.GenerateURL(ctx, baseURL, "/v1/tax/{taxId}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
+	}
+
+	hookCtx := hooks.HookContext{
+		BaseURL:        baseURL,
+		Context:        ctx,
+		OperationID:    "getTax",
+		OAuth2Scopes:   []string{},
+		SecuritySource: s.sdkConfiguration.Security,
 	}
 
 	timeout := o.Timeout
@@ -750,13 +752,6 @@ func (s *Tax) GetTax(ctx context.Context, request operations.GetTaxRequest, opts
 // PatchTax - patchTax
 // Partially update a specific tax entity's properties by a given id and a given payload
 func (s *Tax) PatchTax(ctx context.Context, request operations.PatchTaxRequest, opts ...operations.Option) (*operations.PatchTaxResponse, error) {
-	hookCtx := hooks.HookContext{
-		Context:        ctx,
-		OperationID:    "patchTax",
-		OAuth2Scopes:   []string{},
-		SecuritySource: s.sdkConfiguration.Security,
-	}
-
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,
@@ -780,6 +775,13 @@ func (s *Tax) PatchTax(ctx context.Context, request operations.PatchTaxRequest, 
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
 
+	hookCtx := hooks.HookContext{
+		BaseURL:        baseURL,
+		Context:        ctx,
+		OperationID:    "patchTax",
+		OAuth2Scopes:   []string{},
+		SecuritySource: s.sdkConfiguration.Security,
+	}
 	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "TaxPatch", "json", `request:"mediaType=application/json"`)
 	if err != nil {
 		return nil, err
@@ -994,13 +996,6 @@ func (s *Tax) PatchTax(ctx context.Context, request operations.PatchTaxRequest, 
 // UpdateTax - updateTax
 // Completly replace a specific tax entity's properties by a given id and a given payload
 func (s *Tax) UpdateTax(ctx context.Context, request operations.UpdateTaxRequest, opts ...operations.Option) (*operations.UpdateTaxResponse, error) {
-	hookCtx := hooks.HookContext{
-		Context:        ctx,
-		OperationID:    "updateTax",
-		OAuth2Scopes:   []string{},
-		SecuritySource: s.sdkConfiguration.Security,
-	}
-
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,
@@ -1024,6 +1019,13 @@ func (s *Tax) UpdateTax(ctx context.Context, request operations.UpdateTaxRequest
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
 
+	hookCtx := hooks.HookContext{
+		BaseURL:        baseURL,
+		Context:        ctx,
+		OperationID:    "updateTax",
+		OAuth2Scopes:   []string{},
+		SecuritySource: s.sdkConfiguration.Security,
+	}
 	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "TaxCreate", "json", `request:"mediaType=application/json"`)
 	if err != nil {
 		return nil, err

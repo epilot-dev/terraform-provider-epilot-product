@@ -12,8 +12,8 @@ import (
 
 func (r *ProductDataSourceModel) RefreshFromSharedProduct(resp *shared.Product) {
 	if resp != nil {
-		if len(resp.Additional) > 0 {
-			r.Additional = make(map[string]types.String)
+		if resp.Additional != nil {
+			r.Additional = make(map[string]types.String, len(resp.Additional))
 			for key, value := range resp.Additional {
 				result, _ := json.Marshal(value)
 				r.Additional[key] = types.StringValue(string(result))
@@ -23,15 +23,15 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(resp *shared.Product) 
 			r.ACL = nil
 		} else {
 			r.ACL = &tfTypes.BaseEntityACL{}
-			r.ACL.Delete = []types.String{}
+			r.ACL.Delete = make([]types.String, 0, len(resp.ACL.Delete))
 			for _, v := range resp.ACL.Delete {
 				r.ACL.Delete = append(r.ACL.Delete, types.StringValue(v))
 			}
-			r.ACL.Edit = []types.String{}
+			r.ACL.Edit = make([]types.String, 0, len(resp.ACL.Edit))
 			for _, v := range resp.ACL.Edit {
 				r.ACL.Edit = append(r.ACL.Edit, types.StringValue(v))
 			}
-			r.ACL.View = []types.String{}
+			r.ACL.View = make([]types.String, 0, len(resp.ACL.View))
 			for _, v := range resp.ACL.View {
 				r.ACL.View = append(r.ACL.View, types.StringValue(v))
 			}
@@ -46,9 +46,11 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(resp *shared.Product) 
 			}
 			for dollarRelationCount, dollarRelationItem := range resp.AvailabilityFiles.DollarRelation {
 				var dollarRelation1 tfTypes.DollarRelation
-				dollarRelation1.Tags = []types.String{}
-				for _, v := range dollarRelationItem.Tags {
-					dollarRelation1.Tags = append(dollarRelation1.Tags, types.StringValue(v))
+				if dollarRelationItem.Tags != nil {
+					dollarRelation1.Tags = make([]types.String, 0, len(dollarRelationItem.Tags))
+					for _, v := range dollarRelationItem.Tags {
+						dollarRelation1.Tags = append(dollarRelation1.Tags, types.StringValue(v))
+					}
 				}
 				dollarRelation1.EntityID = types.StringPointerValue(dollarRelationItem.EntityID)
 				if dollarRelationCount+1 > len(r.AvailabilityFiles.DollarRelation) {
@@ -74,9 +76,11 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(resp *shared.Product) 
 			}
 			for dollarRelationCount1, dollarRelationItem1 := range resp.Files.DollarRelation {
 				var dollarRelation3 tfTypes.DollarRelation
-				dollarRelation3.Tags = []types.String{}
-				for _, v := range dollarRelationItem1.Tags {
-					dollarRelation3.Tags = append(dollarRelation3.Tags, types.StringValue(v))
+				if dollarRelationItem1.Tags != nil {
+					dollarRelation3.Tags = make([]types.String, 0, len(dollarRelationItem1.Tags))
+					for _, v := range dollarRelationItem1.Tags {
+						dollarRelation3.Tags = append(dollarRelation3.Tags, types.StringValue(v))
+					}
 				}
 				dollarRelation3.EntityID = types.StringPointerValue(dollarRelationItem1.EntityID)
 				if dollarRelationCount1+1 > len(r.Files.DollarRelation) {
@@ -88,7 +92,7 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(resp *shared.Product) 
 			}
 		}
 		r.ID = types.StringPointerValue(resp.ID)
-		r.Manifest = []types.String{}
+		r.Manifest = make([]types.String, 0, len(resp.Manifest))
 		for _, v := range resp.Manifest {
 			r.Manifest = append(r.Manifest, types.StringValue(v))
 		}
@@ -108,14 +112,16 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(resp *shared.Product) 
 				r.Owners[ownersCount].UserID = owners1.UserID
 			}
 		}
-		r.Purpose = []types.String{}
+		r.Purpose = make([]types.String, 0, len(resp.Purpose))
 		for _, v := range resp.Purpose {
 			r.Purpose = append(r.Purpose, types.StringValue(v))
 		}
 		r.Schema = types.StringValue(string(resp.Schema))
-		r.Tags = []types.String{}
-		for _, v := range resp.Tags {
-			r.Tags = append(r.Tags, types.StringValue(v))
+		if resp.Tags != nil {
+			r.Tags = make([]types.String, 0, len(resp.Tags))
+			for _, v := range resp.Tags {
+				r.Tags = append(r.Tags, types.StringValue(v))
+			}
 		}
 		r.Title = types.StringPointerValue(resp.Title)
 		if resp.UpdatedAt != nil {
@@ -124,7 +130,7 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(resp *shared.Product) 
 			r.UpdatedAt = types.StringNull()
 		}
 		r.Active = types.BoolValue(resp.Active)
-		r.Categories = []types.String{}
+		r.Categories = make([]types.String, 0, len(resp.Categories))
 		for _, v := range resp.Categories {
 			r.Categories = append(r.Categories, types.StringValue(v))
 		}
@@ -149,9 +155,11 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(resp *shared.Product) 
 			}
 			for dollarRelationCount2, dollarRelationItem2 := range resp.PriceOptions.DollarRelation {
 				var dollarRelation5 tfTypes.DollarRelation
-				dollarRelation5.Tags = []types.String{}
-				for _, v := range dollarRelationItem2.Tags {
-					dollarRelation5.Tags = append(dollarRelation5.Tags, types.StringValue(v))
+				if dollarRelationItem2.Tags != nil {
+					dollarRelation5.Tags = make([]types.String, 0, len(dollarRelationItem2.Tags))
+					for _, v := range dollarRelationItem2.Tags {
+						dollarRelation5.Tags = append(dollarRelation5.Tags, types.StringValue(v))
+					}
 				}
 				dollarRelation5.EntityID = types.StringPointerValue(dollarRelationItem2.EntityID)
 				if dollarRelationCount2+1 > len(r.PriceOptions.DollarRelation) {
@@ -172,9 +180,11 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(resp *shared.Product) 
 			}
 			for dollarRelationCount3, dollarRelationItem3 := range resp.ProductDownloads.DollarRelation {
 				var dollarRelation7 tfTypes.DollarRelation
-				dollarRelation7.Tags = []types.String{}
-				for _, v := range dollarRelationItem3.Tags {
-					dollarRelation7.Tags = append(dollarRelation7.Tags, types.StringValue(v))
+				if dollarRelationItem3.Tags != nil {
+					dollarRelation7.Tags = make([]types.String, 0, len(dollarRelationItem3.Tags))
+					for _, v := range dollarRelationItem3.Tags {
+						dollarRelation7.Tags = append(dollarRelation7.Tags, types.StringValue(v))
+					}
 				}
 				dollarRelation7.EntityID = types.StringPointerValue(dollarRelationItem3.EntityID)
 				if dollarRelationCount3+1 > len(r.ProductDownloads.DollarRelation) {
@@ -195,9 +205,11 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(resp *shared.Product) 
 			}
 			for dollarRelationCount4, dollarRelationItem4 := range resp.ProductImages.DollarRelation {
 				var dollarRelation9 tfTypes.DollarRelation
-				dollarRelation9.Tags = []types.String{}
-				for _, v := range dollarRelationItem4.Tags {
-					dollarRelation9.Tags = append(dollarRelation9.Tags, types.StringValue(v))
+				if dollarRelationItem4.Tags != nil {
+					dollarRelation9.Tags = make([]types.String, 0, len(dollarRelationItem4.Tags))
+					for _, v := range dollarRelationItem4.Tags {
+						dollarRelation9.Tags = append(dollarRelation9.Tags, types.StringValue(v))
+					}
 				}
 				dollarRelation9.EntityID = types.StringPointerValue(dollarRelationItem4.EntityID)
 				if dollarRelationCount4+1 > len(r.ProductImages.DollarRelation) {

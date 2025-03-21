@@ -39,7 +39,7 @@ type ProductDataSourceModel struct {
 	Description       types.String              `tfsdk:"description"`
 	Feature           []types.String            `tfsdk:"feature"`
 	Files             *tfTypes.BaseRelation     `tfsdk:"files"`
-	Hydrate           types.Bool                `tfsdk:"hydrate"`
+	Hydrate           types.Bool                `queryParam:"style=form,explode=true,name=hydrate" tfsdk:"hydrate"`
 	ID                types.String              `tfsdk:"id"`
 	InternalName      types.String              `tfsdk:"internal_name"`
 	Manifest          []types.String            `tfsdk:"manifest"`
@@ -51,7 +51,7 @@ type ProductDataSourceModel struct {
 	ProductImages     *tfTypes.BaseRelation     `tfsdk:"product_images"`
 	Purpose           []types.String            `tfsdk:"purpose"`
 	Schema            types.String              `tfsdk:"schema"`
-	Strict            types.Bool                `tfsdk:"strict"`
+	Strict            types.Bool                `queryParam:"style=form,explode=true,name=strict" tfsdk:"strict"`
 	Tags              []types.String            `tfsdk:"tags"`
 	Title             types.String              `tfsdk:"title"`
 	Type              types.String              `tfsdk:"type"`

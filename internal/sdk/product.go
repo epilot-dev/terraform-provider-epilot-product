@@ -30,13 +30,6 @@ func newProduct(sdkConfig sdkConfiguration) *Product {
 // CreateProduct - createProduct
 // Create a new product entity
 func (s *Product) CreateProduct(ctx context.Context, request shared.ProductCreate, opts ...operations.Option) (*operations.CreateProductResponse, error) {
-	hookCtx := hooks.HookContext{
-		Context:        ctx,
-		OperationID:    "createProduct",
-		OAuth2Scopes:   []string{},
-		SecuritySource: s.sdkConfiguration.Security,
-	}
-
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,
@@ -60,6 +53,13 @@ func (s *Product) CreateProduct(ctx context.Context, request shared.ProductCreat
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
 
+	hookCtx := hooks.HookContext{
+		BaseURL:        baseURL,
+		Context:        ctx,
+		OperationID:    "createProduct",
+		OAuth2Scopes:   []string{},
+		SecuritySource: s.sdkConfiguration.Security,
+	}
 	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "Request", "json", `request:"mediaType=application/json"`)
 	if err != nil {
 		return nil, err
@@ -274,13 +274,6 @@ func (s *Product) CreateProduct(ctx context.Context, request shared.ProductCreat
 // DeleteProduct - deleteProduct
 // Delete a specific product entity by a given id
 func (s *Product) DeleteProduct(ctx context.Context, request operations.DeleteProductRequest, opts ...operations.Option) (*operations.DeleteProductResponse, error) {
-	hookCtx := hooks.HookContext{
-		Context:        ctx,
-		OperationID:    "deleteProduct",
-		OAuth2Scopes:   []string{},
-		SecuritySource: s.sdkConfiguration.Security,
-	}
-
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,
@@ -302,6 +295,14 @@ func (s *Product) DeleteProduct(ctx context.Context, request operations.DeletePr
 	opURL, err := utils.GenerateURL(ctx, baseURL, "/v1/product/{productId}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
+	}
+
+	hookCtx := hooks.HookContext{
+		BaseURL:        baseURL,
+		Context:        ctx,
+		OperationID:    "deleteProduct",
+		OAuth2Scopes:   []string{},
+		SecuritySource: s.sdkConfiguration.Security,
 	}
 
 	timeout := o.Timeout
@@ -510,13 +511,6 @@ func (s *Product) DeleteProduct(ctx context.Context, request operations.DeletePr
 // GetProduct - getProduct
 // Read a specific product entity by a given id
 func (s *Product) GetProduct(ctx context.Context, request operations.GetProductRequest, opts ...operations.Option) (*operations.GetProductResponse, error) {
-	hookCtx := hooks.HookContext{
-		Context:        ctx,
-		OperationID:    "getProduct",
-		OAuth2Scopes:   []string{},
-		SecuritySource: s.sdkConfiguration.Security,
-	}
-
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,
@@ -538,6 +532,14 @@ func (s *Product) GetProduct(ctx context.Context, request operations.GetProductR
 	opURL, err := utils.GenerateURL(ctx, baseURL, "/v1/product/{productId}", request, nil)
 	if err != nil {
 		return nil, fmt.Errorf("error generating URL: %w", err)
+	}
+
+	hookCtx := hooks.HookContext{
+		BaseURL:        baseURL,
+		Context:        ctx,
+		OperationID:    "getProduct",
+		OAuth2Scopes:   []string{},
+		SecuritySource: s.sdkConfiguration.Security,
 	}
 
 	timeout := o.Timeout
@@ -750,13 +752,6 @@ func (s *Product) GetProduct(ctx context.Context, request operations.GetProductR
 // PatchProduct - patchProduct
 // Partially update a specific product entity's properties by a given id and a given payload
 func (s *Product) PatchProduct(ctx context.Context, request operations.PatchProductRequest, opts ...operations.Option) (*operations.PatchProductResponse, error) {
-	hookCtx := hooks.HookContext{
-		Context:        ctx,
-		OperationID:    "patchProduct",
-		OAuth2Scopes:   []string{},
-		SecuritySource: s.sdkConfiguration.Security,
-	}
-
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,
@@ -780,6 +775,13 @@ func (s *Product) PatchProduct(ctx context.Context, request operations.PatchProd
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
 
+	hookCtx := hooks.HookContext{
+		BaseURL:        baseURL,
+		Context:        ctx,
+		OperationID:    "patchProduct",
+		OAuth2Scopes:   []string{},
+		SecuritySource: s.sdkConfiguration.Security,
+	}
 	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "ProductPatch", "json", `request:"mediaType=application/json"`)
 	if err != nil {
 		return nil, err
@@ -994,13 +996,6 @@ func (s *Product) PatchProduct(ctx context.Context, request operations.PatchProd
 // UpdateProduct - updateProduct
 // Completly replace a specific product entity's properties by a given id and given payload
 func (s *Product) UpdateProduct(ctx context.Context, request operations.UpdateProductRequest, opts ...operations.Option) (*operations.UpdateProductResponse, error) {
-	hookCtx := hooks.HookContext{
-		Context:        ctx,
-		OperationID:    "updateProduct",
-		OAuth2Scopes:   []string{},
-		SecuritySource: s.sdkConfiguration.Security,
-	}
-
 	o := operations.Options{}
 	supportedOptions := []string{
 		operations.SupportedOptionRetries,
@@ -1024,6 +1019,13 @@ func (s *Product) UpdateProduct(ctx context.Context, request operations.UpdatePr
 		return nil, fmt.Errorf("error generating URL: %w", err)
 	}
 
+	hookCtx := hooks.HookContext{
+		BaseURL:        baseURL,
+		Context:        ctx,
+		OperationID:    "updateProduct",
+		OAuth2Scopes:   []string{},
+		SecuritySource: s.sdkConfiguration.Security,
+	}
 	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "ProductCreate", "json", `request:"mediaType=application/json"`)
 	if err != nil {
 		return nil, err
