@@ -12,8 +12,8 @@ import (
 
 func (r *TaxDataSourceModel) RefreshFromSharedTax(resp *shared.Tax) {
 	if resp != nil {
-		if len(resp.Additional) > 0 {
-			r.Additional = make(map[string]types.String)
+		if resp.Additional != nil {
+			r.Additional = make(map[string]types.String, len(resp.Additional))
 			for key, value := range resp.Additional {
 				result, _ := json.Marshal(value)
 				r.Additional[key] = types.StringValue(string(result))
@@ -23,15 +23,15 @@ func (r *TaxDataSourceModel) RefreshFromSharedTax(resp *shared.Tax) {
 			r.ACL = nil
 		} else {
 			r.ACL = &tfTypes.BaseEntityACL{}
-			r.ACL.Delete = []types.String{}
+			r.ACL.Delete = make([]types.String, 0, len(resp.ACL.Delete))
 			for _, v := range resp.ACL.Delete {
 				r.ACL.Delete = append(r.ACL.Delete, types.StringValue(v))
 			}
-			r.ACL.Edit = []types.String{}
+			r.ACL.Edit = make([]types.String, 0, len(resp.ACL.Edit))
 			for _, v := range resp.ACL.Edit {
 				r.ACL.Edit = append(r.ACL.Edit, types.StringValue(v))
 			}
-			r.ACL.View = []types.String{}
+			r.ACL.View = make([]types.String, 0, len(resp.ACL.View))
 			for _, v := range resp.ACL.View {
 				r.ACL.View = append(r.ACL.View, types.StringValue(v))
 			}
@@ -51,9 +51,11 @@ func (r *TaxDataSourceModel) RefreshFromSharedTax(resp *shared.Tax) {
 			}
 			for dollarRelationCount, dollarRelationItem := range resp.Files.DollarRelation {
 				var dollarRelation1 tfTypes.DollarRelation
-				dollarRelation1.Tags = []types.String{}
-				for _, v := range dollarRelationItem.Tags {
-					dollarRelation1.Tags = append(dollarRelation1.Tags, types.StringValue(v))
+				if dollarRelationItem.Tags != nil {
+					dollarRelation1.Tags = make([]types.String, 0, len(dollarRelationItem.Tags))
+					for _, v := range dollarRelationItem.Tags {
+						dollarRelation1.Tags = append(dollarRelation1.Tags, types.StringValue(v))
+					}
 				}
 				dollarRelation1.EntityID = types.StringPointerValue(dollarRelationItem.EntityID)
 				if dollarRelationCount+1 > len(r.Files.DollarRelation) {
@@ -65,7 +67,7 @@ func (r *TaxDataSourceModel) RefreshFromSharedTax(resp *shared.Tax) {
 			}
 		}
 		r.ID = types.StringPointerValue(resp.ID)
-		r.Manifest = []types.String{}
+		r.Manifest = make([]types.String, 0, len(resp.Manifest))
 		for _, v := range resp.Manifest {
 			r.Manifest = append(r.Manifest, types.StringValue(v))
 		}
@@ -86,9 +88,11 @@ func (r *TaxDataSourceModel) RefreshFromSharedTax(resp *shared.Tax) {
 			}
 		}
 		r.Schema = types.StringValue(string(resp.Schema))
-		r.Tags = []types.String{}
-		for _, v := range resp.Tags {
-			r.Tags = append(r.Tags, types.StringValue(v))
+		if resp.Tags != nil {
+			r.Tags = make([]types.String, 0, len(resp.Tags))
+			for _, v := range resp.Tags {
+				r.Tags = append(r.Tags, types.StringValue(v))
+			}
 		}
 		r.Title = types.StringPointerValue(resp.Title)
 		if resp.UpdatedAt != nil {

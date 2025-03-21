@@ -376,7 +376,7 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 			"pricing_model": schema.StringAttribute{
 				Computed: true,
 				Optional: true,
-				Default:  stringdefault.StaticString("per_unit"),
+				Default:  stringdefault.StaticString(`per_unit`),
 				PlanModifiers: []planmodifier.String{
 					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 				},
@@ -547,7 +547,7 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 			"type": schema.StringAttribute{
 				Computed: true,
 				Optional: true,
-				Default:  stringdefault.StaticString("one_time"),
+				Default:  stringdefault.StaticString(`one_time`),
 				PlanModifiers: []planmodifier.String{
 					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 				},

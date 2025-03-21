@@ -37,7 +37,7 @@ type PriceDataSourceModel struct {
 	CreatedAt              types.String                        `tfsdk:"created_at"`
 	Description            types.String                        `tfsdk:"description"`
 	Files                  *tfTypes.BaseRelation               `tfsdk:"files"`
-	Hydrate                types.Bool                          `tfsdk:"hydrate"`
+	Hydrate                types.Bool                          `queryParam:"style=form,explode=true,name=hydrate" tfsdk:"hydrate"`
 	ID                     types.String                        `tfsdk:"id"`
 	IsCompositePrice       types.Bool                          `tfsdk:"is_composite_price"`
 	IsTaxInclusive         types.Bool                          `tfsdk:"is_tax_inclusive"`
@@ -53,7 +53,7 @@ type PriceDataSourceModel struct {
 	RenewalDurationAmount  types.Number                        `tfsdk:"renewal_duration_amount"`
 	RenewalDurationUnit    types.String                        `tfsdk:"renewal_duration_unit"`
 	Schema                 types.String                        `tfsdk:"schema"`
-	Strict                 types.Bool                          `tfsdk:"strict"`
+	Strict                 types.Bool                          `queryParam:"style=form,explode=true,name=strict" tfsdk:"strict"`
 	Tags                   []types.String                      `tfsdk:"tags"`
 	Tax                    types.String                        `tfsdk:"tax"`
 	TerminationTimeAmount  types.Number                        `tfsdk:"termination_time_amount"`
