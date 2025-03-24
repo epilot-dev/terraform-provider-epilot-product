@@ -64,6 +64,7 @@ type PriceResourceModel struct {
 	PriceComponents        *tfTypes.PriceCreatePriceComponents `tfsdk:"price_components"`
 	PriceDisplayInJourneys types.String                        `tfsdk:"price_display_in_journeys"`
 	PricingModel           types.String                        `tfsdk:"pricing_model"`
+	Purpose                []types.String                      `tfsdk:"purpose"`
 	RenewalDurationAmount  types.Number                        `tfsdk:"renewal_duration_amount"`
 	RenewalDurationUnit    types.String                        `tfsdk:"renewal_duration_unit"`
 	Schema                 types.String                        `tfsdk:"schema"`
@@ -394,6 +395,14 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 						"tiered_flatfee",
 					),
 				},
+			},
+			"purpose": schema.ListAttribute{
+				Computed: true,
+				Optional: true,
+				PlanModifiers: []planmodifier.List{
+					speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
+				},
+				ElementType: types.StringType,
 			},
 			"renewal_duration_amount": schema.NumberAttribute{
 				Computed: true,

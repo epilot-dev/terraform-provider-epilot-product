@@ -49,6 +49,7 @@ data "epilot-product_coupon" "my_coupon" {
 - `prices` (Attributes) (see [below for nested schema](#nestedatt--prices))
 - `promo_code_usage` (String) Map of ids of promo codes with their usage count. Parsed as JSON.
 - `promo_codes` (Attributes List) (see [below for nested schema](#nestedatt--promo_codes))
+- `purpose` (List of String)
 - `requires_promo_code` (Boolean) Whether the coupon requires a promo code to be applied
 - `schema` (String)
 - `tags` (List of String)

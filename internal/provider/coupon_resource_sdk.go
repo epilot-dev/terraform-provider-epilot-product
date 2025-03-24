@@ -45,6 +45,10 @@ func (r *CouponResourceModel) ToSharedCouponCreate() *shared.CouponCreate {
 	for _, manifestItem := range r.Manifest {
 		manifest = append(manifest, manifestItem.ValueString())
 	}
+	var purpose []string = []string{}
+	for _, purposeItem := range r.Purpose {
+		purpose = append(purpose, purposeItem.ValueString())
+	}
 	schema := new(shared.CouponCreateSchema)
 	if !r.Schema.IsUnknown() && !r.Schema.IsNull() {
 		*schema = shared.CouponCreateSchema(r.Schema.ValueString())
@@ -163,6 +167,7 @@ func (r *CouponResourceModel) ToSharedCouponCreate() *shared.CouponCreate {
 		Additional:         additional,
 		Files:              files,
 		Manifest:           manifest,
+		Purpose:            purpose,
 		Schema:             schema,
 		Tags:               tags1,
 		Active:             active,
@@ -258,6 +263,12 @@ func (r *CouponResourceModel) RefreshFromSharedCoupon(resp *shared.Coupon) {
 			} else {
 				r.Owners[ownersCount].OrgID = owners1.OrgID
 				r.Owners[ownersCount].UserID = owners1.UserID
+			}
+		}
+		if resp.Purpose != nil {
+			r.Purpose = make([]types.String, 0, len(resp.Purpose))
+			for _, v := range resp.Purpose {
+				r.Purpose = append(r.Purpose, types.StringValue(v))
 			}
 		}
 		r.Schema = types.StringValue(string(resp.Schema))
@@ -382,6 +393,10 @@ func (r *CouponResourceModel) ToSharedCouponPatch() *shared.CouponPatch {
 	var manifest []string = []string{}
 	for _, manifestItem := range r.Manifest {
 		manifest = append(manifest, manifestItem.ValueString())
+	}
+	var purpose []string = []string{}
+	for _, purposeItem := range r.Purpose {
+		purpose = append(purpose, purposeItem.ValueString())
 	}
 	schema := new(shared.CouponPatchSchema)
 	if !r.Schema.IsUnknown() && !r.Schema.IsNull() {
@@ -517,6 +532,7 @@ func (r *CouponResourceModel) ToSharedCouponPatch() *shared.CouponPatch {
 		Additional:         additional,
 		Files:              files,
 		Manifest:           manifest,
+		Purpose:            purpose,
 		Schema:             schema,
 		Tags:               tags1,
 		Active:             active,

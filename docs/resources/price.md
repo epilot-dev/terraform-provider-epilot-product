@@ -51,9 +51,12 @@ resource "epilot-product_price" "my_price" {
   }
   price_display_in_journeys = "show_price"
   pricing_model             = "tiered_graduated"
-  renewal_duration_amount   = 3.79
-  renewal_duration_unit     = "years"
-  schema                    = "price"
+  purpose = [
+    "..."
+  ]
+  renewal_duration_amount = 3.79
+  renewal_duration_unit   = "years"
+  schema                  = "price"
   tags = [
     "..."
   ]
@@ -107,6 +110,7 @@ resource "epilot-product_price" "my_price" {
 - `tiered_volume` indicates that the unit pricing will be computed using tiers attribute. The customer pays the same unit price for all purchased units.
 - `tiered_flatfee` While similar to tiered_volume, tiered flat fee charges for the same price (flat) for the entire range instead using the unit price to multiply the quantity.
 Default: "per_unit"; must be one of ["per_unit", "tiered_volume", "tiered_graduated", "tiered_flatfee"]
+- `purpose` (List of String)
 - `renewal_duration_amount` (Number) The renewal period duration
 - `renewal_duration_unit` (String) The renewal period duration unit. must be one of ["weeks", "months", "years"]
 - `schema` (String) must be "price"

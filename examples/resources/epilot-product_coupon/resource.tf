@@ -43,6 +43,9 @@ resource "epilot-product_coupon" "my_coupon" {
       usage_limit     = 8.12
     }
   ]
+  purpose = [
+    "..."
+  ]
   requires_promo_code = false
   schema              = "coupon"
   tags = [

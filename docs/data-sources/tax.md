@@ -39,6 +39,7 @@ data "epilot-product_tax" "my_tax" {
 - `manifest` (List of String) Manifest ID used to create/update the entity
 - `org` (String) Organization Id the entity belongs to
 - `owners` (Attributes List) (see [below for nested schema](#nestedatt--owners))
+- `purpose` (List of String)
 - `rate` (String)
 - `region` (String)
 - `schema` (String)

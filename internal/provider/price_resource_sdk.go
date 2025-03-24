@@ -45,6 +45,10 @@ func (r *PriceResourceModel) ToSharedPriceCreate() *shared.PriceCreate {
 	for _, manifestItem := range r.Manifest {
 		manifest = append(manifest, manifestItem.ValueString())
 	}
+	var purpose []string = []string{}
+	for _, purposeItem := range r.Purpose {
+		purpose = append(purpose, purposeItem.ValueString())
+	}
 	schema := new(shared.PriceCreateSchema)
 	if !r.Schema.IsUnknown() && !r.Schema.IsNull() {
 		*schema = shared.PriceCreateSchema(r.Schema.ValueString())
@@ -253,6 +257,7 @@ func (r *PriceResourceModel) ToSharedPriceCreate() *shared.PriceCreate {
 		Additional:             additional,
 		Files:                  files,
 		Manifest:               manifest,
+		Purpose:                purpose,
 		Schema:                 schema,
 		Tags:                   tags1,
 		Active:                 active,
@@ -358,6 +363,12 @@ func (r *PriceResourceModel) RefreshFromSharedPrice(resp *shared.Price) {
 			} else {
 				r.Owners[ownersCount].OrgID = owners1.OrgID
 				r.Owners[ownersCount].UserID = owners1.UserID
+			}
+		}
+		if resp.Purpose != nil {
+			r.Purpose = make([]types.String, 0, len(resp.Purpose))
+			for _, v := range resp.Purpose {
+				r.Purpose = append(r.Purpose, types.StringValue(v))
 			}
 		}
 		r.Schema = types.StringValue(string(resp.Schema))
@@ -546,6 +557,10 @@ func (r *PriceResourceModel) ToSharedPricePatch() *shared.PricePatch {
 	var manifest []string = []string{}
 	for _, manifestItem := range r.Manifest {
 		manifest = append(manifest, manifestItem.ValueString())
+	}
+	var purpose []string = []string{}
+	for _, purposeItem := range r.Purpose {
+		purpose = append(purpose, purposeItem.ValueString())
 	}
 	schema := new(shared.PricePatchSchema)
 	if !r.Schema.IsUnknown() && !r.Schema.IsNull() {
@@ -761,6 +776,7 @@ func (r *PriceResourceModel) ToSharedPricePatch() *shared.PricePatch {
 		Additional:             additional,
 		Files:                  files,
 		Manifest:               manifest,
+		Purpose:                purpose,
 		Schema:                 schema,
 		Tags:                   tags1,
 		Active:                 active,

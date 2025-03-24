@@ -263,6 +263,7 @@ type PricePatch struct {
 	Files      *BaseRelation  `json:"_files,omitempty"`
 	// Manifest ID used to create/update the entity
 	Manifest []string          `json:"_manifest,omitempty"`
+	Purpose  []string          `json:"_purpose,omitempty"`
 	Schema   *PricePatchSchema `json:"_schema,omitempty"`
 	Tags     []string          `json:"_tags,omitempty"`
 	// Whether the price can be used for new purchases.
@@ -350,6 +351,13 @@ func (o *PricePatch) GetManifest() []string {
 		return nil
 	}
 	return o.Manifest
+}
+
+func (o *PricePatch) GetPurpose() []string {
+	if o == nil {
+		return nil
+	}
+	return o.Purpose
 }
 
 func (o *PricePatch) GetSchema() *PricePatchSchema {

@@ -50,6 +50,7 @@ type CouponDataSourceModel struct {
 	Prices             *tfTypes.BaseRelation     `tfsdk:"prices"`
 	PromoCodeUsage     types.String              `tfsdk:"promo_code_usage"`
 	PromoCodes         []tfTypes.PromoCode       `tfsdk:"promo_codes"`
+	Purpose            []types.String            `tfsdk:"purpose"`
 	RequiresPromoCode  types.Bool                `tfsdk:"requires_promo_code"`
 	Schema             types.String              `tfsdk:"schema"`
 	Strict             types.Bool                `queryParam:"style=form,explode=true,name=strict" tfsdk:"strict"`
@@ -221,6 +222,10 @@ func (r *CouponDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 						},
 					},
 				},
+			},
+			"purpose": schema.ListAttribute{
+				Computed:    true,
+				ElementType: types.StringType,
 			},
 			"requires_promo_code": schema.BoolAttribute{
 				Computed:    true,

@@ -112,9 +112,11 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(resp *shared.Product) 
 				r.Owners[ownersCount].UserID = owners1.UserID
 			}
 		}
-		r.Purpose = make([]types.String, 0, len(resp.Purpose))
-		for _, v := range resp.Purpose {
-			r.Purpose = append(r.Purpose, types.StringValue(v))
+		if resp.Purpose != nil {
+			r.Purpose = make([]types.String, 0, len(resp.Purpose))
+			for _, v := range resp.Purpose {
+				r.Purpose = append(r.Purpose, types.StringValue(v))
+			}
 		}
 		r.Schema = types.StringValue(string(resp.Schema))
 		if resp.Tags != nil {
