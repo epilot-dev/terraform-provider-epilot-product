@@ -71,6 +71,7 @@ type Tax struct {
 	// Organization Id the entity belongs to
 	Org         string            `json:"_org"`
 	Owners      []BaseEntityOwner `json:"_owners,omitempty"`
+	Purpose     []string          `json:"_purpose,omitempty"`
 	Schema      TaxSchema         `json:"_schema"`
 	Tags        []string          `json:"_tags,omitempty"`
 	Title       *string           `json:"_title,omitempty"`
@@ -147,6 +148,13 @@ func (o *Tax) GetOwners() []BaseEntityOwner {
 		return nil
 	}
 	return o.Owners
+}
+
+func (o *Tax) GetPurpose() []string {
+	if o == nil {
+		return nil
+	}
+	return o.Purpose
 }
 
 func (o *Tax) GetSchema() TaxSchema {

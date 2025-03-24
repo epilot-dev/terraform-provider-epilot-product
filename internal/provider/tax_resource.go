@@ -51,6 +51,7 @@ type TaxResourceModel struct {
 	Manifest    []types.String            `tfsdk:"manifest"`
 	Org         types.String              `tfsdk:"org"`
 	Owners      []tfTypes.BaseEntityOwner `tfsdk:"owners"`
+	Purpose     []types.String            `tfsdk:"purpose"`
 	Rate        types.String              `tfsdk:"rate"`
 	Region      types.String              `tfsdk:"region"`
 	Schema      types.String              `tfsdk:"schema"`
@@ -219,6 +220,14 @@ func (r *TaxResource) Schema(ctx context.Context, req resource.SchemaRequest, re
 						},
 					},
 				},
+			},
+			"purpose": schema.ListAttribute{
+				Computed: true,
+				Optional: true,
+				PlanModifiers: []planmodifier.List{
+					speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
+				},
+				ElementType: types.StringType,
 			},
 			"rate": schema.StringAttribute{
 				Required: true,

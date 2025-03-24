@@ -50,6 +50,7 @@ type PriceDataSourceModel struct {
 	PriceComponents        *tfTypes.PriceCreatePriceComponents `tfsdk:"price_components"`
 	PriceDisplayInJourneys types.String                        `tfsdk:"price_display_in_journeys"`
 	PricingModel           types.String                        `tfsdk:"pricing_model"`
+	Purpose                []types.String                      `tfsdk:"purpose"`
 	RenewalDurationAmount  types.Number                        `tfsdk:"renewal_duration_amount"`
 	RenewalDurationUnit    types.String                        `tfsdk:"renewal_duration_unit"`
 	Schema                 types.String                        `tfsdk:"schema"`
@@ -223,6 +224,10 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 					`- ` + "`" + `tiered_graduated` + "`" + ` indicates that the unit pricing will be computed using tiers attribute. The customer pays the price per unit in every range their purchase rises through.` + "\n" +
 					`- ` + "`" + `tiered_volume` + "`" + ` indicates that the unit pricing will be computed using tiers attribute. The customer pays the same unit price for all purchased units.` + "\n" +
 					`- ` + "`" + `tiered_flatfee` + "`" + ` While similar to tiered_volume, tiered flat fee charges for the same price (flat) for the entire range instead using the unit price to multiply the quantity.`,
+			},
+			"purpose": schema.ListAttribute{
+				Computed:    true,
+				ElementType: types.StringType,
 			},
 			"renewal_duration_amount": schema.NumberAttribute{
 				Computed:    true,

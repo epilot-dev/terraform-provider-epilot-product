@@ -44,6 +44,10 @@ func (r *TaxResourceModel) ToSharedTaxCreate() *shared.TaxCreate {
 	for _, manifestItem := range r.Manifest {
 		manifest = append(manifest, manifestItem.ValueString())
 	}
+	var purpose []string = []string{}
+	for _, purposeItem := range r.Purpose {
+		purpose = append(purpose, purposeItem.ValueString())
+	}
 	schema := new(shared.TaxCreateSchema)
 	if !r.Schema.IsUnknown() && !r.Schema.IsNull() {
 		*schema = shared.TaxCreateSchema(r.Schema.ValueString())
@@ -74,6 +78,7 @@ func (r *TaxResourceModel) ToSharedTaxCreate() *shared.TaxCreate {
 		Additional:  additional,
 		Files:       files,
 		Manifest:    manifest,
+		Purpose:     purpose,
 		Schema:      schema,
 		Tags:        tags1,
 		Active:      active,
@@ -162,6 +167,12 @@ func (r *TaxResourceModel) RefreshFromSharedTax(resp *shared.Tax) {
 				r.Owners[ownersCount].UserID = owners1.UserID
 			}
 		}
+		if resp.Purpose != nil {
+			r.Purpose = make([]types.String, 0, len(resp.Purpose))
+			for _, v := range resp.Purpose {
+				r.Purpose = append(r.Purpose, types.StringValue(v))
+			}
+		}
 		r.Schema = types.StringValue(string(resp.Schema))
 		if resp.Tags != nil {
 			r.Tags = make([]types.String, 0, len(resp.Tags))
@@ -217,6 +228,10 @@ func (r *TaxResourceModel) ToSharedTaxPatch() *shared.TaxPatch {
 	for _, manifestItem := range r.Manifest {
 		manifest = append(manifest, manifestItem.ValueString())
 	}
+	var purpose []string = []string{}
+	for _, purposeItem := range r.Purpose {
+		purpose = append(purpose, purposeItem.ValueString())
+	}
 	schema := new(shared.TaxPatchSchema)
 	if !r.Schema.IsUnknown() && !r.Schema.IsNull() {
 		*schema = shared.TaxPatchSchema(r.Schema.ValueString())
@@ -261,6 +276,7 @@ func (r *TaxResourceModel) ToSharedTaxPatch() *shared.TaxPatch {
 		Additional:  additional,
 		Files:       files,
 		Manifest:    manifest,
+		Purpose:     purpose,
 		Schema:      schema,
 		Tags:        tags1,
 		Active:      active,

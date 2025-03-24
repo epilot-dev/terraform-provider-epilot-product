@@ -36,9 +36,12 @@ resource "epilot-product_price" "my_price" {
   }
   price_display_in_journeys = "show_price"
   pricing_model             = "tiered_graduated"
-  renewal_duration_amount   = 3.79
-  renewal_duration_unit     = "years"
-  schema                    = "price"
+  purpose = [
+    "..."
+  ]
+  renewal_duration_amount = 3.79
+  renewal_duration_unit   = "years"
+  schema                  = "price"
   tags = [
     "..."
   ]

@@ -115,6 +115,7 @@ type CouponPatch struct {
 	Files      *BaseRelation  `json:"_files,omitempty"`
 	// Manifest ID used to create/update the entity
 	Manifest []string           `json:"_manifest,omitempty"`
+	Purpose  []string           `json:"_purpose,omitempty"`
 	Schema   *CouponPatchSchema `json:"_schema,omitempty"`
 	Tags     []string           `json:"_tags,omitempty"`
 	Active   *bool              `json:"active,omitempty"`
@@ -159,6 +160,13 @@ func (o *CouponPatch) GetManifest() []string {
 		return nil
 	}
 	return o.Manifest
+}
+
+func (o *CouponPatch) GetPurpose() []string {
+	if o == nil {
+		return nil
+	}
+	return o.Purpose
 }
 
 func (o *CouponPatch) GetSchema() *CouponPatchSchema {

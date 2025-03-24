@@ -40,6 +40,7 @@ type TaxDataSourceModel struct {
 	Manifest    []types.String            `tfsdk:"manifest"`
 	Org         types.String              `tfsdk:"org"`
 	Owners      []tfTypes.BaseEntityOwner `tfsdk:"owners"`
+	Purpose     []types.String            `tfsdk:"purpose"`
 	Rate        types.String              `tfsdk:"rate"`
 	Region      types.String              `tfsdk:"region"`
 	Schema      types.String              `tfsdk:"schema"`
@@ -140,6 +141,10 @@ func (r *TaxDataSource) Schema(ctx context.Context, req datasource.SchemaRequest
 						},
 					},
 				},
+			},
+			"purpose": schema.ListAttribute{
+				Computed:    true,
+				ElementType: types.StringType,
 			},
 			"rate": schema.StringAttribute{
 				Computed: true,

@@ -62,6 +62,7 @@ type TaxCreate struct {
 	Files      *BaseRelation  `json:"_files,omitempty"`
 	// Manifest ID used to create/update the entity
 	Manifest    []string         `json:"_manifest,omitempty"`
+	Purpose     []string         `json:"_purpose,omitempty"`
 	Schema      *TaxCreateSchema `json:"_schema,omitempty"`
 	Tags        []string         `json:"_tags,omitempty"`
 	Active      bool             `json:"active"`
@@ -90,6 +91,13 @@ func (o *TaxCreate) GetManifest() []string {
 		return nil
 	}
 	return o.Manifest
+}
+
+func (o *TaxCreate) GetPurpose() []string {
+	if o == nil {
+		return nil
+	}
+	return o.Purpose
 }
 
 func (o *TaxCreate) GetSchema() *TaxCreateSchema {

@@ -32,6 +32,9 @@ resource "epilot-product_tax" "my_tax" {
   manifest = [
     "123e4567-e89b-12d3-a456-426614174000"
   ]
+  purpose = [
+    "..."
+  ]
   rate   = "...my_rate..."
   region = "DE"
   schema = "tax"
@@ -58,6 +61,7 @@ resource "epilot-product_tax" "my_tax" {
 - `description` (String)
 - `files` (Attributes) (see [below for nested schema](#nestedatt--files))
 - `manifest` (List of String) Manifest ID used to create/update the entity
+- `purpose` (List of String)
 - `schema` (String) must be "tax"
 - `tags` (List of String)
 
