@@ -69,6 +69,7 @@ func (c *sdkConfiguration) GetServerDetails() (string, map[string]string) {
 	return ServerList[c.ServerIndex], nil
 }
 
+// SDK - Product API: This API allows managing products, prices, taxes, and coupons.
 type SDK struct {
 	// Coupon operations
 	Coupon *Coupon
@@ -155,9 +156,9 @@ func New(opts ...SDKOption) *SDK {
 		sdkConfiguration: sdkConfiguration{
 			Language:          "go",
 			OpenAPIDocVersion: "1.0.0",
-			SDKVersion:        "0.14.1",
-			GenVersion:        "2.559.0",
-			UserAgent:         "speakeasy-sdk/terraform 0.14.1 2.559.0 1.0.0 github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk",
+			SDKVersion:        "0.14.2",
+			GenVersion:        "2.563.0",
+			UserAgent:         "speakeasy-sdk/terraform 0.14.2 2.563.0 1.0.0 github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk",
 			Hooks:             hooks.New(),
 		},
 	}

@@ -57,7 +57,7 @@ TF_REATTACH_PROVIDERS=... terraform apply
 <!-- Start Summary [summary] -->
 ## Summary
 
-
+Product API: This API allows managing products, prices, taxes, and coupons.
 <!-- End Summary [summary] -->
 
 <!-- Start Table of Contents [toc] -->
@@ -82,7 +82,7 @@ terraform {
   required_providers {
     epilot-product = {
       source  = "epilot-dev/epilot-product"
-      version = "0.14.1"
+      version = "0.14.2"
     }
   }
 }

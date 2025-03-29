@@ -3,12 +3,12 @@
 page_title: "epilot-product Provider"
 subcategory: ""
 description: |-
-  
+  Product API: This API allows managing products, prices, taxes, and coupons.
 ---
 
 # epilot-product Provider
 
-
+Product API: This API allows managing products, prices, taxes, and coupons.
 
 ## Example Usage
 
@@ -17,7 +17,7 @@ terraform {
   required_providers {
     epilot-product = {
       source  = "epilot-dev/epilot-product"
-      version = "0.14.1"
+      version = "0.14.2"
     }
   }
 }
