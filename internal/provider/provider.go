@@ -51,6 +51,7 @@ func (p *EpilotProductProvider) Schema(ctx context.Context, req provider.SchemaR
 				Optional:    true,
 			},
 		},
+		MarkdownDescription: `Product API: This API allows managing products, prices, taxes, and coupons.`,
 	}
 }
 
