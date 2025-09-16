@@ -3,15 +3,205 @@
 package provider
 
 import (
+	"context"
 	"encoding/json"
+	"github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/typeconvert"
 	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
+	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/operations"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/shared"
+	"github.com/hashicorp/terraform-plugin-framework-jsontypes/jsontypes"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"math/big"
-	"time"
 )
 
-func (r *CouponResourceModel) ToSharedCouponCreate() *shared.CouponCreate {
+func (r *CouponResourceModel) RefreshFromSharedCoupon(ctx context.Context, resp *shared.Coupon) diag.Diagnostics {
+	var diags diag.Diagnostics
+
+	if resp != nil {
+		if resp.Additional != nil {
+			r.Additional = make(map[string]jsontypes.Normalized, len(resp.Additional))
+			for key, value := range resp.Additional {
+				result, _ := json.Marshal(value)
+				r.Additional[key] = jsontypes.NewNormalizedValue(string(result))
+			}
+		}
+		if resp.ACL == nil {
+			r.ACL = nil
+		} else {
+			r.ACL = &tfTypes.BaseEntityACL{}
+			r.ACL.Delete = make([]types.String, 0, len(resp.ACL.Delete))
+			for _, v := range resp.ACL.Delete {
+				r.ACL.Delete = append(r.ACL.Delete, types.StringValue(v))
+			}
+			r.ACL.Edit = make([]types.String, 0, len(resp.ACL.Edit))
+			for _, v := range resp.ACL.Edit {
+				r.ACL.Edit = append(r.ACL.Edit, types.StringValue(v))
+			}
+			r.ACL.View = make([]types.String, 0, len(resp.ACL.View))
+			for _, v := range resp.ACL.View {
+				r.ACL.View = append(r.ACL.View, types.StringValue(v))
+			}
+		}
+		r.CreatedAt = types.StringPointerValue(typeconvert.TimePointerToStringPointer(resp.CreatedAt))
+		if resp.Files == nil {
+			r.Files = nil
+		} else {
+			r.Files = &tfTypes.BaseRelation{}
+			r.Files.DollarRelation = []tfTypes.DollarRelation{}
+
+			for _, dollarRelationItem := range resp.Files.DollarRelation {
+				var dollarRelation tfTypes.DollarRelation
+
+				if dollarRelationItem.Tags != nil {
+					dollarRelation.Tags = make([]types.String, 0, len(dollarRelationItem.Tags))
+					for _, v := range dollarRelationItem.Tags {
+						dollarRelation.Tags = append(dollarRelation.Tags, types.StringValue(v))
+					}
+				}
+				dollarRelation.EntityID = types.StringPointerValue(dollarRelationItem.EntityID)
+
+				r.Files.DollarRelation = append(r.Files.DollarRelation, dollarRelation)
+			}
+		}
+		r.ID = types.StringPointerValue(resp.ID)
+		r.Manifest = make([]types.String, 0, len(resp.Manifest))
+		for _, v := range resp.Manifest {
+			r.Manifest = append(r.Manifest, types.StringValue(v))
+		}
+		r.Org = types.StringValue(resp.Org)
+		r.Owners = []tfTypes.BaseEntityOwner{}
+
+		for _, ownersItem := range resp.Owners {
+			var owners tfTypes.BaseEntityOwner
+
+			owners.OrgID = types.StringValue(ownersItem.OrgID)
+			owners.UserID = types.StringPointerValue(ownersItem.UserID)
+
+			r.Owners = append(r.Owners, owners)
+		}
+		if resp.Purpose != nil {
+			r.Purpose = make([]types.String, 0, len(resp.Purpose))
+			for _, v := range resp.Purpose {
+				r.Purpose = append(r.Purpose, types.StringValue(v))
+			}
+		}
+		r.Schema = types.StringValue(string(resp.Schema))
+		if resp.Tags != nil {
+			r.Tags = make([]types.String, 0, len(resp.Tags))
+			for _, v := range resp.Tags {
+				r.Tags = append(r.Tags, types.StringValue(v))
+			}
+		}
+		r.Title = types.StringPointerValue(resp.Title)
+		r.UpdatedAt = types.StringPointerValue(typeconvert.TimePointerToStringPointer(resp.UpdatedAt))
+		r.Active = types.BoolValue(resp.Active)
+		if resp.CashbackPeriod != nil {
+			r.CashbackPeriod = types.StringValue(string(*resp.CashbackPeriod))
+		} else {
+			r.CashbackPeriod = types.StringNull()
+		}
+		r.Category = types.StringValue(string(resp.Category))
+		r.Description = types.StringPointerValue(resp.Description)
+		r.FixedValue = types.Float64PointerValue(resp.FixedValue)
+		r.FixedValueCurrency = types.StringPointerValue(resp.FixedValueCurrency)
+		r.FixedValueDecimal = types.StringPointerValue(resp.FixedValueDecimal)
+		r.Name = types.StringValue(resp.Name)
+		r.PercentageValue = types.StringPointerValue(resp.PercentageValue)
+		if resp.Prices == nil {
+			r.Prices = nil
+		} else {
+			r.Prices = &tfTypes.BaseRelation{}
+			r.Prices.DollarRelation = []tfTypes.DollarRelation{}
+
+			for _, dollarRelationItem1 := range resp.Prices.DollarRelation {
+				var dollarRelation1 tfTypes.DollarRelation
+
+				if dollarRelationItem1.Tags != nil {
+					dollarRelation1.Tags = make([]types.String, 0, len(dollarRelationItem1.Tags))
+					for _, v := range dollarRelationItem1.Tags {
+						dollarRelation1.Tags = append(dollarRelation1.Tags, types.StringValue(v))
+					}
+				}
+				dollarRelation1.EntityID = types.StringPointerValue(dollarRelationItem1.EntityID)
+
+				r.Prices.DollarRelation = append(r.Prices.DollarRelation, dollarRelation1)
+			}
+		}
+		if resp.PromoCodeUsage == nil {
+			r.PromoCodeUsage = jsontypes.NewNormalizedNull()
+		} else {
+			promoCodeUsageResult, _ := json.Marshal(resp.PromoCodeUsage)
+			r.PromoCodeUsage = jsontypes.NewNormalizedValue(string(promoCodeUsageResult))
+		}
+		r.PromoCodes = []tfTypes.PromoCode{}
+
+		for _, promoCodesItem := range resp.PromoCodes {
+			var promoCodes tfTypes.PromoCode
+
+			promoCodes.Code = types.StringValue(promoCodesItem.Code)
+			promoCodes.HasUsageLimit = types.BoolPointerValue(promoCodesItem.HasUsageLimit)
+			promoCodes.ID = types.StringValue(promoCodesItem.ID)
+			promoCodes.UsageLimit = types.Float64PointerValue(promoCodesItem.UsageLimit)
+
+			r.PromoCodes = append(r.PromoCodes, promoCodes)
+		}
+		r.RequiresPromoCode = types.BoolPointerValue(resp.RequiresPromoCode)
+		r.Type = types.StringValue(string(resp.Type))
+	}
+
+	return diags
+}
+
+func (r *CouponResourceModel) ToOperationsDeleteCouponRequest(ctx context.Context) (*operations.DeleteCouponRequest, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	var couponID string
+	couponID = r.ID.ValueString()
+
+	out := operations.DeleteCouponRequest{
+		CouponID: couponID,
+	}
+
+	return &out, diags
+}
+
+func (r *CouponResourceModel) ToOperationsGetCouponRequest(ctx context.Context) (*operations.GetCouponRequest, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	var couponID string
+	couponID = r.ID.ValueString()
+
+	out := operations.GetCouponRequest{
+		CouponID: couponID,
+	}
+
+	return &out, diags
+}
+
+func (r *CouponResourceModel) ToOperationsPatchCouponRequest(ctx context.Context) (*operations.PatchCouponRequest, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	couponPatch, couponPatchDiags := r.ToSharedCouponPatch(ctx)
+	diags.Append(couponPatchDiags...)
+
+	if diags.HasError() {
+		return nil, diags
+	}
+
+	var couponID string
+	couponID = r.ID.ValueString()
+
+	out := operations.PatchCouponRequest{
+		CouponPatch: *couponPatch,
+		CouponID:    couponID,
+	}
+
+	return &out, diags
+}
+
+func (r *CouponResourceModel) ToSharedCouponCreate(ctx context.Context) (*shared.CouponCreate, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
 	additional := make(map[string]interface{})
 	for additionalKey, additionalValue := range r.Additional {
 		var additionalInst interface{}
@@ -20,11 +210,14 @@ func (r *CouponResourceModel) ToSharedCouponCreate() *shared.CouponCreate {
 	}
 	var files *shared.BaseRelation
 	if r.Files != nil {
-		var dollarRelation []shared.DollarRelation = []shared.DollarRelation{}
+		dollarRelation := make([]shared.DollarRelation, 0, len(r.Files.DollarRelation))
 		for _, dollarRelationItem := range r.Files.DollarRelation {
-			var tags []string = []string{}
-			for _, tagsItem := range dollarRelationItem.Tags {
-				tags = append(tags, tagsItem.ValueString())
+			var tags []string
+			if dollarRelationItem.Tags != nil {
+				tags = make([]string, 0, len(dollarRelationItem.Tags))
+				for _, tagsItem := range dollarRelationItem.Tags {
+					tags = append(tags, tagsItem.ValueString())
+				}
 			}
 			entityID := new(string)
 			if !dollarRelationItem.EntityID.IsUnknown() && !dollarRelationItem.EntityID.IsNull() {
@@ -41,13 +234,16 @@ func (r *CouponResourceModel) ToSharedCouponCreate() *shared.CouponCreate {
 			DollarRelation: dollarRelation,
 		}
 	}
-	var manifest []string = []string{}
+	manifest := make([]string, 0, len(r.Manifest))
 	for _, manifestItem := range r.Manifest {
 		manifest = append(manifest, manifestItem.ValueString())
 	}
-	var purpose []string = []string{}
-	for _, purposeItem := range r.Purpose {
-		purpose = append(purpose, purposeItem.ValueString())
+	var purpose []string
+	if r.Purpose != nil {
+		purpose = make([]string, 0, len(r.Purpose))
+		for _, purposeItem := range r.Purpose {
+			purpose = append(purpose, purposeItem.ValueString())
+		}
 	}
 	schema := new(shared.CouponCreateSchema)
 	if !r.Schema.IsUnknown() && !r.Schema.IsNull() {
@@ -55,9 +251,12 @@ func (r *CouponResourceModel) ToSharedCouponCreate() *shared.CouponCreate {
 	} else {
 		schema = nil
 	}
-	var tags1 []string = []string{}
-	for _, tagsItem1 := range r.Tags {
-		tags1 = append(tags1, tagsItem1.ValueString())
+	var tags1 []string
+	if r.Tags != nil {
+		tags1 = make([]string, 0, len(r.Tags))
+		for _, tagsItem1 := range r.Tags {
+			tags1 = append(tags1, tagsItem1.ValueString())
+		}
 	}
 	var active bool
 	active = r.Active.ValueBool()
@@ -77,7 +276,7 @@ func (r *CouponResourceModel) ToSharedCouponCreate() *shared.CouponCreate {
 	}
 	fixedValue := new(float64)
 	if !r.FixedValue.IsUnknown() && !r.FixedValue.IsNull() {
-		*fixedValue, _ = r.FixedValue.ValueBigFloat().Float64()
+		*fixedValue = r.FixedValue.ValueFloat64()
 	} else {
 		fixedValue = nil
 	}
@@ -104,11 +303,14 @@ func (r *CouponResourceModel) ToSharedCouponCreate() *shared.CouponCreate {
 	}
 	var prices *shared.BaseRelation
 	if r.Prices != nil {
-		var dollarRelation1 []shared.DollarRelation = []shared.DollarRelation{}
+		dollarRelation1 := make([]shared.DollarRelation, 0, len(r.Prices.DollarRelation))
 		for _, dollarRelationItem1 := range r.Prices.DollarRelation {
-			var tags2 []string = []string{}
-			for _, tagsItem2 := range dollarRelationItem1.Tags {
-				tags2 = append(tags2, tagsItem2.ValueString())
+			var tags2 []string
+			if dollarRelationItem1.Tags != nil {
+				tags2 = make([]string, 0, len(dollarRelationItem1.Tags))
+				for _, tagsItem2 := range dollarRelationItem1.Tags {
+					tags2 = append(tags2, tagsItem2.ValueString())
+				}
 			}
 			entityId1 := new(string)
 			if !dollarRelationItem1.EntityID.IsUnknown() && !dollarRelationItem1.EntityID.IsNull() {
@@ -129,7 +331,7 @@ func (r *CouponResourceModel) ToSharedCouponCreate() *shared.CouponCreate {
 	if !r.PromoCodeUsage.IsUnknown() && !r.PromoCodeUsage.IsNull() {
 		_ = json.Unmarshal([]byte(r.PromoCodeUsage.ValueString()), &promoCodeUsage)
 	}
-	var promoCodes []shared.PromoCode = []shared.PromoCode{}
+	promoCodes := make([]shared.PromoCode, 0, len(r.PromoCodes))
 	for _, promoCodesItem := range r.PromoCodes {
 		var code string
 		code = promoCodesItem.Code.ValueString()
@@ -145,7 +347,7 @@ func (r *CouponResourceModel) ToSharedCouponCreate() *shared.CouponCreate {
 
 		usageLimit := new(float64)
 		if !promoCodesItem.UsageLimit.IsUnknown() && !promoCodesItem.UsageLimit.IsNull() {
-			*usageLimit, _ = promoCodesItem.UsageLimit.ValueBigFloat().Float64()
+			*usageLimit = promoCodesItem.UsageLimit.ValueFloat64()
 		} else {
 			usageLimit = nil
 		}
@@ -185,182 +387,13 @@ func (r *CouponResourceModel) ToSharedCouponCreate() *shared.CouponCreate {
 		RequiresPromoCode:  requiresPromoCode,
 		Type:               typeVar,
 	}
-	return &out
+
+	return &out, diags
 }
 
-func (r *CouponResourceModel) RefreshFromSharedCoupon(resp *shared.Coupon) {
-	if resp != nil {
-		if resp.Additional != nil {
-			r.Additional = make(map[string]types.String, len(resp.Additional))
-			for key, value := range resp.Additional {
-				result, _ := json.Marshal(value)
-				r.Additional[key] = types.StringValue(string(result))
-			}
-		}
-		if resp.ACL == nil {
-			r.ACL = nil
-		} else {
-			r.ACL = &tfTypes.BaseEntityACL{}
-			r.ACL.Delete = make([]types.String, 0, len(resp.ACL.Delete))
-			for _, v := range resp.ACL.Delete {
-				r.ACL.Delete = append(r.ACL.Delete, types.StringValue(v))
-			}
-			r.ACL.Edit = make([]types.String, 0, len(resp.ACL.Edit))
-			for _, v := range resp.ACL.Edit {
-				r.ACL.Edit = append(r.ACL.Edit, types.StringValue(v))
-			}
-			r.ACL.View = make([]types.String, 0, len(resp.ACL.View))
-			for _, v := range resp.ACL.View {
-				r.ACL.View = append(r.ACL.View, types.StringValue(v))
-			}
-		}
-		if resp.CreatedAt != nil {
-			r.CreatedAt = types.StringValue(resp.CreatedAt.Format(time.RFC3339Nano))
-		} else {
-			r.CreatedAt = types.StringNull()
-		}
-		if resp.Files == nil {
-			r.Files = nil
-		} else {
-			r.Files = &tfTypes.BaseRelation{}
-			r.Files.DollarRelation = []tfTypes.DollarRelation{}
-			if len(r.Files.DollarRelation) > len(resp.Files.DollarRelation) {
-				r.Files.DollarRelation = r.Files.DollarRelation[:len(resp.Files.DollarRelation)]
-			}
-			for dollarRelationCount, dollarRelationItem := range resp.Files.DollarRelation {
-				var dollarRelation1 tfTypes.DollarRelation
-				if dollarRelationItem.Tags != nil {
-					dollarRelation1.Tags = make([]types.String, 0, len(dollarRelationItem.Tags))
-					for _, v := range dollarRelationItem.Tags {
-						dollarRelation1.Tags = append(dollarRelation1.Tags, types.StringValue(v))
-					}
-				}
-				dollarRelation1.EntityID = types.StringPointerValue(dollarRelationItem.EntityID)
-				if dollarRelationCount+1 > len(r.Files.DollarRelation) {
-					r.Files.DollarRelation = append(r.Files.DollarRelation, dollarRelation1)
-				} else {
-					r.Files.DollarRelation[dollarRelationCount].Tags = dollarRelation1.Tags
-					r.Files.DollarRelation[dollarRelationCount].EntityID = dollarRelation1.EntityID
-				}
-			}
-		}
-		r.ID = types.StringPointerValue(resp.ID)
-		r.Manifest = make([]types.String, 0, len(resp.Manifest))
-		for _, v := range resp.Manifest {
-			r.Manifest = append(r.Manifest, types.StringValue(v))
-		}
-		r.Org = types.StringValue(resp.Org)
-		r.Owners = []tfTypes.BaseEntityOwner{}
-		if len(r.Owners) > len(resp.Owners) {
-			r.Owners = r.Owners[:len(resp.Owners)]
-		}
-		for ownersCount, ownersItem := range resp.Owners {
-			var owners1 tfTypes.BaseEntityOwner
-			owners1.OrgID = types.StringValue(ownersItem.OrgID)
-			owners1.UserID = types.StringPointerValue(ownersItem.UserID)
-			if ownersCount+1 > len(r.Owners) {
-				r.Owners = append(r.Owners, owners1)
-			} else {
-				r.Owners[ownersCount].OrgID = owners1.OrgID
-				r.Owners[ownersCount].UserID = owners1.UserID
-			}
-		}
-		if resp.Purpose != nil {
-			r.Purpose = make([]types.String, 0, len(resp.Purpose))
-			for _, v := range resp.Purpose {
-				r.Purpose = append(r.Purpose, types.StringValue(v))
-			}
-		}
-		r.Schema = types.StringValue(string(resp.Schema))
-		if resp.Tags != nil {
-			r.Tags = make([]types.String, 0, len(resp.Tags))
-			for _, v := range resp.Tags {
-				r.Tags = append(r.Tags, types.StringValue(v))
-			}
-		}
-		r.Title = types.StringPointerValue(resp.Title)
-		if resp.UpdatedAt != nil {
-			r.UpdatedAt = types.StringValue(resp.UpdatedAt.Format(time.RFC3339Nano))
-		} else {
-			r.UpdatedAt = types.StringNull()
-		}
-		r.Active = types.BoolValue(resp.Active)
-		if resp.CashbackPeriod != nil {
-			r.CashbackPeriod = types.StringValue(string(*resp.CashbackPeriod))
-		} else {
-			r.CashbackPeriod = types.StringNull()
-		}
-		r.Category = types.StringValue(string(resp.Category))
-		r.Description = types.StringPointerValue(resp.Description)
-		if resp.FixedValue != nil {
-			r.FixedValue = types.NumberValue(big.NewFloat(float64(*resp.FixedValue)))
-		} else {
-			r.FixedValue = types.NumberNull()
-		}
-		r.FixedValueCurrency = types.StringPointerValue(resp.FixedValueCurrency)
-		r.FixedValueDecimal = types.StringPointerValue(resp.FixedValueDecimal)
-		r.Name = types.StringValue(resp.Name)
-		r.PercentageValue = types.StringPointerValue(resp.PercentageValue)
-		if resp.Prices == nil {
-			r.Prices = nil
-		} else {
-			r.Prices = &tfTypes.BaseRelation{}
-			r.Prices.DollarRelation = []tfTypes.DollarRelation{}
-			if len(r.Prices.DollarRelation) > len(resp.Prices.DollarRelation) {
-				r.Prices.DollarRelation = r.Prices.DollarRelation[:len(resp.Prices.DollarRelation)]
-			}
-			for dollarRelationCount1, dollarRelationItem1 := range resp.Prices.DollarRelation {
-				var dollarRelation3 tfTypes.DollarRelation
-				if dollarRelationItem1.Tags != nil {
-					dollarRelation3.Tags = make([]types.String, 0, len(dollarRelationItem1.Tags))
-					for _, v := range dollarRelationItem1.Tags {
-						dollarRelation3.Tags = append(dollarRelation3.Tags, types.StringValue(v))
-					}
-				}
-				dollarRelation3.EntityID = types.StringPointerValue(dollarRelationItem1.EntityID)
-				if dollarRelationCount1+1 > len(r.Prices.DollarRelation) {
-					r.Prices.DollarRelation = append(r.Prices.DollarRelation, dollarRelation3)
-				} else {
-					r.Prices.DollarRelation[dollarRelationCount1].Tags = dollarRelation3.Tags
-					r.Prices.DollarRelation[dollarRelationCount1].EntityID = dollarRelation3.EntityID
-				}
-			}
-		}
-		if resp.PromoCodeUsage == nil {
-			r.PromoCodeUsage = types.StringNull()
-		} else {
-			promoCodeUsageResult, _ := json.Marshal(resp.PromoCodeUsage)
-			r.PromoCodeUsage = types.StringValue(string(promoCodeUsageResult))
-		}
-		r.PromoCodes = []tfTypes.PromoCode{}
-		if len(r.PromoCodes) > len(resp.PromoCodes) {
-			r.PromoCodes = r.PromoCodes[:len(resp.PromoCodes)]
-		}
-		for promoCodesCount, promoCodesItem := range resp.PromoCodes {
-			var promoCodes1 tfTypes.PromoCode
-			promoCodes1.Code = types.StringValue(promoCodesItem.Code)
-			promoCodes1.HasUsageLimit = types.BoolPointerValue(promoCodesItem.HasUsageLimit)
-			promoCodes1.ID = types.StringValue(promoCodesItem.ID)
-			if promoCodesItem.UsageLimit != nil {
-				promoCodes1.UsageLimit = types.NumberValue(big.NewFloat(float64(*promoCodesItem.UsageLimit)))
-			} else {
-				promoCodes1.UsageLimit = types.NumberNull()
-			}
-			if promoCodesCount+1 > len(r.PromoCodes) {
-				r.PromoCodes = append(r.PromoCodes, promoCodes1)
-			} else {
-				r.PromoCodes[promoCodesCount].Code = promoCodes1.Code
-				r.PromoCodes[promoCodesCount].HasUsageLimit = promoCodes1.HasUsageLimit
-				r.PromoCodes[promoCodesCount].ID = promoCodes1.ID
-				r.PromoCodes[promoCodesCount].UsageLimit = promoCodes1.UsageLimit
-			}
-		}
-		r.RequiresPromoCode = types.BoolPointerValue(resp.RequiresPromoCode)
-		r.Type = types.StringValue(string(resp.Type))
-	}
-}
+func (r *CouponResourceModel) ToSharedCouponPatch(ctx context.Context) (*shared.CouponPatch, diag.Diagnostics) {
+	var diags diag.Diagnostics
 
-func (r *CouponResourceModel) ToSharedCouponPatch() *shared.CouponPatch {
 	additional := make(map[string]interface{})
 	for additionalKey, additionalValue := range r.Additional {
 		var additionalInst interface{}
@@ -369,11 +402,14 @@ func (r *CouponResourceModel) ToSharedCouponPatch() *shared.CouponPatch {
 	}
 	var files *shared.BaseRelation
 	if r.Files != nil {
-		var dollarRelation []shared.DollarRelation = []shared.DollarRelation{}
+		dollarRelation := make([]shared.DollarRelation, 0, len(r.Files.DollarRelation))
 		for _, dollarRelationItem := range r.Files.DollarRelation {
-			var tags []string = []string{}
-			for _, tagsItem := range dollarRelationItem.Tags {
-				tags = append(tags, tagsItem.ValueString())
+			var tags []string
+			if dollarRelationItem.Tags != nil {
+				tags = make([]string, 0, len(dollarRelationItem.Tags))
+				for _, tagsItem := range dollarRelationItem.Tags {
+					tags = append(tags, tagsItem.ValueString())
+				}
 			}
 			entityID := new(string)
 			if !dollarRelationItem.EntityID.IsUnknown() && !dollarRelationItem.EntityID.IsNull() {
@@ -390,13 +426,16 @@ func (r *CouponResourceModel) ToSharedCouponPatch() *shared.CouponPatch {
 			DollarRelation: dollarRelation,
 		}
 	}
-	var manifest []string = []string{}
+	manifest := make([]string, 0, len(r.Manifest))
 	for _, manifestItem := range r.Manifest {
 		manifest = append(manifest, manifestItem.ValueString())
 	}
-	var purpose []string = []string{}
-	for _, purposeItem := range r.Purpose {
-		purpose = append(purpose, purposeItem.ValueString())
+	var purpose []string
+	if r.Purpose != nil {
+		purpose = make([]string, 0, len(r.Purpose))
+		for _, purposeItem := range r.Purpose {
+			purpose = append(purpose, purposeItem.ValueString())
+		}
 	}
 	schema := new(shared.CouponPatchSchema)
 	if !r.Schema.IsUnknown() && !r.Schema.IsNull() {
@@ -404,9 +443,12 @@ func (r *CouponResourceModel) ToSharedCouponPatch() *shared.CouponPatch {
 	} else {
 		schema = nil
 	}
-	var tags1 []string = []string{}
-	for _, tagsItem1 := range r.Tags {
-		tags1 = append(tags1, tagsItem1.ValueString())
+	var tags1 []string
+	if r.Tags != nil {
+		tags1 = make([]string, 0, len(r.Tags))
+		for _, tagsItem1 := range r.Tags {
+			tags1 = append(tags1, tagsItem1.ValueString())
+		}
 	}
 	active := new(bool)
 	if !r.Active.IsUnknown() && !r.Active.IsNull() {
@@ -434,7 +476,7 @@ func (r *CouponResourceModel) ToSharedCouponPatch() *shared.CouponPatch {
 	}
 	fixedValue := new(float64)
 	if !r.FixedValue.IsUnknown() && !r.FixedValue.IsNull() {
-		*fixedValue, _ = r.FixedValue.ValueBigFloat().Float64()
+		*fixedValue = r.FixedValue.ValueFloat64()
 	} else {
 		fixedValue = nil
 	}
@@ -464,11 +506,14 @@ func (r *CouponResourceModel) ToSharedCouponPatch() *shared.CouponPatch {
 	}
 	var prices *shared.BaseRelation
 	if r.Prices != nil {
-		var dollarRelation1 []shared.DollarRelation = []shared.DollarRelation{}
+		dollarRelation1 := make([]shared.DollarRelation, 0, len(r.Prices.DollarRelation))
 		for _, dollarRelationItem1 := range r.Prices.DollarRelation {
-			var tags2 []string = []string{}
-			for _, tagsItem2 := range dollarRelationItem1.Tags {
-				tags2 = append(tags2, tagsItem2.ValueString())
+			var tags2 []string
+			if dollarRelationItem1.Tags != nil {
+				tags2 = make([]string, 0, len(dollarRelationItem1.Tags))
+				for _, tagsItem2 := range dollarRelationItem1.Tags {
+					tags2 = append(tags2, tagsItem2.ValueString())
+				}
 			}
 			entityId1 := new(string)
 			if !dollarRelationItem1.EntityID.IsUnknown() && !dollarRelationItem1.EntityID.IsNull() {
@@ -489,7 +534,7 @@ func (r *CouponResourceModel) ToSharedCouponPatch() *shared.CouponPatch {
 	if !r.PromoCodeUsage.IsUnknown() && !r.PromoCodeUsage.IsNull() {
 		_ = json.Unmarshal([]byte(r.PromoCodeUsage.ValueString()), &promoCodeUsage)
 	}
-	var promoCodes []shared.PromoCode = []shared.PromoCode{}
+	promoCodes := make([]shared.PromoCode, 0, len(r.PromoCodes))
 	for _, promoCodesItem := range r.PromoCodes {
 		var code string
 		code = promoCodesItem.Code.ValueString()
@@ -505,7 +550,7 @@ func (r *CouponResourceModel) ToSharedCouponPatch() *shared.CouponPatch {
 
 		usageLimit := new(float64)
 		if !promoCodesItem.UsageLimit.IsUnknown() && !promoCodesItem.UsageLimit.IsNull() {
-			*usageLimit, _ = promoCodesItem.UsageLimit.ValueBigFloat().Float64()
+			*usageLimit = promoCodesItem.UsageLimit.ValueFloat64()
 		} else {
 			usageLimit = nil
 		}
@@ -550,5 +595,6 @@ func (r *CouponResourceModel) ToSharedCouponPatch() *shared.CouponPatch {
 		RequiresPromoCode:  requiresPromoCode,
 		Type:               typeVar,
 	}
-	return &out
+
+	return &out, diags
 }

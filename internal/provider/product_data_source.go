@@ -7,7 +7,7 @@ import (
 	"fmt"
 	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk"
-	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/operations"
+	"github.com/hashicorp/terraform-plugin-framework-jsontypes/jsontypes"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -24,38 +24,39 @@ func NewProductDataSource() datasource.DataSource {
 
 // ProductDataSource is the data source implementation.
 type ProductDataSource struct {
+	// Provider configured SDK client.
 	client *sdk.SDK
 }
 
 // ProductDataSourceModel describes the data model.
 type ProductDataSourceModel struct {
-	ACL               *tfTypes.BaseEntityACL    `tfsdk:"acl"`
-	Active            types.Bool                `tfsdk:"active"`
-	Additional        map[string]types.String   `tfsdk:"additional"`
-	AvailabilityFiles *tfTypes.BaseRelation     `tfsdk:"availability_files"`
-	Categories        []types.String            `tfsdk:"categories"`
-	Code              types.String              `tfsdk:"code"`
-	CreatedAt         types.String              `tfsdk:"created_at"`
-	Description       types.String              `tfsdk:"description"`
-	Feature           []types.String            `tfsdk:"feature"`
-	Files             *tfTypes.BaseRelation     `tfsdk:"files"`
-	Hydrate           types.Bool                `queryParam:"style=form,explode=true,name=hydrate" tfsdk:"hydrate"`
-	ID                types.String              `tfsdk:"id"`
-	InternalName      types.String              `tfsdk:"internal_name"`
-	Manifest          []types.String            `tfsdk:"manifest"`
-	Name              types.String              `tfsdk:"name"`
-	Org               types.String              `tfsdk:"org"`
-	Owners            []tfTypes.BaseEntityOwner `tfsdk:"owners"`
-	PriceOptions      *tfTypes.BaseRelation     `tfsdk:"price_options"`
-	ProductDownloads  *tfTypes.BaseRelation     `tfsdk:"product_downloads"`
-	ProductImages     *tfTypes.BaseRelation     `tfsdk:"product_images"`
-	Purpose           []types.String            `tfsdk:"purpose"`
-	Schema            types.String              `tfsdk:"schema"`
-	Strict            types.Bool                `queryParam:"style=form,explode=true,name=strict" tfsdk:"strict"`
-	Tags              []types.String            `tfsdk:"tags"`
-	Title             types.String              `tfsdk:"title"`
-	Type              types.String              `tfsdk:"type"`
-	UpdatedAt         types.String              `tfsdk:"updated_at"`
+	ACL               *tfTypes.BaseEntityACL          `tfsdk:"acl"`
+	Active            types.Bool                      `tfsdk:"active"`
+	Additional        map[string]jsontypes.Normalized `tfsdk:"additional"`
+	AvailabilityFiles *tfTypes.BaseRelation           `tfsdk:"availability_files"`
+	Categories        []types.String                  `tfsdk:"categories"`
+	Code              types.String                    `tfsdk:"code"`
+	CreatedAt         types.String                    `tfsdk:"created_at"`
+	Description       types.String                    `tfsdk:"description"`
+	Feature           []jsontypes.Normalized          `tfsdk:"feature"`
+	Files             *tfTypes.BaseRelation           `tfsdk:"files"`
+	Hydrate           types.Bool                      `queryParam:"style=form,explode=true,name=hydrate" tfsdk:"hydrate"`
+	ID                types.String                    `tfsdk:"id"`
+	InternalName      types.String                    `tfsdk:"internal_name"`
+	Manifest          []types.String                  `tfsdk:"manifest"`
+	Name              types.String                    `tfsdk:"name"`
+	Org               types.String                    `tfsdk:"org"`
+	Owners            []tfTypes.BaseEntityOwner       `tfsdk:"owners"`
+	PriceOptions      *tfTypes.BaseRelation           `tfsdk:"price_options"`
+	ProductDownloads  *tfTypes.BaseRelation           `tfsdk:"product_downloads"`
+	ProductImages     *tfTypes.BaseRelation           `tfsdk:"product_images"`
+	Purpose           []types.String                  `tfsdk:"purpose"`
+	Schema            types.String                    `tfsdk:"schema"`
+	Strict            types.Bool                      `queryParam:"style=form,explode=true,name=strict" tfsdk:"strict"`
+	Tags              []types.String                  `tfsdk:"tags"`
+	Title             types.String                    `tfsdk:"title"`
+	Type              types.String                    `tfsdk:"type"`
+	UpdatedAt         types.String                    `tfsdk:"updated_at"`
 }
 
 // Metadata returns the data source type name.
@@ -92,7 +93,7 @@ func (r *ProductDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 			},
 			"additional": schema.MapAttribute{
 				Computed:    true,
-				ElementType: types.StringType,
+				ElementType: jsontypes.NormalizedType{},
 				Description: `Additional fields that are not part of the schema`,
 			},
 			"availability_files": schema.SingleNestedAttribute{
@@ -132,7 +133,7 @@ func (r *ProductDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 			},
 			"feature": schema.ListAttribute{
 				Computed:    true,
-				ElementType: types.StringType,
+				ElementType: jsontypes.NormalizedType{},
 			},
 			"files": schema.SingleNestedAttribute{
 				Computed: true,
@@ -319,27 +320,13 @@ func (r *ProductDataSource) Read(ctx context.Context, req datasource.ReadRequest
 		return
 	}
 
-	hydrate := new(bool)
-	if !data.Hydrate.IsUnknown() && !data.Hydrate.IsNull() {
-		*hydrate = data.Hydrate.ValueBool()
-	} else {
-		hydrate = nil
-	}
-	var productID string
-	productID = data.ID.ValueString()
+	request, requestDiags := data.ToOperationsGetProductRequest(ctx)
+	resp.Diagnostics.Append(requestDiags...)
 
-	strict := new(bool)
-	if !data.Strict.IsUnknown() && !data.Strict.IsNull() {
-		*strict = data.Strict.ValueBool()
-	} else {
-		strict = nil
+	if resp.Diagnostics.HasError() {
+		return
 	}
-	request := operations.GetProductRequest{
-		Hydrate:   hydrate,
-		ProductID: productID,
-		Strict:    strict,
-	}
-	res, err := r.client.Product.GetProduct(ctx, request)
+	res, err := r.client.Product.GetProduct(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -351,10 +338,6 @@ func (r *ProductDataSource) Read(ctx context.Context, req datasource.ReadRequest
 		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res))
 		return
 	}
-	if res.StatusCode == 404 {
-		resp.State.RemoveResource(ctx)
-		return
-	}
 	if res.StatusCode != 200 {
 		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res.StatusCode), debugResponse(res.RawResponse))
 		return
@@ -363,7 +346,11 @@ func (r *ProductDataSource) Read(ctx context.Context, req datasource.ReadRequest
 		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
 		return
 	}
-	data.RefreshFromSharedProduct(res.Product)
+	resp.Diagnostics.Append(data.RefreshFromSharedProduct(ctx, res.Product)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)

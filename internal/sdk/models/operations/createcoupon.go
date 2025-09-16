@@ -18,8 +18,6 @@ type CreateCouponResponse struct {
 	StatusCode int
 	// Raw HTTP response; suitable for custom response parsing
 	RawResponse *http.Response
-	// Any error based on the server-side
-	ServerError *shared.ServerError
 }
 
 func (o *CreateCouponResponse) GetClientError() *shared.ClientError {
@@ -55,11 +53,4 @@ func (o *CreateCouponResponse) GetRawResponse() *http.Response {
 		return nil
 	}
 	return o.RawResponse
-}
-
-func (o *CreateCouponResponse) GetServerError() *shared.ServerError {
-	if o == nil {
-		return nil
-	}
-	return o.ServerError
 }

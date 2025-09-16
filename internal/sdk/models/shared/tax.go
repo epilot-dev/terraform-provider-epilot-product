@@ -88,7 +88,7 @@ func (t Tax) MarshalJSON() ([]byte, error) {
 }
 
 func (t *Tax) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &t, "", false, false); err != nil {
+	if err := utils.UnmarshalJSON(data, &t, "", false, []string{"_org", "_schema", "active", "rate", "region", "type"}); err != nil {
 		return err
 	}
 	return nil

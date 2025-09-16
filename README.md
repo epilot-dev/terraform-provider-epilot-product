@@ -57,7 +57,7 @@ TF_REATTACH_PROVIDERS=... terraform apply
 <!-- Start Summary [summary] -->
 ## Summary
 
-
+Product API: This API allows managing products, prices, taxes, and coupons.
 <!-- End Summary [summary] -->
 
 <!-- Start Table of Contents [toc] -->
@@ -68,6 +68,7 @@ TF_REATTACH_PROVIDERS=... terraform apply
   * [SDK Example Usage](#sdk-example-usage)
   * [Installation](#installation)
   * [Testing the provider locally](#testing-the-provider-locally)
+  * [Authentication](#authentication)
   * [Available Resources and Data Sources](#available-resources-and-data-sources)
 
 <!-- End Table of Contents [toc] -->
@@ -82,7 +83,7 @@ terraform {
   required_providers {
     epilot-product = {
       source  = "epilot-dev/epilot-product"
-      version = "0.14.1"
+      version = "0.15.1"
     }
   }
 }
@@ -139,6 +140,19 @@ provider_installation {
 
 
 
+<!-- Start Authentication [security] -->
+## Authentication
+
+This provider supports authentication configuration via provider configuration.
+
+Available configuration:
+
+| Provider Attribute | Description |
+|---|---|
+| `epilot_auth` | Authorization header with epilot OAuth2 bearer token. |
+| `epilot_org` | Overrides the target organization to allow shared tenantaccess. |
+<!-- End Authentication [security] -->
+
 <!-- Start Available Resources and Data Sources [operations] -->
 ## Available Resources and Data Sources
 
@@ -147,12 +161,14 @@ provider_installation {
 * [epilot-product_coupon](docs/resources/coupon.md)
 * [epilot-product_price](docs/resources/price.md)
 * [epilot-product_product](docs/resources/product.md)
+* [epilot-product_product_recommendation](docs/resources/product_recommendation.md)
 * [epilot-product_tax](docs/resources/tax.md)
 ### Data Sources
 
 * [epilot-product_coupon](docs/data-sources/coupon.md)
 * [epilot-product_price](docs/data-sources/price.md)
 * [epilot-product_product](docs/data-sources/product.md)
+* [epilot-product_product_recommendation](docs/data-sources/product_recommendation.md)
 * [epilot-product_tax](docs/data-sources/tax.md)
 <!-- End Available Resources and Data Sources [operations] -->
 

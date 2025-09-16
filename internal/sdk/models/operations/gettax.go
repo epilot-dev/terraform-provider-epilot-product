@@ -22,7 +22,7 @@ func (g GetTaxRequest) MarshalJSON() ([]byte, error) {
 }
 
 func (g *GetTaxRequest) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &g, "", false, false); err != nil {
+	if err := utils.UnmarshalJSON(data, &g, "", false, []string{"taxId"}); err != nil {
 		return err
 	}
 	return nil
@@ -54,8 +54,6 @@ type GetTaxResponse struct {
 	ClientError *shared.ClientError
 	// HTTP response content type for this operation
 	ContentType string
-	// Any error based on the server-side
-	ServerError *shared.ServerError
 	// HTTP response status code for this operation
 	StatusCode int
 	// Raw HTTP response; suitable for custom response parsing
@@ -76,13 +74,6 @@ func (o *GetTaxResponse) GetContentType() string {
 		return ""
 	}
 	return o.ContentType
-}
-
-func (o *GetTaxResponse) GetServerError() *shared.ServerError {
-	if o == nil {
-		return nil
-	}
-	return o.ServerError
 }
 
 func (o *GetTaxResponse) GetStatusCode() int {

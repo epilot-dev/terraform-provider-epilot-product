@@ -7,7 +7,7 @@ import (
 	"fmt"
 	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk"
-	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/operations"
+	"github.com/hashicorp/terraform-plugin-framework-jsontypes/jsontypes"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -24,40 +24,41 @@ func NewCouponDataSource() datasource.DataSource {
 
 // CouponDataSource is the data source implementation.
 type CouponDataSource struct {
+	// Provider configured SDK client.
 	client *sdk.SDK
 }
 
 // CouponDataSourceModel describes the data model.
 type CouponDataSourceModel struct {
-	ACL                *tfTypes.BaseEntityACL    `tfsdk:"acl"`
-	Active             types.Bool                `tfsdk:"active"`
-	Additional         map[string]types.String   `tfsdk:"additional"`
-	CashbackPeriod     types.String              `tfsdk:"cashback_period"`
-	Category           types.String              `tfsdk:"category"`
-	CreatedAt          types.String              `tfsdk:"created_at"`
-	Description        types.String              `tfsdk:"description"`
-	Files              *tfTypes.BaseRelation     `tfsdk:"files"`
-	FixedValue         types.Number              `tfsdk:"fixed_value"`
-	FixedValueCurrency types.String              `tfsdk:"fixed_value_currency"`
-	FixedValueDecimal  types.String              `tfsdk:"fixed_value_decimal"`
-	Hydrate            types.Bool                `queryParam:"style=form,explode=true,name=hydrate" tfsdk:"hydrate"`
-	ID                 types.String              `tfsdk:"id"`
-	Manifest           []types.String            `tfsdk:"manifest"`
-	Name               types.String              `tfsdk:"name"`
-	Org                types.String              `tfsdk:"org"`
-	Owners             []tfTypes.BaseEntityOwner `tfsdk:"owners"`
-	PercentageValue    types.String              `tfsdk:"percentage_value"`
-	Prices             *tfTypes.BaseRelation     `tfsdk:"prices"`
-	PromoCodeUsage     types.String              `tfsdk:"promo_code_usage"`
-	PromoCodes         []tfTypes.PromoCode       `tfsdk:"promo_codes"`
-	Purpose            []types.String            `tfsdk:"purpose"`
-	RequiresPromoCode  types.Bool                `tfsdk:"requires_promo_code"`
-	Schema             types.String              `tfsdk:"schema"`
-	Strict             types.Bool                `queryParam:"style=form,explode=true,name=strict" tfsdk:"strict"`
-	Tags               []types.String            `tfsdk:"tags"`
-	Title              types.String              `tfsdk:"title"`
-	Type               types.String              `tfsdk:"type"`
-	UpdatedAt          types.String              `tfsdk:"updated_at"`
+	ACL                *tfTypes.BaseEntityACL          `tfsdk:"acl"`
+	Active             types.Bool                      `tfsdk:"active"`
+	Additional         map[string]jsontypes.Normalized `tfsdk:"additional"`
+	CashbackPeriod     types.String                    `tfsdk:"cashback_period"`
+	Category           types.String                    `tfsdk:"category"`
+	CreatedAt          types.String                    `tfsdk:"created_at"`
+	Description        types.String                    `tfsdk:"description"`
+	Files              *tfTypes.BaseRelation           `tfsdk:"files"`
+	FixedValue         types.Float64                   `tfsdk:"fixed_value"`
+	FixedValueCurrency types.String                    `tfsdk:"fixed_value_currency"`
+	FixedValueDecimal  types.String                    `tfsdk:"fixed_value_decimal"`
+	Hydrate            types.Bool                      `queryParam:"style=form,explode=true,name=hydrate" tfsdk:"hydrate"`
+	ID                 types.String                    `tfsdk:"id"`
+	Manifest           []types.String                  `tfsdk:"manifest"`
+	Name               types.String                    `tfsdk:"name"`
+	Org                types.String                    `tfsdk:"org"`
+	Owners             []tfTypes.BaseEntityOwner       `tfsdk:"owners"`
+	PercentageValue    types.String                    `tfsdk:"percentage_value"`
+	Prices             *tfTypes.BaseRelation           `tfsdk:"prices"`
+	PromoCodeUsage     jsontypes.Normalized            `tfsdk:"promo_code_usage"`
+	PromoCodes         []tfTypes.PromoCode             `tfsdk:"promo_codes"`
+	Purpose            []types.String                  `tfsdk:"purpose"`
+	RequiresPromoCode  types.Bool                      `tfsdk:"requires_promo_code"`
+	Schema             types.String                    `tfsdk:"schema"`
+	Strict             types.Bool                      `queryParam:"style=form,explode=true,name=strict" tfsdk:"strict"`
+	Tags               []types.String                  `tfsdk:"tags"`
+	Title              types.String                    `tfsdk:"title"`
+	Type               types.String                    `tfsdk:"type"`
+	UpdatedAt          types.String                    `tfsdk:"updated_at"`
 }
 
 // Metadata returns the data source type name.
@@ -94,7 +95,7 @@ func (r *CouponDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 			},
 			"additional": schema.MapAttribute{
 				Computed:    true,
-				ElementType: types.StringType,
+				ElementType: jsontypes.NormalizedType{},
 				Description: `Additional fields that are not part of the schema`,
 			},
 			"cashback_period": schema.StringAttribute{
@@ -129,7 +130,7 @@ func (r *CouponDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 					},
 				},
 			},
-			"fixed_value": schema.NumberAttribute{
+			"fixed_value": schema.Float64Attribute{
 				Computed:    true,
 				Description: `Use if type is set to fixed. The fixed amount in cents to be discounted, represented as a whole integer.`,
 			},
@@ -197,6 +198,7 @@ func (r *CouponDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 				},
 			},
 			"promo_code_usage": schema.StringAttribute{
+				CustomType:  jsontypes.NormalizedType{},
 				Computed:    true,
 				Description: `Map of ids of promo codes with their usage count. Parsed as JSON.`,
 			},
@@ -216,7 +218,7 @@ func (r *CouponDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 							Computed:    true,
 							Description: `The id of the promo code`,
 						},
-						"usage_limit": schema.NumberAttribute{
+						"usage_limit": schema.Float64Attribute{
 							Computed:    true,
 							Description: `The usage limit of the promo code`,
 						},
@@ -293,27 +295,13 @@ func (r *CouponDataSource) Read(ctx context.Context, req datasource.ReadRequest,
 		return
 	}
 
-	var couponID string
-	couponID = data.ID.ValueString()
+	request, requestDiags := data.ToOperationsGetCouponRequest(ctx)
+	resp.Diagnostics.Append(requestDiags...)
 
-	hydrate := new(bool)
-	if !data.Hydrate.IsUnknown() && !data.Hydrate.IsNull() {
-		*hydrate = data.Hydrate.ValueBool()
-	} else {
-		hydrate = nil
+	if resp.Diagnostics.HasError() {
+		return
 	}
-	strict := new(bool)
-	if !data.Strict.IsUnknown() && !data.Strict.IsNull() {
-		*strict = data.Strict.ValueBool()
-	} else {
-		strict = nil
-	}
-	request := operations.GetCouponRequest{
-		CouponID: couponID,
-		Hydrate:  hydrate,
-		Strict:   strict,
-	}
-	res, err := r.client.Coupon.GetCoupon(ctx, request)
+	res, err := r.client.Coupon.GetCoupon(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -325,10 +313,6 @@ func (r *CouponDataSource) Read(ctx context.Context, req datasource.ReadRequest,
 		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res))
 		return
 	}
-	if res.StatusCode == 404 {
-		resp.State.RemoveResource(ctx)
-		return
-	}
 	if res.StatusCode != 200 {
 		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res.StatusCode), debugResponse(res.RawResponse))
 		return
@@ -337,7 +321,11 @@ func (r *CouponDataSource) Read(ctx context.Context, req datasource.ReadRequest,
 		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
 		return
 	}
-	data.RefreshFromSharedCoupon(res.Coupon)
+	resp.Diagnostics.Append(data.RefreshFromSharedCoupon(ctx, res.Coupon)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)

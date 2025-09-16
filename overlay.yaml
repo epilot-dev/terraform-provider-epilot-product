@@ -95,6 +95,27 @@ actions:
   - target: $["components"]["parameters"]["CouponIdPathParam"]
     update:
       x-speakeasy-match: id
+
+
+  # Product Recommendation
+  - target: $["paths"]["/v1/product-recommendation"]["post"]
+    update:
+      x-speakeasy-entity-operation: ProductRecommendation#create
+  - target: $["paths"]["/v1/product-recommendation/{productRecommendationId}"]["get"]
+    update:
+      x-speakeasy-entity-operation: ProductRecommendation#get
+  - target: $["paths"]["/v1/product-recommendation/{productRecommendationId}"]["patch"]
+    update:
+      x-speakeasy-entity-operation: ProductRecommendation#update
+  - target: $["paths"]["/v1/product-recommendation/{productRecommendationId}"]["delete"]
+    update:
+      x-speakeasy-entity-operation: ProductRecommendation#delete
+  - target: $["components"]["schemas"]["ProductRecommendation"]
+    update:
+      x-speakeasy-entity: ProductRecommendation
+  - target: $["components"]["parameters"]["ProductRecommendationIdPathParam"]
+    update:
+      x-speakeasy-match: id
   
   # overrides
   - target: $["components"]["schemas"]["BaseSystemReadonlyFields"]

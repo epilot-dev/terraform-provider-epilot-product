@@ -103,7 +103,7 @@ func (p ProductCreate) MarshalJSON() ([]byte, error) {
 }
 
 func (p *ProductCreate) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &p, "", false, false); err != nil {
+	if err := utils.UnmarshalJSON(data, &p, "", false, []string{"active", "name"}); err != nil {
 		return err
 	}
 	return nil

@@ -7,7 +7,7 @@ import (
 	"fmt"
 	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk"
-	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/operations"
+	"github.com/hashicorp/terraform-plugin-framework-jsontypes/jsontypes"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -24,31 +24,32 @@ func NewTaxDataSource() datasource.DataSource {
 
 // TaxDataSource is the data source implementation.
 type TaxDataSource struct {
+	// Provider configured SDK client.
 	client *sdk.SDK
 }
 
 // TaxDataSourceModel describes the data model.
 type TaxDataSourceModel struct {
-	ACL         *tfTypes.BaseEntityACL    `tfsdk:"acl"`
-	Active      types.Bool                `tfsdk:"active"`
-	Additional  map[string]types.String   `tfsdk:"additional"`
-	CreatedAt   types.String              `tfsdk:"created_at"`
-	Description types.String              `tfsdk:"description"`
-	Files       *tfTypes.BaseRelation     `tfsdk:"files"`
-	Hydrate     types.Bool                `queryParam:"style=form,explode=true,name=hydrate" tfsdk:"hydrate"`
-	ID          types.String              `tfsdk:"id"`
-	Manifest    []types.String            `tfsdk:"manifest"`
-	Org         types.String              `tfsdk:"org"`
-	Owners      []tfTypes.BaseEntityOwner `tfsdk:"owners"`
-	Purpose     []types.String            `tfsdk:"purpose"`
-	Rate        types.String              `tfsdk:"rate"`
-	Region      types.String              `tfsdk:"region"`
-	Schema      types.String              `tfsdk:"schema"`
-	Strict      types.Bool                `queryParam:"style=form,explode=true,name=strict" tfsdk:"strict"`
-	Tags        []types.String            `tfsdk:"tags"`
-	Title       types.String              `tfsdk:"title"`
-	Type        types.String              `tfsdk:"type"`
-	UpdatedAt   types.String              `tfsdk:"updated_at"`
+	ACL         *tfTypes.BaseEntityACL          `tfsdk:"acl"`
+	Active      types.Bool                      `tfsdk:"active"`
+	Additional  map[string]jsontypes.Normalized `tfsdk:"additional"`
+	CreatedAt   types.String                    `tfsdk:"created_at"`
+	Description types.String                    `tfsdk:"description"`
+	Files       *tfTypes.BaseRelation           `tfsdk:"files"`
+	Hydrate     types.Bool                      `queryParam:"style=form,explode=true,name=hydrate" tfsdk:"hydrate"`
+	ID          types.String                    `tfsdk:"id"`
+	Manifest    []types.String                  `tfsdk:"manifest"`
+	Org         types.String                    `tfsdk:"org"`
+	Owners      []tfTypes.BaseEntityOwner       `tfsdk:"owners"`
+	Purpose     []types.String                  `tfsdk:"purpose"`
+	Rate        types.String                    `tfsdk:"rate"`
+	Region      types.String                    `tfsdk:"region"`
+	Schema      types.String                    `tfsdk:"schema"`
+	Strict      types.Bool                      `queryParam:"style=form,explode=true,name=strict" tfsdk:"strict"`
+	Tags        []types.String                  `tfsdk:"tags"`
+	Title       types.String                    `tfsdk:"title"`
+	Type        types.String                    `tfsdk:"type"`
+	UpdatedAt   types.String                    `tfsdk:"updated_at"`
 }
 
 // Metadata returns the data source type name.
@@ -85,7 +86,7 @@ func (r *TaxDataSource) Schema(ctx context.Context, req datasource.SchemaRequest
 			},
 			"additional": schema.MapAttribute{
 				Computed:    true,
-				ElementType: types.StringType,
+				ElementType: jsontypes.NormalizedType{},
 				Description: `Additional fields that are not part of the schema`,
 			},
 			"created_at": schema.StringAttribute{
@@ -214,27 +215,13 @@ func (r *TaxDataSource) Read(ctx context.Context, req datasource.ReadRequest, re
 		return
 	}
 
-	hydrate := new(bool)
-	if !data.Hydrate.IsUnknown() && !data.Hydrate.IsNull() {
-		*hydrate = data.Hydrate.ValueBool()
-	} else {
-		hydrate = nil
-	}
-	strict := new(bool)
-	if !data.Strict.IsUnknown() && !data.Strict.IsNull() {
-		*strict = data.Strict.ValueBool()
-	} else {
-		strict = nil
-	}
-	var taxID string
-	taxID = data.ID.ValueString()
+	request, requestDiags := data.ToOperationsGetTaxRequest(ctx)
+	resp.Diagnostics.Append(requestDiags...)
 
-	request := operations.GetTaxRequest{
-		Hydrate: hydrate,
-		Strict:  strict,
-		TaxID:   taxID,
+	if resp.Diagnostics.HasError() {
+		return
 	}
-	res, err := r.client.Tax.GetTax(ctx, request)
+	res, err := r.client.Tax.GetTax(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -246,10 +233,6 @@ func (r *TaxDataSource) Read(ctx context.Context, req datasource.ReadRequest, re
 		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res))
 		return
 	}
-	if res.StatusCode == 404 {
-		resp.State.RemoveResource(ctx)
-		return
-	}
 	if res.StatusCode != 200 {
 		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res.StatusCode), debugResponse(res.RawResponse))
 		return
@@ -258,7 +241,11 @@ func (r *TaxDataSource) Read(ctx context.Context, req datasource.ReadRequest, re
 		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
 		return
 	}
-	data.RefreshFromSharedTax(res.Tax)
+	resp.Diagnostics.Append(data.RefreshFromSharedTax(ctx, res.Tax)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)

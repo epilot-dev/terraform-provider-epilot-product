@@ -7,7 +7,7 @@ import (
 	"fmt"
 	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk"
-	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/operations"
+	"github.com/hashicorp/terraform-plugin-framework-jsontypes/jsontypes"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -24,6 +24,7 @@ func NewPriceDataSource() datasource.DataSource {
 
 // PriceDataSource is the data source implementation.
 type PriceDataSource struct {
+	// Provider configured SDK client.
 	client *sdk.SDK
 }
 
@@ -31,8 +32,8 @@ type PriceDataSource struct {
 type PriceDataSourceModel struct {
 	ACL                    *tfTypes.BaseEntityACL              `tfsdk:"acl"`
 	Active                 types.Bool                          `tfsdk:"active"`
-	Additional             map[string]types.String             `tfsdk:"additional"`
-	BillingDurationAmount  types.Number                        `tfsdk:"billing_duration_amount"`
+	Additional             map[string]jsontypes.Normalized     `tfsdk:"additional"`
+	BillingDurationAmount  types.Float64                       `tfsdk:"billing_duration_amount"`
 	BillingDurationUnit    types.String                        `tfsdk:"billing_duration_unit"`
 	CreatedAt              types.String                        `tfsdk:"created_at"`
 	Description            types.String                        `tfsdk:"description"`
@@ -43,7 +44,7 @@ type PriceDataSourceModel struct {
 	IsTaxInclusive         types.Bool                          `tfsdk:"is_tax_inclusive"`
 	LongDescription        types.String                        `tfsdk:"long_description"`
 	Manifest               []types.String                      `tfsdk:"manifest"`
-	NoticeTimeAmount       types.Number                        `tfsdk:"notice_time_amount"`
+	NoticeTimeAmount       types.Float64                       `tfsdk:"notice_time_amount"`
 	NoticeTimeUnit         types.String                        `tfsdk:"notice_time_unit"`
 	Org                    types.String                        `tfsdk:"org"`
 	Owners                 []tfTypes.BaseEntityOwner           `tfsdk:"owners"`
@@ -51,19 +52,19 @@ type PriceDataSourceModel struct {
 	PriceDisplayInJourneys types.String                        `tfsdk:"price_display_in_journeys"`
 	PricingModel           types.String                        `tfsdk:"pricing_model"`
 	Purpose                []types.String                      `tfsdk:"purpose"`
-	RenewalDurationAmount  types.Number                        `tfsdk:"renewal_duration_amount"`
+	RenewalDurationAmount  types.Float64                       `tfsdk:"renewal_duration_amount"`
 	RenewalDurationUnit    types.String                        `tfsdk:"renewal_duration_unit"`
 	Schema                 types.String                        `tfsdk:"schema"`
 	Strict                 types.Bool                          `queryParam:"style=form,explode=true,name=strict" tfsdk:"strict"`
 	Tags                   []types.String                      `tfsdk:"tags"`
-	Tax                    types.String                        `tfsdk:"tax"`
-	TerminationTimeAmount  types.Number                        `tfsdk:"termination_time_amount"`
+	Tax                    jsontypes.Normalized                `tfsdk:"tax"`
+	TerminationTimeAmount  types.Float64                       `tfsdk:"termination_time_amount"`
 	TerminationTimeUnit    types.String                        `tfsdk:"termination_time_unit"`
 	Tiers                  []tfTypes.PriceTier                 `tfsdk:"tiers"`
 	Title                  types.String                        `tfsdk:"title"`
 	Type                   types.String                        `tfsdk:"type"`
 	Unit                   types.String                        `tfsdk:"unit"`
-	UnitAmount             types.Number                        `tfsdk:"unit_amount"`
+	UnitAmount             types.Float64                       `tfsdk:"unit_amount"`
 	UnitAmountCurrency     types.String                        `tfsdk:"unit_amount_currency"`
 	UnitAmountDecimal      types.String                        `tfsdk:"unit_amount_decimal"`
 	UpdatedAt              types.String                        `tfsdk:"updated_at"`
@@ -105,10 +106,10 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 			},
 			"additional": schema.MapAttribute{
 				Computed:    true,
-				ElementType: types.StringType,
+				ElementType: jsontypes.NormalizedType{},
 				Description: `Additional fields that are not part of the schema`,
 			},
-			"billing_duration_amount": schema.NumberAttribute{
+			"billing_duration_amount": schema.Float64Attribute{
 				Computed:    true,
 				Description: `The billing period duration`,
 			},
@@ -166,7 +167,7 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 				ElementType: types.StringType,
 				Description: `Manifest ID used to create/update the entity`,
 			},
-			"notice_time_amount": schema.NumberAttribute{
+			"notice_time_amount": schema.Float64Attribute{
 				Computed:    true,
 				Description: `The notice period duration`,
 			},
@@ -229,7 +230,7 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 				Computed:    true,
 				ElementType: types.StringType,
 			},
-			"renewal_duration_amount": schema.NumberAttribute{
+			"renewal_duration_amount": schema.Float64Attribute{
 				Computed:    true,
 				Description: `The renewal period duration`,
 			},
@@ -249,10 +250,11 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 				ElementType: types.StringType,
 			},
 			"tax": schema.StringAttribute{
+				CustomType:  jsontypes.NormalizedType{},
 				Computed:    true,
 				Description: `Parsed as JSON.`,
 			},
-			"termination_time_amount": schema.NumberAttribute{
+			"termination_time_amount": schema.Float64Attribute{
 				Computed:    true,
 				Description: `The termination period duration`,
 			},
@@ -267,19 +269,19 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 						"display_mode": schema.StringAttribute{
 							Computed: true,
 						},
-						"flat_fee_amount": schema.NumberAttribute{
+						"flat_fee_amount": schema.Float64Attribute{
 							Computed: true,
 						},
 						"flat_fee_amount_decimal": schema.StringAttribute{
 							Computed: true,
 						},
-						"unit_amount": schema.NumberAttribute{
+						"unit_amount": schema.Float64Attribute{
 							Computed: true,
 						},
 						"unit_amount_decimal": schema.StringAttribute{
 							Computed: true,
 						},
-						"up_to": schema.NumberAttribute{
+						"up_to": schema.Float64Attribute{
 							Computed: true,
 						},
 					},
@@ -297,7 +299,7 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 				Computed:    true,
 				Description: `The unit of measurement used for display purposes and possibly for calculations when the price is variable.`,
 			},
-			"unit_amount": schema.NumberAttribute{
+			"unit_amount": schema.Float64Attribute{
 				Computed:    true,
 				Description: `The unit amount in cents to be charged, represented as a whole integer if possible.`,
 			},
@@ -358,27 +360,13 @@ func (r *PriceDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 		return
 	}
 
-	hydrate := new(bool)
-	if !data.Hydrate.IsUnknown() && !data.Hydrate.IsNull() {
-		*hydrate = data.Hydrate.ValueBool()
-	} else {
-		hydrate = nil
-	}
-	var priceID string
-	priceID = data.ID.ValueString()
+	request, requestDiags := data.ToOperationsGetPriceRequest(ctx)
+	resp.Diagnostics.Append(requestDiags...)
 
-	strict := new(bool)
-	if !data.Strict.IsUnknown() && !data.Strict.IsNull() {
-		*strict = data.Strict.ValueBool()
-	} else {
-		strict = nil
+	if resp.Diagnostics.HasError() {
+		return
 	}
-	request := operations.GetPriceRequest{
-		Hydrate: hydrate,
-		PriceID: priceID,
-		Strict:  strict,
-	}
-	res, err := r.client.Price.GetPrice(ctx, request)
+	res, err := r.client.Price.GetPrice(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -390,10 +378,6 @@ func (r *PriceDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res))
 		return
 	}
-	if res.StatusCode == 404 {
-		resp.State.RemoveResource(ctx)
-		return
-	}
 	if res.StatusCode != 200 {
 		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res.StatusCode), debugResponse(res.RawResponse))
 		return
@@ -402,7 +386,11 @@ func (r *PriceDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
 		return
 	}
-	data.RefreshFromSharedPrice(res.Price)
+	resp.Diagnostics.Append(data.RefreshFromSharedPrice(ctx, res.Price)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)

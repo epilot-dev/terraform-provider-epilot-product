@@ -2,11 +2,13 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type PromoCode struct {
-	Code          types.String `tfsdk:"code"`
-	HasUsageLimit types.Bool   `tfsdk:"has_usage_limit"`
-	ID            types.String `tfsdk:"id"`
-	UsageLimit    types.Number `tfsdk:"usage_limit"`
+	Code          types.String  `tfsdk:"code"`
+	HasUsageLimit types.Bool    `tfsdk:"has_usage_limit"`
+	ID            types.String  `tfsdk:"id"`
+	UsageLimit    types.Float64 `tfsdk:"usage_limit"`
 }

@@ -2,13 +2,15 @@
 
 package types
 
-import "github.com/hashicorp/terraform-plugin-framework/types"
+import (
+	"github.com/hashicorp/terraform-plugin-framework/types"
+)
 
 type PriceTier struct {
-	DisplayMode          types.String `tfsdk:"display_mode"`
-	FlatFeeAmount        types.Number `tfsdk:"flat_fee_amount"`
-	FlatFeeAmountDecimal types.String `tfsdk:"flat_fee_amount_decimal"`
-	UnitAmount           types.Number `tfsdk:"unit_amount"`
-	UnitAmountDecimal    types.String `tfsdk:"unit_amount_decimal"`
-	UpTo                 types.Number `tfsdk:"up_to"`
+	DisplayMode          types.String  `tfsdk:"display_mode"`
+	FlatFeeAmount        types.Float64 `tfsdk:"flat_fee_amount"`
+	FlatFeeAmountDecimal types.String  `tfsdk:"flat_fee_amount_decimal"`
+	UnitAmount           types.Float64 `tfsdk:"unit_amount"`
+	UnitAmountDecimal    types.String  `tfsdk:"unit_amount_decimal"`
+	UpTo                 types.Float64 `tfsdk:"up_to"`
 }

@@ -39,8 +39,6 @@ type PatchPriceResponse struct {
 	StatusCode int
 	// Raw HTTP response; suitable for custom response parsing
 	RawResponse *http.Response
-	// Any error based on the server-side
-	ServerError *shared.ServerError
 }
 
 func (o *PatchPriceResponse) GetClientError() *shared.ClientError {
@@ -76,11 +74,4 @@ func (o *PatchPriceResponse) GetRawResponse() *http.Response {
 		return nil
 	}
 	return o.RawResponse
-}
-
-func (o *PatchPriceResponse) GetServerError() *shared.ServerError {
-	if o == nil {
-		return nil
-	}
-	return o.ServerError
 }

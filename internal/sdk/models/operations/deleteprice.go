@@ -30,8 +30,6 @@ type DeletePriceResponse struct {
 	StatusCode int
 	// Raw HTTP response; suitable for custom response parsing
 	RawResponse *http.Response
-	// Any error based on the server-side
-	ServerError *shared.ServerError
 }
 
 func (o *DeletePriceResponse) GetClientError() *shared.ClientError {
@@ -67,11 +65,4 @@ func (o *DeletePriceResponse) GetRawResponse() *http.Response {
 		return nil
 	}
 	return o.RawResponse
-}
-
-func (o *DeletePriceResponse) GetServerError() *shared.ServerError {
-	if o == nil {
-		return nil
-	}
-	return o.ServerError
 }

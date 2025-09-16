@@ -12,9 +12,9 @@ import (
 	speakeasy_stringplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/stringplanmodifier"
 	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk"
-	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/operations"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/validators"
 	speakeasy_objectvalidators "github.com/epilot-dev/terraform-provider-epilot-product/internal/validators/objectvalidators"
+	"github.com/hashicorp/terraform-plugin-framework-jsontypes/jsontypes"
 	"github.com/hashicorp/terraform-plugin-framework-validators/listvalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
@@ -38,36 +38,37 @@ func NewProductResource() resource.Resource {
 
 // ProductResource defines the resource implementation.
 type ProductResource struct {
+	// Provider configured SDK client.
 	client *sdk.SDK
 }
 
 // ProductResourceModel describes the resource data model.
 type ProductResourceModel struct {
-	ACL               *tfTypes.BaseEntityACL    `tfsdk:"acl"`
-	Active            types.Bool                `tfsdk:"active"`
-	Additional        map[string]types.String   `tfsdk:"additional"`
-	AvailabilityFiles *tfTypes.BaseRelation     `tfsdk:"availability_files"`
-	Categories        []types.String            `tfsdk:"categories"`
-	Code              types.String              `tfsdk:"code"`
-	CreatedAt         types.String              `tfsdk:"created_at"`
-	Description       types.String              `tfsdk:"description"`
-	Feature           []types.String            `tfsdk:"feature"`
-	Files             *tfTypes.BaseRelation     `tfsdk:"files"`
-	ID                types.String              `tfsdk:"id"`
-	InternalName      types.String              `tfsdk:"internal_name"`
-	Manifest          []types.String            `tfsdk:"manifest"`
-	Name              types.String              `tfsdk:"name"`
-	Org               types.String              `tfsdk:"org"`
-	Owners            []tfTypes.BaseEntityOwner `tfsdk:"owners"`
-	PriceOptions      *tfTypes.BaseRelation     `tfsdk:"price_options"`
-	ProductDownloads  *tfTypes.BaseRelation     `tfsdk:"product_downloads"`
-	ProductImages     *tfTypes.BaseRelation     `tfsdk:"product_images"`
-	Purpose           []types.String            `tfsdk:"purpose"`
-	Schema            types.String              `tfsdk:"schema"`
-	Tags              []types.String            `tfsdk:"tags"`
-	Title             types.String              `tfsdk:"title"`
-	Type              types.String              `tfsdk:"type"`
-	UpdatedAt         types.String              `tfsdk:"updated_at"`
+	ACL               *tfTypes.BaseEntityACL          `tfsdk:"acl"`
+	Active            types.Bool                      `tfsdk:"active"`
+	Additional        map[string]jsontypes.Normalized `tfsdk:"additional"`
+	AvailabilityFiles *tfTypes.BaseRelation           `tfsdk:"availability_files"`
+	Categories        []types.String                  `tfsdk:"categories"`
+	Code              types.String                    `tfsdk:"code"`
+	CreatedAt         types.String                    `tfsdk:"created_at"`
+	Description       types.String                    `tfsdk:"description"`
+	Feature           []jsontypes.Normalized          `tfsdk:"feature"`
+	Files             *tfTypes.BaseRelation           `tfsdk:"files"`
+	ID                types.String                    `tfsdk:"id"`
+	InternalName      types.String                    `tfsdk:"internal_name"`
+	Manifest          []types.String                  `tfsdk:"manifest"`
+	Name              types.String                    `tfsdk:"name"`
+	Org               types.String                    `tfsdk:"org"`
+	Owners            []tfTypes.BaseEntityOwner       `tfsdk:"owners"`
+	PriceOptions      *tfTypes.BaseRelation           `tfsdk:"price_options"`
+	ProductDownloads  *tfTypes.BaseRelation           `tfsdk:"product_downloads"`
+	ProductImages     *tfTypes.BaseRelation           `tfsdk:"product_images"`
+	Purpose           []types.String                  `tfsdk:"purpose"`
+	Schema            types.String                    `tfsdk:"schema"`
+	Tags              []types.String                  `tfsdk:"tags"`
+	Title             types.String                    `tfsdk:"title"`
+	Type              types.String                    `tfsdk:"type"`
+	UpdatedAt         types.String                    `tfsdk:"updated_at"`
 }
 
 func (r *ProductResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -120,7 +121,7 @@ func (r *ProductResource) Schema(ctx context.Context, req resource.SchemaRequest
 				PlanModifiers: []planmodifier.Map{
 					speakeasy_mapplanmodifier.SuppressDiff(speakeasy_mapplanmodifier.ExplicitSuppress),
 				},
-				ElementType: types.StringType,
+				ElementType: jsontypes.NormalizedType{},
 				Description: `Additional fields that are not part of the schema`,
 				Validators: []validator.Map{
 					mapvalidator.ValueStringsAre(validators.IsValidJSON()),
@@ -207,7 +208,7 @@ func (r *ProductResource) Schema(ctx context.Context, req resource.SchemaRequest
 				PlanModifiers: []planmodifier.List{
 					speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
 				},
-				ElementType: types.StringType,
+				ElementType: jsontypes.NormalizedType{},
 				Validators: []validator.List{
 					listvalidator.ValueStringsAre(validators.IsValidJSON()),
 				},
@@ -543,8 +544,13 @@ func (r *ProductResource) Create(ctx context.Context, req resource.CreateRequest
 		return
 	}
 
-	request := *data.ToSharedProductCreate()
-	res, err := r.client.Product.CreateProduct(ctx, request)
+	request, requestDiags := data.ToSharedProductCreate(ctx)
+	resp.Diagnostics.Append(requestDiags...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	res, err := r.client.Product.CreateProduct(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -564,8 +570,17 @@ func (r *ProductResource) Create(ctx context.Context, req resource.CreateRequest
 		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
 		return
 	}
-	data.RefreshFromSharedProduct(res.Product)
-	refreshPlan(ctx, plan, &data, resp.Diagnostics)
+	resp.Diagnostics.Append(data.RefreshFromSharedProduct(ctx, res.Product)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	resp.Diagnostics.Append(refreshPlan(ctx, plan, &data)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -589,19 +604,13 @@ func (r *ProductResource) Read(ctx context.Context, req resource.ReadRequest, re
 		return
 	}
 
-	// read.product.hydrateread.product.hydrate impedance mismatch: boolean != classtrace=["Product#create.req"]
-	var hydrate *bool
-	var productID string
-	productID = data.ID.ValueString()
+	request, requestDiags := data.ToOperationsGetProductRequest(ctx)
+	resp.Diagnostics.Append(requestDiags...)
 
-	// read.product.strictread.product.strict impedance mismatch: boolean != classtrace=["Product#create.req"]
-	var strict *bool
-	request := operations.GetProductRequest{
-		Hydrate:   hydrate,
-		ProductID: productID,
-		Strict:    strict,
+	if resp.Diagnostics.HasError() {
+		return
 	}
-	res, err := r.client.Product.GetProduct(ctx, request)
+	res, err := r.client.Product.GetProduct(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -625,7 +634,11 @@ func (r *ProductResource) Read(ctx context.Context, req resource.ReadRequest, re
 		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
 		return
 	}
-	data.RefreshFromSharedProduct(res.Product)
+	resp.Diagnostics.Append(data.RefreshFromSharedProduct(ctx, res.Product)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -645,15 +658,13 @@ func (r *ProductResource) Update(ctx context.Context, req resource.UpdateRequest
 		return
 	}
 
-	productPatch := *data.ToSharedProductPatch()
-	var productID string
-	productID = data.ID.ValueString()
+	request, requestDiags := data.ToOperationsPatchProductRequest(ctx)
+	resp.Diagnostics.Append(requestDiags...)
 
-	request := operations.PatchProductRequest{
-		ProductPatch: productPatch,
-		ProductID:    productID,
+	if resp.Diagnostics.HasError() {
+		return
 	}
-	res, err := r.client.Product.PatchProduct(ctx, request)
+	res, err := r.client.Product.PatchProduct(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -673,8 +684,17 @@ func (r *ProductResource) Update(ctx context.Context, req resource.UpdateRequest
 		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
 		return
 	}
-	data.RefreshFromSharedProduct(res.Product)
-	refreshPlan(ctx, plan, &data, resp.Diagnostics)
+	resp.Diagnostics.Append(data.RefreshFromSharedProduct(ctx, res.Product)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	resp.Diagnostics.Append(refreshPlan(ctx, plan, &data)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -698,13 +718,13 @@ func (r *ProductResource) Delete(ctx context.Context, req resource.DeleteRequest
 		return
 	}
 
-	var productID string
-	productID = data.ID.ValueString()
+	request, requestDiags := data.ToOperationsDeleteProductRequest(ctx)
+	resp.Diagnostics.Append(requestDiags...)
 
-	request := operations.DeleteProductRequest{
-		ProductID: productID,
+	if resp.Diagnostics.HasError() {
+		return
 	}
-	res, err := r.client.Product.DeleteProduct(ctx, request)
+	res, err := r.client.Product.DeleteProduct(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {

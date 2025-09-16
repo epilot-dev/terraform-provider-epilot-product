@@ -3,21 +3,26 @@
 package provider
 
 import (
+	"context"
 	"encoding/json"
+	"github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/typeconvert"
 	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
+	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/operations"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/shared"
+	"github.com/hashicorp/terraform-plugin-framework-jsontypes/jsontypes"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"math/big"
-	"time"
 )
 
-func (r *PriceDataSourceModel) RefreshFromSharedPrice(resp *shared.Price) {
+func (r *PriceDataSourceModel) RefreshFromSharedPrice(ctx context.Context, resp *shared.Price) diag.Diagnostics {
+	var diags diag.Diagnostics
+
 	if resp != nil {
 		if resp.Additional != nil {
-			r.Additional = make(map[string]types.String, len(resp.Additional))
+			r.Additional = make(map[string]jsontypes.Normalized, len(resp.Additional))
 			for key, value := range resp.Additional {
 				result, _ := json.Marshal(value)
-				r.Additional[key] = types.StringValue(string(result))
+				r.Additional[key] = jsontypes.NewNormalizedValue(string(result))
 			}
 		}
 		if resp.ACL == nil {
@@ -37,34 +42,25 @@ func (r *PriceDataSourceModel) RefreshFromSharedPrice(resp *shared.Price) {
 				r.ACL.View = append(r.ACL.View, types.StringValue(v))
 			}
 		}
-		if resp.CreatedAt != nil {
-			r.CreatedAt = types.StringValue(resp.CreatedAt.Format(time.RFC3339Nano))
-		} else {
-			r.CreatedAt = types.StringNull()
-		}
+		r.CreatedAt = types.StringPointerValue(typeconvert.TimePointerToStringPointer(resp.CreatedAt))
 		if resp.Files == nil {
 			r.Files = nil
 		} else {
 			r.Files = &tfTypes.BaseRelation{}
 			r.Files.DollarRelation = []tfTypes.DollarRelation{}
-			if len(r.Files.DollarRelation) > len(resp.Files.DollarRelation) {
-				r.Files.DollarRelation = r.Files.DollarRelation[:len(resp.Files.DollarRelation)]
-			}
-			for dollarRelationCount, dollarRelationItem := range resp.Files.DollarRelation {
-				var dollarRelation1 tfTypes.DollarRelation
+
+			for _, dollarRelationItem := range resp.Files.DollarRelation {
+				var dollarRelation tfTypes.DollarRelation
+
 				if dollarRelationItem.Tags != nil {
-					dollarRelation1.Tags = make([]types.String, 0, len(dollarRelationItem.Tags))
+					dollarRelation.Tags = make([]types.String, 0, len(dollarRelationItem.Tags))
 					for _, v := range dollarRelationItem.Tags {
-						dollarRelation1.Tags = append(dollarRelation1.Tags, types.StringValue(v))
+						dollarRelation.Tags = append(dollarRelation.Tags, types.StringValue(v))
 					}
 				}
-				dollarRelation1.EntityID = types.StringPointerValue(dollarRelationItem.EntityID)
-				if dollarRelationCount+1 > len(r.Files.DollarRelation) {
-					r.Files.DollarRelation = append(r.Files.DollarRelation, dollarRelation1)
-				} else {
-					r.Files.DollarRelation[dollarRelationCount].Tags = dollarRelation1.Tags
-					r.Files.DollarRelation[dollarRelationCount].EntityID = dollarRelation1.EntityID
-				}
+				dollarRelation.EntityID = types.StringPointerValue(dollarRelationItem.EntityID)
+
+				r.Files.DollarRelation = append(r.Files.DollarRelation, dollarRelation)
 			}
 		}
 		r.ID = types.StringPointerValue(resp.ID)
@@ -74,19 +70,14 @@ func (r *PriceDataSourceModel) RefreshFromSharedPrice(resp *shared.Price) {
 		}
 		r.Org = types.StringValue(resp.Org)
 		r.Owners = []tfTypes.BaseEntityOwner{}
-		if len(r.Owners) > len(resp.Owners) {
-			r.Owners = r.Owners[:len(resp.Owners)]
-		}
-		for ownersCount, ownersItem := range resp.Owners {
-			var owners1 tfTypes.BaseEntityOwner
-			owners1.OrgID = types.StringValue(ownersItem.OrgID)
-			owners1.UserID = types.StringPointerValue(ownersItem.UserID)
-			if ownersCount+1 > len(r.Owners) {
-				r.Owners = append(r.Owners, owners1)
-			} else {
-				r.Owners[ownersCount].OrgID = owners1.OrgID
-				r.Owners[ownersCount].UserID = owners1.UserID
-			}
+
+		for _, ownersItem := range resp.Owners {
+			var owners tfTypes.BaseEntityOwner
+
+			owners.OrgID = types.StringValue(ownersItem.OrgID)
+			owners.UserID = types.StringPointerValue(ownersItem.UserID)
+
+			r.Owners = append(r.Owners, owners)
 		}
 		if resp.Purpose != nil {
 			r.Purpose = make([]types.String, 0, len(resp.Purpose))
@@ -102,17 +93,9 @@ func (r *PriceDataSourceModel) RefreshFromSharedPrice(resp *shared.Price) {
 			}
 		}
 		r.Title = types.StringPointerValue(resp.Title)
-		if resp.UpdatedAt != nil {
-			r.UpdatedAt = types.StringValue(resp.UpdatedAt.Format(time.RFC3339Nano))
-		} else {
-			r.UpdatedAt = types.StringNull()
-		}
+		r.UpdatedAt = types.StringPointerValue(typeconvert.TimePointerToStringPointer(resp.UpdatedAt))
 		r.Active = types.BoolValue(resp.Active)
-		if resp.BillingDurationAmount != nil {
-			r.BillingDurationAmount = types.NumberValue(big.NewFloat(float64(*resp.BillingDurationAmount)))
-		} else {
-			r.BillingDurationAmount = types.NumberNull()
-		}
+		r.BillingDurationAmount = types.Float64PointerValue(resp.BillingDurationAmount)
 		if resp.BillingDurationUnit != nil {
 			r.BillingDurationUnit = types.StringValue(string(*resp.BillingDurationUnit))
 		} else {
@@ -122,11 +105,7 @@ func (r *PriceDataSourceModel) RefreshFromSharedPrice(resp *shared.Price) {
 		r.IsCompositePrice = types.BoolPointerValue(resp.IsCompositePrice)
 		r.IsTaxInclusive = types.BoolPointerValue(resp.IsTaxInclusive)
 		r.LongDescription = types.StringPointerValue(resp.LongDescription)
-		if resp.NoticeTimeAmount != nil {
-			r.NoticeTimeAmount = types.NumberValue(big.NewFloat(float64(*resp.NoticeTimeAmount)))
-		} else {
-			r.NoticeTimeAmount = types.NumberNull()
-		}
+		r.NoticeTimeAmount = types.Float64PointerValue(resp.NoticeTimeAmount)
 		if resp.NoticeTimeUnit != nil {
 			r.NoticeTimeUnit = types.StringValue(string(*resp.NoticeTimeUnit))
 		} else {
@@ -137,22 +116,17 @@ func (r *PriceDataSourceModel) RefreshFromSharedPrice(resp *shared.Price) {
 		} else {
 			r.PriceComponents = &tfTypes.PriceCreatePriceComponents{}
 			r.PriceComponents.DollarRelation = []tfTypes.PriceComponentRelation{}
-			if len(r.PriceComponents.DollarRelation) > len(resp.PriceComponents.DollarRelation) {
-				r.PriceComponents.DollarRelation = r.PriceComponents.DollarRelation[:len(resp.PriceComponents.DollarRelation)]
-			}
-			for dollarRelationCount1, dollarRelationItem1 := range resp.PriceComponents.DollarRelation {
-				var dollarRelation3 tfTypes.PriceComponentRelation
-				dollarRelation3.Tags = make([]types.String, 0, len(dollarRelationItem1.Tags))
+
+			for _, dollarRelationItem1 := range resp.PriceComponents.DollarRelation {
+				var dollarRelation1 tfTypes.PriceComponentRelation
+
+				dollarRelation1.Tags = make([]types.String, 0, len(dollarRelationItem1.Tags))
 				for _, v := range dollarRelationItem1.Tags {
-					dollarRelation3.Tags = append(dollarRelation3.Tags, types.StringValue(v))
+					dollarRelation1.Tags = append(dollarRelation1.Tags, types.StringValue(v))
 				}
-				dollarRelation3.EntityID = types.StringPointerValue(dollarRelationItem1.EntityID)
-				if dollarRelationCount1+1 > len(r.PriceComponents.DollarRelation) {
-					r.PriceComponents.DollarRelation = append(r.PriceComponents.DollarRelation, dollarRelation3)
-				} else {
-					r.PriceComponents.DollarRelation[dollarRelationCount1].Tags = dollarRelation3.Tags
-					r.PriceComponents.DollarRelation[dollarRelationCount1].EntityID = dollarRelation3.EntityID
-				}
+				dollarRelation1.EntityID = types.StringPointerValue(dollarRelationItem1.EntityID)
+
+				r.PriceComponents.DollarRelation = append(r.PriceComponents.DollarRelation, dollarRelation1)
 			}
 		}
 		if resp.PriceDisplayInJourneys != nil {
@@ -165,70 +139,41 @@ func (r *PriceDataSourceModel) RefreshFromSharedPrice(resp *shared.Price) {
 		} else {
 			r.PricingModel = types.StringNull()
 		}
-		if resp.RenewalDurationAmount != nil {
-			r.RenewalDurationAmount = types.NumberValue(big.NewFloat(float64(*resp.RenewalDurationAmount)))
-		} else {
-			r.RenewalDurationAmount = types.NumberNull()
-		}
+		r.RenewalDurationAmount = types.Float64PointerValue(resp.RenewalDurationAmount)
 		if resp.RenewalDurationUnit != nil {
 			r.RenewalDurationUnit = types.StringValue(string(*resp.RenewalDurationUnit))
 		} else {
 			r.RenewalDurationUnit = types.StringNull()
 		}
 		if resp.Tax == nil {
-			r.Tax = types.StringNull()
+			r.Tax = jsontypes.NewNormalizedNull()
 		} else {
 			taxResult, _ := json.Marshal(resp.Tax)
-			r.Tax = types.StringValue(string(taxResult))
+			r.Tax = jsontypes.NewNormalizedValue(string(taxResult))
 		}
-		if resp.TerminationTimeAmount != nil {
-			r.TerminationTimeAmount = types.NumberValue(big.NewFloat(float64(*resp.TerminationTimeAmount)))
-		} else {
-			r.TerminationTimeAmount = types.NumberNull()
-		}
+		r.TerminationTimeAmount = types.Float64PointerValue(resp.TerminationTimeAmount)
 		if resp.TerminationTimeUnit != nil {
 			r.TerminationTimeUnit = types.StringValue(string(*resp.TerminationTimeUnit))
 		} else {
 			r.TerminationTimeUnit = types.StringNull()
 		}
 		r.Tiers = []tfTypes.PriceTier{}
-		if len(r.Tiers) > len(resp.Tiers) {
-			r.Tiers = r.Tiers[:len(resp.Tiers)]
-		}
-		for tiersCount, tiersItem := range resp.Tiers {
-			var tiers1 tfTypes.PriceTier
+
+		for _, tiersItem := range resp.Tiers {
+			var tiers tfTypes.PriceTier
+
 			if tiersItem.DisplayMode != nil {
-				tiers1.DisplayMode = types.StringValue(string(*tiersItem.DisplayMode))
+				tiers.DisplayMode = types.StringValue(string(*tiersItem.DisplayMode))
 			} else {
-				tiers1.DisplayMode = types.StringNull()
+				tiers.DisplayMode = types.StringNull()
 			}
-			if tiersItem.FlatFeeAmount != nil {
-				tiers1.FlatFeeAmount = types.NumberValue(big.NewFloat(float64(*tiersItem.FlatFeeAmount)))
-			} else {
-				tiers1.FlatFeeAmount = types.NumberNull()
-			}
-			tiers1.FlatFeeAmountDecimal = types.StringPointerValue(tiersItem.FlatFeeAmountDecimal)
-			if tiersItem.UnitAmount != nil {
-				tiers1.UnitAmount = types.NumberValue(big.NewFloat(float64(*tiersItem.UnitAmount)))
-			} else {
-				tiers1.UnitAmount = types.NumberNull()
-			}
-			tiers1.UnitAmountDecimal = types.StringPointerValue(tiersItem.UnitAmountDecimal)
-			if tiersItem.UpTo != nil {
-				tiers1.UpTo = types.NumberValue(big.NewFloat(float64(*tiersItem.UpTo)))
-			} else {
-				tiers1.UpTo = types.NumberNull()
-			}
-			if tiersCount+1 > len(r.Tiers) {
-				r.Tiers = append(r.Tiers, tiers1)
-			} else {
-				r.Tiers[tiersCount].DisplayMode = tiers1.DisplayMode
-				r.Tiers[tiersCount].FlatFeeAmount = tiers1.FlatFeeAmount
-				r.Tiers[tiersCount].FlatFeeAmountDecimal = tiers1.FlatFeeAmountDecimal
-				r.Tiers[tiersCount].UnitAmount = tiers1.UnitAmount
-				r.Tiers[tiersCount].UnitAmountDecimal = tiers1.UnitAmountDecimal
-				r.Tiers[tiersCount].UpTo = tiers1.UpTo
-			}
+			tiers.FlatFeeAmount = types.Float64PointerValue(tiersItem.FlatFeeAmount)
+			tiers.FlatFeeAmountDecimal = types.StringPointerValue(tiersItem.FlatFeeAmountDecimal)
+			tiers.UnitAmount = types.Float64PointerValue(tiersItem.UnitAmount)
+			tiers.UnitAmountDecimal = types.StringPointerValue(tiersItem.UnitAmountDecimal)
+			tiers.UpTo = types.Float64PointerValue(tiersItem.UpTo)
+
+			r.Tiers = append(r.Tiers, tiers)
 		}
 		if resp.Type != nil {
 			r.Type = types.StringValue(string(*resp.Type))
@@ -236,13 +181,38 @@ func (r *PriceDataSourceModel) RefreshFromSharedPrice(resp *shared.Price) {
 			r.Type = types.StringNull()
 		}
 		r.Unit = types.StringPointerValue(resp.Unit)
-		if resp.UnitAmount != nil {
-			r.UnitAmount = types.NumberValue(big.NewFloat(float64(*resp.UnitAmount)))
-		} else {
-			r.UnitAmount = types.NumberNull()
-		}
+		r.UnitAmount = types.Float64PointerValue(resp.UnitAmount)
 		r.UnitAmountCurrency = types.StringPointerValue(resp.UnitAmountCurrency)
 		r.UnitAmountDecimal = types.StringPointerValue(resp.UnitAmountDecimal)
 		r.VariablePrice = types.BoolPointerValue(resp.VariablePrice)
 	}
+
+	return diags
+}
+
+func (r *PriceDataSourceModel) ToOperationsGetPriceRequest(ctx context.Context) (*operations.GetPriceRequest, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	hydrate := new(bool)
+	if !r.Hydrate.IsUnknown() && !r.Hydrate.IsNull() {
+		*hydrate = r.Hydrate.ValueBool()
+	} else {
+		hydrate = nil
+	}
+	var priceID string
+	priceID = r.ID.ValueString()
+
+	strict := new(bool)
+	if !r.Strict.IsUnknown() && !r.Strict.IsNull() {
+		*strict = r.Strict.ValueBool()
+	} else {
+		strict = nil
+	}
+	out := operations.GetPriceRequest{
+		Hydrate: hydrate,
+		PriceID: priceID,
+		Strict:  strict,
+	}
+
+	return &out, diags
 }

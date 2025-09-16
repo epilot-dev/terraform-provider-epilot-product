@@ -22,7 +22,7 @@ func (g GetCouponRequest) MarshalJSON() ([]byte, error) {
 }
 
 func (g *GetCouponRequest) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &g, "", false, false); err != nil {
+	if err := utils.UnmarshalJSON(data, &g, "", false, []string{"couponId"}); err != nil {
 		return err
 	}
 	return nil
@@ -60,8 +60,6 @@ type GetCouponResponse struct {
 	StatusCode int
 	// Raw HTTP response; suitable for custom response parsing
 	RawResponse *http.Response
-	// Any error based on the server-side
-	ServerError *shared.ServerError
 }
 
 func (o *GetCouponResponse) GetClientError() *shared.ClientError {
@@ -97,11 +95,4 @@ func (o *GetCouponResponse) GetRawResponse() *http.Response {
 		return nil
 	}
 	return o.RawResponse
-}
-
-func (o *GetCouponResponse) GetServerError() *shared.ServerError {
-	if o == nil {
-		return nil
-	}
-	return o.ServerError
 }

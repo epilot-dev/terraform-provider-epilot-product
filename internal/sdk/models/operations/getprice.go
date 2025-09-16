@@ -22,7 +22,7 @@ func (g GetPriceRequest) MarshalJSON() ([]byte, error) {
 }
 
 func (g *GetPriceRequest) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &g, "", false, false); err != nil {
+	if err := utils.UnmarshalJSON(data, &g, "", false, []string{"priceId"}); err != nil {
 		return err
 	}
 	return nil
@@ -60,8 +60,6 @@ type GetPriceResponse struct {
 	StatusCode int
 	// Raw HTTP response; suitable for custom response parsing
 	RawResponse *http.Response
-	// Any error based on the server-side
-	ServerError *shared.ServerError
 }
 
 func (o *GetPriceResponse) GetClientError() *shared.ClientError {
@@ -97,11 +95,4 @@ func (o *GetPriceResponse) GetRawResponse() *http.Response {
 		return nil
 	}
 	return o.RawResponse
-}
-
-func (o *GetPriceResponse) GetServerError() *shared.ServerError {
-	if o == nil {
-		return nil
-	}
-	return o.ServerError
 }

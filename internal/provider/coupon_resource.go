@@ -6,17 +6,17 @@ import (
 	"context"
 	"fmt"
 	speakeasy_boolplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/boolplanmodifier"
+	speakeasy_float64planmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/float64planmodifier"
 	speakeasy_listplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/listplanmodifier"
 	speakeasy_mapplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/mapplanmodifier"
-	speakeasy_numberplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/numberplanmodifier"
 	speakeasy_objectplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/objectplanmodifier"
 	speakeasy_stringplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/stringplanmodifier"
 	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk"
-	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/operations"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/validators"
 	speakeasy_objectvalidators "github.com/epilot-dev/terraform-provider-epilot-product/internal/validators/objectvalidators"
 	speakeasy_stringvalidators "github.com/epilot-dev/terraform-provider-epilot-product/internal/validators/stringvalidators"
+	"github.com/hashicorp/terraform-plugin-framework-jsontypes/jsontypes"
 	"github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -38,38 +38,39 @@ func NewCouponResource() resource.Resource {
 
 // CouponResource defines the resource implementation.
 type CouponResource struct {
+	// Provider configured SDK client.
 	client *sdk.SDK
 }
 
 // CouponResourceModel describes the resource data model.
 type CouponResourceModel struct {
-	ACL                *tfTypes.BaseEntityACL    `tfsdk:"acl"`
-	Active             types.Bool                `tfsdk:"active"`
-	Additional         map[string]types.String   `tfsdk:"additional"`
-	CashbackPeriod     types.String              `tfsdk:"cashback_period"`
-	Category           types.String              `tfsdk:"category"`
-	CreatedAt          types.String              `tfsdk:"created_at"`
-	Description        types.String              `tfsdk:"description"`
-	Files              *tfTypes.BaseRelation     `tfsdk:"files"`
-	FixedValue         types.Number              `tfsdk:"fixed_value"`
-	FixedValueCurrency types.String              `tfsdk:"fixed_value_currency"`
-	FixedValueDecimal  types.String              `tfsdk:"fixed_value_decimal"`
-	ID                 types.String              `tfsdk:"id"`
-	Manifest           []types.String            `tfsdk:"manifest"`
-	Name               types.String              `tfsdk:"name"`
-	Org                types.String              `tfsdk:"org"`
-	Owners             []tfTypes.BaseEntityOwner `tfsdk:"owners"`
-	PercentageValue    types.String              `tfsdk:"percentage_value"`
-	Prices             *tfTypes.BaseRelation     `tfsdk:"prices"`
-	PromoCodeUsage     types.String              `tfsdk:"promo_code_usage"`
-	PromoCodes         []tfTypes.PromoCode       `tfsdk:"promo_codes"`
-	Purpose            []types.String            `tfsdk:"purpose"`
-	RequiresPromoCode  types.Bool                `tfsdk:"requires_promo_code"`
-	Schema             types.String              `tfsdk:"schema"`
-	Tags               []types.String            `tfsdk:"tags"`
-	Title              types.String              `tfsdk:"title"`
-	Type               types.String              `tfsdk:"type"`
-	UpdatedAt          types.String              `tfsdk:"updated_at"`
+	ACL                *tfTypes.BaseEntityACL          `tfsdk:"acl"`
+	Active             types.Bool                      `tfsdk:"active"`
+	Additional         map[string]jsontypes.Normalized `tfsdk:"additional"`
+	CashbackPeriod     types.String                    `tfsdk:"cashback_period"`
+	Category           types.String                    `tfsdk:"category"`
+	CreatedAt          types.String                    `tfsdk:"created_at"`
+	Description        types.String                    `tfsdk:"description"`
+	Files              *tfTypes.BaseRelation           `tfsdk:"files"`
+	FixedValue         types.Float64                   `tfsdk:"fixed_value"`
+	FixedValueCurrency types.String                    `tfsdk:"fixed_value_currency"`
+	FixedValueDecimal  types.String                    `tfsdk:"fixed_value_decimal"`
+	ID                 types.String                    `tfsdk:"id"`
+	Manifest           []types.String                  `tfsdk:"manifest"`
+	Name               types.String                    `tfsdk:"name"`
+	Org                types.String                    `tfsdk:"org"`
+	Owners             []tfTypes.BaseEntityOwner       `tfsdk:"owners"`
+	PercentageValue    types.String                    `tfsdk:"percentage_value"`
+	Prices             *tfTypes.BaseRelation           `tfsdk:"prices"`
+	PromoCodeUsage     jsontypes.Normalized            `tfsdk:"promo_code_usage"`
+	PromoCodes         []tfTypes.PromoCode             `tfsdk:"promo_codes"`
+	Purpose            []types.String                  `tfsdk:"purpose"`
+	RequiresPromoCode  types.Bool                      `tfsdk:"requires_promo_code"`
+	Schema             types.String                    `tfsdk:"schema"`
+	Tags               []types.String                  `tfsdk:"tags"`
+	Title              types.String                    `tfsdk:"title"`
+	Type               types.String                    `tfsdk:"type"`
+	UpdatedAt          types.String                    `tfsdk:"updated_at"`
 }
 
 func (r *CouponResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -122,7 +123,7 @@ func (r *CouponResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				PlanModifiers: []planmodifier.Map{
 					speakeasy_mapplanmodifier.SuppressDiff(speakeasy_mapplanmodifier.ExplicitSuppress),
 				},
-				ElementType: types.StringType,
+				ElementType: jsontypes.NormalizedType{},
 				Description: `Additional fields that are not part of the schema`,
 				Validators: []validator.Map{
 					mapvalidator.ValueStringsAre(validators.IsValidJSON()),
@@ -209,11 +210,11 @@ func (r *CouponResource) Schema(ctx context.Context, req resource.SchemaRequest,
 					},
 				},
 			},
-			"fixed_value": schema.NumberAttribute{
+			"fixed_value": schema.Float64Attribute{
 				Computed: true,
 				Optional: true,
-				PlanModifiers: []planmodifier.Number{
-					speakeasy_numberplanmodifier.SuppressDiff(speakeasy_numberplanmodifier.ExplicitSuppress),
+				PlanModifiers: []planmodifier.Float64{
+					speakeasy_float64planmodifier.SuppressDiff(speakeasy_float64planmodifier.ExplicitSuppress),
 				},
 				Description: `Use if type is set to fixed. The fixed amount in cents to be discounted, represented as a whole integer.`,
 			},
@@ -336,15 +337,13 @@ func (r *CouponResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				},
 			},
 			"promo_code_usage": schema.StringAttribute{
-				Computed: true,
-				Optional: true,
+				CustomType: jsontypes.NormalizedType{},
+				Computed:   true,
+				Optional:   true,
 				PlanModifiers: []planmodifier.String{
 					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 				},
 				Description: `Map of ids of promo codes with their usage count. Parsed as JSON.`,
-				Validators: []validator.String{
-					validators.IsValidJSON(),
-				},
 			},
 			"promo_codes": schema.ListNestedAttribute{
 				Computed: true,
@@ -390,11 +389,11 @@ func (r *CouponResource) Schema(ctx context.Context, req resource.SchemaRequest,
 								speakeasy_stringvalidators.NotNull(),
 							},
 						},
-						"usage_limit": schema.NumberAttribute{
+						"usage_limit": schema.Float64Attribute{
 							Computed: true,
 							Optional: true,
-							PlanModifiers: []planmodifier.Number{
-								speakeasy_numberplanmodifier.SuppressDiff(speakeasy_numberplanmodifier.ExplicitSuppress),
+							PlanModifiers: []planmodifier.Float64{
+								speakeasy_float64planmodifier.SuppressDiff(speakeasy_float64planmodifier.ExplicitSuppress),
 							},
 							Description: `The usage limit of the promo code`,
 						},
@@ -506,8 +505,13 @@ func (r *CouponResource) Create(ctx context.Context, req resource.CreateRequest,
 		return
 	}
 
-	request := *data.ToSharedCouponCreate()
-	res, err := r.client.Coupon.CreateCoupon(ctx, request)
+	request, requestDiags := data.ToSharedCouponCreate(ctx)
+	resp.Diagnostics.Append(requestDiags...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	res, err := r.client.Coupon.CreateCoupon(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -527,8 +531,17 @@ func (r *CouponResource) Create(ctx context.Context, req resource.CreateRequest,
 		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
 		return
 	}
-	data.RefreshFromSharedCoupon(res.Coupon)
-	refreshPlan(ctx, plan, &data, resp.Diagnostics)
+	resp.Diagnostics.Append(data.RefreshFromSharedCoupon(ctx, res.Coupon)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	resp.Diagnostics.Append(refreshPlan(ctx, plan, &data)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -552,19 +565,13 @@ func (r *CouponResource) Read(ctx context.Context, req resource.ReadRequest, res
 		return
 	}
 
-	var couponID string
-	couponID = data.ID.ValueString()
+	request, requestDiags := data.ToOperationsGetCouponRequest(ctx)
+	resp.Diagnostics.Append(requestDiags...)
 
-	// read.coupon.hydrateread.coupon.hydrate impedance mismatch: boolean != classtrace=["Coupon#create.req"]
-	var hydrate *bool
-	// read.coupon.strictread.coupon.strict impedance mismatch: boolean != classtrace=["Coupon#create.req"]
-	var strict *bool
-	request := operations.GetCouponRequest{
-		CouponID: couponID,
-		Hydrate:  hydrate,
-		Strict:   strict,
+	if resp.Diagnostics.HasError() {
+		return
 	}
-	res, err := r.client.Coupon.GetCoupon(ctx, request)
+	res, err := r.client.Coupon.GetCoupon(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -588,7 +595,11 @@ func (r *CouponResource) Read(ctx context.Context, req resource.ReadRequest, res
 		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
 		return
 	}
-	data.RefreshFromSharedCoupon(res.Coupon)
+	resp.Diagnostics.Append(data.RefreshFromSharedCoupon(ctx, res.Coupon)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -608,15 +619,13 @@ func (r *CouponResource) Update(ctx context.Context, req resource.UpdateRequest,
 		return
 	}
 
-	couponPatch := *data.ToSharedCouponPatch()
-	var couponID string
-	couponID = data.ID.ValueString()
+	request, requestDiags := data.ToOperationsPatchCouponRequest(ctx)
+	resp.Diagnostics.Append(requestDiags...)
 
-	request := operations.PatchCouponRequest{
-		CouponPatch: couponPatch,
-		CouponID:    couponID,
+	if resp.Diagnostics.HasError() {
+		return
 	}
-	res, err := r.client.Coupon.PatchCoupon(ctx, request)
+	res, err := r.client.Coupon.PatchCoupon(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -636,8 +645,17 @@ func (r *CouponResource) Update(ctx context.Context, req resource.UpdateRequest,
 		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
 		return
 	}
-	data.RefreshFromSharedCoupon(res.Coupon)
-	refreshPlan(ctx, plan, &data, resp.Diagnostics)
+	resp.Diagnostics.Append(data.RefreshFromSharedCoupon(ctx, res.Coupon)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	resp.Diagnostics.Append(refreshPlan(ctx, plan, &data)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -661,13 +679,13 @@ func (r *CouponResource) Delete(ctx context.Context, req resource.DeleteRequest,
 		return
 	}
 
-	var couponID string
-	couponID = data.ID.ValueString()
+	request, requestDiags := data.ToOperationsDeleteCouponRequest(ctx)
+	resp.Diagnostics.Append(requestDiags...)
 
-	request := operations.DeleteCouponRequest{
-		CouponID: couponID,
+	if resp.Diagnostics.HasError() {
+		return
 	}
-	res, err := r.client.Coupon.DeleteCoupon(ctx, request)
+	res, err := r.client.Coupon.DeleteCoupon(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {

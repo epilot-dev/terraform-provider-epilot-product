@@ -12,9 +12,9 @@ import (
 	speakeasy_stringplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/stringplanmodifier"
 	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk"
-	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/operations"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/validators"
 	speakeasy_objectvalidators "github.com/epilot-dev/terraform-provider-epilot-product/internal/validators/objectvalidators"
+	"github.com/hashicorp/terraform-plugin-framework-jsontypes/jsontypes"
 	"github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -36,29 +36,30 @@ func NewTaxResource() resource.Resource {
 
 // TaxResource defines the resource implementation.
 type TaxResource struct {
+	// Provider configured SDK client.
 	client *sdk.SDK
 }
 
 // TaxResourceModel describes the resource data model.
 type TaxResourceModel struct {
-	ACL         *tfTypes.BaseEntityACL    `tfsdk:"acl"`
-	Active      types.Bool                `tfsdk:"active"`
-	Additional  map[string]types.String   `tfsdk:"additional"`
-	CreatedAt   types.String              `tfsdk:"created_at"`
-	Description types.String              `tfsdk:"description"`
-	Files       *tfTypes.BaseRelation     `tfsdk:"files"`
-	ID          types.String              `tfsdk:"id"`
-	Manifest    []types.String            `tfsdk:"manifest"`
-	Org         types.String              `tfsdk:"org"`
-	Owners      []tfTypes.BaseEntityOwner `tfsdk:"owners"`
-	Purpose     []types.String            `tfsdk:"purpose"`
-	Rate        types.String              `tfsdk:"rate"`
-	Region      types.String              `tfsdk:"region"`
-	Schema      types.String              `tfsdk:"schema"`
-	Tags        []types.String            `tfsdk:"tags"`
-	Title       types.String              `tfsdk:"title"`
-	Type        types.String              `tfsdk:"type"`
-	UpdatedAt   types.String              `tfsdk:"updated_at"`
+	ACL         *tfTypes.BaseEntityACL          `tfsdk:"acl"`
+	Active      types.Bool                      `tfsdk:"active"`
+	Additional  map[string]jsontypes.Normalized `tfsdk:"additional"`
+	CreatedAt   types.String                    `tfsdk:"created_at"`
+	Description types.String                    `tfsdk:"description"`
+	Files       *tfTypes.BaseRelation           `tfsdk:"files"`
+	ID          types.String                    `tfsdk:"id"`
+	Manifest    []types.String                  `tfsdk:"manifest"`
+	Org         types.String                    `tfsdk:"org"`
+	Owners      []tfTypes.BaseEntityOwner       `tfsdk:"owners"`
+	Purpose     []types.String                  `tfsdk:"purpose"`
+	Rate        types.String                    `tfsdk:"rate"`
+	Region      types.String                    `tfsdk:"region"`
+	Schema      types.String                    `tfsdk:"schema"`
+	Tags        []types.String                  `tfsdk:"tags"`
+	Title       types.String                    `tfsdk:"title"`
+	Type        types.String                    `tfsdk:"type"`
+	UpdatedAt   types.String                    `tfsdk:"updated_at"`
 }
 
 func (r *TaxResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -111,7 +112,7 @@ func (r *TaxResource) Schema(ctx context.Context, req resource.SchemaRequest, re
 				PlanModifiers: []planmodifier.Map{
 					speakeasy_mapplanmodifier.SuppressDiff(speakeasy_mapplanmodifier.ExplicitSuppress),
 				},
-				ElementType: types.StringType,
+				ElementType: jsontypes.NormalizedType{},
 				Description: `Additional fields that are not part of the schema`,
 				Validators: []validator.Map{
 					mapvalidator.ValueStringsAre(validators.IsValidJSON()),
@@ -330,8 +331,13 @@ func (r *TaxResource) Create(ctx context.Context, req resource.CreateRequest, re
 		return
 	}
 
-	request := *data.ToSharedTaxCreate()
-	res, err := r.client.Tax.CreateTax(ctx, request)
+	request, requestDiags := data.ToSharedTaxCreate(ctx)
+	resp.Diagnostics.Append(requestDiags...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	res, err := r.client.Tax.CreateTax(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -351,8 +357,17 @@ func (r *TaxResource) Create(ctx context.Context, req resource.CreateRequest, re
 		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
 		return
 	}
-	data.RefreshFromSharedTax(res.Tax)
-	refreshPlan(ctx, plan, &data, resp.Diagnostics)
+	resp.Diagnostics.Append(data.RefreshFromSharedTax(ctx, res.Tax)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	resp.Diagnostics.Append(refreshPlan(ctx, plan, &data)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -376,19 +391,13 @@ func (r *TaxResource) Read(ctx context.Context, req resource.ReadRequest, resp *
 		return
 	}
 
-	// read.tax.hydrateread.tax.hydrate impedance mismatch: boolean != classtrace=["Tax#create.req"]
-	var hydrate *bool
-	// read.tax.strictread.tax.strict impedance mismatch: boolean != classtrace=["Tax#create.req"]
-	var strict *bool
-	var taxID string
-	taxID = data.ID.ValueString()
+	request, requestDiags := data.ToOperationsGetTaxRequest(ctx)
+	resp.Diagnostics.Append(requestDiags...)
 
-	request := operations.GetTaxRequest{
-		Hydrate: hydrate,
-		Strict:  strict,
-		TaxID:   taxID,
+	if resp.Diagnostics.HasError() {
+		return
 	}
-	res, err := r.client.Tax.GetTax(ctx, request)
+	res, err := r.client.Tax.GetTax(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -412,7 +421,11 @@ func (r *TaxResource) Read(ctx context.Context, req resource.ReadRequest, resp *
 		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
 		return
 	}
-	data.RefreshFromSharedTax(res.Tax)
+	resp.Diagnostics.Append(data.RefreshFromSharedTax(ctx, res.Tax)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -432,15 +445,13 @@ func (r *TaxResource) Update(ctx context.Context, req resource.UpdateRequest, re
 		return
 	}
 
-	taxPatch := *data.ToSharedTaxPatch()
-	var taxID string
-	taxID = data.ID.ValueString()
+	request, requestDiags := data.ToOperationsPatchTaxRequest(ctx)
+	resp.Diagnostics.Append(requestDiags...)
 
-	request := operations.PatchTaxRequest{
-		TaxPatch: taxPatch,
-		TaxID:    taxID,
+	if resp.Diagnostics.HasError() {
+		return
 	}
-	res, err := r.client.Tax.PatchTax(ctx, request)
+	res, err := r.client.Tax.PatchTax(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {
@@ -460,8 +471,17 @@ func (r *TaxResource) Update(ctx context.Context, req resource.UpdateRequest, re
 		resp.Diagnostics.AddError("unexpected response from API. Got an unexpected response body", debugResponse(res.RawResponse))
 		return
 	}
-	data.RefreshFromSharedTax(res.Tax)
-	refreshPlan(ctx, plan, &data, resp.Diagnostics)
+	resp.Diagnostics.Append(data.RefreshFromSharedTax(ctx, res.Tax)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	resp.Diagnostics.Append(refreshPlan(ctx, plan, &data)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
 
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -485,13 +505,13 @@ func (r *TaxResource) Delete(ctx context.Context, req resource.DeleteRequest, re
 		return
 	}
 
-	var taxID string
-	taxID = data.ID.ValueString()
+	request, requestDiags := data.ToOperationsDeleteTaxRequest(ctx)
+	resp.Diagnostics.Append(requestDiags...)
 
-	request := operations.DeleteTaxRequest{
-		TaxID: taxID,
+	if resp.Diagnostics.HasError() {
+		return
 	}
-	res, err := r.client.Tax.DeleteTax(ctx, request)
+	res, err := r.client.Tax.DeleteTax(ctx, *request)
 	if err != nil {
 		resp.Diagnostics.AddError("failure to invoke API", err.Error())
 		if res != nil && res.RawResponse != nil {

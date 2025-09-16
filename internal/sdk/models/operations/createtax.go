@@ -12,8 +12,6 @@ type CreateTaxResponse struct {
 	ClientError *shared.ClientError
 	// HTTP response content type for this operation
 	ContentType string
-	// Any error based on the server-side
-	ServerError *shared.ServerError
 	// HTTP response status code for this operation
 	StatusCode int
 	// Raw HTTP response; suitable for custom response parsing
@@ -34,13 +32,6 @@ func (o *CreateTaxResponse) GetContentType() string {
 		return ""
 	}
 	return o.ContentType
-}
-
-func (o *CreateTaxResponse) GetServerError() *shared.ServerError {
-	if o == nil {
-		return nil
-	}
-	return o.ServerError
 }
 
 func (o *CreateTaxResponse) GetStatusCode() int {

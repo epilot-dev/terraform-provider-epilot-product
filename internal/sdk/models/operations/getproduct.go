@@ -22,7 +22,7 @@ func (g GetProductRequest) MarshalJSON() ([]byte, error) {
 }
 
 func (g *GetProductRequest) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &g, "", false, false); err != nil {
+	if err := utils.UnmarshalJSON(data, &g, "", false, []string{"productId"}); err != nil {
 		return err
 	}
 	return nil
@@ -60,8 +60,6 @@ type GetProductResponse struct {
 	StatusCode int
 	// Raw HTTP response; suitable for custom response parsing
 	RawResponse *http.Response
-	// Any error based on the server-side
-	ServerError *shared.ServerError
 }
 
 func (o *GetProductResponse) GetClientError() *shared.ClientError {
@@ -97,11 +95,4 @@ func (o *GetProductResponse) GetRawResponse() *http.Response {
 		return nil
 	}
 	return o.RawResponse
-}
-
-func (o *GetProductResponse) GetServerError() *shared.ServerError {
-	if o == nil {
-		return nil
-	}
-	return o.ServerError
 }

@@ -3,20 +3,26 @@
 package provider
 
 import (
+	"context"
 	"encoding/json"
+	"github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/typeconvert"
 	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
+	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/operations"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/models/shared"
+	"github.com/hashicorp/terraform-plugin-framework-jsontypes/jsontypes"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"time"
 )
 
-func (r *ProductDataSourceModel) RefreshFromSharedProduct(resp *shared.Product) {
+func (r *ProductDataSourceModel) RefreshFromSharedProduct(ctx context.Context, resp *shared.Product) diag.Diagnostics {
+	var diags diag.Diagnostics
+
 	if resp != nil {
 		if resp.Additional != nil {
-			r.Additional = make(map[string]types.String, len(resp.Additional))
+			r.Additional = make(map[string]jsontypes.Normalized, len(resp.Additional))
 			for key, value := range resp.Additional {
 				result, _ := json.Marshal(value)
-				r.Additional[key] = types.StringValue(string(result))
+				r.Additional[key] = jsontypes.NewNormalizedValue(string(result))
 			}
 		}
 		if resp.ACL == nil {
@@ -41,54 +47,40 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(resp *shared.Product) 
 		} else {
 			r.AvailabilityFiles = &tfTypes.BaseRelation{}
 			r.AvailabilityFiles.DollarRelation = []tfTypes.DollarRelation{}
-			if len(r.AvailabilityFiles.DollarRelation) > len(resp.AvailabilityFiles.DollarRelation) {
-				r.AvailabilityFiles.DollarRelation = r.AvailabilityFiles.DollarRelation[:len(resp.AvailabilityFiles.DollarRelation)]
-			}
-			for dollarRelationCount, dollarRelationItem := range resp.AvailabilityFiles.DollarRelation {
-				var dollarRelation1 tfTypes.DollarRelation
+
+			for _, dollarRelationItem := range resp.AvailabilityFiles.DollarRelation {
+				var dollarRelation tfTypes.DollarRelation
+
 				if dollarRelationItem.Tags != nil {
-					dollarRelation1.Tags = make([]types.String, 0, len(dollarRelationItem.Tags))
+					dollarRelation.Tags = make([]types.String, 0, len(dollarRelationItem.Tags))
 					for _, v := range dollarRelationItem.Tags {
-						dollarRelation1.Tags = append(dollarRelation1.Tags, types.StringValue(v))
+						dollarRelation.Tags = append(dollarRelation.Tags, types.StringValue(v))
 					}
 				}
-				dollarRelation1.EntityID = types.StringPointerValue(dollarRelationItem.EntityID)
-				if dollarRelationCount+1 > len(r.AvailabilityFiles.DollarRelation) {
-					r.AvailabilityFiles.DollarRelation = append(r.AvailabilityFiles.DollarRelation, dollarRelation1)
-				} else {
-					r.AvailabilityFiles.DollarRelation[dollarRelationCount].Tags = dollarRelation1.Tags
-					r.AvailabilityFiles.DollarRelation[dollarRelationCount].EntityID = dollarRelation1.EntityID
-				}
+				dollarRelation.EntityID = types.StringPointerValue(dollarRelationItem.EntityID)
+
+				r.AvailabilityFiles.DollarRelation = append(r.AvailabilityFiles.DollarRelation, dollarRelation)
 			}
 		}
-		if resp.CreatedAt != nil {
-			r.CreatedAt = types.StringValue(resp.CreatedAt.Format(time.RFC3339Nano))
-		} else {
-			r.CreatedAt = types.StringNull()
-		}
+		r.CreatedAt = types.StringPointerValue(typeconvert.TimePointerToStringPointer(resp.CreatedAt))
 		if resp.Files == nil {
 			r.Files = nil
 		} else {
 			r.Files = &tfTypes.BaseRelation{}
 			r.Files.DollarRelation = []tfTypes.DollarRelation{}
-			if len(r.Files.DollarRelation) > len(resp.Files.DollarRelation) {
-				r.Files.DollarRelation = r.Files.DollarRelation[:len(resp.Files.DollarRelation)]
-			}
-			for dollarRelationCount1, dollarRelationItem1 := range resp.Files.DollarRelation {
-				var dollarRelation3 tfTypes.DollarRelation
+
+			for _, dollarRelationItem1 := range resp.Files.DollarRelation {
+				var dollarRelation1 tfTypes.DollarRelation
+
 				if dollarRelationItem1.Tags != nil {
-					dollarRelation3.Tags = make([]types.String, 0, len(dollarRelationItem1.Tags))
+					dollarRelation1.Tags = make([]types.String, 0, len(dollarRelationItem1.Tags))
 					for _, v := range dollarRelationItem1.Tags {
-						dollarRelation3.Tags = append(dollarRelation3.Tags, types.StringValue(v))
+						dollarRelation1.Tags = append(dollarRelation1.Tags, types.StringValue(v))
 					}
 				}
-				dollarRelation3.EntityID = types.StringPointerValue(dollarRelationItem1.EntityID)
-				if dollarRelationCount1+1 > len(r.Files.DollarRelation) {
-					r.Files.DollarRelation = append(r.Files.DollarRelation, dollarRelation3)
-				} else {
-					r.Files.DollarRelation[dollarRelationCount1].Tags = dollarRelation3.Tags
-					r.Files.DollarRelation[dollarRelationCount1].EntityID = dollarRelation3.EntityID
-				}
+				dollarRelation1.EntityID = types.StringPointerValue(dollarRelationItem1.EntityID)
+
+				r.Files.DollarRelation = append(r.Files.DollarRelation, dollarRelation1)
 			}
 		}
 		r.ID = types.StringPointerValue(resp.ID)
@@ -98,19 +90,14 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(resp *shared.Product) 
 		}
 		r.Org = types.StringValue(resp.Org)
 		r.Owners = []tfTypes.BaseEntityOwner{}
-		if len(r.Owners) > len(resp.Owners) {
-			r.Owners = r.Owners[:len(resp.Owners)]
-		}
-		for ownersCount, ownersItem := range resp.Owners {
-			var owners1 tfTypes.BaseEntityOwner
-			owners1.OrgID = types.StringValue(ownersItem.OrgID)
-			owners1.UserID = types.StringPointerValue(ownersItem.UserID)
-			if ownersCount+1 > len(r.Owners) {
-				r.Owners = append(r.Owners, owners1)
-			} else {
-				r.Owners[ownersCount].OrgID = owners1.OrgID
-				r.Owners[ownersCount].UserID = owners1.UserID
-			}
+
+		for _, ownersItem := range resp.Owners {
+			var owners tfTypes.BaseEntityOwner
+
+			owners.OrgID = types.StringValue(ownersItem.OrgID)
+			owners.UserID = types.StringPointerValue(ownersItem.UserID)
+
+			r.Owners = append(r.Owners, owners)
 		}
 		if resp.Purpose != nil {
 			r.Purpose = make([]types.String, 0, len(resp.Purpose))
@@ -126,11 +113,7 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(resp *shared.Product) 
 			}
 		}
 		r.Title = types.StringPointerValue(resp.Title)
-		if resp.UpdatedAt != nil {
-			r.UpdatedAt = types.StringValue(resp.UpdatedAt.Format(time.RFC3339Nano))
-		} else {
-			r.UpdatedAt = types.StringNull()
-		}
+		r.UpdatedAt = types.StringPointerValue(typeconvert.TimePointerToStringPointer(resp.UpdatedAt))
 		r.Active = types.BoolValue(resp.Active)
 		r.Categories = make([]types.String, 0, len(resp.Categories))
 		for _, v := range resp.Categories {
@@ -138,12 +121,14 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(resp *shared.Product) 
 		}
 		r.Code = types.StringPointerValue(resp.Code)
 		r.Description = types.StringPointerValue(resp.Description)
-		r.Feature = nil
+		r.Feature = make([]jsontypes.Normalized, 0, len(resp.Feature))
 		for _, featureItem := range resp.Feature {
-			var feature1 types.String
-			feature1Result, _ := json.Marshal(featureItem)
-			feature1 = types.StringValue(string(feature1Result))
-			r.Feature = append(r.Feature, feature1)
+			var feature jsontypes.Normalized
+
+			featureResult, _ := json.Marshal(featureItem)
+			feature = jsontypes.NewNormalizedValue(string(featureResult))
+
+			r.Feature = append(r.Feature, feature)
 		}
 		r.InternalName = types.StringPointerValue(resp.InternalName)
 		r.Name = types.StringValue(resp.Name)
@@ -152,24 +137,19 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(resp *shared.Product) 
 		} else {
 			r.PriceOptions = &tfTypes.BaseRelation{}
 			r.PriceOptions.DollarRelation = []tfTypes.DollarRelation{}
-			if len(r.PriceOptions.DollarRelation) > len(resp.PriceOptions.DollarRelation) {
-				r.PriceOptions.DollarRelation = r.PriceOptions.DollarRelation[:len(resp.PriceOptions.DollarRelation)]
-			}
-			for dollarRelationCount2, dollarRelationItem2 := range resp.PriceOptions.DollarRelation {
-				var dollarRelation5 tfTypes.DollarRelation
+
+			for _, dollarRelationItem2 := range resp.PriceOptions.DollarRelation {
+				var dollarRelation2 tfTypes.DollarRelation
+
 				if dollarRelationItem2.Tags != nil {
-					dollarRelation5.Tags = make([]types.String, 0, len(dollarRelationItem2.Tags))
+					dollarRelation2.Tags = make([]types.String, 0, len(dollarRelationItem2.Tags))
 					for _, v := range dollarRelationItem2.Tags {
-						dollarRelation5.Tags = append(dollarRelation5.Tags, types.StringValue(v))
+						dollarRelation2.Tags = append(dollarRelation2.Tags, types.StringValue(v))
 					}
 				}
-				dollarRelation5.EntityID = types.StringPointerValue(dollarRelationItem2.EntityID)
-				if dollarRelationCount2+1 > len(r.PriceOptions.DollarRelation) {
-					r.PriceOptions.DollarRelation = append(r.PriceOptions.DollarRelation, dollarRelation5)
-				} else {
-					r.PriceOptions.DollarRelation[dollarRelationCount2].Tags = dollarRelation5.Tags
-					r.PriceOptions.DollarRelation[dollarRelationCount2].EntityID = dollarRelation5.EntityID
-				}
+				dollarRelation2.EntityID = types.StringPointerValue(dollarRelationItem2.EntityID)
+
+				r.PriceOptions.DollarRelation = append(r.PriceOptions.DollarRelation, dollarRelation2)
 			}
 		}
 		if resp.ProductDownloads == nil {
@@ -177,24 +157,19 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(resp *shared.Product) 
 		} else {
 			r.ProductDownloads = &tfTypes.BaseRelation{}
 			r.ProductDownloads.DollarRelation = []tfTypes.DollarRelation{}
-			if len(r.ProductDownloads.DollarRelation) > len(resp.ProductDownloads.DollarRelation) {
-				r.ProductDownloads.DollarRelation = r.ProductDownloads.DollarRelation[:len(resp.ProductDownloads.DollarRelation)]
-			}
-			for dollarRelationCount3, dollarRelationItem3 := range resp.ProductDownloads.DollarRelation {
-				var dollarRelation7 tfTypes.DollarRelation
+
+			for _, dollarRelationItem3 := range resp.ProductDownloads.DollarRelation {
+				var dollarRelation3 tfTypes.DollarRelation
+
 				if dollarRelationItem3.Tags != nil {
-					dollarRelation7.Tags = make([]types.String, 0, len(dollarRelationItem3.Tags))
+					dollarRelation3.Tags = make([]types.String, 0, len(dollarRelationItem3.Tags))
 					for _, v := range dollarRelationItem3.Tags {
-						dollarRelation7.Tags = append(dollarRelation7.Tags, types.StringValue(v))
+						dollarRelation3.Tags = append(dollarRelation3.Tags, types.StringValue(v))
 					}
 				}
-				dollarRelation7.EntityID = types.StringPointerValue(dollarRelationItem3.EntityID)
-				if dollarRelationCount3+1 > len(r.ProductDownloads.DollarRelation) {
-					r.ProductDownloads.DollarRelation = append(r.ProductDownloads.DollarRelation, dollarRelation7)
-				} else {
-					r.ProductDownloads.DollarRelation[dollarRelationCount3].Tags = dollarRelation7.Tags
-					r.ProductDownloads.DollarRelation[dollarRelationCount3].EntityID = dollarRelation7.EntityID
-				}
+				dollarRelation3.EntityID = types.StringPointerValue(dollarRelationItem3.EntityID)
+
+				r.ProductDownloads.DollarRelation = append(r.ProductDownloads.DollarRelation, dollarRelation3)
 			}
 		}
 		if resp.ProductImages == nil {
@@ -202,24 +177,19 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(resp *shared.Product) 
 		} else {
 			r.ProductImages = &tfTypes.BaseRelation{}
 			r.ProductImages.DollarRelation = []tfTypes.DollarRelation{}
-			if len(r.ProductImages.DollarRelation) > len(resp.ProductImages.DollarRelation) {
-				r.ProductImages.DollarRelation = r.ProductImages.DollarRelation[:len(resp.ProductImages.DollarRelation)]
-			}
-			for dollarRelationCount4, dollarRelationItem4 := range resp.ProductImages.DollarRelation {
-				var dollarRelation9 tfTypes.DollarRelation
+
+			for _, dollarRelationItem4 := range resp.ProductImages.DollarRelation {
+				var dollarRelation4 tfTypes.DollarRelation
+
 				if dollarRelationItem4.Tags != nil {
-					dollarRelation9.Tags = make([]types.String, 0, len(dollarRelationItem4.Tags))
+					dollarRelation4.Tags = make([]types.String, 0, len(dollarRelationItem4.Tags))
 					for _, v := range dollarRelationItem4.Tags {
-						dollarRelation9.Tags = append(dollarRelation9.Tags, types.StringValue(v))
+						dollarRelation4.Tags = append(dollarRelation4.Tags, types.StringValue(v))
 					}
 				}
-				dollarRelation9.EntityID = types.StringPointerValue(dollarRelationItem4.EntityID)
-				if dollarRelationCount4+1 > len(r.ProductImages.DollarRelation) {
-					r.ProductImages.DollarRelation = append(r.ProductImages.DollarRelation, dollarRelation9)
-				} else {
-					r.ProductImages.DollarRelation[dollarRelationCount4].Tags = dollarRelation9.Tags
-					r.ProductImages.DollarRelation[dollarRelationCount4].EntityID = dollarRelation9.EntityID
-				}
+				dollarRelation4.EntityID = types.StringPointerValue(dollarRelationItem4.EntityID)
+
+				r.ProductImages.DollarRelation = append(r.ProductImages.DollarRelation, dollarRelation4)
 			}
 		}
 		if resp.Type != nil {
@@ -228,4 +198,33 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(resp *shared.Product) 
 			r.Type = types.StringNull()
 		}
 	}
+
+	return diags
+}
+
+func (r *ProductDataSourceModel) ToOperationsGetProductRequest(ctx context.Context) (*operations.GetProductRequest, diag.Diagnostics) {
+	var diags diag.Diagnostics
+
+	hydrate := new(bool)
+	if !r.Hydrate.IsUnknown() && !r.Hydrate.IsNull() {
+		*hydrate = r.Hydrate.ValueBool()
+	} else {
+		hydrate = nil
+	}
+	var productID string
+	productID = r.ID.ValueString()
+
+	strict := new(bool)
+	if !r.Strict.IsUnknown() && !r.Strict.IsNull() {
+		*strict = r.Strict.ValueBool()
+	} else {
+		strict = nil
+	}
+	out := operations.GetProductRequest{
+		Hydrate:   hydrate,
+		ProductID: productID,
+		Strict:    strict,
+	}
+
+	return &out, diags
 }
