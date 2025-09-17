@@ -1,8 +1,6 @@
 resource "epilot-product_tax" "my_tax" {
-  active = true
-  additional = {
-    key = jsonencode("value")
-  }
+  active      = true
+  additional  = "{ \"see\": \"documentation\" }"
   description = "...my_description..."
   files = {
     dollar_relation = [

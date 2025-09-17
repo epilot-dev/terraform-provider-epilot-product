@@ -8,7 +8,6 @@ import (
 	speakeasy_boolplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/boolplanmodifier"
 	speakeasy_float64planmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/float64planmodifier"
 	speakeasy_listplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/listplanmodifier"
-	speakeasy_mapplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/mapplanmodifier"
 	speakeasy_objectplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/objectplanmodifier"
 	speakeasy_stringplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/stringplanmodifier"
 	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
@@ -16,7 +15,6 @@ import (
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/validators"
 	speakeasy_objectvalidators "github.com/epilot-dev/terraform-provider-epilot-product/internal/validators/objectvalidators"
 	"github.com/hashicorp/terraform-plugin-framework-jsontypes/jsontypes"
-	"github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -47,7 +45,7 @@ type PriceResource struct {
 type PriceResourceModel struct {
 	ACL                    *tfTypes.BaseEntityACL              `tfsdk:"acl"`
 	Active                 types.Bool                          `tfsdk:"active"`
-	Additional             map[string]jsontypes.Normalized     `tfsdk:"additional"`
+	Additional             jsontypes.Normalized                `tfsdk:"additional"`
 	BillingDurationAmount  types.Float64                       `tfsdk:"billing_duration_amount"`
 	BillingDurationUnit    types.String                        `tfsdk:"billing_duration_unit"`
 	CreatedAt              types.String                        `tfsdk:"created_at"`
@@ -129,17 +127,14 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 				},
 				Description: `Whether the price can be used for new purchases.`,
 			},
-			"additional": schema.MapAttribute{
-				Computed: true,
-				Optional: true,
-				PlanModifiers: []planmodifier.Map{
-					speakeasy_mapplanmodifier.SuppressDiff(speakeasy_mapplanmodifier.ExplicitSuppress),
+			"additional": schema.StringAttribute{
+				CustomType: jsontypes.NormalizedType{},
+				Computed:   true,
+				Optional:   true,
+				PlanModifiers: []planmodifier.String{
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 				},
-				ElementType: jsontypes.NormalizedType{},
-				Description: `Additional fields that are not part of the schema`,
-				Validators: []validator.Map{
-					mapvalidator.ValueStringsAre(validators.IsValidJSON()),
-				},
+				Description: `Additional fields that are not part of the schema. Parsed as JSON.`,
 			},
 			"billing_duration_amount": schema.Float64Attribute{
 				Computed: true,

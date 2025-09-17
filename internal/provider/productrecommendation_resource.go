@@ -6,7 +6,6 @@ import (
 	"context"
 	"fmt"
 	speakeasy_listplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/listplanmodifier"
-	speakeasy_mapplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/mapplanmodifier"
 	speakeasy_objectplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/objectplanmodifier"
 	speakeasy_stringplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/stringplanmodifier"
 	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
@@ -14,7 +13,6 @@ import (
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/validators"
 	speakeasy_objectvalidators "github.com/epilot-dev/terraform-provider-epilot-product/internal/validators/objectvalidators"
 	"github.com/hashicorp/terraform-plugin-framework-jsontypes/jsontypes"
-	"github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -41,23 +39,23 @@ type ProductRecommendationResource struct {
 
 // ProductRecommendationResourceModel describes the resource data model.
 type ProductRecommendationResourceModel struct {
-	ACL           *tfTypes.BaseEntityACL                          `tfsdk:"acl"`
-	Additional    map[string]jsontypes.Normalized                 `tfsdk:"additional"`
-	CreatedAt     types.String                                    `tfsdk:"created_at"`
-	Files         *tfTypes.BaseRelation                           `tfsdk:"files"`
-	ID            types.String                                    `tfsdk:"id"`
-	Manifest      []types.String                                  `tfsdk:"manifest"`
-	Offers        []tfTypes.Offer                                 `tfsdk:"offers"`
-	Org           types.String                                    `tfsdk:"org"`
-	Owners        []tfTypes.BaseEntityOwner                       `tfsdk:"owners"`
-	Purpose       []types.String                                  `tfsdk:"purpose"`
-	Schema        types.String                                    `tfsdk:"schema"`
-	SourcePrice   *tfTypes.ProductRecommendationCreateSourcePrice `tfsdk:"source_price"`
-	SourceProduct *tfTypes.ProductRecommendationCreateSourcePrice `tfsdk:"source_product"`
-	Tags          []types.String                                  `tfsdk:"tags"`
-	Title         types.String                                    `tfsdk:"title"`
-	Type          types.String                                    `tfsdk:"type"`
-	UpdatedAt     types.String                                    `tfsdk:"updated_at"`
+	ACL           *tfTypes.BaseEntityACL    `tfsdk:"acl"`
+	Additional    jsontypes.Normalized      `tfsdk:"additional"`
+	CreatedAt     types.String              `tfsdk:"created_at"`
+	Files         *tfTypes.BaseRelation     `tfsdk:"files"`
+	ID            types.String              `tfsdk:"id"`
+	Manifest      []types.String            `tfsdk:"manifest"`
+	Offers        jsontypes.Normalized      `tfsdk:"offers"`
+	Org           types.String              `tfsdk:"org"`
+	Owners        []tfTypes.BaseEntityOwner `tfsdk:"owners"`
+	Purpose       []types.String            `tfsdk:"purpose"`
+	Schema        types.String              `tfsdk:"schema"`
+	SourcePrice   jsontypes.Normalized      `tfsdk:"source_price"`
+	SourceProduct jsontypes.Normalized      `tfsdk:"source_product"`
+	Tags          []types.String            `tfsdk:"tags"`
+	Title         types.String              `tfsdk:"title"`
+	Type          types.String              `tfsdk:"type"`
+	UpdatedAt     types.String              `tfsdk:"updated_at"`
 }
 
 func (r *ProductRecommendationResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -98,17 +96,14 @@ func (r *ProductRecommendationResource) Schema(ctx context.Context, req resource
 				},
 				Description: `Access control list (ACL) for an entity. Defines sharing access to external orgs or users.`,
 			},
-			"additional": schema.MapAttribute{
-				Computed: true,
-				Optional: true,
-				PlanModifiers: []planmodifier.Map{
-					speakeasy_mapplanmodifier.SuppressDiff(speakeasy_mapplanmodifier.ExplicitSuppress),
+			"additional": schema.StringAttribute{
+				CustomType: jsontypes.NormalizedType{},
+				Computed:   true,
+				Optional:   true,
+				PlanModifiers: []planmodifier.String{
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 				},
-				ElementType: jsontypes.NormalizedType{},
-				Description: `Additional fields that are not part of the schema`,
-				Validators: []validator.Map{
-					mapvalidator.ValueStringsAre(validators.IsValidJSON()),
-				},
+				Description: `Additional fields that are not part of the schema. Parsed as JSON.`,
 			},
 			"created_at": schema.StringAttribute{
 				Computed: true,
@@ -175,43 +170,14 @@ func (r *ProductRecommendationResource) Schema(ctx context.Context, req resource
 				ElementType: types.StringType,
 				Description: `Manifest ID used to create/update the entity`,
 			},
-			"offers": schema.ListNestedAttribute{
-				Computed: true,
-				Optional: true,
-				PlanModifiers: []planmodifier.List{
-					speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
+			"offers": schema.StringAttribute{
+				CustomType: jsontypes.NormalizedType{},
+				Computed:   true,
+				Optional:   true,
+				PlanModifiers: []planmodifier.String{
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 				},
-				NestedObject: schema.NestedAttributeObject{
-					Validators: []validator.Object{
-						speakeasy_objectvalidators.NotNull(),
-					},
-					PlanModifiers: []planmodifier.Object{
-						speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
-					},
-					Attributes: map[string]schema.Attribute{
-						"price_id": schema.StringAttribute{
-							Computed: true,
-							Optional: true,
-							PlanModifiers: []planmodifier.String{
-								speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
-							},
-						},
-						"product_id": schema.StringAttribute{
-							Computed: true,
-							Optional: true,
-							PlanModifiers: []planmodifier.String{
-								speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
-							},
-						},
-						"target_id": schema.StringAttribute{
-							Computed: true,
-							Optional: true,
-							PlanModifiers: []planmodifier.String{
-								speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
-							},
-						},
-					},
-				},
+				Description: `Parsed as JSON.`,
 			},
 			"org": schema.StringAttribute{
 				Computed: true,
@@ -266,123 +232,23 @@ func (r *ProductRecommendationResource) Schema(ctx context.Context, req resource
 					),
 				},
 			},
-			"source_price": schema.SingleNestedAttribute{
-				Computed: true,
-				Optional: true,
-				PlanModifiers: []planmodifier.Object{
-					speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
+			"source_price": schema.StringAttribute{
+				CustomType: jsontypes.NormalizedType{},
+				Computed:   true,
+				Optional:   true,
+				PlanModifiers: []planmodifier.String{
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 				},
-				Attributes: map[string]schema.Attribute{
-					"dollar_relation": schema.ListNestedAttribute{
-						Computed: true,
-						Optional: true,
-						PlanModifiers: []planmodifier.List{
-							speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
-						},
-						NestedObject: schema.NestedAttributeObject{
-							Validators: []validator.Object{
-								speakeasy_objectvalidators.NotNull(),
-							},
-							PlanModifiers: []planmodifier.Object{
-								speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
-							},
-							Attributes: map[string]schema.Attribute{
-								"dollar_relation": schema.ListNestedAttribute{
-									Computed: true,
-									Optional: true,
-									PlanModifiers: []planmodifier.List{
-										speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
-									},
-									NestedObject: schema.NestedAttributeObject{
-										Validators: []validator.Object{
-											speakeasy_objectvalidators.NotNull(),
-										},
-										PlanModifiers: []planmodifier.Object{
-											speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
-										},
-										Attributes: map[string]schema.Attribute{
-											"entity_id": schema.StringAttribute{
-												Computed: true,
-												Optional: true,
-												PlanModifiers: []planmodifier.String{
-													speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
-												},
-											},
-											"tags": schema.ListAttribute{
-												Computed: true,
-												Optional: true,
-												PlanModifiers: []planmodifier.List{
-													speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
-												},
-												ElementType: types.StringType,
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-				Description: `Price being used as source`,
+				Description: `Price being used as source. Parsed as JSON.`,
 			},
-			"source_product": schema.SingleNestedAttribute{
-				Computed: true,
-				Optional: true,
-				PlanModifiers: []planmodifier.Object{
-					speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
+			"source_product": schema.StringAttribute{
+				CustomType: jsontypes.NormalizedType{},
+				Computed:   true,
+				Optional:   true,
+				PlanModifiers: []planmodifier.String{
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 				},
-				Attributes: map[string]schema.Attribute{
-					"dollar_relation": schema.ListNestedAttribute{
-						Computed: true,
-						Optional: true,
-						PlanModifiers: []planmodifier.List{
-							speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
-						},
-						NestedObject: schema.NestedAttributeObject{
-							Validators: []validator.Object{
-								speakeasy_objectvalidators.NotNull(),
-							},
-							PlanModifiers: []planmodifier.Object{
-								speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
-							},
-							Attributes: map[string]schema.Attribute{
-								"dollar_relation": schema.ListNestedAttribute{
-									Computed: true,
-									Optional: true,
-									PlanModifiers: []planmodifier.List{
-										speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
-									},
-									NestedObject: schema.NestedAttributeObject{
-										Validators: []validator.Object{
-											speakeasy_objectvalidators.NotNull(),
-										},
-										PlanModifiers: []planmodifier.Object{
-											speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
-										},
-										Attributes: map[string]schema.Attribute{
-											"entity_id": schema.StringAttribute{
-												Computed: true,
-												Optional: true,
-												PlanModifiers: []planmodifier.String{
-													speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
-												},
-											},
-											"tags": schema.ListAttribute{
-												Computed: true,
-												Optional: true,
-												PlanModifiers: []planmodifier.List{
-													speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
-												},
-												ElementType: types.StringType,
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-				Description: `Product being used as source`,
+				Description: `Product being used as source. Parsed as JSON.`,
 			},
 			"tags": schema.ListAttribute{
 				Computed: true,

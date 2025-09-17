@@ -1,8 +1,6 @@
 resource "epilot-product_product" "my_product" {
-  active = false
-  additional = {
-    key = jsonencode("value")
-  }
+  active     = false
+  additional = "{ \"see\": \"documentation\" }"
   availability_files = {
     dollar_relation = [
       {

@@ -32,7 +32,7 @@ type PriceDataSource struct {
 type PriceDataSourceModel struct {
 	ACL                    *tfTypes.BaseEntityACL              `tfsdk:"acl"`
 	Active                 types.Bool                          `tfsdk:"active"`
-	Additional             map[string]jsontypes.Normalized     `tfsdk:"additional"`
+	Additional             jsontypes.Normalized                `tfsdk:"additional"`
 	BillingDurationAmount  types.Float64                       `tfsdk:"billing_duration_amount"`
 	BillingDurationUnit    types.String                        `tfsdk:"billing_duration_unit"`
 	CreatedAt              types.String                        `tfsdk:"created_at"`
@@ -104,10 +104,10 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 				Computed:    true,
 				Description: `Whether the price can be used for new purchases.`,
 			},
-			"additional": schema.MapAttribute{
+			"additional": schema.StringAttribute{
+				CustomType:  jsontypes.NormalizedType{},
 				Computed:    true,
-				ElementType: jsontypes.NormalizedType{},
-				Description: `Additional fields that are not part of the schema`,
+				Description: `Additional fields that are not part of the schema. Parsed as JSON.`,
 			},
 			"billing_duration_amount": schema.Float64Attribute{
 				Computed:    true,

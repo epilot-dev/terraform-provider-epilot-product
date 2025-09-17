@@ -60,7 +60,7 @@ func (e *TaxType) UnmarshalJSON(data []byte) error {
 
 type Tax struct {
 	// Additional fields that are not part of the schema
-	Additional map[string]any `json:"__additional,omitempty"`
+	Additional any `json:"__additional,omitempty"`
 	// Access control list (ACL) for an entity. Defines sharing access to external orgs or users.
 	ACL       *BaseEntityACL `json:"_acl,omitempty"`
 	CreatedAt *time.Time     `json:"_created_at,omitempty"`
@@ -94,7 +94,7 @@ func (t *Tax) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (o *Tax) GetAdditional() map[string]any {
+func (o *Tax) GetAdditional() any {
 	if o == nil {
 		return nil
 	}

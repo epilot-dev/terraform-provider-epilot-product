@@ -30,35 +30,35 @@ type CouponDataSource struct {
 
 // CouponDataSourceModel describes the data model.
 type CouponDataSourceModel struct {
-	ACL                *tfTypes.BaseEntityACL          `tfsdk:"acl"`
-	Active             types.Bool                      `tfsdk:"active"`
-	Additional         map[string]jsontypes.Normalized `tfsdk:"additional"`
-	CashbackPeriod     types.String                    `tfsdk:"cashback_period"`
-	Category           types.String                    `tfsdk:"category"`
-	CreatedAt          types.String                    `tfsdk:"created_at"`
-	Description        types.String                    `tfsdk:"description"`
-	Files              *tfTypes.BaseRelation           `tfsdk:"files"`
-	FixedValue         types.Float64                   `tfsdk:"fixed_value"`
-	FixedValueCurrency types.String                    `tfsdk:"fixed_value_currency"`
-	FixedValueDecimal  types.String                    `tfsdk:"fixed_value_decimal"`
-	Hydrate            types.Bool                      `queryParam:"style=form,explode=true,name=hydrate" tfsdk:"hydrate"`
-	ID                 types.String                    `tfsdk:"id"`
-	Manifest           []types.String                  `tfsdk:"manifest"`
-	Name               types.String                    `tfsdk:"name"`
-	Org                types.String                    `tfsdk:"org"`
-	Owners             []tfTypes.BaseEntityOwner       `tfsdk:"owners"`
-	PercentageValue    types.String                    `tfsdk:"percentage_value"`
-	Prices             *tfTypes.BaseRelation           `tfsdk:"prices"`
-	PromoCodeUsage     jsontypes.Normalized            `tfsdk:"promo_code_usage"`
-	PromoCodes         []tfTypes.PromoCode             `tfsdk:"promo_codes"`
-	Purpose            []types.String                  `tfsdk:"purpose"`
-	RequiresPromoCode  types.Bool                      `tfsdk:"requires_promo_code"`
-	Schema             types.String                    `tfsdk:"schema"`
-	Strict             types.Bool                      `queryParam:"style=form,explode=true,name=strict" tfsdk:"strict"`
-	Tags               []types.String                  `tfsdk:"tags"`
-	Title              types.String                    `tfsdk:"title"`
-	Type               types.String                    `tfsdk:"type"`
-	UpdatedAt          types.String                    `tfsdk:"updated_at"`
+	ACL                *tfTypes.BaseEntityACL    `tfsdk:"acl"`
+	Active             types.Bool                `tfsdk:"active"`
+	Additional         jsontypes.Normalized      `tfsdk:"additional"`
+	CashbackPeriod     types.String              `tfsdk:"cashback_period"`
+	Category           types.String              `tfsdk:"category"`
+	CreatedAt          types.String              `tfsdk:"created_at"`
+	Description        types.String              `tfsdk:"description"`
+	Files              *tfTypes.BaseRelation     `tfsdk:"files"`
+	FixedValue         types.Float64             `tfsdk:"fixed_value"`
+	FixedValueCurrency types.String              `tfsdk:"fixed_value_currency"`
+	FixedValueDecimal  types.String              `tfsdk:"fixed_value_decimal"`
+	Hydrate            types.Bool                `queryParam:"style=form,explode=true,name=hydrate" tfsdk:"hydrate"`
+	ID                 types.String              `tfsdk:"id"`
+	Manifest           []types.String            `tfsdk:"manifest"`
+	Name               types.String              `tfsdk:"name"`
+	Org                types.String              `tfsdk:"org"`
+	Owners             []tfTypes.BaseEntityOwner `tfsdk:"owners"`
+	PercentageValue    types.String              `tfsdk:"percentage_value"`
+	Prices             *tfTypes.BaseRelation     `tfsdk:"prices"`
+	PromoCodeUsage     jsontypes.Normalized      `tfsdk:"promo_code_usage"`
+	PromoCodes         []tfTypes.PromoCode       `tfsdk:"promo_codes"`
+	Purpose            []types.String            `tfsdk:"purpose"`
+	RequiresPromoCode  types.Bool                `tfsdk:"requires_promo_code"`
+	Schema             types.String              `tfsdk:"schema"`
+	Strict             types.Bool                `queryParam:"style=form,explode=true,name=strict" tfsdk:"strict"`
+	Tags               []types.String            `tfsdk:"tags"`
+	Title              types.String              `tfsdk:"title"`
+	Type               types.String              `tfsdk:"type"`
+	UpdatedAt          types.String              `tfsdk:"updated_at"`
 }
 
 // Metadata returns the data source type name.
@@ -93,10 +93,10 @@ func (r *CouponDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 			"active": schema.BoolAttribute{
 				Computed: true,
 			},
-			"additional": schema.MapAttribute{
+			"additional": schema.StringAttribute{
+				CustomType:  jsontypes.NormalizedType{},
 				Computed:    true,
-				ElementType: jsontypes.NormalizedType{},
-				Description: `Additional fields that are not part of the schema`,
+				Description: `Additional fields that are not part of the schema. Parsed as JSON.`,
 			},
 			"cashback_period": schema.StringAttribute{
 				Computed:    true,

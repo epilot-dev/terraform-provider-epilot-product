@@ -18,12 +18,11 @@ func (r *TaxDataSourceModel) RefreshFromSharedTax(ctx context.Context, resp *sha
 	var diags diag.Diagnostics
 
 	if resp != nil {
-		if resp.Additional != nil {
-			r.Additional = make(map[string]jsontypes.Normalized, len(resp.Additional))
-			for key, value := range resp.Additional {
-				result, _ := json.Marshal(value)
-				r.Additional[key] = jsontypes.NewNormalizedValue(string(result))
-			}
+		if resp.Additional == nil {
+			r.Additional = jsontypes.NewNormalizedNull()
+		} else {
+			additionalResult, _ := json.Marshal(resp.Additional)
+			r.Additional = jsontypes.NewNormalizedValue(string(additionalResult))
 		}
 		if resp.ACL == nil {
 			r.ACL = nil

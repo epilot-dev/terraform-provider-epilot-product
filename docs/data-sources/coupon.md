@@ -31,7 +31,7 @@ data "epilot-product_coupon" "my_coupon" {
 
 - `acl` (Attributes) Access control list (ACL) for an entity. Defines sharing access to external orgs or users. (see [below for nested schema](#nestedatt--acl))
 - `active` (Boolean)
-- `additional` (Map of String) Additional fields that are not part of the schema
+- `additional` (String) Additional fields that are not part of the schema. Parsed as JSON.
 - `cashback_period` (String) The cashback period, for now it's limited to either 0 months or 12 months
 - `category` (String)
 - `created_at` (String)

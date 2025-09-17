@@ -18,12 +18,11 @@ func (r *PriceResourceModel) RefreshFromSharedPrice(ctx context.Context, resp *s
 	var diags diag.Diagnostics
 
 	if resp != nil {
-		if resp.Additional != nil {
-			r.Additional = make(map[string]jsontypes.Normalized, len(resp.Additional))
-			for key, value := range resp.Additional {
-				result, _ := json.Marshal(value)
-				r.Additional[key] = jsontypes.NewNormalizedValue(string(result))
-			}
+		if resp.Additional == nil {
+			r.Additional = jsontypes.NewNormalizedNull()
+		} else {
+			additionalResult, _ := json.Marshal(resp.Additional)
+			r.Additional = jsontypes.NewNormalizedValue(string(additionalResult))
 		}
 		if resp.ACL == nil {
 			r.ACL = nil
@@ -240,11 +239,9 @@ func (r *PriceResourceModel) ToOperationsPatchPriceRequest(ctx context.Context) 
 func (r *PriceResourceModel) ToSharedPriceCreate(ctx context.Context) (*shared.PriceCreate, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
-	additional := make(map[string]interface{})
-	for additionalKey, additionalValue := range r.Additional {
-		var additionalInst interface{}
-		_ = json.Unmarshal([]byte(additionalValue.ValueString()), &additionalInst)
-		additional[additionalKey] = additionalInst
+	var additional interface{}
+	if !r.Additional.IsUnknown() && !r.Additional.IsNull() {
+		_ = json.Unmarshal([]byte(r.Additional.ValueString()), &additional)
 	}
 	var files *shared.BaseRelation
 	if r.Files != nil {
@@ -529,11 +526,9 @@ func (r *PriceResourceModel) ToSharedPriceCreate(ctx context.Context) (*shared.P
 func (r *PriceResourceModel) ToSharedPricePatch(ctx context.Context) (*shared.PricePatch, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
-	additional := make(map[string]interface{})
-	for additionalKey, additionalValue := range r.Additional {
-		var additionalInst interface{}
-		_ = json.Unmarshal([]byte(additionalValue.ValueString()), &additionalInst)
-		additional[additionalKey] = additionalInst
+	var additional interface{}
+	if !r.Additional.IsUnknown() && !r.Additional.IsNull() {
+		_ = json.Unmarshal([]byte(r.Additional.ValueString()), &additional)
 	}
 	var files *shared.BaseRelation
 	if r.Files != nil {

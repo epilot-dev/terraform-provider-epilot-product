@@ -14,9 +14,7 @@ ProductRecommendation Resource
 
 ```terraform
 resource "epilot-product_product_recommendation" "my_productrecommendation" {
-  additional = {
-    key = jsonencode("value")
-  }
+  additional = "{ \"see\": \"documentation\" }"
   files = {
     dollar_relation = [
       {
@@ -30,45 +28,13 @@ resource "epilot-product_product_recommendation" "my_productrecommendation" {
   manifest = [
     "123e4567-e89b-12d3-a456-426614174000"
   ]
-  offers = [
-    {
-      price_id   = "...my_price_id..."
-      product_id = "...my_product_id..."
-      target_id  = "...my_target_id..."
-    }
-  ]
+  offers = "{ \"see\": \"documentation\" }"
   purpose = [
     "..."
   ]
-  schema = "product_recommendation"
-  source_price = {
-    dollar_relation = [
-      {
-        dollar_relation = [
-          {
-            entity_id = "123e4567-e89b-12d3-a456-426614174000"
-            tags = [
-              "..."
-            ]
-          }
-        ]
-      }
-    ]
-  }
-  source_product = {
-    dollar_relation = [
-      {
-        dollar_relation = [
-          {
-            entity_id = "123e4567-e89b-12d3-a456-426614174000"
-            tags = [
-              "..."
-            ]
-          }
-        ]
-      }
-    ]
-  }
+  schema         = "product_recommendation"
+  source_price   = "{ \"see\": \"documentation\" }"
+  source_product = "{ \"see\": \"documentation\" }"
   tags = [
     "..."
   ]
@@ -85,14 +51,14 @@ resource "epilot-product_product_recommendation" "my_productrecommendation" {
 
 ### Optional
 
-- `additional` (Map of String) Additional fields that are not part of the schema
+- `additional` (String) Additional fields that are not part of the schema. Parsed as JSON.
 - `files` (Attributes) (see [below for nested schema](#nestedatt--files))
 - `manifest` (List of String) Manifest ID used to create/update the entity
-- `offers` (Attributes List) (see [below for nested schema](#nestedatt--offers))
+- `offers` (String) Parsed as JSON.
 - `purpose` (List of String)
 - `schema` (String) must be "product_recommendation"
-- `source_price` (Attributes) Price being used as source (see [below for nested schema](#nestedatt--source_price))
-- `source_product` (Attributes) Product being used as source (see [below for nested schema](#nestedatt--source_product))
+- `source_price` (String) Price being used as source. Parsed as JSON.
+- `source_product` (String) Product being used as source. Parsed as JSON.
 - `tags` (List of String)
 
 ### Read-Only
@@ -119,66 +85,6 @@ Optional:
 
 - `entity_id` (String)
 - `tags` (List of String)
-
-
-
-<a id="nestedatt--offers"></a>
-### Nested Schema for `offers`
-
-Optional:
-
-- `price_id` (String)
-- `product_id` (String)
-- `target_id` (String)
-
-
-<a id="nestedatt--source_price"></a>
-### Nested Schema for `source_price`
-
-Optional:
-
-- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--source_price--dollar_relation))
-
-<a id="nestedatt--source_price--dollar_relation"></a>
-### Nested Schema for `source_price.dollar_relation`
-
-Optional:
-
-- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--source_price--dollar_relation--dollar_relation))
-
-<a id="nestedatt--source_price--dollar_relation--dollar_relation"></a>
-### Nested Schema for `source_price.dollar_relation.dollar_relation`
-
-Optional:
-
-- `entity_id` (String)
-- `tags` (List of String)
-
-
-
-
-<a id="nestedatt--source_product"></a>
-### Nested Schema for `source_product`
-
-Optional:
-
-- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--source_product--dollar_relation))
-
-<a id="nestedatt--source_product--dollar_relation"></a>
-### Nested Schema for `source_product.dollar_relation`
-
-Optional:
-
-- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--source_product--dollar_relation--dollar_relation))
-
-<a id="nestedatt--source_product--dollar_relation--dollar_relation"></a>
-### Nested Schema for `source_product.dollar_relation.dollar_relation`
-
-Optional:
-
-- `entity_id` (String)
-- `tags` (List of String)
-
 
 
 

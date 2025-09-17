@@ -30,30 +30,6 @@ func (e *ProductRecommendationCreateSchema) UnmarshalJSON(data []byte) error {
 	}
 }
 
-// ProductRecommendationCreateSourcePrice - Price being used as source
-type ProductRecommendationCreateSourcePrice struct {
-	DollarRelation []BaseRelation `json:"$relation,omitempty"`
-}
-
-func (o *ProductRecommendationCreateSourcePrice) GetDollarRelation() []BaseRelation {
-	if o == nil {
-		return nil
-	}
-	return o.DollarRelation
-}
-
-// ProductRecommendationCreateSourceProduct - Product being used as source
-type ProductRecommendationCreateSourceProduct struct {
-	DollarRelation []BaseRelation `json:"$relation,omitempty"`
-}
-
-func (o *ProductRecommendationCreateSourceProduct) GetDollarRelation() []BaseRelation {
-	if o == nil {
-		return nil
-	}
-	return o.DollarRelation
-}
-
 // ProductRecommendationCreateType - Type of product recommendation
 type ProductRecommendationCreateType string
 
@@ -86,23 +62,23 @@ func (e *ProductRecommendationCreateType) UnmarshalJSON(data []byte) error {
 
 type ProductRecommendationCreate struct {
 	// Additional fields that are not part of the schema
-	Additional map[string]any `json:"__additional,omitempty"`
-	Files      *BaseRelation  `json:"_files,omitempty"`
+	Additional any           `json:"__additional,omitempty"`
+	Files      *BaseRelation `json:"_files,omitempty"`
 	// Manifest ID used to create/update the entity
 	Manifest []string                           `json:"_manifest,omitempty"`
 	Purpose  []string                           `json:"_purpose,omitempty"`
 	Schema   *ProductRecommendationCreateSchema `json:"_schema,omitempty"`
 	Tags     []string                           `json:"_tags,omitempty"`
-	Offers   []Offer                            `json:"offers,omitempty"`
+	Offers   any                                `json:"offers,omitempty"`
 	// Price being used as source
-	SourcePrice *ProductRecommendationCreateSourcePrice `json:"source_price,omitempty"`
+	SourcePrice any `json:"source_price,omitempty"`
 	// Product being used as source
-	SourceProduct *ProductRecommendationCreateSourceProduct `json:"source_product,omitempty"`
+	SourceProduct any `json:"source_product,omitempty"`
 	// Type of product recommendation
 	Type ProductRecommendationCreateType `json:"type"`
 }
 
-func (o *ProductRecommendationCreate) GetAdditional() map[string]any {
+func (o *ProductRecommendationCreate) GetAdditional() any {
 	if o == nil {
 		return nil
 	}
@@ -144,21 +120,21 @@ func (o *ProductRecommendationCreate) GetTags() []string {
 	return o.Tags
 }
 
-func (o *ProductRecommendationCreate) GetOffers() []Offer {
+func (o *ProductRecommendationCreate) GetOffers() any {
 	if o == nil {
 		return nil
 	}
 	return o.Offers
 }
 
-func (o *ProductRecommendationCreate) GetSourcePrice() *ProductRecommendationCreateSourcePrice {
+func (o *ProductRecommendationCreate) GetSourcePrice() any {
 	if o == nil {
 		return nil
 	}
 	return o.SourcePrice
 }
 
-func (o *ProductRecommendationCreate) GetSourceProduct() *ProductRecommendationCreateSourceProduct {
+func (o *ProductRecommendationCreate) GetSourceProduct() any {
 	if o == nil {
 		return nil
 	}

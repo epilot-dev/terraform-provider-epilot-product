@@ -259,8 +259,8 @@ func (e *PricePatchType) UnmarshalJSON(data []byte) error {
 
 type PricePatch struct {
 	// Additional fields that are not part of the schema
-	Additional map[string]any `json:"__additional,omitempty"`
-	Files      *BaseRelation  `json:"_files,omitempty"`
+	Additional any           `json:"__additional,omitempty"`
+	Files      *BaseRelation `json:"_files,omitempty"`
 	// Manifest ID used to create/update the entity
 	Manifest []string          `json:"_manifest,omitempty"`
 	Purpose  []string          `json:"_purpose,omitempty"`
@@ -332,7 +332,7 @@ func (p *PricePatch) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (o *PricePatch) GetAdditional() map[string]any {
+func (o *PricePatch) GetAdditional() any {
 	if o == nil {
 		return nil
 	}

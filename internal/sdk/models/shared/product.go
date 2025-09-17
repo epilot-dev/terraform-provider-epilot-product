@@ -66,7 +66,7 @@ func (e *ProductType) UnmarshalJSON(data []byte) error {
 
 type Product struct {
 	// Additional fields that are not part of the schema
-	Additional map[string]any `json:"__additional,omitempty"`
+	Additional any `json:"__additional,omitempty"`
 	// Access control list (ACL) for an entity. Defines sharing access to external orgs or users.
 	ACL               *BaseEntityACL `json:"_acl,omitempty"`
 	AvailabilityFiles *BaseRelation  `json:"_availability_files,omitempty"`
@@ -119,7 +119,7 @@ func (p *Product) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (o *Product) GetAdditional() map[string]any {
+func (o *Product) GetAdditional() any {
 	if o == nil {
 		return nil
 	}

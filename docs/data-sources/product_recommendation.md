@@ -30,18 +30,18 @@ data "epilot-product_product_recommendation" "my_productrecommendation" {
 ### Read-Only
 
 - `acl` (Attributes) Access control list (ACL) for an entity. Defines sharing access to external orgs or users. (see [below for nested schema](#nestedatt--acl))
-- `additional` (Map of String) Additional fields that are not part of the schema
+- `additional` (String) Additional fields that are not part of the schema. Parsed as JSON.
 - `created_at` (String)
 - `files` (Attributes) (see [below for nested schema](#nestedatt--files))
 - `id` (String) The ID of this resource.
 - `manifest` (List of String) Manifest ID used to create/update the entity
-- `offers` (Attributes List) (see [below for nested schema](#nestedatt--offers))
+- `offers` (String) Parsed as JSON.
 - `org` (String) Organization Id the entity belongs to
 - `owners` (Attributes List) (see [below for nested schema](#nestedatt--owners))
 - `purpose` (List of String)
 - `schema` (String)
-- `source_price` (Attributes) Price being used as source (see [below for nested schema](#nestedatt--source_price))
-- `source_product` (Attributes) Product being used as source (see [below for nested schema](#nestedatt--source_product))
+- `source_price` (String) Price being used as source. Parsed as JSON.
+- `source_product` (String) Product being used as source. Parsed as JSON.
 - `tags` (List of String)
 - `title` (String)
 - `type` (String) Type of product recommendation
@@ -74,16 +74,6 @@ Read-Only:
 
 
 
-<a id="nestedatt--offers"></a>
-### Nested Schema for `offers`
-
-Read-Only:
-
-- `price_id` (String)
-- `product_id` (String)
-- `target_id` (String)
-
-
 <a id="nestedatt--owners"></a>
 ### Nested Schema for `owners`
 
@@ -91,51 +81,3 @@ Read-Only:
 
 - `org_id` (String)
 - `user_id` (String)
-
-
-<a id="nestedatt--source_price"></a>
-### Nested Schema for `source_price`
-
-Read-Only:
-
-- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--source_price--dollar_relation))
-
-<a id="nestedatt--source_price--dollar_relation"></a>
-### Nested Schema for `source_price.dollar_relation`
-
-Read-Only:
-
-- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--source_price--dollar_relation--dollar_relation))
-
-<a id="nestedatt--source_price--dollar_relation--dollar_relation"></a>
-### Nested Schema for `source_price.dollar_relation.dollar_relation`
-
-Read-Only:
-
-- `entity_id` (String)
-- `tags` (List of String)
-
-
-
-
-<a id="nestedatt--source_product"></a>
-### Nested Schema for `source_product`
-
-Read-Only:
-
-- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--source_product--dollar_relation))
-
-<a id="nestedatt--source_product--dollar_relation"></a>
-### Nested Schema for `source_product.dollar_relation`
-
-Read-Only:
-
-- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--source_product--dollar_relation--dollar_relation))
-
-<a id="nestedatt--source_product--dollar_relation--dollar_relation"></a>
-### Nested Schema for `source_product.dollar_relation.dollar_relation`
-
-Read-Only:
-
-- `entity_id` (String)
-- `tags` (List of String)

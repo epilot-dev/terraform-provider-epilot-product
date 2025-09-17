@@ -127,3 +127,20 @@ actions:
   - target: $["components"]["schemas"]["BaseCoupon"]["properties"]["promo_code_usage"]
     update:
       x-speakeasy-type-override: any
+  - target: $["components"]["schemas"]["BaseProductRecommendation"]["properties"]["offers"]
+    update:
+      x-speakeasy-type-override: any
+  - target: $["components"]["schemas"]["BaseProductRecommendation"]["properties"]["source_price"]
+    update:
+      x-speakeasy-type-override: any
+  - target: $["components"]["schemas"]["BaseProductRecommendation"]["properties"]["source_product"]
+    update:
+      x-speakeasy-type-override: any
+  - target: $["components"]["schemas"]["BaseSystemFields"]["properties"]["__additional"]
+    update:
+      x-speakeasy-type-override: any
+# remove _acl and _owners from BaseSystemFields
+  - target: $["components"]["schemas"]["BaseSystemFields"]["properties"]["acl"]
+    remove: true
+  - target: $["components"]["schemas"]["BaseSystemFields"]["properties"]["owners"]
+    remove: true

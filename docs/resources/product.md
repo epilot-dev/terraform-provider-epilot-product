@@ -14,10 +14,8 @@ Product Resource
 
 ```terraform
 resource "epilot-product_product" "my_product" {
-  active = false
-  additional = {
-    key = jsonencode("value")
-  }
+  active     = false
+  additional = "{ \"see\": \"documentation\" }"
   availability_files = {
     dollar_relation = [
       {
@@ -102,7 +100,7 @@ resource "epilot-product_product" "my_product" {
 
 ### Optional
 
-- `additional` (Map of String) Additional fields that are not part of the schema
+- `additional` (String) Additional fields that are not part of the schema. Parsed as JSON.
 - `availability_files` (Attributes) (see [below for nested schema](#nestedatt--availability_files))
 - `categories` (List of String) The categories of the product
 - `code` (String) The product code

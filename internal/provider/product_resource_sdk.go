@@ -18,12 +18,11 @@ func (r *ProductResourceModel) RefreshFromSharedProduct(ctx context.Context, res
 	var diags diag.Diagnostics
 
 	if resp != nil {
-		if resp.Additional != nil {
-			r.Additional = make(map[string]jsontypes.Normalized, len(resp.Additional))
-			for key, value := range resp.Additional {
-				result, _ := json.Marshal(value)
-				r.Additional[key] = jsontypes.NewNormalizedValue(string(result))
-			}
+		if resp.Additional == nil {
+			r.Additional = jsontypes.NewNormalizedNull()
+		} else {
+			additionalResult, _ := json.Marshal(resp.Additional)
+			r.Additional = jsontypes.NewNormalizedValue(string(additionalResult))
 		}
 		if resp.ACL == nil {
 			r.ACL = nil
@@ -252,11 +251,9 @@ func (r *ProductResourceModel) ToOperationsPatchProductRequest(ctx context.Conte
 func (r *ProductResourceModel) ToSharedProductCreate(ctx context.Context) (*shared.ProductCreate, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
-	additional := make(map[string]interface{})
-	for additionalKey, additionalValue := range r.Additional {
-		var additionalInst interface{}
-		_ = json.Unmarshal([]byte(additionalValue.ValueString()), &additionalInst)
-		additional[additionalKey] = additionalInst
+	var additional interface{}
+	if !r.Additional.IsUnknown() && !r.Additional.IsNull() {
+		_ = json.Unmarshal([]byte(r.Additional.ValueString()), &additional)
 	}
 	var availabilityFiles *shared.BaseRelation
 	if r.AvailabilityFiles != nil {
@@ -479,11 +476,9 @@ func (r *ProductResourceModel) ToSharedProductCreate(ctx context.Context) (*shar
 func (r *ProductResourceModel) ToSharedProductPatch(ctx context.Context) (*shared.ProductPatch, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
-	additional := make(map[string]interface{})
-	for additionalKey, additionalValue := range r.Additional {
-		var additionalInst interface{}
-		_ = json.Unmarshal([]byte(additionalValue.ValueString()), &additionalInst)
-		additional[additionalKey] = additionalInst
+	var additional interface{}
+	if !r.Additional.IsUnknown() && !r.Additional.IsNull() {
+		_ = json.Unmarshal([]byte(r.Additional.ValueString()), &additional)
 	}
 	var availabilityFiles *shared.BaseRelation
 	if r.AvailabilityFiles != nil {

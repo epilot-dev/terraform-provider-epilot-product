@@ -30,30 +30,6 @@ func (e *ProductRecommendationPatchSchema) UnmarshalJSON(data []byte) error {
 	}
 }
 
-// ProductRecommendationPatchSourcePrice - Price being used as source
-type ProductRecommendationPatchSourcePrice struct {
-	DollarRelation []BaseRelation `json:"$relation,omitempty"`
-}
-
-func (o *ProductRecommendationPatchSourcePrice) GetDollarRelation() []BaseRelation {
-	if o == nil {
-		return nil
-	}
-	return o.DollarRelation
-}
-
-// ProductRecommendationPatchSourceProduct - Product being used as source
-type ProductRecommendationPatchSourceProduct struct {
-	DollarRelation []BaseRelation `json:"$relation,omitempty"`
-}
-
-func (o *ProductRecommendationPatchSourceProduct) GetDollarRelation() []BaseRelation {
-	if o == nil {
-		return nil
-	}
-	return o.DollarRelation
-}
-
 // ProductRecommendationPatchType - Type of product recommendation
 type ProductRecommendationPatchType string
 
@@ -86,23 +62,23 @@ func (e *ProductRecommendationPatchType) UnmarshalJSON(data []byte) error {
 
 type ProductRecommendationPatch struct {
 	// Additional fields that are not part of the schema
-	Additional map[string]any `json:"__additional,omitempty"`
-	Files      *BaseRelation  `json:"_files,omitempty"`
+	Additional any           `json:"__additional,omitempty"`
+	Files      *BaseRelation `json:"_files,omitempty"`
 	// Manifest ID used to create/update the entity
 	Manifest []string                          `json:"_manifest,omitempty"`
 	Purpose  []string                          `json:"_purpose,omitempty"`
 	Schema   *ProductRecommendationPatchSchema `json:"_schema,omitempty"`
 	Tags     []string                          `json:"_tags,omitempty"`
-	Offers   []Offer                           `json:"offers,omitempty"`
+	Offers   any                               `json:"offers,omitempty"`
 	// Price being used as source
-	SourcePrice *ProductRecommendationPatchSourcePrice `json:"source_price,omitempty"`
+	SourcePrice any `json:"source_price,omitempty"`
 	// Product being used as source
-	SourceProduct *ProductRecommendationPatchSourceProduct `json:"source_product,omitempty"`
+	SourceProduct any `json:"source_product,omitempty"`
 	// Type of product recommendation
 	Type *ProductRecommendationPatchType `json:"type,omitempty"`
 }
 
-func (o *ProductRecommendationPatch) GetAdditional() map[string]any {
+func (o *ProductRecommendationPatch) GetAdditional() any {
 	if o == nil {
 		return nil
 	}
@@ -144,21 +120,21 @@ func (o *ProductRecommendationPatch) GetTags() []string {
 	return o.Tags
 }
 
-func (o *ProductRecommendationPatch) GetOffers() []Offer {
+func (o *ProductRecommendationPatch) GetOffers() any {
 	if o == nil {
 		return nil
 	}
 	return o.Offers
 }
 
-func (o *ProductRecommendationPatch) GetSourcePrice() *ProductRecommendationPatchSourcePrice {
+func (o *ProductRecommendationPatch) GetSourcePrice() any {
 	if o == nil {
 		return nil
 	}
 	return o.SourcePrice
 }
 
-func (o *ProductRecommendationPatch) GetSourceProduct() *ProductRecommendationPatchSourceProduct {
+func (o *ProductRecommendationPatch) GetSourceProduct() any {
 	if o == nil {
 		return nil
 	}

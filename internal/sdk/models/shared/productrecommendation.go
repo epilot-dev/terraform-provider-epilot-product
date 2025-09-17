@@ -32,30 +32,6 @@ func (e *ProductRecommendationSchema) UnmarshalJSON(data []byte) error {
 	}
 }
 
-// SourcePrice - Price being used as source
-type SourcePrice struct {
-	DollarRelation []BaseRelation `json:"$relation,omitempty"`
-}
-
-func (o *SourcePrice) GetDollarRelation() []BaseRelation {
-	if o == nil {
-		return nil
-	}
-	return o.DollarRelation
-}
-
-// SourceProduct - Product being used as source
-type SourceProduct struct {
-	DollarRelation []BaseRelation `json:"$relation,omitempty"`
-}
-
-func (o *SourceProduct) GetDollarRelation() []BaseRelation {
-	if o == nil {
-		return nil
-	}
-	return o.DollarRelation
-}
-
 // ProductRecommendationType - Type of product recommendation
 type ProductRecommendationType string
 
@@ -88,7 +64,7 @@ func (e *ProductRecommendationType) UnmarshalJSON(data []byte) error {
 
 type ProductRecommendation struct {
 	// Additional fields that are not part of the schema
-	Additional map[string]any `json:"__additional,omitempty"`
+	Additional any `json:"__additional,omitempty"`
 	// Access control list (ACL) for an entity. Defines sharing access to external orgs or users.
 	ACL       *BaseEntityACL `json:"_acl,omitempty"`
 	CreatedAt *time.Time     `json:"_created_at,omitempty"`
@@ -104,11 +80,11 @@ type ProductRecommendation struct {
 	Tags      []string                    `json:"_tags,omitempty"`
 	Title     *string                     `json:"_title,omitempty"`
 	UpdatedAt *time.Time                  `json:"_updated_at,omitempty"`
-	Offers    []Offer                     `json:"offers,omitempty"`
+	Offers    any                         `json:"offers,omitempty"`
 	// Price being used as source
-	SourcePrice *SourcePrice `json:"source_price,omitempty"`
+	SourcePrice any `json:"source_price,omitempty"`
 	// Product being used as source
-	SourceProduct *SourceProduct `json:"source_product,omitempty"`
+	SourceProduct any `json:"source_product,omitempty"`
 	// Type of product recommendation
 	Type ProductRecommendationType `json:"type"`
 }
@@ -124,7 +100,7 @@ func (p *ProductRecommendation) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (o *ProductRecommendation) GetAdditional() map[string]any {
+func (o *ProductRecommendation) GetAdditional() any {
 	if o == nil {
 		return nil
 	}
@@ -215,21 +191,21 @@ func (o *ProductRecommendation) GetUpdatedAt() *time.Time {
 	return o.UpdatedAt
 }
 
-func (o *ProductRecommendation) GetOffers() []Offer {
+func (o *ProductRecommendation) GetOffers() any {
 	if o == nil {
 		return nil
 	}
 	return o.Offers
 }
 
-func (o *ProductRecommendation) GetSourcePrice() *SourcePrice {
+func (o *ProductRecommendation) GetSourcePrice() any {
 	if o == nil {
 		return nil
 	}
 	return o.SourcePrice
 }
 
-func (o *ProductRecommendation) GetSourceProduct() *SourceProduct {
+func (o *ProductRecommendation) GetSourceProduct() any {
 	if o == nil {
 		return nil
 	}

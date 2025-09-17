@@ -31,7 +31,7 @@ data "epilot-product_tax" "my_tax" {
 
 - `acl` (Attributes) Access control list (ACL) for an entity. Defines sharing access to external orgs or users. (see [below for nested schema](#nestedatt--acl))
 - `active` (Boolean)
-- `additional` (Map of String) Additional fields that are not part of the schema
+- `additional` (String) Additional fields that are not part of the schema. Parsed as JSON.
 - `created_at` (String)
 - `description` (String)
 - `files` (Attributes) (see [below for nested schema](#nestedatt--files))

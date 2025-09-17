@@ -14,10 +14,8 @@ Tax Resource
 
 ```terraform
 resource "epilot-product_tax" "my_tax" {
-  active = true
-  additional = {
-    key = jsonencode("value")
-  }
+  active      = true
+  additional  = "{ \"see\": \"documentation\" }"
   description = "...my_description..."
   files = {
     dollar_relation = [
@@ -57,7 +55,7 @@ resource "epilot-product_tax" "my_tax" {
 
 ### Optional
 
-- `additional` (Map of String) Additional fields that are not part of the schema
+- `additional` (String) Additional fields that are not part of the schema. Parsed as JSON.
 - `description` (String)
 - `files` (Attributes) (see [below for nested schema](#nestedatt--files))
 - `manifest` (List of String) Manifest ID used to create/update the entity

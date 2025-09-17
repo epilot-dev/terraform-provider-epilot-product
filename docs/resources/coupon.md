@@ -14,10 +14,8 @@ Coupon Resource
 
 ```terraform
 resource "epilot-product_coupon" "my_coupon" {
-  active = true
-  additional = {
-    key = jsonencode("value")
-  }
+  active          = true
+  additional      = "{ \"see\": \"documentation\" }"
   cashback_period = "12"
   category        = "discount"
   description     = "...my_description..."
@@ -82,7 +80,7 @@ resource "epilot-product_coupon" "my_coupon" {
 
 ### Optional
 
-- `additional` (Map of String) Additional fields that are not part of the schema
+- `additional` (String) Additional fields that are not part of the schema. Parsed as JSON.
 - `cashback_period` (String) The cashback period, for now it's limited to either 0 months or 12 months. must be one of ["0", "12"]
 - `description` (String)
 - `files` (Attributes) (see [below for nested schema](#nestedatt--files))

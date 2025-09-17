@@ -30,25 +30,25 @@ type ProductRecommendationDataSource struct {
 
 // ProductRecommendationDataSourceModel describes the data model.
 type ProductRecommendationDataSourceModel struct {
-	ACL           *tfTypes.BaseEntityACL                          `tfsdk:"acl"`
-	Additional    map[string]jsontypes.Normalized                 `tfsdk:"additional"`
-	CreatedAt     types.String                                    `tfsdk:"created_at"`
-	Files         *tfTypes.BaseRelation                           `tfsdk:"files"`
-	Hydrate       types.Bool                                      `queryParam:"style=form,explode=true,name=hydrate" tfsdk:"hydrate"`
-	ID            types.String                                    `tfsdk:"id"`
-	Manifest      []types.String                                  `tfsdk:"manifest"`
-	Offers        []tfTypes.Offer                                 `tfsdk:"offers"`
-	Org           types.String                                    `tfsdk:"org"`
-	Owners        []tfTypes.BaseEntityOwner                       `tfsdk:"owners"`
-	Purpose       []types.String                                  `tfsdk:"purpose"`
-	Schema        types.String                                    `tfsdk:"schema"`
-	SourcePrice   *tfTypes.ProductRecommendationCreateSourcePrice `tfsdk:"source_price"`
-	SourceProduct *tfTypes.ProductRecommendationCreateSourcePrice `tfsdk:"source_product"`
-	Strict        types.Bool                                      `queryParam:"style=form,explode=true,name=strict" tfsdk:"strict"`
-	Tags          []types.String                                  `tfsdk:"tags"`
-	Title         types.String                                    `tfsdk:"title"`
-	Type          types.String                                    `tfsdk:"type"`
-	UpdatedAt     types.String                                    `tfsdk:"updated_at"`
+	ACL           *tfTypes.BaseEntityACL    `tfsdk:"acl"`
+	Additional    jsontypes.Normalized      `tfsdk:"additional"`
+	CreatedAt     types.String              `tfsdk:"created_at"`
+	Files         *tfTypes.BaseRelation     `tfsdk:"files"`
+	Hydrate       types.Bool                `queryParam:"style=form,explode=true,name=hydrate" tfsdk:"hydrate"`
+	ID            types.String              `tfsdk:"id"`
+	Manifest      []types.String            `tfsdk:"manifest"`
+	Offers        jsontypes.Normalized      `tfsdk:"offers"`
+	Org           types.String              `tfsdk:"org"`
+	Owners        []tfTypes.BaseEntityOwner `tfsdk:"owners"`
+	Purpose       []types.String            `tfsdk:"purpose"`
+	Schema        types.String              `tfsdk:"schema"`
+	SourcePrice   jsontypes.Normalized      `tfsdk:"source_price"`
+	SourceProduct jsontypes.Normalized      `tfsdk:"source_product"`
+	Strict        types.Bool                `queryParam:"style=form,explode=true,name=strict" tfsdk:"strict"`
+	Tags          []types.String            `tfsdk:"tags"`
+	Title         types.String              `tfsdk:"title"`
+	Type          types.String              `tfsdk:"type"`
+	UpdatedAt     types.String              `tfsdk:"updated_at"`
 }
 
 // Metadata returns the data source type name.
@@ -80,10 +80,10 @@ func (r *ProductRecommendationDataSource) Schema(ctx context.Context, req dataso
 				},
 				Description: `Access control list (ACL) for an entity. Defines sharing access to external orgs or users.`,
 			},
-			"additional": schema.MapAttribute{
+			"additional": schema.StringAttribute{
+				CustomType:  jsontypes.NormalizedType{},
 				Computed:    true,
-				ElementType: jsontypes.NormalizedType{},
-				Description: `Additional fields that are not part of the schema`,
+				Description: `Additional fields that are not part of the schema. Parsed as JSON.`,
 			},
 			"created_at": schema.StringAttribute{
 				Computed: true,
@@ -119,21 +119,10 @@ func (r *ProductRecommendationDataSource) Schema(ctx context.Context, req dataso
 				ElementType: types.StringType,
 				Description: `Manifest ID used to create/update the entity`,
 			},
-			"offers": schema.ListNestedAttribute{
-				Computed: true,
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"price_id": schema.StringAttribute{
-							Computed: true,
-						},
-						"product_id": schema.StringAttribute{
-							Computed: true,
-						},
-						"target_id": schema.StringAttribute{
-							Computed: true,
-						},
-					},
-				},
+			"offers": schema.StringAttribute{
+				CustomType:  jsontypes.NormalizedType{},
+				Computed:    true,
+				Description: `Parsed as JSON.`,
 			},
 			"org": schema.StringAttribute{
 				Computed:    true,
@@ -159,59 +148,15 @@ func (r *ProductRecommendationDataSource) Schema(ctx context.Context, req dataso
 			"schema": schema.StringAttribute{
 				Computed: true,
 			},
-			"source_price": schema.SingleNestedAttribute{
-				Computed: true,
-				Attributes: map[string]schema.Attribute{
-					"dollar_relation": schema.ListNestedAttribute{
-						Computed: true,
-						NestedObject: schema.NestedAttributeObject{
-							Attributes: map[string]schema.Attribute{
-								"dollar_relation": schema.ListNestedAttribute{
-									Computed: true,
-									NestedObject: schema.NestedAttributeObject{
-										Attributes: map[string]schema.Attribute{
-											"entity_id": schema.StringAttribute{
-												Computed: true,
-											},
-											"tags": schema.ListAttribute{
-												Computed:    true,
-												ElementType: types.StringType,
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-				Description: `Price being used as source`,
+			"source_price": schema.StringAttribute{
+				CustomType:  jsontypes.NormalizedType{},
+				Computed:    true,
+				Description: `Price being used as source. Parsed as JSON.`,
 			},
-			"source_product": schema.SingleNestedAttribute{
-				Computed: true,
-				Attributes: map[string]schema.Attribute{
-					"dollar_relation": schema.ListNestedAttribute{
-						Computed: true,
-						NestedObject: schema.NestedAttributeObject{
-							Attributes: map[string]schema.Attribute{
-								"dollar_relation": schema.ListNestedAttribute{
-									Computed: true,
-									NestedObject: schema.NestedAttributeObject{
-										Attributes: map[string]schema.Attribute{
-											"entity_id": schema.StringAttribute{
-												Computed: true,
-											},
-											"tags": schema.ListAttribute{
-												Computed:    true,
-												ElementType: types.StringType,
-											},
-										},
-									},
-								},
-							},
-						},
-					},
-				},
-				Description: `Product being used as source`,
+			"source_product": schema.StringAttribute{
+				CustomType:  jsontypes.NormalizedType{},
+				Computed:    true,
+				Description: `Product being used as source. Parsed as JSON.`,
 			},
 			"strict": schema.BoolAttribute{
 				Optional:    true,

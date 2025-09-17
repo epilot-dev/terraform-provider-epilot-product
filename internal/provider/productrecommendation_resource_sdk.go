@@ -18,12 +18,11 @@ func (r *ProductRecommendationResourceModel) RefreshFromSharedProductRecommendat
 	var diags diag.Diagnostics
 
 	if resp != nil {
-		if resp.Additional != nil {
-			r.Additional = make(map[string]jsontypes.Normalized, len(resp.Additional))
-			for key, value := range resp.Additional {
-				result, _ := json.Marshal(value)
-				r.Additional[key] = jsontypes.NewNormalizedValue(string(result))
-			}
+		if resp.Additional == nil {
+			r.Additional = jsontypes.NewNormalizedNull()
+		} else {
+			additionalResult, _ := json.Marshal(resp.Additional)
+			r.Additional = jsontypes.NewNormalizedValue(string(additionalResult))
 		}
 		if resp.ACL == nil {
 			r.ACL = nil
@@ -94,72 +93,23 @@ func (r *ProductRecommendationResourceModel) RefreshFromSharedProductRecommendat
 		}
 		r.Title = types.StringPointerValue(resp.Title)
 		r.UpdatedAt = types.StringPointerValue(typeconvert.TimePointerToStringPointer(resp.UpdatedAt))
-		r.Offers = []tfTypes.Offer{}
-
-		for _, offersItem := range resp.Offers {
-			var offers tfTypes.Offer
-
-			offers.PriceID = types.StringPointerValue(offersItem.PriceID)
-			offers.ProductID = types.StringPointerValue(offersItem.ProductID)
-			offers.TargetID = types.StringPointerValue(offersItem.TargetID)
-
-			r.Offers = append(r.Offers, offers)
+		if resp.Offers == nil {
+			r.Offers = jsontypes.NewNormalizedNull()
+		} else {
+			offersResult, _ := json.Marshal(resp.Offers)
+			r.Offers = jsontypes.NewNormalizedValue(string(offersResult))
 		}
 		if resp.SourcePrice == nil {
-			r.SourcePrice = nil
+			r.SourcePrice = jsontypes.NewNormalizedNull()
 		} else {
-			r.SourcePrice = &tfTypes.ProductRecommendationCreateSourcePrice{}
-			r.SourcePrice.DollarRelation = []tfTypes.BaseRelation{}
-
-			for _, dollarRelationItem1 := range resp.SourcePrice.DollarRelation {
-				var dollarRelation1 tfTypes.BaseRelation
-
-				dollarRelation1.DollarRelation = []tfTypes.DollarRelation{}
-
-				for _, dollarRelationItem2 := range dollarRelationItem1.DollarRelation {
-					var dollarRelation2 tfTypes.DollarRelation
-
-					if dollarRelationItem2.Tags != nil {
-						dollarRelation2.Tags = make([]types.String, 0, len(dollarRelationItem2.Tags))
-						for _, v := range dollarRelationItem2.Tags {
-							dollarRelation2.Tags = append(dollarRelation2.Tags, types.StringValue(v))
-						}
-					}
-					dollarRelation2.EntityID = types.StringPointerValue(dollarRelationItem2.EntityID)
-
-					dollarRelation1.DollarRelation = append(dollarRelation1.DollarRelation, dollarRelation2)
-				}
-
-				r.SourcePrice.DollarRelation = append(r.SourcePrice.DollarRelation, dollarRelation1)
-			}
+			sourcePriceResult, _ := json.Marshal(resp.SourcePrice)
+			r.SourcePrice = jsontypes.NewNormalizedValue(string(sourcePriceResult))
 		}
 		if resp.SourceProduct == nil {
-			r.SourceProduct = nil
+			r.SourceProduct = jsontypes.NewNormalizedNull()
 		} else {
-			r.SourceProduct = &tfTypes.ProductRecommendationCreateSourcePrice{}
-			r.SourceProduct.DollarRelation = []tfTypes.BaseRelation{}
-
-			for _, dollarRelationItem3 := range resp.SourceProduct.DollarRelation {
-				var dollarRelation3 tfTypes.BaseRelation
-
-				dollarRelation3.DollarRelation = []tfTypes.DollarRelation{}
-
-				for _, dollarRelationItem4 := range dollarRelationItem3.DollarRelation {
-					var dollarRelation4 tfTypes.DollarRelation
-
-					if dollarRelationItem4.Tags != nil {
-						dollarRelation4.Tags = make([]types.String, 0, len(dollarRelationItem4.Tags))
-						for _, v := range dollarRelationItem4.Tags {
-							dollarRelation4.Tags = append(dollarRelation4.Tags, types.StringValue(v))
-						}
-					}
-					dollarRelation4.EntityID = types.StringPointerValue(dollarRelationItem4.EntityID)
-
-					dollarRelation3.DollarRelation = append(dollarRelation3.DollarRelation, dollarRelation4)
-				}
-
-				r.SourceProduct.DollarRelation = append(r.SourceProduct.DollarRelation, dollarRelation3)
-			}
+			sourceProductResult, _ := json.Marshal(resp.SourceProduct)
+			r.SourceProduct = jsontypes.NewNormalizedValue(string(sourceProductResult))
 		}
 		r.Type = types.StringValue(string(resp.Type))
 	}
@@ -217,11 +167,9 @@ func (r *ProductRecommendationResourceModel) ToOperationsPatchProductRecommendat
 func (r *ProductRecommendationResourceModel) ToSharedProductRecommendationCreate(ctx context.Context) (*shared.ProductRecommendationCreate, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
-	additional := make(map[string]interface{})
-	for additionalKey, additionalValue := range r.Additional {
-		var additionalInst interface{}
-		_ = json.Unmarshal([]byte(additionalValue.ValueString()), &additionalInst)
-		additional[additionalKey] = additionalInst
+	var additional interface{}
+	if !r.Additional.IsUnknown() && !r.Additional.IsNull() {
+		_ = json.Unmarshal([]byte(r.Additional.ValueString()), &additional)
 	}
 	var files *shared.BaseRelation
 	if r.Files != nil {
@@ -273,95 +221,17 @@ func (r *ProductRecommendationResourceModel) ToSharedProductRecommendationCreate
 			tags1 = append(tags1, tagsItem1.ValueString())
 		}
 	}
-	offers := make([]shared.Offer, 0, len(r.Offers))
-	for _, offersItem := range r.Offers {
-		priceID := new(string)
-		if !offersItem.PriceID.IsUnknown() && !offersItem.PriceID.IsNull() {
-			*priceID = offersItem.PriceID.ValueString()
-		} else {
-			priceID = nil
-		}
-		productID := new(string)
-		if !offersItem.ProductID.IsUnknown() && !offersItem.ProductID.IsNull() {
-			*productID = offersItem.ProductID.ValueString()
-		} else {
-			productID = nil
-		}
-		targetID := new(string)
-		if !offersItem.TargetID.IsUnknown() && !offersItem.TargetID.IsNull() {
-			*targetID = offersItem.TargetID.ValueString()
-		} else {
-			targetID = nil
-		}
-		offers = append(offers, shared.Offer{
-			PriceID:   priceID,
-			ProductID: productID,
-			TargetID:  targetID,
-		})
+	var offers interface{}
+	if !r.Offers.IsUnknown() && !r.Offers.IsNull() {
+		_ = json.Unmarshal([]byte(r.Offers.ValueString()), &offers)
 	}
-	var sourcePrice *shared.ProductRecommendationCreateSourcePrice
-	if r.SourcePrice != nil {
-		dollarRelation1 := make([]shared.BaseRelation, 0, len(r.SourcePrice.DollarRelation))
-		for _, dollarRelationItem1 := range r.SourcePrice.DollarRelation {
-			dollarRelation2 := make([]shared.DollarRelation, 0, len(dollarRelationItem1.DollarRelation))
-			for _, dollarRelationItem2 := range dollarRelationItem1.DollarRelation {
-				var tags2 []string
-				if dollarRelationItem2.Tags != nil {
-					tags2 = make([]string, 0, len(dollarRelationItem2.Tags))
-					for _, tagsItem2 := range dollarRelationItem2.Tags {
-						tags2 = append(tags2, tagsItem2.ValueString())
-					}
-				}
-				entityId1 := new(string)
-				if !dollarRelationItem2.EntityID.IsUnknown() && !dollarRelationItem2.EntityID.IsNull() {
-					*entityId1 = dollarRelationItem2.EntityID.ValueString()
-				} else {
-					entityId1 = nil
-				}
-				dollarRelation2 = append(dollarRelation2, shared.DollarRelation{
-					Tags:     tags2,
-					EntityID: entityId1,
-				})
-			}
-			dollarRelation1 = append(dollarRelation1, shared.BaseRelation{
-				DollarRelation: dollarRelation2,
-			})
-		}
-		sourcePrice = &shared.ProductRecommendationCreateSourcePrice{
-			DollarRelation: dollarRelation1,
-		}
+	var sourcePrice interface{}
+	if !r.SourcePrice.IsUnknown() && !r.SourcePrice.IsNull() {
+		_ = json.Unmarshal([]byte(r.SourcePrice.ValueString()), &sourcePrice)
 	}
-	var sourceProduct *shared.ProductRecommendationCreateSourceProduct
-	if r.SourceProduct != nil {
-		dollarRelation3 := make([]shared.BaseRelation, 0, len(r.SourceProduct.DollarRelation))
-		for _, dollarRelationItem3 := range r.SourceProduct.DollarRelation {
-			dollarRelation4 := make([]shared.DollarRelation, 0, len(dollarRelationItem3.DollarRelation))
-			for _, dollarRelationItem4 := range dollarRelationItem3.DollarRelation {
-				var tags3 []string
-				if dollarRelationItem4.Tags != nil {
-					tags3 = make([]string, 0, len(dollarRelationItem4.Tags))
-					for _, tagsItem3 := range dollarRelationItem4.Tags {
-						tags3 = append(tags3, tagsItem3.ValueString())
-					}
-				}
-				entityId2 := new(string)
-				if !dollarRelationItem4.EntityID.IsUnknown() && !dollarRelationItem4.EntityID.IsNull() {
-					*entityId2 = dollarRelationItem4.EntityID.ValueString()
-				} else {
-					entityId2 = nil
-				}
-				dollarRelation4 = append(dollarRelation4, shared.DollarRelation{
-					Tags:     tags3,
-					EntityID: entityId2,
-				})
-			}
-			dollarRelation3 = append(dollarRelation3, shared.BaseRelation{
-				DollarRelation: dollarRelation4,
-			})
-		}
-		sourceProduct = &shared.ProductRecommendationCreateSourceProduct{
-			DollarRelation: dollarRelation3,
-		}
+	var sourceProduct interface{}
+	if !r.SourceProduct.IsUnknown() && !r.SourceProduct.IsNull() {
+		_ = json.Unmarshal([]byte(r.SourceProduct.ValueString()), &sourceProduct)
 	}
 	typeVar := shared.ProductRecommendationCreateType(r.Type.ValueString())
 	out := shared.ProductRecommendationCreate{
@@ -383,11 +253,9 @@ func (r *ProductRecommendationResourceModel) ToSharedProductRecommendationCreate
 func (r *ProductRecommendationResourceModel) ToSharedProductRecommendationPatch(ctx context.Context) (*shared.ProductRecommendationPatch, diag.Diagnostics) {
 	var diags diag.Diagnostics
 
-	additional := make(map[string]interface{})
-	for additionalKey, additionalValue := range r.Additional {
-		var additionalInst interface{}
-		_ = json.Unmarshal([]byte(additionalValue.ValueString()), &additionalInst)
-		additional[additionalKey] = additionalInst
+	var additional interface{}
+	if !r.Additional.IsUnknown() && !r.Additional.IsNull() {
+		_ = json.Unmarshal([]byte(r.Additional.ValueString()), &additional)
 	}
 	var files *shared.BaseRelation
 	if r.Files != nil {
@@ -439,95 +307,17 @@ func (r *ProductRecommendationResourceModel) ToSharedProductRecommendationPatch(
 			tags1 = append(tags1, tagsItem1.ValueString())
 		}
 	}
-	offers := make([]shared.Offer, 0, len(r.Offers))
-	for _, offersItem := range r.Offers {
-		priceID := new(string)
-		if !offersItem.PriceID.IsUnknown() && !offersItem.PriceID.IsNull() {
-			*priceID = offersItem.PriceID.ValueString()
-		} else {
-			priceID = nil
-		}
-		productID := new(string)
-		if !offersItem.ProductID.IsUnknown() && !offersItem.ProductID.IsNull() {
-			*productID = offersItem.ProductID.ValueString()
-		} else {
-			productID = nil
-		}
-		targetID := new(string)
-		if !offersItem.TargetID.IsUnknown() && !offersItem.TargetID.IsNull() {
-			*targetID = offersItem.TargetID.ValueString()
-		} else {
-			targetID = nil
-		}
-		offers = append(offers, shared.Offer{
-			PriceID:   priceID,
-			ProductID: productID,
-			TargetID:  targetID,
-		})
+	var offers interface{}
+	if !r.Offers.IsUnknown() && !r.Offers.IsNull() {
+		_ = json.Unmarshal([]byte(r.Offers.ValueString()), &offers)
 	}
-	var sourcePrice *shared.ProductRecommendationPatchSourcePrice
-	if r.SourcePrice != nil {
-		dollarRelation1 := make([]shared.BaseRelation, 0, len(r.SourcePrice.DollarRelation))
-		for _, dollarRelationItem1 := range r.SourcePrice.DollarRelation {
-			dollarRelation2 := make([]shared.DollarRelation, 0, len(dollarRelationItem1.DollarRelation))
-			for _, dollarRelationItem2 := range dollarRelationItem1.DollarRelation {
-				var tags2 []string
-				if dollarRelationItem2.Tags != nil {
-					tags2 = make([]string, 0, len(dollarRelationItem2.Tags))
-					for _, tagsItem2 := range dollarRelationItem2.Tags {
-						tags2 = append(tags2, tagsItem2.ValueString())
-					}
-				}
-				entityId1 := new(string)
-				if !dollarRelationItem2.EntityID.IsUnknown() && !dollarRelationItem2.EntityID.IsNull() {
-					*entityId1 = dollarRelationItem2.EntityID.ValueString()
-				} else {
-					entityId1 = nil
-				}
-				dollarRelation2 = append(dollarRelation2, shared.DollarRelation{
-					Tags:     tags2,
-					EntityID: entityId1,
-				})
-			}
-			dollarRelation1 = append(dollarRelation1, shared.BaseRelation{
-				DollarRelation: dollarRelation2,
-			})
-		}
-		sourcePrice = &shared.ProductRecommendationPatchSourcePrice{
-			DollarRelation: dollarRelation1,
-		}
+	var sourcePrice interface{}
+	if !r.SourcePrice.IsUnknown() && !r.SourcePrice.IsNull() {
+		_ = json.Unmarshal([]byte(r.SourcePrice.ValueString()), &sourcePrice)
 	}
-	var sourceProduct *shared.ProductRecommendationPatchSourceProduct
-	if r.SourceProduct != nil {
-		dollarRelation3 := make([]shared.BaseRelation, 0, len(r.SourceProduct.DollarRelation))
-		for _, dollarRelationItem3 := range r.SourceProduct.DollarRelation {
-			dollarRelation4 := make([]shared.DollarRelation, 0, len(dollarRelationItem3.DollarRelation))
-			for _, dollarRelationItem4 := range dollarRelationItem3.DollarRelation {
-				var tags3 []string
-				if dollarRelationItem4.Tags != nil {
-					tags3 = make([]string, 0, len(dollarRelationItem4.Tags))
-					for _, tagsItem3 := range dollarRelationItem4.Tags {
-						tags3 = append(tags3, tagsItem3.ValueString())
-					}
-				}
-				entityId2 := new(string)
-				if !dollarRelationItem4.EntityID.IsUnknown() && !dollarRelationItem4.EntityID.IsNull() {
-					*entityId2 = dollarRelationItem4.EntityID.ValueString()
-				} else {
-					entityId2 = nil
-				}
-				dollarRelation4 = append(dollarRelation4, shared.DollarRelation{
-					Tags:     tags3,
-					EntityID: entityId2,
-				})
-			}
-			dollarRelation3 = append(dollarRelation3, shared.BaseRelation{
-				DollarRelation: dollarRelation4,
-			})
-		}
-		sourceProduct = &shared.ProductRecommendationPatchSourceProduct{
-			DollarRelation: dollarRelation3,
-		}
+	var sourceProduct interface{}
+	if !r.SourceProduct.IsUnknown() && !r.SourceProduct.IsNull() {
+		_ = json.Unmarshal([]byte(r.SourceProduct.ValueString()), &sourceProduct)
 	}
 	typeVar := new(shared.ProductRecommendationPatchType)
 	if !r.Type.IsUnknown() && !r.Type.IsNull() {

@@ -18,12 +18,11 @@ func (r *ProductRecommendationDataSourceModel) RefreshFromSharedProductRecommend
 	var diags diag.Diagnostics
 
 	if resp != nil {
-		if resp.Additional != nil {
-			r.Additional = make(map[string]jsontypes.Normalized, len(resp.Additional))
-			for key, value := range resp.Additional {
-				result, _ := json.Marshal(value)
-				r.Additional[key] = jsontypes.NewNormalizedValue(string(result))
-			}
+		if resp.Additional == nil {
+			r.Additional = jsontypes.NewNormalizedNull()
+		} else {
+			additionalResult, _ := json.Marshal(resp.Additional)
+			r.Additional = jsontypes.NewNormalizedValue(string(additionalResult))
 		}
 		if resp.ACL == nil {
 			r.ACL = nil
@@ -94,72 +93,23 @@ func (r *ProductRecommendationDataSourceModel) RefreshFromSharedProductRecommend
 		}
 		r.Title = types.StringPointerValue(resp.Title)
 		r.UpdatedAt = types.StringPointerValue(typeconvert.TimePointerToStringPointer(resp.UpdatedAt))
-		r.Offers = []tfTypes.Offer{}
-
-		for _, offersItem := range resp.Offers {
-			var offers tfTypes.Offer
-
-			offers.PriceID = types.StringPointerValue(offersItem.PriceID)
-			offers.ProductID = types.StringPointerValue(offersItem.ProductID)
-			offers.TargetID = types.StringPointerValue(offersItem.TargetID)
-
-			r.Offers = append(r.Offers, offers)
+		if resp.Offers == nil {
+			r.Offers = jsontypes.NewNormalizedNull()
+		} else {
+			offersResult, _ := json.Marshal(resp.Offers)
+			r.Offers = jsontypes.NewNormalizedValue(string(offersResult))
 		}
 		if resp.SourcePrice == nil {
-			r.SourcePrice = nil
+			r.SourcePrice = jsontypes.NewNormalizedNull()
 		} else {
-			r.SourcePrice = &tfTypes.ProductRecommendationCreateSourcePrice{}
-			r.SourcePrice.DollarRelation = []tfTypes.BaseRelation{}
-
-			for _, dollarRelationItem1 := range resp.SourcePrice.DollarRelation {
-				var dollarRelation1 tfTypes.BaseRelation
-
-				dollarRelation1.DollarRelation = []tfTypes.DollarRelation{}
-
-				for _, dollarRelationItem2 := range dollarRelationItem1.DollarRelation {
-					var dollarRelation2 tfTypes.DollarRelation
-
-					if dollarRelationItem2.Tags != nil {
-						dollarRelation2.Tags = make([]types.String, 0, len(dollarRelationItem2.Tags))
-						for _, v := range dollarRelationItem2.Tags {
-							dollarRelation2.Tags = append(dollarRelation2.Tags, types.StringValue(v))
-						}
-					}
-					dollarRelation2.EntityID = types.StringPointerValue(dollarRelationItem2.EntityID)
-
-					dollarRelation1.DollarRelation = append(dollarRelation1.DollarRelation, dollarRelation2)
-				}
-
-				r.SourcePrice.DollarRelation = append(r.SourcePrice.DollarRelation, dollarRelation1)
-			}
+			sourcePriceResult, _ := json.Marshal(resp.SourcePrice)
+			r.SourcePrice = jsontypes.NewNormalizedValue(string(sourcePriceResult))
 		}
 		if resp.SourceProduct == nil {
-			r.SourceProduct = nil
+			r.SourceProduct = jsontypes.NewNormalizedNull()
 		} else {
-			r.SourceProduct = &tfTypes.ProductRecommendationCreateSourcePrice{}
-			r.SourceProduct.DollarRelation = []tfTypes.BaseRelation{}
-
-			for _, dollarRelationItem3 := range resp.SourceProduct.DollarRelation {
-				var dollarRelation3 tfTypes.BaseRelation
-
-				dollarRelation3.DollarRelation = []tfTypes.DollarRelation{}
-
-				for _, dollarRelationItem4 := range dollarRelationItem3.DollarRelation {
-					var dollarRelation4 tfTypes.DollarRelation
-
-					if dollarRelationItem4.Tags != nil {
-						dollarRelation4.Tags = make([]types.String, 0, len(dollarRelationItem4.Tags))
-						for _, v := range dollarRelationItem4.Tags {
-							dollarRelation4.Tags = append(dollarRelation4.Tags, types.StringValue(v))
-						}
-					}
-					dollarRelation4.EntityID = types.StringPointerValue(dollarRelationItem4.EntityID)
-
-					dollarRelation3.DollarRelation = append(dollarRelation3.DollarRelation, dollarRelation4)
-				}
-
-				r.SourceProduct.DollarRelation = append(r.SourceProduct.DollarRelation, dollarRelation3)
-			}
+			sourceProductResult, _ := json.Marshal(resp.SourceProduct)
+			r.SourceProduct = jsontypes.NewNormalizedValue(string(sourceProductResult))
 		}
 		r.Type = types.StringValue(string(resp.Type))
 	}

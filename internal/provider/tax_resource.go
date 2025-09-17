@@ -7,7 +7,6 @@ import (
 	"fmt"
 	speakeasy_boolplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/boolplanmodifier"
 	speakeasy_listplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/listplanmodifier"
-	speakeasy_mapplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/mapplanmodifier"
 	speakeasy_objectplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/objectplanmodifier"
 	speakeasy_stringplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/stringplanmodifier"
 	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
@@ -15,7 +14,6 @@ import (
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/validators"
 	speakeasy_objectvalidators "github.com/epilot-dev/terraform-provider-epilot-product/internal/validators/objectvalidators"
 	"github.com/hashicorp/terraform-plugin-framework-jsontypes/jsontypes"
-	"github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -42,24 +40,24 @@ type TaxResource struct {
 
 // TaxResourceModel describes the resource data model.
 type TaxResourceModel struct {
-	ACL         *tfTypes.BaseEntityACL          `tfsdk:"acl"`
-	Active      types.Bool                      `tfsdk:"active"`
-	Additional  map[string]jsontypes.Normalized `tfsdk:"additional"`
-	CreatedAt   types.String                    `tfsdk:"created_at"`
-	Description types.String                    `tfsdk:"description"`
-	Files       *tfTypes.BaseRelation           `tfsdk:"files"`
-	ID          types.String                    `tfsdk:"id"`
-	Manifest    []types.String                  `tfsdk:"manifest"`
-	Org         types.String                    `tfsdk:"org"`
-	Owners      []tfTypes.BaseEntityOwner       `tfsdk:"owners"`
-	Purpose     []types.String                  `tfsdk:"purpose"`
-	Rate        types.String                    `tfsdk:"rate"`
-	Region      types.String                    `tfsdk:"region"`
-	Schema      types.String                    `tfsdk:"schema"`
-	Tags        []types.String                  `tfsdk:"tags"`
-	Title       types.String                    `tfsdk:"title"`
-	Type        types.String                    `tfsdk:"type"`
-	UpdatedAt   types.String                    `tfsdk:"updated_at"`
+	ACL         *tfTypes.BaseEntityACL    `tfsdk:"acl"`
+	Active      types.Bool                `tfsdk:"active"`
+	Additional  jsontypes.Normalized      `tfsdk:"additional"`
+	CreatedAt   types.String              `tfsdk:"created_at"`
+	Description types.String              `tfsdk:"description"`
+	Files       *tfTypes.BaseRelation     `tfsdk:"files"`
+	ID          types.String              `tfsdk:"id"`
+	Manifest    []types.String            `tfsdk:"manifest"`
+	Org         types.String              `tfsdk:"org"`
+	Owners      []tfTypes.BaseEntityOwner `tfsdk:"owners"`
+	Purpose     []types.String            `tfsdk:"purpose"`
+	Rate        types.String              `tfsdk:"rate"`
+	Region      types.String              `tfsdk:"region"`
+	Schema      types.String              `tfsdk:"schema"`
+	Tags        []types.String            `tfsdk:"tags"`
+	Title       types.String              `tfsdk:"title"`
+	Type        types.String              `tfsdk:"type"`
+	UpdatedAt   types.String              `tfsdk:"updated_at"`
 }
 
 func (r *TaxResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -106,17 +104,14 @@ func (r *TaxResource) Schema(ctx context.Context, req resource.SchemaRequest, re
 					speakeasy_boolplanmodifier.SuppressDiff(speakeasy_boolplanmodifier.ExplicitSuppress),
 				},
 			},
-			"additional": schema.MapAttribute{
-				Computed: true,
-				Optional: true,
-				PlanModifiers: []planmodifier.Map{
-					speakeasy_mapplanmodifier.SuppressDiff(speakeasy_mapplanmodifier.ExplicitSuppress),
+			"additional": schema.StringAttribute{
+				CustomType: jsontypes.NormalizedType{},
+				Computed:   true,
+				Optional:   true,
+				PlanModifiers: []planmodifier.String{
+					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 				},
-				ElementType: jsontypes.NormalizedType{},
-				Description: `Additional fields that are not part of the schema`,
-				Validators: []validator.Map{
-					mapvalidator.ValueStringsAre(validators.IsValidJSON()),
-				},
+				Description: `Additional fields that are not part of the schema. Parsed as JSON.`,
 			},
 			"created_at": schema.StringAttribute{
 				Computed: true,

@@ -113,7 +113,7 @@ func (e *Type) UnmarshalJSON(data []byte) error {
 
 type Coupon struct {
 	// Additional fields that are not part of the schema
-	Additional map[string]any `json:"__additional,omitempty"`
+	Additional any `json:"__additional,omitempty"`
 	// Access control list (ACL) for an entity. Defines sharing access to external orgs or users.
 	ACL       *BaseEntityACL `json:"_acl,omitempty"`
 	CreatedAt *time.Time     `json:"_created_at,omitempty"`
@@ -163,7 +163,7 @@ func (c *Coupon) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (o *Coupon) GetAdditional() map[string]any {
+func (o *Coupon) GetAdditional() any {
 	if o == nil {
 		return nil
 	}

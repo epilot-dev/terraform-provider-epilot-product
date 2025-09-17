@@ -14,10 +14,8 @@ Price Resource
 
 ```terraform
 resource "epilot-product_price" "my_price" {
-  active = true
-  additional = {
-    key = jsonencode("value")
-  }
+  active                  = true
+  additional              = "{ \"see\": \"documentation\" }"
   billing_duration_amount = 4.23
   billing_duration_unit   = "years"
   description             = "...my_description..."
@@ -92,7 +90,7 @@ resource "epilot-product_price" "my_price" {
 
 ### Optional
 
-- `additional` (Map of String) Additional fields that are not part of the schema
+- `additional` (String) Additional fields that are not part of the schema. Parsed as JSON.
 - `billing_duration_amount` (Number) The billing period duration
 - `billing_duration_unit` (String) The billing period duration unit. must be one of ["weeks", "months", "years"]
 - `files` (Attributes) (see [below for nested schema](#nestedatt--files))
