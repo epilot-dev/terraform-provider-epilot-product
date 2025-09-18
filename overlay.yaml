@@ -139,8 +139,9 @@ actions:
   - target: $["components"]["schemas"]["BaseSystemFields"]["properties"]["__additional"]
     update:
       x-speakeasy-type-override: any
-# remove _acl and _owners from BaseSystemFields
-  - target: $["components"]["schemas"]["BaseSystemFields"]["properties"]["acl"]
-    remove: true
   - target: $["components"]["schemas"]["BaseSystemFields"]["properties"]["owners"]
+    update:
+      x-speakeasy-type-override: any
+  # remove _acl and _owners from BaseSystemFields
+  - target: $["components"]["schemas"]["BaseSystemFields"]["properties"]["_acl"]
     remove: true
