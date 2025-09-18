@@ -113,23 +113,20 @@ func (e *Type) UnmarshalJSON(data []byte) error {
 
 type Coupon struct {
 	// Additional fields that are not part of the schema
-	Additional any `json:"__additional,omitempty"`
-	// Access control list (ACL) for an entity. Defines sharing access to external orgs or users.
-	ACL       *BaseEntityACL `json:"_acl,omitempty"`
-	CreatedAt *time.Time     `json:"_created_at,omitempty"`
-	Files     *BaseRelation  `json:"_files,omitempty"`
-	ID        *string        `json:"_id,omitempty"`
+	Additional any           `json:"__additional,omitempty"`
+	CreatedAt  *time.Time    `json:"_created_at,omitempty"`
+	Files      *BaseRelation `json:"_files,omitempty"`
+	ID         *string       `json:"_id,omitempty"`
 	// Manifest ID used to create/update the entity
 	Manifest []string `json:"_manifest,omitempty"`
 	// Organization Id the entity belongs to
-	Org       string            `json:"_org"`
-	Owners    []BaseEntityOwner `json:"_owners,omitempty"`
-	Purpose   []string          `json:"_purpose,omitempty"`
-	Schema    Schema            `json:"_schema"`
-	Tags      []string          `json:"_tags,omitempty"`
-	Title     *string           `json:"_title,omitempty"`
-	UpdatedAt *time.Time        `json:"_updated_at,omitempty"`
-	Active    bool              `json:"active"`
+	Org       string     `json:"_org"`
+	Purpose   []string   `json:"_purpose,omitempty"`
+	Schema    Schema     `json:"_schema"`
+	Tags      []string   `json:"_tags,omitempty"`
+	Title     *string    `json:"_title,omitempty"`
+	UpdatedAt *time.Time `json:"_updated_at,omitempty"`
+	Active    bool       `json:"active"`
 	// The cashback period, for now it's limited to either 0 months or 12 months
 	CashbackPeriod *CashbackPeriod `json:"cashback_period,omitempty"`
 	Category       Category        `json:"category"`
@@ -170,13 +167,6 @@ func (o *Coupon) GetAdditional() any {
 	return o.Additional
 }
 
-func (o *Coupon) GetACL() *BaseEntityACL {
-	if o == nil {
-		return nil
-	}
-	return o.ACL
-}
-
 func (o *Coupon) GetCreatedAt() *time.Time {
 	if o == nil {
 		return nil
@@ -210,13 +200,6 @@ func (o *Coupon) GetOrg() string {
 		return ""
 	}
 	return o.Org
-}
-
-func (o *Coupon) GetOwners() []BaseEntityOwner {
-	if o == nil {
-		return nil
-	}
-	return o.Owners
 }
 
 func (o *Coupon) GetPurpose() []string {

@@ -30,33 +30,31 @@ type ProductDataSource struct {
 
 // ProductDataSourceModel describes the data model.
 type ProductDataSourceModel struct {
-	ACL               *tfTypes.BaseEntityACL    `tfsdk:"acl"`
-	Active            types.Bool                `tfsdk:"active"`
-	Additional        jsontypes.Normalized      `tfsdk:"additional"`
-	AvailabilityFiles *tfTypes.BaseRelation     `tfsdk:"availability_files"`
-	Categories        []types.String            `tfsdk:"categories"`
-	Code              types.String              `tfsdk:"code"`
-	CreatedAt         types.String              `tfsdk:"created_at"`
-	Description       types.String              `tfsdk:"description"`
-	Feature           []jsontypes.Normalized    `tfsdk:"feature"`
-	Files             *tfTypes.BaseRelation     `tfsdk:"files"`
-	Hydrate           types.Bool                `queryParam:"style=form,explode=true,name=hydrate" tfsdk:"hydrate"`
-	ID                types.String              `tfsdk:"id"`
-	InternalName      types.String              `tfsdk:"internal_name"`
-	Manifest          []types.String            `tfsdk:"manifest"`
-	Name              types.String              `tfsdk:"name"`
-	Org               types.String              `tfsdk:"org"`
-	Owners            []tfTypes.BaseEntityOwner `tfsdk:"owners"`
-	PriceOptions      *tfTypes.BaseRelation     `tfsdk:"price_options"`
-	ProductDownloads  *tfTypes.BaseRelation     `tfsdk:"product_downloads"`
-	ProductImages     *tfTypes.BaseRelation     `tfsdk:"product_images"`
-	Purpose           []types.String            `tfsdk:"purpose"`
-	Schema            types.String              `tfsdk:"schema"`
-	Strict            types.Bool                `queryParam:"style=form,explode=true,name=strict" tfsdk:"strict"`
-	Tags              []types.String            `tfsdk:"tags"`
-	Title             types.String              `tfsdk:"title"`
-	Type              types.String              `tfsdk:"type"`
-	UpdatedAt         types.String              `tfsdk:"updated_at"`
+	Active            types.Bool             `tfsdk:"active"`
+	Additional        jsontypes.Normalized   `tfsdk:"additional"`
+	AvailabilityFiles *tfTypes.BaseRelation  `tfsdk:"availability_files"`
+	Categories        []types.String         `tfsdk:"categories"`
+	Code              types.String           `tfsdk:"code"`
+	CreatedAt         types.String           `tfsdk:"created_at"`
+	Description       types.String           `tfsdk:"description"`
+	Feature           []jsontypes.Normalized `tfsdk:"feature"`
+	Files             *tfTypes.BaseRelation  `tfsdk:"files"`
+	Hydrate           types.Bool             `queryParam:"style=form,explode=true,name=hydrate" tfsdk:"hydrate"`
+	ID                types.String           `tfsdk:"id"`
+	InternalName      types.String           `tfsdk:"internal_name"`
+	Manifest          []types.String         `tfsdk:"manifest"`
+	Name              types.String           `tfsdk:"name"`
+	Org               types.String           `tfsdk:"org"`
+	PriceOptions      *tfTypes.BaseRelation  `tfsdk:"price_options"`
+	ProductDownloads  *tfTypes.BaseRelation  `tfsdk:"product_downloads"`
+	ProductImages     *tfTypes.BaseRelation  `tfsdk:"product_images"`
+	Purpose           []types.String         `tfsdk:"purpose"`
+	Schema            types.String           `tfsdk:"schema"`
+	Strict            types.Bool             `queryParam:"style=form,explode=true,name=strict" tfsdk:"strict"`
+	Tags              []types.String         `tfsdk:"tags"`
+	Title             types.String           `tfsdk:"title"`
+	Type              types.String           `tfsdk:"type"`
+	UpdatedAt         types.String           `tfsdk:"updated_at"`
 }
 
 // Metadata returns the data source type name.
@@ -70,24 +68,6 @@ func (r *ProductDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 		MarkdownDescription: "Product DataSource",
 
 		Attributes: map[string]schema.Attribute{
-			"acl": schema.SingleNestedAttribute{
-				Computed: true,
-				Attributes: map[string]schema.Attribute{
-					"delete": schema.ListAttribute{
-						Computed:    true,
-						ElementType: types.StringType,
-					},
-					"edit": schema.ListAttribute{
-						Computed:    true,
-						ElementType: types.StringType,
-					},
-					"view": schema.ListAttribute{
-						Computed:    true,
-						ElementType: types.StringType,
-					},
-				},
-				Description: `Access control list (ACL) for an entity. Defines sharing access to external orgs or users.`,
-			},
 			"active": schema.BoolAttribute{
 				Computed: true,
 			},
@@ -177,19 +157,6 @@ func (r *ProductDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 			"org": schema.StringAttribute{
 				Computed:    true,
 				Description: `Organization Id the entity belongs to`,
-			},
-			"owners": schema.ListNestedAttribute{
-				Computed: true,
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"org_id": schema.StringAttribute{
-							Computed: true,
-						},
-						"user_id": schema.StringAttribute{
-							Computed: true,
-						},
-					},
-				},
 			},
 			"price_options": schema.SingleNestedAttribute{
 				Computed: true,

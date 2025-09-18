@@ -30,25 +30,23 @@ type ProductRecommendationDataSource struct {
 
 // ProductRecommendationDataSourceModel describes the data model.
 type ProductRecommendationDataSourceModel struct {
-	ACL           *tfTypes.BaseEntityACL    `tfsdk:"acl"`
-	Additional    jsontypes.Normalized      `tfsdk:"additional"`
-	CreatedAt     types.String              `tfsdk:"created_at"`
-	Files         *tfTypes.BaseRelation     `tfsdk:"files"`
-	Hydrate       types.Bool                `queryParam:"style=form,explode=true,name=hydrate" tfsdk:"hydrate"`
-	ID            types.String              `tfsdk:"id"`
-	Manifest      []types.String            `tfsdk:"manifest"`
-	Offers        jsontypes.Normalized      `tfsdk:"offers"`
-	Org           types.String              `tfsdk:"org"`
-	Owners        []tfTypes.BaseEntityOwner `tfsdk:"owners"`
-	Purpose       []types.String            `tfsdk:"purpose"`
-	Schema        types.String              `tfsdk:"schema"`
-	SourcePrice   jsontypes.Normalized      `tfsdk:"source_price"`
-	SourceProduct jsontypes.Normalized      `tfsdk:"source_product"`
-	Strict        types.Bool                `queryParam:"style=form,explode=true,name=strict" tfsdk:"strict"`
-	Tags          []types.String            `tfsdk:"tags"`
-	Title         types.String              `tfsdk:"title"`
-	Type          types.String              `tfsdk:"type"`
-	UpdatedAt     types.String              `tfsdk:"updated_at"`
+	Additional    jsontypes.Normalized  `tfsdk:"additional"`
+	CreatedAt     types.String          `tfsdk:"created_at"`
+	Files         *tfTypes.BaseRelation `tfsdk:"files"`
+	Hydrate       types.Bool            `queryParam:"style=form,explode=true,name=hydrate" tfsdk:"hydrate"`
+	ID            types.String          `tfsdk:"id"`
+	Manifest      []types.String        `tfsdk:"manifest"`
+	Offers        jsontypes.Normalized  `tfsdk:"offers"`
+	Org           types.String          `tfsdk:"org"`
+	Purpose       []types.String        `tfsdk:"purpose"`
+	Schema        types.String          `tfsdk:"schema"`
+	SourcePrice   jsontypes.Normalized  `tfsdk:"source_price"`
+	SourceProduct jsontypes.Normalized  `tfsdk:"source_product"`
+	Strict        types.Bool            `queryParam:"style=form,explode=true,name=strict" tfsdk:"strict"`
+	Tags          []types.String        `tfsdk:"tags"`
+	Title         types.String          `tfsdk:"title"`
+	Type          types.String          `tfsdk:"type"`
+	UpdatedAt     types.String          `tfsdk:"updated_at"`
 }
 
 // Metadata returns the data source type name.
@@ -62,24 +60,6 @@ func (r *ProductRecommendationDataSource) Schema(ctx context.Context, req dataso
 		MarkdownDescription: "ProductRecommendation DataSource",
 
 		Attributes: map[string]schema.Attribute{
-			"acl": schema.SingleNestedAttribute{
-				Computed: true,
-				Attributes: map[string]schema.Attribute{
-					"delete": schema.ListAttribute{
-						Computed:    true,
-						ElementType: types.StringType,
-					},
-					"edit": schema.ListAttribute{
-						Computed:    true,
-						ElementType: types.StringType,
-					},
-					"view": schema.ListAttribute{
-						Computed:    true,
-						ElementType: types.StringType,
-					},
-				},
-				Description: `Access control list (ACL) for an entity. Defines sharing access to external orgs or users.`,
-			},
 			"additional": schema.StringAttribute{
 				CustomType:  jsontypes.NormalizedType{},
 				Computed:    true,
@@ -127,19 +107,6 @@ func (r *ProductRecommendationDataSource) Schema(ctx context.Context, req dataso
 			"org": schema.StringAttribute{
 				Computed:    true,
 				Description: `Organization Id the entity belongs to`,
-			},
-			"owners": schema.ListNestedAttribute{
-				Computed: true,
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"org_id": schema.StringAttribute{
-							Computed: true,
-						},
-						"user_id": schema.StringAttribute{
-							Computed: true,
-						},
-					},
-				},
 			},
 			"purpose": schema.ListAttribute{
 				Computed:    true,

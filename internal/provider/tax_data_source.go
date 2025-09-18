@@ -30,26 +30,24 @@ type TaxDataSource struct {
 
 // TaxDataSourceModel describes the data model.
 type TaxDataSourceModel struct {
-	ACL         *tfTypes.BaseEntityACL    `tfsdk:"acl"`
-	Active      types.Bool                `tfsdk:"active"`
-	Additional  jsontypes.Normalized      `tfsdk:"additional"`
-	CreatedAt   types.String              `tfsdk:"created_at"`
-	Description types.String              `tfsdk:"description"`
-	Files       *tfTypes.BaseRelation     `tfsdk:"files"`
-	Hydrate     types.Bool                `queryParam:"style=form,explode=true,name=hydrate" tfsdk:"hydrate"`
-	ID          types.String              `tfsdk:"id"`
-	Manifest    []types.String            `tfsdk:"manifest"`
-	Org         types.String              `tfsdk:"org"`
-	Owners      []tfTypes.BaseEntityOwner `tfsdk:"owners"`
-	Purpose     []types.String            `tfsdk:"purpose"`
-	Rate        types.String              `tfsdk:"rate"`
-	Region      types.String              `tfsdk:"region"`
-	Schema      types.String              `tfsdk:"schema"`
-	Strict      types.Bool                `queryParam:"style=form,explode=true,name=strict" tfsdk:"strict"`
-	Tags        []types.String            `tfsdk:"tags"`
-	Title       types.String              `tfsdk:"title"`
-	Type        types.String              `tfsdk:"type"`
-	UpdatedAt   types.String              `tfsdk:"updated_at"`
+	Active      types.Bool            `tfsdk:"active"`
+	Additional  jsontypes.Normalized  `tfsdk:"additional"`
+	CreatedAt   types.String          `tfsdk:"created_at"`
+	Description types.String          `tfsdk:"description"`
+	Files       *tfTypes.BaseRelation `tfsdk:"files"`
+	Hydrate     types.Bool            `queryParam:"style=form,explode=true,name=hydrate" tfsdk:"hydrate"`
+	ID          types.String          `tfsdk:"id"`
+	Manifest    []types.String        `tfsdk:"manifest"`
+	Org         types.String          `tfsdk:"org"`
+	Purpose     []types.String        `tfsdk:"purpose"`
+	Rate        types.String          `tfsdk:"rate"`
+	Region      types.String          `tfsdk:"region"`
+	Schema      types.String          `tfsdk:"schema"`
+	Strict      types.Bool            `queryParam:"style=form,explode=true,name=strict" tfsdk:"strict"`
+	Tags        []types.String        `tfsdk:"tags"`
+	Title       types.String          `tfsdk:"title"`
+	Type        types.String          `tfsdk:"type"`
+	UpdatedAt   types.String          `tfsdk:"updated_at"`
 }
 
 // Metadata returns the data source type name.
@@ -63,24 +61,6 @@ func (r *TaxDataSource) Schema(ctx context.Context, req datasource.SchemaRequest
 		MarkdownDescription: "Tax DataSource",
 
 		Attributes: map[string]schema.Attribute{
-			"acl": schema.SingleNestedAttribute{
-				Computed: true,
-				Attributes: map[string]schema.Attribute{
-					"delete": schema.ListAttribute{
-						Computed:    true,
-						ElementType: types.StringType,
-					},
-					"edit": schema.ListAttribute{
-						Computed:    true,
-						ElementType: types.StringType,
-					},
-					"view": schema.ListAttribute{
-						Computed:    true,
-						ElementType: types.StringType,
-					},
-				},
-				Description: `Access control list (ACL) for an entity. Defines sharing access to external orgs or users.`,
-			},
 			"active": schema.BoolAttribute{
 				Computed: true,
 			},
@@ -129,19 +109,6 @@ func (r *TaxDataSource) Schema(ctx context.Context, req datasource.SchemaRequest
 			"org": schema.StringAttribute{
 				Computed:    true,
 				Description: `Organization Id the entity belongs to`,
-			},
-			"owners": schema.ListNestedAttribute{
-				Computed: true,
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"org_id": schema.StringAttribute{
-							Computed: true,
-						},
-						"user_id": schema.StringAttribute{
-							Computed: true,
-						},
-					},
-				},
 			},
 			"purpose": schema.ListAttribute{
 				Computed:    true,

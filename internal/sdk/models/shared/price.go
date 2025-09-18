@@ -260,22 +260,19 @@ func (e *PriceType) UnmarshalJSON(data []byte) error {
 
 type Price struct {
 	// Additional fields that are not part of the schema
-	Additional any `json:"__additional,omitempty"`
-	// Access control list (ACL) for an entity. Defines sharing access to external orgs or users.
-	ACL       *BaseEntityACL `json:"_acl,omitempty"`
-	CreatedAt *time.Time     `json:"_created_at,omitempty"`
-	Files     *BaseRelation  `json:"_files,omitempty"`
-	ID        *string        `json:"_id,omitempty"`
+	Additional any           `json:"__additional,omitempty"`
+	CreatedAt  *time.Time    `json:"_created_at,omitempty"`
+	Files      *BaseRelation `json:"_files,omitempty"`
+	ID         *string       `json:"_id,omitempty"`
 	// Manifest ID used to create/update the entity
 	Manifest []string `json:"_manifest,omitempty"`
 	// Organization Id the entity belongs to
-	Org       string            `json:"_org"`
-	Owners    []BaseEntityOwner `json:"_owners,omitempty"`
-	Purpose   []string          `json:"_purpose,omitempty"`
-	Schema    PriceSchema       `json:"_schema"`
-	Tags      []string          `json:"_tags,omitempty"`
-	Title     *string           `json:"_title,omitempty"`
-	UpdatedAt *time.Time        `json:"_updated_at,omitempty"`
+	Org       string      `json:"_org"`
+	Purpose   []string    `json:"_purpose,omitempty"`
+	Schema    PriceSchema `json:"_schema"`
+	Tags      []string    `json:"_tags,omitempty"`
+	Title     *string     `json:"_title,omitempty"`
+	UpdatedAt *time.Time  `json:"_updated_at,omitempty"`
 	// Whether the price can be used for new purchases.
 	Active bool `json:"active"`
 	// The billing period duration
@@ -349,13 +346,6 @@ func (o *Price) GetAdditional() any {
 	return o.Additional
 }
 
-func (o *Price) GetACL() *BaseEntityACL {
-	if o == nil {
-		return nil
-	}
-	return o.ACL
-}
-
 func (o *Price) GetCreatedAt() *time.Time {
 	if o == nil {
 		return nil
@@ -389,13 +379,6 @@ func (o *Price) GetOrg() string {
 		return ""
 	}
 	return o.Org
-}
-
-func (o *Price) GetOwners() []BaseEntityOwner {
-	if o == nil {
-		return nil
-	}
-	return o.Owners
 }
 
 func (o *Price) GetPurpose() []string {

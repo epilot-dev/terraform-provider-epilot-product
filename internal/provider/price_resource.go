@@ -43,7 +43,6 @@ type PriceResource struct {
 
 // PriceResourceModel describes the resource data model.
 type PriceResourceModel struct {
-	ACL                    *tfTypes.BaseEntityACL              `tfsdk:"acl"`
 	Active                 types.Bool                          `tfsdk:"active"`
 	Additional             jsontypes.Normalized                `tfsdk:"additional"`
 	BillingDurationAmount  types.Float64                       `tfsdk:"billing_duration_amount"`
@@ -59,7 +58,6 @@ type PriceResourceModel struct {
 	NoticeTimeAmount       types.Float64                       `tfsdk:"notice_time_amount"`
 	NoticeTimeUnit         types.String                        `tfsdk:"notice_time_unit"`
 	Org                    types.String                        `tfsdk:"org"`
-	Owners                 []tfTypes.BaseEntityOwner           `tfsdk:"owners"`
 	PriceComponents        *tfTypes.PriceCreatePriceComponents `tfsdk:"price_components"`
 	PriceDisplayInJourneys types.String                        `tfsdk:"price_display_in_journeys"`
 	PricingModel           types.String                        `tfsdk:"pricing_model"`
@@ -90,36 +88,6 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Price Resource",
 		Attributes: map[string]schema.Attribute{
-			"acl": schema.SingleNestedAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.Object{
-					speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
-				},
-				Attributes: map[string]schema.Attribute{
-					"delete": schema.ListAttribute{
-						Computed: true,
-						PlanModifiers: []planmodifier.List{
-							speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
-						},
-						ElementType: types.StringType,
-					},
-					"edit": schema.ListAttribute{
-						Computed: true,
-						PlanModifiers: []planmodifier.List{
-							speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
-						},
-						ElementType: types.StringType,
-					},
-					"view": schema.ListAttribute{
-						Computed: true,
-						PlanModifiers: []planmodifier.List{
-							speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
-						},
-						ElementType: types.StringType,
-					},
-				},
-				Description: `Access control list (ACL) for an entity. Defines sharing access to external orgs or users.`,
-			},
 			"active": schema.BoolAttribute{
 				Required: true,
 				PlanModifiers: []planmodifier.Bool{
@@ -285,31 +253,6 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 				},
 				Description: `Organization Id the entity belongs to`,
-			},
-			"owners": schema.ListNestedAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.List{
-					speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
-				},
-				NestedObject: schema.NestedAttributeObject{
-					PlanModifiers: []planmodifier.Object{
-						speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
-					},
-					Attributes: map[string]schema.Attribute{
-						"org_id": schema.StringAttribute{
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-								speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
-							},
-						},
-						"user_id": schema.StringAttribute{
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-								speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
-							},
-						},
-					},
-				},
 			},
 			"price_components": schema.SingleNestedAttribute{
 				Computed: true,

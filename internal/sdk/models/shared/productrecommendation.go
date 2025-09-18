@@ -64,17 +64,14 @@ func (e *ProductRecommendationType) UnmarshalJSON(data []byte) error {
 
 type ProductRecommendation struct {
 	// Additional fields that are not part of the schema
-	Additional any `json:"__additional,omitempty"`
-	// Access control list (ACL) for an entity. Defines sharing access to external orgs or users.
-	ACL       *BaseEntityACL `json:"_acl,omitempty"`
-	CreatedAt *time.Time     `json:"_created_at,omitempty"`
-	Files     *BaseRelation  `json:"_files,omitempty"`
-	ID        *string        `json:"_id,omitempty"`
+	Additional any           `json:"__additional,omitempty"`
+	CreatedAt  *time.Time    `json:"_created_at,omitempty"`
+	Files      *BaseRelation `json:"_files,omitempty"`
+	ID         *string       `json:"_id,omitempty"`
 	// Manifest ID used to create/update the entity
 	Manifest []string `json:"_manifest,omitempty"`
 	// Organization Id the entity belongs to
 	Org       string                      `json:"_org"`
-	Owners    []BaseEntityOwner           `json:"_owners,omitempty"`
 	Purpose   []string                    `json:"_purpose,omitempty"`
 	Schema    ProductRecommendationSchema `json:"_schema"`
 	Tags      []string                    `json:"_tags,omitempty"`
@@ -105,13 +102,6 @@ func (o *ProductRecommendation) GetAdditional() any {
 		return nil
 	}
 	return o.Additional
-}
-
-func (o *ProductRecommendation) GetACL() *BaseEntityACL {
-	if o == nil {
-		return nil
-	}
-	return o.ACL
 }
 
 func (o *ProductRecommendation) GetCreatedAt() *time.Time {
@@ -147,13 +137,6 @@ func (o *ProductRecommendation) GetOrg() string {
 		return ""
 	}
 	return o.Org
-}
-
-func (o *ProductRecommendation) GetOwners() []BaseEntityOwner {
-	if o == nil {
-		return nil
-	}
-	return o.Owners
 }
 
 func (o *ProductRecommendation) GetPurpose() []string {

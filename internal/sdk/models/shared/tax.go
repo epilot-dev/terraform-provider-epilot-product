@@ -60,27 +60,24 @@ func (e *TaxType) UnmarshalJSON(data []byte) error {
 
 type Tax struct {
 	// Additional fields that are not part of the schema
-	Additional any `json:"__additional,omitempty"`
-	// Access control list (ACL) for an entity. Defines sharing access to external orgs or users.
-	ACL       *BaseEntityACL `json:"_acl,omitempty"`
-	CreatedAt *time.Time     `json:"_created_at,omitempty"`
-	Files     *BaseRelation  `json:"_files,omitempty"`
-	ID        *string        `json:"_id,omitempty"`
+	Additional any           `json:"__additional,omitempty"`
+	CreatedAt  *time.Time    `json:"_created_at,omitempty"`
+	Files      *BaseRelation `json:"_files,omitempty"`
+	ID         *string       `json:"_id,omitempty"`
 	// Manifest ID used to create/update the entity
 	Manifest []string `json:"_manifest,omitempty"`
 	// Organization Id the entity belongs to
-	Org         string            `json:"_org"`
-	Owners      []BaseEntityOwner `json:"_owners,omitempty"`
-	Purpose     []string          `json:"_purpose,omitempty"`
-	Schema      TaxSchema         `json:"_schema"`
-	Tags        []string          `json:"_tags,omitempty"`
-	Title       *string           `json:"_title,omitempty"`
-	UpdatedAt   *time.Time        `json:"_updated_at,omitempty"`
-	Active      bool              `json:"active"`
-	Description *string           `json:"description,omitempty"`
-	Rate        string            `json:"rate"`
-	Region      string            `json:"region"`
-	Type        TaxType           `json:"type"`
+	Org         string     `json:"_org"`
+	Purpose     []string   `json:"_purpose,omitempty"`
+	Schema      TaxSchema  `json:"_schema"`
+	Tags        []string   `json:"_tags,omitempty"`
+	Title       *string    `json:"_title,omitempty"`
+	UpdatedAt   *time.Time `json:"_updated_at,omitempty"`
+	Active      bool       `json:"active"`
+	Description *string    `json:"description,omitempty"`
+	Rate        string     `json:"rate"`
+	Region      string     `json:"region"`
+	Type        TaxType    `json:"type"`
 }
 
 func (t Tax) MarshalJSON() ([]byte, error) {
@@ -99,13 +96,6 @@ func (o *Tax) GetAdditional() any {
 		return nil
 	}
 	return o.Additional
-}
-
-func (o *Tax) GetACL() *BaseEntityACL {
-	if o == nil {
-		return nil
-	}
-	return o.ACL
 }
 
 func (o *Tax) GetCreatedAt() *time.Time {
@@ -141,13 +131,6 @@ func (o *Tax) GetOrg() string {
 		return ""
 	}
 	return o.Org
-}
-
-func (o *Tax) GetOwners() []BaseEntityOwner {
-	if o == nil {
-		return nil
-	}
-	return o.Owners
 }
 
 func (o *Tax) GetPurpose() []string {

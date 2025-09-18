@@ -24,23 +24,6 @@ func (r *ProductRecommendationDataSourceModel) RefreshFromSharedProductRecommend
 			additionalResult, _ := json.Marshal(resp.Additional)
 			r.Additional = jsontypes.NewNormalizedValue(string(additionalResult))
 		}
-		if resp.ACL == nil {
-			r.ACL = nil
-		} else {
-			r.ACL = &tfTypes.BaseEntityACL{}
-			r.ACL.Delete = make([]types.String, 0, len(resp.ACL.Delete))
-			for _, v := range resp.ACL.Delete {
-				r.ACL.Delete = append(r.ACL.Delete, types.StringValue(v))
-			}
-			r.ACL.Edit = make([]types.String, 0, len(resp.ACL.Edit))
-			for _, v := range resp.ACL.Edit {
-				r.ACL.Edit = append(r.ACL.Edit, types.StringValue(v))
-			}
-			r.ACL.View = make([]types.String, 0, len(resp.ACL.View))
-			for _, v := range resp.ACL.View {
-				r.ACL.View = append(r.ACL.View, types.StringValue(v))
-			}
-		}
 		r.CreatedAt = types.StringPointerValue(typeconvert.TimePointerToStringPointer(resp.CreatedAt))
 		if resp.Files == nil {
 			r.Files = nil
@@ -68,16 +51,6 @@ func (r *ProductRecommendationDataSourceModel) RefreshFromSharedProductRecommend
 			r.Manifest = append(r.Manifest, types.StringValue(v))
 		}
 		r.Org = types.StringValue(resp.Org)
-		r.Owners = []tfTypes.BaseEntityOwner{}
-
-		for _, ownersItem := range resp.Owners {
-			var owners tfTypes.BaseEntityOwner
-
-			owners.OrgID = types.StringValue(ownersItem.OrgID)
-			owners.UserID = types.StringPointerValue(ownersItem.UserID)
-
-			r.Owners = append(r.Owners, owners)
-		}
 		if resp.Purpose != nil {
 			r.Purpose = make([]types.String, 0, len(resp.Purpose))
 			for _, v := range resp.Purpose {

@@ -40,24 +40,22 @@ type TaxResource struct {
 
 // TaxResourceModel describes the resource data model.
 type TaxResourceModel struct {
-	ACL         *tfTypes.BaseEntityACL    `tfsdk:"acl"`
-	Active      types.Bool                `tfsdk:"active"`
-	Additional  jsontypes.Normalized      `tfsdk:"additional"`
-	CreatedAt   types.String              `tfsdk:"created_at"`
-	Description types.String              `tfsdk:"description"`
-	Files       *tfTypes.BaseRelation     `tfsdk:"files"`
-	ID          types.String              `tfsdk:"id"`
-	Manifest    []types.String            `tfsdk:"manifest"`
-	Org         types.String              `tfsdk:"org"`
-	Owners      []tfTypes.BaseEntityOwner `tfsdk:"owners"`
-	Purpose     []types.String            `tfsdk:"purpose"`
-	Rate        types.String              `tfsdk:"rate"`
-	Region      types.String              `tfsdk:"region"`
-	Schema      types.String              `tfsdk:"schema"`
-	Tags        []types.String            `tfsdk:"tags"`
-	Title       types.String              `tfsdk:"title"`
-	Type        types.String              `tfsdk:"type"`
-	UpdatedAt   types.String              `tfsdk:"updated_at"`
+	Active      types.Bool            `tfsdk:"active"`
+	Additional  jsontypes.Normalized  `tfsdk:"additional"`
+	CreatedAt   types.String          `tfsdk:"created_at"`
+	Description types.String          `tfsdk:"description"`
+	Files       *tfTypes.BaseRelation `tfsdk:"files"`
+	ID          types.String          `tfsdk:"id"`
+	Manifest    []types.String        `tfsdk:"manifest"`
+	Org         types.String          `tfsdk:"org"`
+	Purpose     []types.String        `tfsdk:"purpose"`
+	Rate        types.String          `tfsdk:"rate"`
+	Region      types.String          `tfsdk:"region"`
+	Schema      types.String          `tfsdk:"schema"`
+	Tags        []types.String        `tfsdk:"tags"`
+	Title       types.String          `tfsdk:"title"`
+	Type        types.String          `tfsdk:"type"`
+	UpdatedAt   types.String          `tfsdk:"updated_at"`
 }
 
 func (r *TaxResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -68,36 +66,6 @@ func (r *TaxResource) Schema(ctx context.Context, req resource.SchemaRequest, re
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Tax Resource",
 		Attributes: map[string]schema.Attribute{
-			"acl": schema.SingleNestedAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.Object{
-					speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
-				},
-				Attributes: map[string]schema.Attribute{
-					"delete": schema.ListAttribute{
-						Computed: true,
-						PlanModifiers: []planmodifier.List{
-							speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
-						},
-						ElementType: types.StringType,
-					},
-					"edit": schema.ListAttribute{
-						Computed: true,
-						PlanModifiers: []planmodifier.List{
-							speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
-						},
-						ElementType: types.StringType,
-					},
-					"view": schema.ListAttribute{
-						Computed: true,
-						PlanModifiers: []planmodifier.List{
-							speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
-						},
-						ElementType: types.StringType,
-					},
-				},
-				Description: `Access control list (ACL) for an entity. Defines sharing access to external orgs or users.`,
-			},
 			"active": schema.BoolAttribute{
 				Required: true,
 				PlanModifiers: []planmodifier.Bool{
@@ -191,31 +159,6 @@ func (r *TaxResource) Schema(ctx context.Context, req resource.SchemaRequest, re
 					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 				},
 				Description: `Organization Id the entity belongs to`,
-			},
-			"owners": schema.ListNestedAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.List{
-					speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
-				},
-				NestedObject: schema.NestedAttributeObject{
-					PlanModifiers: []planmodifier.Object{
-						speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
-					},
-					Attributes: map[string]schema.Attribute{
-						"org_id": schema.StringAttribute{
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-								speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
-							},
-						},
-						"user_id": schema.StringAttribute{
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-								speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
-							},
-						},
-					},
-				},
 			},
 			"purpose": schema.ListAttribute{
 				Computed: true,

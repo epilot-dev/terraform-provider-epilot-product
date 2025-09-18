@@ -65,11 +65,9 @@ resource "epilot-product_tax" "my_tax" {
 
 ### Read-Only
 
-- `acl` (Attributes) Access control list (ACL) for an entity. Defines sharing access to external orgs or users. (see [below for nested schema](#nestedatt--acl))
 - `created_at` (String)
 - `id` (String) The ID of this resource.
 - `org` (String) Organization Id the entity belongs to
-- `owners` (Attributes List) (see [below for nested schema](#nestedatt--owners))
 - `title` (String)
 - `updated_at` (String)
 
@@ -87,26 +85,6 @@ Optional:
 
 - `entity_id` (String)
 - `tags` (List of String)
-
-
-
-<a id="nestedatt--acl"></a>
-### Nested Schema for `acl`
-
-Read-Only:
-
-- `delete` (List of String)
-- `edit` (List of String)
-- `view` (List of String)
-
-
-<a id="nestedatt--owners"></a>
-### Nested Schema for `owners`
-
-Read-Only:
-
-- `org_id` (String)
-- `user_id` (String)
 
 ## Import
 

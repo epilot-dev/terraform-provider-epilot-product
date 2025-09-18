@@ -30,7 +30,6 @@ type PriceDataSource struct {
 
 // PriceDataSourceModel describes the data model.
 type PriceDataSourceModel struct {
-	ACL                    *tfTypes.BaseEntityACL              `tfsdk:"acl"`
 	Active                 types.Bool                          `tfsdk:"active"`
 	Additional             jsontypes.Normalized                `tfsdk:"additional"`
 	BillingDurationAmount  types.Float64                       `tfsdk:"billing_duration_amount"`
@@ -47,7 +46,6 @@ type PriceDataSourceModel struct {
 	NoticeTimeAmount       types.Float64                       `tfsdk:"notice_time_amount"`
 	NoticeTimeUnit         types.String                        `tfsdk:"notice_time_unit"`
 	Org                    types.String                        `tfsdk:"org"`
-	Owners                 []tfTypes.BaseEntityOwner           `tfsdk:"owners"`
 	PriceComponents        *tfTypes.PriceCreatePriceComponents `tfsdk:"price_components"`
 	PriceDisplayInJourneys types.String                        `tfsdk:"price_display_in_journeys"`
 	PricingModel           types.String                        `tfsdk:"pricing_model"`
@@ -82,24 +80,6 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 		MarkdownDescription: "Price DataSource",
 
 		Attributes: map[string]schema.Attribute{
-			"acl": schema.SingleNestedAttribute{
-				Computed: true,
-				Attributes: map[string]schema.Attribute{
-					"delete": schema.ListAttribute{
-						Computed:    true,
-						ElementType: types.StringType,
-					},
-					"edit": schema.ListAttribute{
-						Computed:    true,
-						ElementType: types.StringType,
-					},
-					"view": schema.ListAttribute{
-						Computed:    true,
-						ElementType: types.StringType,
-					},
-				},
-				Description: `Access control list (ACL) for an entity. Defines sharing access to external orgs or users.`,
-			},
 			"active": schema.BoolAttribute{
 				Computed:    true,
 				Description: `Whether the price can be used for new purchases.`,
@@ -178,19 +158,6 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 			"org": schema.StringAttribute{
 				Computed:    true,
 				Description: `Organization Id the entity belongs to`,
-			},
-			"owners": schema.ListNestedAttribute{
-				Computed: true,
-				NestedObject: schema.NestedAttributeObject{
-					Attributes: map[string]schema.Attribute{
-						"org_id": schema.StringAttribute{
-							Computed: true,
-						},
-						"user_id": schema.StringAttribute{
-							Computed: true,
-						},
-					},
-				},
 			},
 			"price_components": schema.SingleNestedAttribute{
 				Computed: true,

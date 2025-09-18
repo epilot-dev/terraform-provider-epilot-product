@@ -29,7 +29,6 @@ data "epilot-product_coupon" "my_coupon" {
 
 ### Read-Only
 
-- `acl` (Attributes) Access control list (ACL) for an entity. Defines sharing access to external orgs or users. (see [below for nested schema](#nestedatt--acl))
 - `active` (Boolean)
 - `additional` (String) Additional fields that are not part of the schema. Parsed as JSON.
 - `cashback_period` (String) The cashback period, for now it's limited to either 0 months or 12 months
@@ -44,7 +43,6 @@ data "epilot-product_coupon" "my_coupon" {
 - `manifest` (List of String) Manifest ID used to create/update the entity
 - `name` (String)
 - `org` (String) Organization Id the entity belongs to
-- `owners` (Attributes List) (see [below for nested schema](#nestedatt--owners))
 - `percentage_value` (String) Use if type is set to percentage. The percentage to be discounted, represented as a whole integer.
 - `prices` (Attributes) (see [below for nested schema](#nestedatt--prices))
 - `promo_code_usage` (String) Map of ids of promo codes with their usage count. Parsed as JSON.
@@ -56,16 +54,6 @@ data "epilot-product_coupon" "my_coupon" {
 - `title` (String)
 - `type` (String)
 - `updated_at` (String)
-
-<a id="nestedatt--acl"></a>
-### Nested Schema for `acl`
-
-Read-Only:
-
-- `delete` (List of String)
-- `edit` (List of String)
-- `view` (List of String)
-
 
 <a id="nestedatt--files"></a>
 ### Nested Schema for `files`
@@ -82,15 +70,6 @@ Read-Only:
 - `entity_id` (String)
 - `tags` (List of String)
 
-
-
-<a id="nestedatt--owners"></a>
-### Nested Schema for `owners`
-
-Read-Only:
-
-- `org_id` (String)
-- `user_id` (String)
 
 
 <a id="nestedatt--prices"></a>

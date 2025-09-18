@@ -29,7 +29,6 @@ data "epilot-product_price" "my_price" {
 
 ### Read-Only
 
-- `acl` (Attributes) Access control list (ACL) for an entity. Defines sharing access to external orgs or users. (see [below for nested schema](#nestedatt--acl))
 - `active` (Boolean) Whether the price can be used for new purchases.
 - `additional` (String) Additional fields that are not part of the schema. Parsed as JSON.
 - `billing_duration_amount` (Number) The billing period duration
@@ -45,7 +44,6 @@ data "epilot-product_price" "my_price" {
 - `notice_time_amount` (Number) The notice period duration
 - `notice_time_unit` (String) The notice period duration unit
 - `org` (String) Organization Id the entity belongs to
-- `owners` (Attributes List) (see [below for nested schema](#nestedatt--owners))
 - `price_components` (Attributes) A set of [price](/api/pricing#tag/simple_price_schema) components that define the composite price. (see [below for nested schema](#nestedatt--price_components))
 - `price_display_in_journeys` (String) Defines the way the price amount is display in epilot journeys.
 - `pricing_model` (String) Describes how to compute the price per period. Either `per_unit`, `tiered_graduated` or `tiered_volume`.
@@ -71,16 +69,6 @@ data "epilot-product_price" "my_price" {
 - `updated_at` (String)
 - `variable_price` (Boolean) The flag for prices that can be influenced by external variables such as user input.
 
-<a id="nestedatt--acl"></a>
-### Nested Schema for `acl`
-
-Read-Only:
-
-- `delete` (List of String)
-- `edit` (List of String)
-- `view` (List of String)
-
-
 <a id="nestedatt--files"></a>
 ### Nested Schema for `files`
 
@@ -96,15 +84,6 @@ Read-Only:
 - `entity_id` (String)
 - `tags` (List of String)
 
-
-
-<a id="nestedatt--owners"></a>
-### Nested Schema for `owners`
-
-Read-Only:
-
-- `org_id` (String)
-- `user_id` (String)
 
 
 <a id="nestedatt--price_components"></a>

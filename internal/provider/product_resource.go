@@ -42,31 +42,29 @@ type ProductResource struct {
 
 // ProductResourceModel describes the resource data model.
 type ProductResourceModel struct {
-	ACL               *tfTypes.BaseEntityACL    `tfsdk:"acl"`
-	Active            types.Bool                `tfsdk:"active"`
-	Additional        jsontypes.Normalized      `tfsdk:"additional"`
-	AvailabilityFiles *tfTypes.BaseRelation     `tfsdk:"availability_files"`
-	Categories        []types.String            `tfsdk:"categories"`
-	Code              types.String              `tfsdk:"code"`
-	CreatedAt         types.String              `tfsdk:"created_at"`
-	Description       types.String              `tfsdk:"description"`
-	Feature           []jsontypes.Normalized    `tfsdk:"feature"`
-	Files             *tfTypes.BaseRelation     `tfsdk:"files"`
-	ID                types.String              `tfsdk:"id"`
-	InternalName      types.String              `tfsdk:"internal_name"`
-	Manifest          []types.String            `tfsdk:"manifest"`
-	Name              types.String              `tfsdk:"name"`
-	Org               types.String              `tfsdk:"org"`
-	Owners            []tfTypes.BaseEntityOwner `tfsdk:"owners"`
-	PriceOptions      *tfTypes.BaseRelation     `tfsdk:"price_options"`
-	ProductDownloads  *tfTypes.BaseRelation     `tfsdk:"product_downloads"`
-	ProductImages     *tfTypes.BaseRelation     `tfsdk:"product_images"`
-	Purpose           []types.String            `tfsdk:"purpose"`
-	Schema            types.String              `tfsdk:"schema"`
-	Tags              []types.String            `tfsdk:"tags"`
-	Title             types.String              `tfsdk:"title"`
-	Type              types.String              `tfsdk:"type"`
-	UpdatedAt         types.String              `tfsdk:"updated_at"`
+	Active            types.Bool             `tfsdk:"active"`
+	Additional        jsontypes.Normalized   `tfsdk:"additional"`
+	AvailabilityFiles *tfTypes.BaseRelation  `tfsdk:"availability_files"`
+	Categories        []types.String         `tfsdk:"categories"`
+	Code              types.String           `tfsdk:"code"`
+	CreatedAt         types.String           `tfsdk:"created_at"`
+	Description       types.String           `tfsdk:"description"`
+	Feature           []jsontypes.Normalized `tfsdk:"feature"`
+	Files             *tfTypes.BaseRelation  `tfsdk:"files"`
+	ID                types.String           `tfsdk:"id"`
+	InternalName      types.String           `tfsdk:"internal_name"`
+	Manifest          []types.String         `tfsdk:"manifest"`
+	Name              types.String           `tfsdk:"name"`
+	Org               types.String           `tfsdk:"org"`
+	PriceOptions      *tfTypes.BaseRelation  `tfsdk:"price_options"`
+	ProductDownloads  *tfTypes.BaseRelation  `tfsdk:"product_downloads"`
+	ProductImages     *tfTypes.BaseRelation  `tfsdk:"product_images"`
+	Purpose           []types.String         `tfsdk:"purpose"`
+	Schema            types.String           `tfsdk:"schema"`
+	Tags              []types.String         `tfsdk:"tags"`
+	Title             types.String           `tfsdk:"title"`
+	Type              types.String           `tfsdk:"type"`
+	UpdatedAt         types.String           `tfsdk:"updated_at"`
 }
 
 func (r *ProductResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -77,36 +75,6 @@ func (r *ProductResource) Schema(ctx context.Context, req resource.SchemaRequest
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Product Resource",
 		Attributes: map[string]schema.Attribute{
-			"acl": schema.SingleNestedAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.Object{
-					speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
-				},
-				Attributes: map[string]schema.Attribute{
-					"delete": schema.ListAttribute{
-						Computed: true,
-						PlanModifiers: []planmodifier.List{
-							speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
-						},
-						ElementType: types.StringType,
-					},
-					"edit": schema.ListAttribute{
-						Computed: true,
-						PlanModifiers: []planmodifier.List{
-							speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
-						},
-						ElementType: types.StringType,
-					},
-					"view": schema.ListAttribute{
-						Computed: true,
-						PlanModifiers: []planmodifier.List{
-							speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
-						},
-						ElementType: types.StringType,
-					},
-				},
-				Description: `Access control list (ACL) for an entity. Defines sharing access to external orgs or users.`,
-			},
 			"active": schema.BoolAttribute{
 				Required: true,
 				PlanModifiers: []planmodifier.Bool{
@@ -285,31 +253,6 @@ func (r *ProductResource) Schema(ctx context.Context, req resource.SchemaRequest
 					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 				},
 				Description: `Organization Id the entity belongs to`,
-			},
-			"owners": schema.ListNestedAttribute{
-				Computed: true,
-				PlanModifiers: []planmodifier.List{
-					speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
-				},
-				NestedObject: schema.NestedAttributeObject{
-					PlanModifiers: []planmodifier.Object{
-						speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
-					},
-					Attributes: map[string]schema.Attribute{
-						"org_id": schema.StringAttribute{
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-								speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
-							},
-						},
-						"user_id": schema.StringAttribute{
-							Computed: true,
-							PlanModifiers: []planmodifier.String{
-								speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
-							},
-						},
-					},
-				},
 			},
 			"price_options": schema.SingleNestedAttribute{
 				Computed: true,

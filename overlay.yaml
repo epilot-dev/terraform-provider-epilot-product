@@ -139,9 +139,11 @@ actions:
   - target: $["components"]["schemas"]["BaseSystemFields"]["properties"]["__additional"]
     update:
       x-speakeasy-type-override: any
-  - target: $["components"]["schemas"]["BaseSystemFields"]["properties"]["owners"]
+  - target: $["components"]["schemas"]["BaseSystemReadonlyFields"]["properties"]["owners"]
     update:
       x-speakeasy-type-override: any
-  # remove _acl and _owners from BaseSystemFields
-  - target: $["components"]["schemas"]["BaseSystemFields"]["properties"]["_acl"]
+  # remove _acl and _owners from BaseSystemReadonlyFields
+  - target: $["components"]["schemas"]["BaseSystemReadonlyFields"]["properties"]["_acl"]
+    remove: true
+  - target: $["components"]["schemas"]["BaseSystemReadonlyFields"]["properties"]["_owners"]
     remove: true

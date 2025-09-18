@@ -29,7 +29,6 @@ data "epilot-product_tax" "my_tax" {
 
 ### Read-Only
 
-- `acl` (Attributes) Access control list (ACL) for an entity. Defines sharing access to external orgs or users. (see [below for nested schema](#nestedatt--acl))
 - `active` (Boolean)
 - `additional` (String) Additional fields that are not part of the schema. Parsed as JSON.
 - `created_at` (String)
@@ -38,7 +37,6 @@ data "epilot-product_tax" "my_tax" {
 - `id` (String) The ID of this resource.
 - `manifest` (List of String) Manifest ID used to create/update the entity
 - `org` (String) Organization Id the entity belongs to
-- `owners` (Attributes List) (see [below for nested schema](#nestedatt--owners))
 - `purpose` (List of String)
 - `rate` (String)
 - `region` (String)
@@ -47,16 +45,6 @@ data "epilot-product_tax" "my_tax" {
 - `title` (String)
 - `type` (String)
 - `updated_at` (String)
-
-<a id="nestedatt--acl"></a>
-### Nested Schema for `acl`
-
-Read-Only:
-
-- `delete` (List of String)
-- `edit` (List of String)
-- `view` (List of String)
-
 
 <a id="nestedatt--files"></a>
 ### Nested Schema for `files`
@@ -72,13 +60,3 @@ Read-Only:
 
 - `entity_id` (String)
 - `tags` (List of String)
-
-
-
-<a id="nestedatt--owners"></a>
-### Nested Schema for `owners`
-
-Read-Only:
-
-- `org_id` (String)
-- `user_id` (String)

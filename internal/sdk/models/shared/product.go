@@ -66,24 +66,21 @@ func (e *ProductType) UnmarshalJSON(data []byte) error {
 
 type Product struct {
 	// Additional fields that are not part of the schema
-	Additional any `json:"__additional,omitempty"`
-	// Access control list (ACL) for an entity. Defines sharing access to external orgs or users.
-	ACL               *BaseEntityACL `json:"_acl,omitempty"`
-	AvailabilityFiles *BaseRelation  `json:"_availability_files,omitempty"`
-	CreatedAt         *time.Time     `json:"_created_at,omitempty"`
-	Files             *BaseRelation  `json:"_files,omitempty"`
-	ID                *string        `json:"_id,omitempty"`
+	Additional        any           `json:"__additional,omitempty"`
+	AvailabilityFiles *BaseRelation `json:"_availability_files,omitempty"`
+	CreatedAt         *time.Time    `json:"_created_at,omitempty"`
+	Files             *BaseRelation `json:"_files,omitempty"`
+	ID                *string       `json:"_id,omitempty"`
 	// Manifest ID used to create/update the entity
 	Manifest []string `json:"_manifest,omitempty"`
 	// Organization Id the entity belongs to
-	Org       string            `json:"_org"`
-	Owners    []BaseEntityOwner `json:"_owners,omitempty"`
-	Purpose   []string          `json:"_purpose,omitempty"`
-	Schema    ProductSchema     `json:"_schema"`
-	Tags      []string          `json:"_tags,omitempty"`
-	Title     *string           `json:"_title,omitempty"`
-	UpdatedAt *time.Time        `json:"_updated_at,omitempty"`
-	Active    bool              `json:"active"`
+	Org       string        `json:"_org"`
+	Purpose   []string      `json:"_purpose,omitempty"`
+	Schema    ProductSchema `json:"_schema"`
+	Tags      []string      `json:"_tags,omitempty"`
+	Title     *string       `json:"_title,omitempty"`
+	UpdatedAt *time.Time    `json:"_updated_at,omitempty"`
+	Active    bool          `json:"active"`
 	// The categories of the product
 	Categories []string `json:"categories,omitempty"`
 	// The product code
@@ -126,13 +123,6 @@ func (o *Product) GetAdditional() any {
 	return o.Additional
 }
 
-func (o *Product) GetACL() *BaseEntityACL {
-	if o == nil {
-		return nil
-	}
-	return o.ACL
-}
-
 func (o *Product) GetAvailabilityFiles() *BaseRelation {
 	if o == nil {
 		return nil
@@ -173,13 +163,6 @@ func (o *Product) GetOrg() string {
 		return ""
 	}
 	return o.Org
-}
-
-func (o *Product) GetOwners() []BaseEntityOwner {
-	if o == nil {
-		return nil
-	}
-	return o.Owners
 }
 
 func (o *Product) GetPurpose() []string {
