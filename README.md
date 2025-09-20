@@ -83,7 +83,7 @@ terraform {
   required_providers {
     epilot-product = {
       source  = "epilot-dev/epilot-product"
-      version = "0.15.8"
+      version = "0.16.0"
     }
   }
 }
@@ -161,14 +161,12 @@ Available configuration:
 * [epilot-product_coupon](docs/resources/coupon.md)
 * [epilot-product_price](docs/resources/price.md)
 * [epilot-product_product](docs/resources/product.md)
-* [epilot-product_product_recommendation](docs/resources/product_recommendation.md)
 * [epilot-product_tax](docs/resources/tax.md)
 ### Data Sources
 
 * [epilot-product_coupon](docs/data-sources/coupon.md)
 * [epilot-product_price](docs/data-sources/price.md)
 * [epilot-product_product](docs/data-sources/product.md)
-* [epilot-product_product_recommendation](docs/data-sources/product_recommendation.md)
 * [epilot-product_tax](docs/data-sources/tax.md)
 <!-- End Available Resources and Data Sources [operations] -->
 

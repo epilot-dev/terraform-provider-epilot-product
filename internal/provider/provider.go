@@ -109,7 +109,6 @@ func (p *EpilotProductProvider) Resources(ctx context.Context) []func() resource
 		NewCouponResource,
 		NewPriceResource,
 		NewProductResource,
-		NewProductRecommendationResource,
 		NewTaxResource,
 	}
 }
@@ -119,7 +118,6 @@ func (p *EpilotProductProvider) DataSources(ctx context.Context) []func() dataso
 		NewCouponDataSource,
 		NewPriceDataSource,
 		NewProductDataSource,
-		NewProductRecommendationDataSource,
 		NewTaxDataSource,
 	}
 }

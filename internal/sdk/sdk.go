@@ -2,7 +2,7 @@
 
 package sdk
 
-// Generated from OpenAPI doc version 1.0.0 and generator version 2.694.1
+// Generated from OpenAPI doc version 1.0.0 and generator version 2.708.2
 
 import (
 	"context"
@@ -18,6 +18,7 @@ import (
 
 // ServerList contains the list of servers available to the SDK
 var ServerList = []string{
+	"https://product.sls.epilot.io",
 	// Production server
 	"https://product.sls.epilot.io",
 }
@@ -56,8 +57,7 @@ type SDK struct {
 	// Price operations
 	Price *Price
 	// Product operations
-	Product               *Product
-	ProductRecommendation *ProductRecommendation
+	Product *Product
 	// Tax operations
 	Tax *Tax
 
@@ -135,9 +135,9 @@ func WithTimeout(timeout time.Duration) SDKOption {
 // New creates a new instance of the SDK with the provided options
 func New(opts ...SDKOption) *SDK {
 	sdk := &SDK{
-		SDKVersion: "0.15.8",
+		SDKVersion: "0.16.0",
 		sdkConfiguration: config.SDKConfiguration{
-			UserAgent:  "speakeasy-sdk/terraform 0.15.8 2.694.1 1.0.0 github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk",
+			UserAgent:  "speakeasy-sdk/terraform 0.16.0 2.708.2 1.0.0 github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk",
 			ServerList: ServerList,
 		},
 		hooks: hooks.New(),
@@ -161,7 +161,6 @@ func New(opts ...SDKOption) *SDK {
 	sdk.Coupon = newCoupon(sdk, sdk.sdkConfiguration, sdk.hooks)
 	sdk.Price = newPrice(sdk, sdk.sdkConfiguration, sdk.hooks)
 	sdk.Product = newProduct(sdk, sdk.sdkConfiguration, sdk.hooks)
-	sdk.ProductRecommendation = newProductRecommendation(sdk, sdk.sdkConfiguration, sdk.hooks)
 	sdk.Tax = newTax(sdk, sdk.sdkConfiguration, sdk.hooks)
 
 	return sdk
