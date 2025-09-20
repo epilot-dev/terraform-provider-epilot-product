@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 5a857039-7f4b-42d5-86fd-449767242ed2
 management:
-  docChecksum: bb591589ba550c069501b30f7c2dac0b
+  docChecksum: de2acaeafba98dd261d644b6ed69d925
   docVersion: 1.0.0
-  speakeasyVersion: 1.611.0
-  generationVersion: 2.694.1
-  releaseVersion: 0.15.8
-  configChecksum: faea1f0199584b9d483ebe9842318f2c
+  speakeasyVersion: 1.621.1
+  generationVersion: 2.708.2
+  releaseVersion: 0.16.0
+  configChecksum: 1841a49f3469a9b084e45df5cb6a61ae
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-product.git
   repoSubDirectory: .
   published: true
@@ -21,9 +21,9 @@ features:
     unions: 2.85.0
   terraform:
     additionalDependencies: 0.1.0
-    constsAndDefaults: 0.2.1
-    core: 3.44.1
-    globalSecurity: 2.82.0
+    constsAndDefaults: 0.3.0
+    core: 3.45.0
+    globalSecurity: 2.82.1
     globalServerURLs: 2.83.0
     nullables: 0.0.0
     retries: 2.81.4
@@ -31,11 +31,9 @@ features:
 generatedFiles:
   - .gitattributes
   - USAGE.md
-  - examples/README.md
   - examples/data-sources/epilot-product_coupon/data-source.tf
   - examples/data-sources/epilot-product_price/data-source.tf
   - examples/data-sources/epilot-product_product/data-source.tf
-  - examples/data-sources/epilot-product_product_recommendation/data-source.tf
   - examples/data-sources/epilot-product_tax/data-source.tf
   - examples/provider/provider.tf
   - examples/resources/epilot-product_coupon/import-by-string-id.tf
@@ -47,9 +45,6 @@ generatedFiles:
   - examples/resources/epilot-product_product/import-by-string-id.tf
   - examples/resources/epilot-product_product/import.sh
   - examples/resources/epilot-product_product/resource.tf
-  - examples/resources/epilot-product_product_recommendation/import-by-string-id.tf
-  - examples/resources/epilot-product_product_recommendation/import.sh
-  - examples/resources/epilot-product_product_recommendation/resource.tf
   - examples/resources/epilot-product_tax/import-by-string-id.tf
   - examples/resources/epilot-product_tax/import.sh
   - examples/resources/epilot-product_tax/resource.tf
@@ -79,10 +74,6 @@ generatedFiles:
   - internal/provider/product_data_source_sdk.go
   - internal/provider/product_resource.go
   - internal/provider/product_resource_sdk.go
-  - internal/provider/productrecommendation_data_source.go
-  - internal/provider/productrecommendation_data_source_sdk.go
-  - internal/provider/productrecommendation_resource.go
-  - internal/provider/productrecommendation_resource_sdk.go
   - internal/provider/provider.go
   - internal/provider/reflect/diags.go
   - internal/provider/reflect/doc.go
@@ -132,28 +123,23 @@ generatedFiles:
   - internal/sdk/models/operations/createcoupon.go
   - internal/sdk/models/operations/createprice.go
   - internal/sdk/models/operations/createproduct.go
-  - internal/sdk/models/operations/createproductrecommendation.go
   - internal/sdk/models/operations/createtax.go
   - internal/sdk/models/operations/deletecoupon.go
   - internal/sdk/models/operations/deleteprice.go
   - internal/sdk/models/operations/deleteproduct.go
-  - internal/sdk/models/operations/deleteproductrecommendation.go
   - internal/sdk/models/operations/deletetax.go
   - internal/sdk/models/operations/getcoupon.go
   - internal/sdk/models/operations/getprice.go
   - internal/sdk/models/operations/getproduct.go
-  - internal/sdk/models/operations/getproductrecommendation.go
   - internal/sdk/models/operations/gettax.go
   - internal/sdk/models/operations/options.go
   - internal/sdk/models/operations/patchcoupon.go
   - internal/sdk/models/operations/patchprice.go
   - internal/sdk/models/operations/patchproduct.go
-  - internal/sdk/models/operations/patchproductrecommendation.go
   - internal/sdk/models/operations/patchtax.go
   - internal/sdk/models/operations/updatecoupon.go
   - internal/sdk/models/operations/updateprice.go
   - internal/sdk/models/operations/updateproduct.go
-  - internal/sdk/models/operations/updateproductrecommendation.go
   - internal/sdk/models/operations/updatetax.go
   - internal/sdk/models/shared/baserelation.go
   - internal/sdk/models/shared/clienterror.go
@@ -169,17 +155,15 @@ generatedFiles:
   - internal/sdk/models/shared/product.go
   - internal/sdk/models/shared/productcreate.go
   - internal/sdk/models/shared/productpatch.go
-  - internal/sdk/models/shared/productrecommendation.go
-  - internal/sdk/models/shared/productrecommendationcreate.go
-  - internal/sdk/models/shared/productrecommendationpatch.go
   - internal/sdk/models/shared/promocode.go
   - internal/sdk/models/shared/security.go
   - internal/sdk/models/shared/tax.go
   - internal/sdk/models/shared/taxcreate.go
   - internal/sdk/models/shared/taxpatch.go
+  - internal/sdk/optionalnullable/optionalnullable.go
+  - internal/sdk/optionalnullable/optionalnullable_test.go
   - internal/sdk/price.go
   - internal/sdk/product.go
-  - internal/sdk/productrecommendation.go
   - internal/sdk/retry/config.go
   - internal/sdk/sdk.go
   - internal/sdk/tax.go
@@ -539,3 +523,4 @@ examples:
           application/json: {"message": "Entity not found", "status": 404}
 examplesVersion: 1.0.2
 generatedTests: {}
+releaseNotes: "## Terraform SDK Changes Detected:\n* `SDK.Coupon.createCoupon()`: \n  *  `request.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Coupon.deleteCoupon()`:  `response` **Changed** **Breaking** :warning:\n* `SDK.Coupon.getCoupon()`:  `response` **Changed** **Breaking** :warning:\n* `SDK.Coupon.patchCoupon()`: \n  *  `request.CouponPatch.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Coupon.updateCoupon()`: \n  *  `request.CouponCreate.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Price.createPrice()`: \n  *  `request.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Price.deletePrice()`:  `response` **Changed** **Breaking** :warning:\n* `SDK.Price.getPrice()`:  `response` **Changed** **Breaking** :warning:\n* `SDK.Price.patchPrice()`: \n  *  `request.PricePatch.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Price.updatePrice()`: \n  *  `request.PriceCreate.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Product.createProduct()`: \n  *  `request.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Product.deleteProduct()`:  `response` **Changed** **Breaking** :warning:\n* `SDK.Product.getProduct()`:  `response` **Changed** **Breaking** :warning:\n* `SDK.Product.patchProduct()`: \n  *  `request.ProductPatch.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Product.updateProduct()`: \n  *  `request.ProductCreate.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Tax.createTax()`: \n  *  `request.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Tax.deleteTax()`:  `response` **Changed** **Breaking** :warning:\n* `SDK.Tax.getTax()`:  `response` **Changed** **Breaking** :warning:\n* `SDK.Tax.patchTax()`: \n  *  `request.TaxPatch.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Tax.updateTax()`: \n  *  `request.TaxCreate.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n"
