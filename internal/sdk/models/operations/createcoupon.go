@@ -20,37 +20,37 @@ type CreateCouponResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *CreateCouponResponse) GetClientError() *shared.ClientError {
-	if o == nil {
+func (c *CreateCouponResponse) GetClientError() *shared.ClientError {
+	if c == nil {
 		return nil
 	}
-	return o.ClientError
+	return c.ClientError
 }
 
-func (o *CreateCouponResponse) GetContentType() string {
-	if o == nil {
+func (c *CreateCouponResponse) GetContentType() string {
+	if c == nil {
 		return ""
 	}
-	return o.ContentType
+	return c.ContentType
 }
 
-func (o *CreateCouponResponse) GetCoupon() *shared.Coupon {
-	if o == nil {
+func (c *CreateCouponResponse) GetCoupon() *shared.Coupon {
+	if c == nil {
 		return nil
 	}
-	return o.Coupon
+	return c.Coupon
 }
 
-func (o *CreateCouponResponse) GetStatusCode() int {
-	if o == nil {
+func (c *CreateCouponResponse) GetStatusCode() int {
+	if c == nil {
 		return 0
 	}
-	return o.StatusCode
+	return c.StatusCode
 }
 
-func (o *CreateCouponResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (c *CreateCouponResponse) GetRawResponse() *http.Response {
+	if c == nil {
 		return nil
 	}
-	return o.RawResponse
+	return c.RawResponse
 }

@@ -97,107 +97,107 @@ func (p *ProductRecommendation) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (o *ProductRecommendation) GetAdditional() any {
-	if o == nil {
+func (p *ProductRecommendation) GetAdditional() any {
+	if p == nil {
 		return nil
 	}
-	return o.Additional
+	return p.Additional
 }
 
-func (o *ProductRecommendation) GetCreatedAt() *time.Time {
-	if o == nil {
+func (p *ProductRecommendation) GetCreatedAt() *time.Time {
+	if p == nil {
 		return nil
 	}
-	return o.CreatedAt
+	return p.CreatedAt
 }
 
-func (o *ProductRecommendation) GetFiles() *BaseRelation {
-	if o == nil {
+func (p *ProductRecommendation) GetFiles() *BaseRelation {
+	if p == nil {
 		return nil
 	}
-	return o.Files
+	return p.Files
 }
 
-func (o *ProductRecommendation) GetID() *string {
-	if o == nil {
+func (p *ProductRecommendation) GetID() *string {
+	if p == nil {
 		return nil
 	}
-	return o.ID
+	return p.ID
 }
 
-func (o *ProductRecommendation) GetManifest() []string {
-	if o == nil {
+func (p *ProductRecommendation) GetManifest() []string {
+	if p == nil {
 		return nil
 	}
-	return o.Manifest
+	return p.Manifest
 }
 
-func (o *ProductRecommendation) GetOrg() string {
-	if o == nil {
+func (p *ProductRecommendation) GetOrg() string {
+	if p == nil {
 		return ""
 	}
-	return o.Org
+	return p.Org
 }
 
-func (o *ProductRecommendation) GetPurpose() []string {
-	if o == nil {
+func (p *ProductRecommendation) GetPurpose() []string {
+	if p == nil {
 		return nil
 	}
-	return o.Purpose
+	return p.Purpose
 }
 
-func (o *ProductRecommendation) GetSchema() ProductRecommendationSchema {
-	if o == nil {
+func (p *ProductRecommendation) GetSchema() ProductRecommendationSchema {
+	if p == nil {
 		return ProductRecommendationSchema("")
 	}
-	return o.Schema
+	return p.Schema
 }
 
-func (o *ProductRecommendation) GetTags() []string {
-	if o == nil {
+func (p *ProductRecommendation) GetTags() []string {
+	if p == nil {
 		return nil
 	}
-	return o.Tags
+	return p.Tags
 }
 
-func (o *ProductRecommendation) GetTitle() *string {
-	if o == nil {
+func (p *ProductRecommendation) GetTitle() *string {
+	if p == nil {
 		return nil
 	}
-	return o.Title
+	return p.Title
 }
 
-func (o *ProductRecommendation) GetUpdatedAt() *time.Time {
-	if o == nil {
+func (p *ProductRecommendation) GetUpdatedAt() *time.Time {
+	if p == nil {
 		return nil
 	}
-	return o.UpdatedAt
+	return p.UpdatedAt
 }
 
-func (o *ProductRecommendation) GetOffers() any {
-	if o == nil {
+func (p *ProductRecommendation) GetOffers() any {
+	if p == nil {
 		return nil
 	}
-	return o.Offers
+	return p.Offers
 }
 
-func (o *ProductRecommendation) GetSourcePrice() any {
-	if o == nil {
+func (p *ProductRecommendation) GetSourcePrice() any {
+	if p == nil {
 		return nil
 	}
-	return o.SourcePrice
+	return p.SourcePrice
 }
 
-func (o *ProductRecommendation) GetSourceProduct() any {
-	if o == nil {
+func (p *ProductRecommendation) GetSourceProduct() any {
+	if p == nil {
 		return nil
 	}
-	return o.SourceProduct
+	return p.SourceProduct
 }
 
-func (o *ProductRecommendation) GetType() ProductRecommendationType {
-	if o == nil {
+func (p *ProductRecommendation) GetType() ProductRecommendationType {
+	if p == nil {
 		return ProductRecommendationType("")
 	}
-	return o.Type
+	return p.Type
 }

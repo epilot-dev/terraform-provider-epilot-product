@@ -72,79 +72,79 @@ type TaxCreate struct {
 	Type        TaxCreateType    `json:"type"`
 }
 
-func (o *TaxCreate) GetAdditional() any {
-	if o == nil {
+func (t *TaxCreate) GetAdditional() any {
+	if t == nil {
 		return nil
 	}
-	return o.Additional
+	return t.Additional
 }
 
-func (o *TaxCreate) GetFiles() *BaseRelation {
-	if o == nil {
+func (t *TaxCreate) GetFiles() *BaseRelation {
+	if t == nil {
 		return nil
 	}
-	return o.Files
+	return t.Files
 }
 
-func (o *TaxCreate) GetManifest() []string {
-	if o == nil {
+func (t *TaxCreate) GetManifest() []string {
+	if t == nil {
 		return nil
 	}
-	return o.Manifest
+	return t.Manifest
 }
 
-func (o *TaxCreate) GetPurpose() []string {
-	if o == nil {
+func (t *TaxCreate) GetPurpose() []string {
+	if t == nil {
 		return nil
 	}
-	return o.Purpose
+	return t.Purpose
 }
 
-func (o *TaxCreate) GetSchema() *TaxCreateSchema {
-	if o == nil {
+func (t *TaxCreate) GetSchema() *TaxCreateSchema {
+	if t == nil {
 		return nil
 	}
-	return o.Schema
+	return t.Schema
 }
 
-func (o *TaxCreate) GetTags() []string {
-	if o == nil {
+func (t *TaxCreate) GetTags() []string {
+	if t == nil {
 		return nil
 	}
-	return o.Tags
+	return t.Tags
 }
 
-func (o *TaxCreate) GetActive() bool {
-	if o == nil {
+func (t *TaxCreate) GetActive() bool {
+	if t == nil {
 		return false
 	}
-	return o.Active
+	return t.Active
 }
 
-func (o *TaxCreate) GetDescription() *string {
-	if o == nil {
+func (t *TaxCreate) GetDescription() *string {
+	if t == nil {
 		return nil
 	}
-	return o.Description
+	return t.Description
 }
 
-func (o *TaxCreate) GetRate() string {
-	if o == nil {
+func (t *TaxCreate) GetRate() string {
+	if t == nil {
 		return ""
 	}
-	return o.Rate
+	return t.Rate
 }
 
-func (o *TaxCreate) GetRegion() string {
-	if o == nil {
+func (t *TaxCreate) GetRegion() string {
+	if t == nil {
 		return ""
 	}
-	return o.Region
+	return t.Region
 }
 
-func (o *TaxCreate) GetType() TaxCreateType {
-	if o == nil {
+func (t *TaxCreate) GetType() TaxCreateType {
+	if t == nil {
 		return TaxCreateType("")
 	}
-	return o.Type
+	return t.Type
 }

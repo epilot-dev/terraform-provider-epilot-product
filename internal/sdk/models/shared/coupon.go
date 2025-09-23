@@ -160,177 +160,177 @@ func (c *Coupon) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (o *Coupon) GetAdditional() any {
-	if o == nil {
+func (c *Coupon) GetAdditional() any {
+	if c == nil {
 		return nil
 	}
-	return o.Additional
+	return c.Additional
 }
 
-func (o *Coupon) GetCreatedAt() *time.Time {
-	if o == nil {
+func (c *Coupon) GetCreatedAt() *time.Time {
+	if c == nil {
 		return nil
 	}
-	return o.CreatedAt
+	return c.CreatedAt
 }
 
-func (o *Coupon) GetFiles() *BaseRelation {
-	if o == nil {
+func (c *Coupon) GetFiles() *BaseRelation {
+	if c == nil {
 		return nil
 	}
-	return o.Files
+	return c.Files
 }
 
-func (o *Coupon) GetID() *string {
-	if o == nil {
+func (c *Coupon) GetID() *string {
+	if c == nil {
 		return nil
 	}
-	return o.ID
+	return c.ID
 }
 
-func (o *Coupon) GetManifest() []string {
-	if o == nil {
+func (c *Coupon) GetManifest() []string {
+	if c == nil {
 		return nil
 	}
-	return o.Manifest
+	return c.Manifest
 }
 
-func (o *Coupon) GetOrg() string {
-	if o == nil {
+func (c *Coupon) GetOrg() string {
+	if c == nil {
 		return ""
 	}
-	return o.Org
+	return c.Org
 }
 
-func (o *Coupon) GetPurpose() []string {
-	if o == nil {
+func (c *Coupon) GetPurpose() []string {
+	if c == nil {
 		return nil
 	}
-	return o.Purpose
+	return c.Purpose
 }
 
-func (o *Coupon) GetSchema() Schema {
-	if o == nil {
+func (c *Coupon) GetSchema() Schema {
+	if c == nil {
 		return Schema("")
 	}
-	return o.Schema
+	return c.Schema
 }
 
-func (o *Coupon) GetTags() []string {
-	if o == nil {
+func (c *Coupon) GetTags() []string {
+	if c == nil {
 		return nil
 	}
-	return o.Tags
+	return c.Tags
 }
 
-func (o *Coupon) GetTitle() *string {
-	if o == nil {
+func (c *Coupon) GetTitle() *string {
+	if c == nil {
 		return nil
 	}
-	return o.Title
+	return c.Title
 }
 
-func (o *Coupon) GetUpdatedAt() *time.Time {
-	if o == nil {
+func (c *Coupon) GetUpdatedAt() *time.Time {
+	if c == nil {
 		return nil
 	}
-	return o.UpdatedAt
+	return c.UpdatedAt
 }
 
-func (o *Coupon) GetActive() bool {
-	if o == nil {
+func (c *Coupon) GetActive() bool {
+	if c == nil {
 		return false
 	}
-	return o.Active
+	return c.Active
 }
 
-func (o *Coupon) GetCashbackPeriod() *CashbackPeriod {
-	if o == nil {
+func (c *Coupon) GetCashbackPeriod() *CashbackPeriod {
+	if c == nil {
 		return nil
 	}
-	return o.CashbackPeriod
+	return c.CashbackPeriod
 }
 
-func (o *Coupon) GetCategory() Category {
-	if o == nil {
+func (c *Coupon) GetCategory() Category {
+	if c == nil {
 		return Category("")
 	}
-	return o.Category
+	return c.Category
 }
 
-func (o *Coupon) GetDescription() *string {
-	if o == nil {
+func (c *Coupon) GetDescription() *string {
+	if c == nil {
 		return nil
 	}
-	return o.Description
+	return c.Description
 }
 
-func (o *Coupon) GetFixedValue() *float64 {
-	if o == nil {
+func (c *Coupon) GetFixedValue() *float64 {
+	if c == nil {
 		return nil
 	}
-	return o.FixedValue
+	return c.FixedValue
 }
 
-func (o *Coupon) GetFixedValueCurrency() *string {
-	if o == nil {
+func (c *Coupon) GetFixedValueCurrency() *string {
+	if c == nil {
 		return nil
 	}
-	return o.FixedValueCurrency
+	return c.FixedValueCurrency
 }
 
-func (o *Coupon) GetFixedValueDecimal() *string {
-	if o == nil {
+func (c *Coupon) GetFixedValueDecimal() *string {
+	if c == nil {
 		return nil
 	}
-	return o.FixedValueDecimal
+	return c.FixedValueDecimal
 }
 
-func (o *Coupon) GetName() string {
-	if o == nil {
+func (c *Coupon) GetName() string {
+	if c == nil {
 		return ""
 	}
-	return o.Name
+	return c.Name
 }
 
-func (o *Coupon) GetPercentageValue() *string {
-	if o == nil {
+func (c *Coupon) GetPercentageValue() *string {
+	if c == nil {
 		return nil
 	}
-	return o.PercentageValue
+	return c.PercentageValue
 }
 
-func (o *Coupon) GetPrices() *BaseRelation {
-	if o == nil {
+func (c *Coupon) GetPrices() *BaseRelation {
+	if c == nil {
 		return nil
 	}
-	return o.Prices
+	return c.Prices
 }
 
-func (o *Coupon) GetPromoCodeUsage() any {
-	if o == nil {
+func (c *Coupon) GetPromoCodeUsage() any {
+	if c == nil {
 		return nil
 	}
-	return o.PromoCodeUsage
+	return c.PromoCodeUsage
 }
 
-func (o *Coupon) GetPromoCodes() []PromoCode {
-	if o == nil {
+func (c *Coupon) GetPromoCodes() []PromoCode {
+	if c == nil {
 		return nil
 	}
-	return o.PromoCodes
+	return c.PromoCodes
 }
 
-func (o *Coupon) GetRequiresPromoCode() *bool {
-	if o == nil {
+func (c *Coupon) GetRequiresPromoCode() *bool {
+	if c == nil {
 		return nil
 	}
-	return o.RequiresPromoCode
+	return c.RequiresPromoCode
 }
 
-func (o *Coupon) GetType() Type {
-	if o == nil {
+func (c *Coupon) GetType() Type {
+	if c == nil {
 		return Type("")
 	}
-	return o.Type
+	return c.Type
 }

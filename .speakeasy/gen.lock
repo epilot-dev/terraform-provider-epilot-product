@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 5a857039-7f4b-42d5-86fd-449767242ed2
 management:
-  docChecksum: bb591589ba550c069501b30f7c2dac0b
+  docChecksum: df607932cff277375f19e59d2610d26c
   docVersion: 1.0.0
-  speakeasyVersion: 1.611.0
-  generationVersion: 2.694.1
-  releaseVersion: 0.15.8
-  configChecksum: faea1f0199584b9d483ebe9842318f2c
+  speakeasyVersion: 1.622.1
+  generationVersion: 2.709.0
+  releaseVersion: 0.16.0
+  configChecksum: 1841a49f3469a9b084e45df5cb6a61ae
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-product.git
   repoSubDirectory: .
   published: true
@@ -21,9 +21,9 @@ features:
     unions: 2.85.0
   terraform:
     additionalDependencies: 0.1.0
-    constsAndDefaults: 0.2.1
-    core: 3.44.1
-    globalSecurity: 2.82.0
+    constsAndDefaults: 0.3.0
+    core: 3.45.0
+    globalSecurity: 2.82.1
     globalServerURLs: 2.83.0
     nullables: 0.0.0
     retries: 2.81.4
@@ -31,7 +31,6 @@ features:
 generatedFiles:
   - .gitattributes
   - USAGE.md
-  - examples/README.md
   - examples/data-sources/epilot-product_coupon/data-source.tf
   - examples/data-sources/epilot-product_price/data-source.tf
   - examples/data-sources/epilot-product_product/data-source.tf
@@ -177,6 +176,8 @@ generatedFiles:
   - internal/sdk/models/shared/tax.go
   - internal/sdk/models/shared/taxcreate.go
   - internal/sdk/models/shared/taxpatch.go
+  - internal/sdk/optionalnullable/optionalnullable.go
+  - internal/sdk/optionalnullable/optionalnullable_test.go
   - internal/sdk/price.go
   - internal/sdk/product.go
   - internal/sdk/productrecommendation.go
@@ -539,3 +540,4 @@ examples:
           application/json: {"message": "Entity not found", "status": 404}
 examplesVersion: 1.0.2
 generatedTests: {}
+releaseNotes: "## Terraform SDK Changes Detected:\n* `SDK.Price.getPrice()`:  `response` **Changed** **Breaking** :warning:\n* `SDK.Tax.deleteTax()`:  `response` **Changed** **Breaking** :warning:\n* `SDK.Tax.updateTax()`: \n  *  `request.TaxCreate.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Tax.patchTax()`: \n  *  `request.TaxPatch.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Tax.getTax()`:  `response` **Changed** **Breaking** :warning:\n* `SDK.Coupon.createCoupon()`: \n  *  `request.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Coupon.deleteCoupon()`:  `response` **Changed** **Breaking** :warning:\n* `SDK.Coupon.getCoupon()`:  `response` **Changed** **Breaking** :warning:\n* `SDK.Coupon.patchCoupon()`: \n  *  `request.CouponPatch.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Coupon.updateCoupon()`: \n  *  `request.CouponCreate.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Price.createPrice()`: \n  *  `request.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Price.deletePrice()`:  `response` **Changed** **Breaking** :warning:\n* `SDK.Price.patchPrice()`: \n  *  `request.PricePatch.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Price.updatePrice()`: \n  *  `request.PriceCreate.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Tax.createTax()`: \n  *  `request.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Product.createProduct()`: \n  *  `request.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Product.deleteProduct()`:  `response` **Changed** **Breaking** :warning:\n* `SDK.Product.getProduct()`:  `response` **Changed** **Breaking** :warning:\n* `SDK.Product.patchProduct()`: \n  *  `request.ProductPatch.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Product.updateProduct()`: \n  *  `request.ProductCreate.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Product Recommendation.createProductRecommendation()`: **Added**\n* `SDK.Product Recommendation.deleteProductRecommendation()`: **Added**\n* `SDK.Product Recommendation.updateProductRecommendation()`: **Added**\n* `SDK.Product Recommendation.patchProductRecommendation()`: **Added**\n* `SDK.Product Recommendation.getProductRecommendation()`: **Added**\n"

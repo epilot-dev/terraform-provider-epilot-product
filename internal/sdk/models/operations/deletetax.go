@@ -12,11 +12,11 @@ type DeleteTaxRequest struct {
 	TaxID string `pathParam:"style=simple,explode=false,name=taxId"`
 }
 
-func (o *DeleteTaxRequest) GetTaxID() string {
-	if o == nil {
+func (d *DeleteTaxRequest) GetTaxID() string {
+	if d == nil {
 		return ""
 	}
-	return o.TaxID
+	return d.TaxID
 }
 
 type DeleteTaxResponse struct {
@@ -32,37 +32,37 @@ type DeleteTaxResponse struct {
 	Tax *shared.Tax
 }
 
-func (o *DeleteTaxResponse) GetClientError() *shared.ClientError {
-	if o == nil {
+func (d *DeleteTaxResponse) GetClientError() *shared.ClientError {
+	if d == nil {
 		return nil
 	}
-	return o.ClientError
+	return d.ClientError
 }
 
-func (o *DeleteTaxResponse) GetContentType() string {
-	if o == nil {
+func (d *DeleteTaxResponse) GetContentType() string {
+	if d == nil {
 		return ""
 	}
-	return o.ContentType
+	return d.ContentType
 }
 
-func (o *DeleteTaxResponse) GetStatusCode() int {
-	if o == nil {
+func (d *DeleteTaxResponse) GetStatusCode() int {
+	if d == nil {
 		return 0
 	}
-	return o.StatusCode
+	return d.StatusCode
 }
 
-func (o *DeleteTaxResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (d *DeleteTaxResponse) GetRawResponse() *http.Response {
+	if d == nil {
 		return nil
 	}
-	return o.RawResponse
+	return d.RawResponse
 }
 
-func (o *DeleteTaxResponse) GetTax() *shared.Tax {
-	if o == nil {
+func (d *DeleteTaxResponse) GetTax() *shared.Tax {
+	if d == nil {
 		return nil
 	}
-	return o.Tax
+	return d.Tax
 }

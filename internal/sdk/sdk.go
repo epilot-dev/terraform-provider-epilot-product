@@ -2,7 +2,7 @@
 
 package sdk
 
-// Generated from OpenAPI doc version 1.0.0 and generator version 2.694.1
+// Generated from OpenAPI doc version 1.0.0 and generator version 2.709.0
 
 import (
 	"context"
@@ -18,6 +18,7 @@ import (
 
 // ServerList contains the list of servers available to the SDK
 var ServerList = []string{
+	"https://product.sls.epilot.io",
 	// Production server
 	"https://product.sls.epilot.io",
 }
@@ -135,9 +136,9 @@ func WithTimeout(timeout time.Duration) SDKOption {
 // New creates a new instance of the SDK with the provided options
 func New(opts ...SDKOption) *SDK {
 	sdk := &SDK{
-		SDKVersion: "0.15.8",
+		SDKVersion: "0.16.0",
 		sdkConfiguration: config.SDKConfiguration{
-			UserAgent:  "speakeasy-sdk/terraform 0.15.8 2.694.1 1.0.0 github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk",
+			UserAgent:  "speakeasy-sdk/terraform 0.16.0 2.709.0 1.0.0 github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk",
 			ServerList: ServerList,
 		},
 		hooks: hooks.New(),
