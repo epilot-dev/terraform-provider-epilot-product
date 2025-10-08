@@ -137,8 +137,6 @@ provider_installation {
 ```
 <!-- End Testing the provider locally [usage] -->
 
-
-
 <!-- Start Authentication [security] -->
 ## Authentication
 
