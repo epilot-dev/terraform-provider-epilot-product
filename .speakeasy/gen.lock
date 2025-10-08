@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 5a857039-7f4b-42d5-86fd-449767242ed2
 management:
-  docChecksum: 72109192b761e6cc1f99893738843720
+  docChecksum: 4b7cd702ce516c48de2e4e6e328ef745
   docVersion: 1.0.0
-  speakeasyVersion: 1.611.0
-  generationVersion: 2.694.1
-  releaseVersion: 0.16.0
-  configChecksum: ee50d73cf4ed1218bd5b218a9595cf6d
+  speakeasyVersion: 1.636.1
+  generationVersion: 2.723.4
+  releaseVersion: 0.17.0
+  configChecksum: 8f383519116563af81e7ed83933e912b
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-product.git
   repoSubDirectory: .
   published: true
@@ -21,22 +21,37 @@ features:
     unions: 2.85.0
   terraform:
     additionalDependencies: 0.1.0
-    additionalProperties: 0.1.2
-    constsAndDefaults: 0.2.1
-    core: 3.44.1
-    deepObjectParams: 0.1.0
-    deprecations: 2.82.0
-    globalSecurity: 2.82.0
+    constsAndDefaults: 0.3.0
+    core: 3.45.3
+    globalSecurity: 2.82.1
     globalServerURLs: 2.83.0
-    methodSecurity: 2.82.2
     nullables: 0.0.0
     retries: 2.81.4
-    unions: 2.81.17
+    typeOverrides: 2.81.1
 generatedFiles:
   - .gitattributes
   - USAGE.md
-  - examples/README.md
+  - examples/data-sources/epilot-product_coupon/data-source.tf
+  - examples/data-sources/epilot-product_price/data-source.tf
+  - examples/data-sources/epilot-product_product/data-source.tf
+  - examples/data-sources/epilot-product_product_recommendation/data-source.tf
+  - examples/data-sources/epilot-product_tax/data-source.tf
   - examples/provider/provider.tf
+  - examples/resources/epilot-product_coupon/import-by-string-id.tf
+  - examples/resources/epilot-product_coupon/import.sh
+  - examples/resources/epilot-product_coupon/resource.tf
+  - examples/resources/epilot-product_price/import-by-string-id.tf
+  - examples/resources/epilot-product_price/import.sh
+  - examples/resources/epilot-product_price/resource.tf
+  - examples/resources/epilot-product_product/import-by-string-id.tf
+  - examples/resources/epilot-product_product/import.sh
+  - examples/resources/epilot-product_product/resource.tf
+  - examples/resources/epilot-product_product_recommendation/import-by-string-id.tf
+  - examples/resources/epilot-product_product_recommendation/import.sh
+  - examples/resources/epilot-product_product_recommendation/resource.tf
+  - examples/resources/epilot-product_tax/import-by-string-id.tf
+  - examples/resources/epilot-product_tax/import.sh
+  - examples/resources/epilot-product_tax/resource.tf
   - go.mod
   - go.sum
   - internal/planmodifiers/boolplanmodifier/suppress_diff.go
@@ -51,6 +66,22 @@ generatedFiles:
   - internal/planmodifiers/setplanmodifier/suppress_diff.go
   - internal/planmodifiers/stringplanmodifier/suppress_diff.go
   - internal/planmodifiers/utils/state_check.go
+  - internal/provider/coupon_data_source.go
+  - internal/provider/coupon_data_source_sdk.go
+  - internal/provider/coupon_resource.go
+  - internal/provider/coupon_resource_sdk.go
+  - internal/provider/price_data_source.go
+  - internal/provider/price_data_source_sdk.go
+  - internal/provider/price_resource.go
+  - internal/provider/price_resource_sdk.go
+  - internal/provider/product_data_source.go
+  - internal/provider/product_data_source_sdk.go
+  - internal/provider/product_resource.go
+  - internal/provider/product_resource_sdk.go
+  - internal/provider/productrecommendation_data_source.go
+  - internal/provider/productrecommendation_data_source_sdk.go
+  - internal/provider/productrecommendation_resource.go
+  - internal/provider/productrecommendation_resource_sdk.go
   - internal/provider/provider.go
   - internal/provider/reflect/diags.go
   - internal/provider/reflect/doc.go
@@ -66,17 +97,23 @@ generatedFiles:
   - internal/provider/reflect/primitive.go
   - internal/provider/reflect/slice.go
   - internal/provider/reflect/struct.go
+  - internal/provider/tax_data_source.go
+  - internal/provider/tax_data_source_sdk.go
+  - internal/provider/tax_resource.go
+  - internal/provider/tax_resource_sdk.go
   - internal/provider/typeconvert/date.go
   - internal/provider/typeconvert/datetime.go
   - internal/provider/typeconvert/int.go
+  - internal/provider/types/base_relation.go
+  - internal/provider/types/dollar_relation.go
+  - internal/provider/types/price_component_relation.go
+  - internal/provider/types/price_create_price_components.go
+  - internal/provider/types/price_tier.go
+  - internal/provider/types/promo_code.go
   - internal/provider/utils.go
   - internal/sdk/.gitattributes
-  - internal/sdk/activity.go
-  - internal/sdk/balance.go
+  - internal/sdk/coupon.go
   - internal/sdk/docs/models/operations/option.md
-  - internal/sdk/ecp.go
-  - internal/sdk/ecpadmin.go
-  - internal/sdk/internal.go
   - internal/sdk/internal/config/sdkconfiguration.go
   - internal/sdk/internal/hooks/hooks.go
   - internal/sdk/internal/utils/contenttype.go
@@ -90,207 +127,66 @@ generatedFiles:
   - internal/sdk/internal/utils/retries.go
   - internal/sdk/internal/utils/security.go
   - internal/sdk/internal/utils/utils.go
-  - internal/sdk/login.go
   - internal/sdk/models/errors/sdkerror.go
-  - internal/sdk/models/operations/addcontractbyidentifiers.go
-  - internal/sdk/models/operations/cantriggerportalflow.go
-  - internal/sdk/models/operations/checkcontactexists.go
-  - internal/sdk/models/operations/configuredistribution.go
-  - internal/sdk/models/operations/confirmuser.go
-  - internal/sdk/models/operations/confirmuserwithuserid.go
-  - internal/sdk/models/operations/createcustomentityactivity.go
-  - internal/sdk/models/operations/createportalconfig.go
-  - internal/sdk/models/operations/createportalpage.go
-  - internal/sdk/models/operations/createportalpageblock.go
-  - internal/sdk/models/operations/createuser.go
-  - internal/sdk/models/operations/deleteentityfile.go
-  - internal/sdk/models/operations/deleteportal.go
-  - internal/sdk/models/operations/deleteportalconfig.go
-  - internal/sdk/models/operations/deleteportalpage.go
-  - internal/sdk/models/operations/deleteportalpageblock.go
-  - internal/sdk/models/operations/deleteportaluser.go
-  - internal/sdk/models/operations/deregistermloginuser.go
-  - internal/sdk/models/operations/extrapermissionattributes.go
-  - internal/sdk/models/operations/fetchportalusersbyrelatedentity.go
-  - internal/sdk/models/operations/getallcontracts.go
-  - internal/sdk/models/operations/getallfiles.go
-  - internal/sdk/models/operations/getallopportunities.go
-  - internal/sdk/models/operations/getallorders.go
-  - internal/sdk/models/operations/getallportalconfigs.go
-  - internal/sdk/models/operations/getallrequests.go
-  - internal/sdk/models/operations/getautomationcontext.go
-  - internal/sdk/models/operations/getbillingevents.go
-  - internal/sdk/models/operations/getconsumption.go
-  - internal/sdk/models/operations/getcontact.go
-  - internal/sdk/models/operations/getcontract.go
-  - internal/sdk/models/operations/getcosts.go
-  - internal/sdk/models/operations/getcustomerbalance.go
-  - internal/sdk/models/operations/getdefaultpages.go
-  - internal/sdk/models/operations/getecpcontact.go
-  - internal/sdk/models/operations/getemailtemplates.go
-  - internal/sdk/models/operations/getentityactivityfeed.go
-  - internal/sdk/models/operations/getentityidentifiers.go
-  - internal/sdk/models/operations/getexternallinks.go
-  - internal/sdk/models/operations/getfilebyid.go
-  - internal/sdk/models/operations/getfilescountbyentity.go
-  - internal/sdk/models/operations/getjuicesettings.go
-  - internal/sdk/models/operations/getopportunity.go
-  - internal/sdk/models/operations/getorder.go
-  - internal/sdk/models/operations/getorganizationsettings.go
-  - internal/sdk/models/operations/getorganizationsettingsbydomain.go
-  - internal/sdk/models/operations/getorgportalconfig.go
-  - internal/sdk/models/operations/getportalconfig.go
-  - internal/sdk/models/operations/getportalconfigbydomain.go
-  - internal/sdk/models/operations/getportalconfigv3.go
-  - internal/sdk/models/operations/getportalextensions.go
-  - internal/sdk/models/operations/getportalpage.go
-  - internal/sdk/models/operations/getportalpageblock.go
-  - internal/sdk/models/operations/getportalpageblocks.go
-  - internal/sdk/models/operations/getportalpages.go
-  - internal/sdk/models/operations/getportaluser.go
-  - internal/sdk/models/operations/getportalwidgets.go
-  - internal/sdk/models/operations/getprices.go
-  - internal/sdk/models/operations/getpublicpages.go
-  - internal/sdk/models/operations/getpublicportalconfig.go
-  - internal/sdk/models/operations/getpublicportalextensiondetails.go
-  - internal/sdk/models/operations/getpublicportalwidgets.go
-  - internal/sdk/models/operations/getrecipientstonotifyonautomation.go
-  - internal/sdk/models/operations/getregistrationidentifiers.go
-  - internal/sdk/models/operations/getresolvedexternallink.go
-  - internal/sdk/models/operations/getresolvedseamlesslink.go
-  - internal/sdk/models/operations/getschemas.go
-  - internal/sdk/models/operations/getschemasbydomain.go
-  - internal/sdk/models/operations/getsearchableattributesforopportunities.go
-  - internal/sdk/models/operations/getsearchresultsforopportunities.go
-  - internal/sdk/models/operations/getuserentrypoint.go
-  - internal/sdk/models/operations/getvalidsecondaryattributes.go
-  - internal/sdk/models/operations/listallportalconfigs.go
-  - internal/sdk/models/operations/listportalsinternal.go
-  - internal/sdk/models/operations/logintoportalasuser.go
-  - internal/sdk/models/operations/notifymlogininterestchange.go
+  - internal/sdk/models/operations/createcoupon.go
+  - internal/sdk/models/operations/createprice.go
+  - internal/sdk/models/operations/createproduct.go
+  - internal/sdk/models/operations/createproductrecommendation.go
+  - internal/sdk/models/operations/createtax.go
+  - internal/sdk/models/operations/deletecoupon.go
+  - internal/sdk/models/operations/deleteprice.go
+  - internal/sdk/models/operations/deleteproduct.go
+  - internal/sdk/models/operations/deleteproductrecommendation.go
+  - internal/sdk/models/operations/deletetax.go
+  - internal/sdk/models/operations/getcoupon.go
+  - internal/sdk/models/operations/getprice.go
+  - internal/sdk/models/operations/getproduct.go
+  - internal/sdk/models/operations/getproductrecommendation.go
+  - internal/sdk/models/operations/gettax.go
   - internal/sdk/models/operations/options.go
-  - internal/sdk/models/operations/postorderacceptance.go
-  - internal/sdk/models/operations/putportalconfig.go
-  - internal/sdk/models/operations/replaceecptemplatevariables.go
-  - internal/sdk/models/operations/resendconfirmationemail.go
-  - internal/sdk/models/operations/revoketoken.go
-  - internal/sdk/models/operations/saveentityfile.go
-  - internal/sdk/models/operations/saveportalfiles.go
-  - internal/sdk/models/operations/searchpaymentrelationsinentities.go
-  - internal/sdk/models/operations/searchportaluserentities.go
-  - internal/sdk/models/operations/ssocallback.go
-  - internal/sdk/models/operations/ssologin.go
-  - internal/sdk/models/operations/ssoredirect.go
-  - internal/sdk/models/operations/swapportalconfig.go
-  - internal/sdk/models/operations/trackfiledownloaded.go
-  - internal/sdk/models/operations/triggerentityaccessevent.go
-  - internal/sdk/models/operations/updatecampaignportalblockstatus.go
-  - internal/sdk/models/operations/updatecontact.go
-  - internal/sdk/models/operations/updatecontract.go
-  - internal/sdk/models/operations/updateopportunity.go
-  - internal/sdk/models/operations/updateorder.go
-  - internal/sdk/models/operations/updateportalpage.go
-  - internal/sdk/models/operations/updateportalpageblock.go
-  - internal/sdk/models/operations/updateportaluser.go
-  - internal/sdk/models/operations/updateportaluseremail.go
-  - internal/sdk/models/operations/updateworkflowstepasdone.go
-  - internal/sdk/models/operations/uploadmeterreadingphoto.go
-  - internal/sdk/models/operations/upsertemailtemplates.go
-  - internal/sdk/models/operations/upsertportal.go
-  - internal/sdk/models/operations/upsertportalwidget.go
-  - internal/sdk/models/operations/userexists.go
-  - internal/sdk/models/operations/validatecaarecords.go
-  - internal/sdk/models/operations/validatecadenceentityeditrules.go
-  - internal/sdk/models/operations/validatetoken.go
-  - internal/sdk/models/shared/acceptancedecision.go
-  - internal/sdk/models/shared/actionlabel.go
-  - internal/sdk/models/shared/actionwidget.go
-  - internal/sdk/models/shared/activitycallercontext.go
-  - internal/sdk/models/shared/activityitem.go
-  - internal/sdk/models/shared/adminuser.go
-  - internal/sdk/models/shared/allowedfileextensions.go
-  - internal/sdk/models/shared/balance.go
-  - internal/sdk/models/shared/billingevent.go
-  - internal/sdk/models/shared/block.go
-  - internal/sdk/models/shared/blockprops.go
-  - internal/sdk/models/shared/blockrequest.go
-  - internal/sdk/models/shared/campaignwidget.go
-  - internal/sdk/models/shared/contact.go
-  - internal/sdk/models/shared/contactexistsrequest.go
-  - internal/sdk/models/shared/contentwidget.go
-  - internal/sdk/models/shared/contract.go
-  - internal/sdk/models/shared/contractidentifier.go
-  - internal/sdk/models/shared/createuserrequest.go
-  - internal/sdk/models/shared/dataretrievalitem.go
-  - internal/sdk/models/shared/deleteentityfile.go
-  - internal/sdk/models/shared/emailtemplates.go
-  - internal/sdk/models/shared/entityeditrule.go
-  - internal/sdk/models/shared/entityfilecount.go
-  - internal/sdk/models/shared/entityitem.go
-  - internal/sdk/models/shared/entityresponsegroupedwithhits.go
-  - internal/sdk/models/shared/entityresponsewithhits.go
-  - internal/sdk/models/shared/entitysearchparams.go
-  - internal/sdk/models/shared/entityslug.go
-  - internal/sdk/models/shared/entitywidget.go
-  - internal/sdk/models/shared/errorresp.go
-  - internal/sdk/models/shared/extension.go
-  - internal/sdk/models/shared/extensionauthblock.go
-  - internal/sdk/models/shared/extensionconfig.go
-  - internal/sdk/models/shared/extensionhookconfig.go
-  - internal/sdk/models/shared/extensionseamlesslink.go
-  - internal/sdk/models/shared/externallink.go
-  - internal/sdk/models/shared/extraschemaattributes.go
-  - internal/sdk/models/shared/failedruleerrorresp.go
-  - internal/sdk/models/shared/file.go
-  - internal/sdk/models/shared/fileitem.go
-  - internal/sdk/models/shared/grant.go
-  - internal/sdk/models/shared/identifierattribute.go
-  - internal/sdk/models/shared/journeyactions.go
-  - internal/sdk/models/shared/juicesettings.go
-  - internal/sdk/models/shared/meter.go
-  - internal/sdk/models/shared/meterchartwidget.go
-  - internal/sdk/models/shared/meterreadingphoto.go
-  - internal/sdk/models/shared/meterreadingphotodata.go
-  - internal/sdk/models/shared/meterreadingwidget.go
-  - internal/sdk/models/shared/moblieoidcconfig.go
-  - internal/sdk/models/shared/oidcproviderconfig.go
-  - internal/sdk/models/shared/oidcprovidermetadata.go
-  - internal/sdk/models/shared/opportunity.go
-  - internal/sdk/models/shared/order.go
-  - internal/sdk/models/shared/organizationsettings.go
-  - internal/sdk/models/shared/page.go
-  - internal/sdk/models/shared/pagerequest.go
-  - internal/sdk/models/shared/portalconfig.go
-  - internal/sdk/models/shared/portalconfigv3.go
-  - internal/sdk/models/shared/portaluser.go
+  - internal/sdk/models/operations/patchcoupon.go
+  - internal/sdk/models/operations/patchprice.go
+  - internal/sdk/models/operations/patchproduct.go
+  - internal/sdk/models/operations/patchproductrecommendation.go
+  - internal/sdk/models/operations/patchtax.go
+  - internal/sdk/models/operations/updatecoupon.go
+  - internal/sdk/models/operations/updateprice.go
+  - internal/sdk/models/operations/updateproduct.go
+  - internal/sdk/models/operations/updateproductrecommendation.go
+  - internal/sdk/models/operations/updatetax.go
+  - internal/sdk/models/shared/baserelation.go
+  - internal/sdk/models/shared/clienterror.go
+  - internal/sdk/models/shared/coupon.go
+  - internal/sdk/models/shared/couponcreate.go
+  - internal/sdk/models/shared/couponpatch.go
+  - internal/sdk/models/shared/price.go
+  - internal/sdk/models/shared/pricecomponentrelation.go
+  - internal/sdk/models/shared/pricecreate.go
+  - internal/sdk/models/shared/pricepatch.go
+  - internal/sdk/models/shared/pricetier.go
+  - internal/sdk/models/shared/pricetierdisplaymode.go
   - internal/sdk/models/shared/product.go
-  - internal/sdk/models/shared/providerpublicconfig.go
-  - internal/sdk/models/shared/publiccontractidentificationdetails.go
-  - internal/sdk/models/shared/publicdataretrievalhookdetails.go
-  - internal/sdk/models/shared/publicextensioncapabilities.go
-  - internal/sdk/models/shared/publicextensiondetails.go
-  - internal/sdk/models/shared/rule.go
-  - internal/sdk/models/shared/saveentityfile.go
-  - internal/sdk/models/shared/saveportalfile.go
-  - internal/sdk/models/shared/schema.go
+  - internal/sdk/models/shared/productcreate.go
+  - internal/sdk/models/shared/productpatch.go
+  - internal/sdk/models/shared/productrecommendation.go
+  - internal/sdk/models/shared/productrecommendationcreate.go
+  - internal/sdk/models/shared/productrecommendationpatch.go
+  - internal/sdk/models/shared/promocode.go
   - internal/sdk/models/shared/security.go
-  - internal/sdk/models/shared/ssocallbackrequest.go
-  - internal/sdk/models/shared/ssocallbackresponse.go
-  - internal/sdk/models/shared/swappableconfig.go
-  - internal/sdk/models/shared/teaserwidget.go
-  - internal/sdk/models/shared/triggerportalflow.go
-  - internal/sdk/models/shared/upsertportalconfig.go
-  - internal/sdk/models/shared/upsertportalconfigv3.go
-  - internal/sdk/models/shared/upsertportalwidget.go
-  - internal/sdk/models/shared/widgetaction.go
-  - internal/sdk/models/shared/widgetbase.go
-  - internal/sdk/public.go
+  - internal/sdk/models/shared/tax.go
+  - internal/sdk/models/shared/taxcreate.go
+  - internal/sdk/models/shared/taxpatch.go
+  - internal/sdk/optionalnullable/optionalnullable.go
+  - internal/sdk/optionalnullable/optionalnullable_test.go
+  - internal/sdk/price.go
+  - internal/sdk/product.go
+  - internal/sdk/productrecommendation.go
   - internal/sdk/retry/config.go
   - internal/sdk/sdk.go
+  - internal/sdk/tax.go
   - internal/sdk/types/bigint.go
   - internal/sdk/types/date.go
   - internal/sdk/types/datetime.go
-  - internal/sdk/types/decimal.go
   - internal/sdk/types/pointers.go
   - internal/validators/DateValidator.go
   - internal/validators/ExactlyOneChild.go
@@ -380,10 +276,10 @@ examples:
   createPrice:
     speakeasy-default-create-price:
       requestBody:
-        application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": true, "description": "sweetly bogus essay svelte than underpants guzzle", "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
+        application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": true, "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
       responses:
         "201":
-          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": true, "description": "sermon exactly freely since whose", "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
+          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": true, "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -395,7 +291,7 @@ examples:
           priceId: "123e4567-e89b-12d3-a456-426614174000"
       responses:
         "200":
-          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": false, "description": "redesign euphonium gosh unto despite alongside pish what cow", "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
+          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": false, "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -410,7 +306,7 @@ examples:
           strict: false
       responses:
         "200":
-          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": true, "description": "unless lanky gee nor", "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
+          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": true, "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -424,7 +320,7 @@ examples:
         application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
       responses:
         "200":
-          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": true, "description": "why without yin yum phew toothbrush smoothly yellow", "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
+          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": true, "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -435,10 +331,10 @@ examples:
         path:
           priceId: "123e4567-e89b-12d3-a456-426614174000"
       requestBody:
-        application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": false, "description": "incidentally corrupt the relative psst ruddy what er gestate", "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
+        application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": false, "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
       responses:
         "200":
-          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": false, "description": "chairperson kindly for reconsideration hotfoot below", "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
+          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": false, "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":

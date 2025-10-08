@@ -28,6 +28,9 @@ func debugResponse(response *http.Response) string {
 	if v := response.Request.Header.Get("Authorization"); v != "" {
 		response.Request.Header.Set("Authorization", "(sensitive)")
 	}
+	if v := response.Request.Header.Get("x-epilot-org-id"); v != "" {
+		response.Request.Header.Set("x-epilot-org-id", "(sensitive)")
+	}
 	dumpReq, err := httputil.DumpRequest(response.Request, true)
 	if err != nil {
 		dumpReq, err = httputil.DumpRequest(response.Request, false)
@@ -242,6 +245,9 @@ func fieldHeadersFromRequestReader(reader *textproto.Reader, fields map[string]i
 	}
 	if _, ok := fields["Authorization"]; ok {
 		fields["Authorization"] = "(sensitive)"
+	}
+	if _, ok := fields["x-epilot-org-id"]; ok {
+		fields["x-epilot-org-id"] = "(sensitive)"
 	}
 
 	return nil

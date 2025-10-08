@@ -57,7 +57,7 @@ TF_REATTACH_PROVIDERS=... terraform apply
 <!-- Start Summary [summary] -->
 ## Summary
 
-Portal API: Backend for epilot portals - End Customer Portal & Installer Portal
+Product API: This API allows managing products, prices, taxes, and coupons.
 <!-- End Summary [summary] -->
 
 <!-- Start Table of Contents [toc] -->
@@ -83,7 +83,7 @@ terraform {
   required_providers {
     epilot-product = {
       source  = "epilot-dev/epilot-product"
-      version = "0.16.0"
+      version = "0.17.0"
     }
   }
 }
@@ -149,9 +149,8 @@ Available configuration:
 
 | Provider Attribute | Description |
 |---|---|
-| `either_auth` | Portal or Epilot Bearer Token. |
-| `epilot_auth` | Epilot Bearer Token. |
-| `portal_auth` | Portal Cognito Token. |
+| `epilot_auth` | Authorization header with epilot OAuth2 bearer token. |
+| `epilot_org` | Overrides the target organization to allow shared tenantaccess. |
 <!-- End Authentication [security] -->
 
 <!-- Start Available Resources and Data Sources [operations] -->
@@ -159,7 +158,18 @@ Available configuration:
 
 ### Resources
 
+* [epilot-product_coupon](docs/resources/coupon.md)
+* [epilot-product_price](docs/resources/price.md)
+* [epilot-product_product](docs/resources/product.md)
+* [epilot-product_product_recommendation](docs/resources/product_recommendation.md)
+* [epilot-product_tax](docs/resources/tax.md)
 ### Data Sources
+
+* [epilot-product_coupon](docs/data-sources/coupon.md)
+* [epilot-product_price](docs/data-sources/price.md)
+* [epilot-product_product](docs/data-sources/product.md)
+* [epilot-product_product_recommendation](docs/data-sources/product_recommendation.md)
+* [epilot-product_tax](docs/data-sources/tax.md)
 <!-- End Available Resources and Data Sources [operations] -->
 
 <!-- Placeholder for Future Speakeasy SDK Sections -->
