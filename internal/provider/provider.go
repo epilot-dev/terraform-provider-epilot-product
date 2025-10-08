@@ -27,8 +27,9 @@ type EpilotProductProvider struct {
 
 // EpilotProductProviderModel describes the provider data model.
 type EpilotProductProviderModel struct {
+	EitherAuth types.String `tfsdk:"either_auth"`
 	EpilotAuth types.String `tfsdk:"epilot_auth"`
-	EpilotOrg  types.String `tfsdk:"epilot_org"`
+	PortalAuth types.String `tfsdk:"portal_auth"`
 	ServerURL  types.String `tfsdk:"server_url"`
 }
 
@@ -40,13 +41,18 @@ func (p *EpilotProductProvider) Metadata(ctx context.Context, req provider.Metad
 func (p *EpilotProductProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
-			"epilot_auth": schema.StringAttribute{
-				MarkdownDescription: `Authorization header with epilot OAuth2 bearer token.`,
+			"either_auth": schema.StringAttribute{
+				MarkdownDescription: `Portal or Epilot Bearer Token.`,
 				Optional:            true,
 				Sensitive:           true,
 			},
-			"epilot_org": schema.StringAttribute{
-				MarkdownDescription: `Overrides the target organization to allow shared tenantaccess.`,
+			"epilot_auth": schema.StringAttribute{
+				MarkdownDescription: `Epilot Bearer Token.`,
+				Optional:            true,
+				Sensitive:           true,
+			},
+			"portal_auth": schema.StringAttribute{
+				MarkdownDescription: `Portal Cognito Token.`,
 				Optional:            true,
 				Sensitive:           true,
 			},
@@ -55,7 +61,7 @@ func (p *EpilotProductProvider) Schema(ctx context.Context, req provider.SchemaR
 				Optional:    true,
 			},
 		},
-		MarkdownDescription: `Product API: This API allows managing products, prices, taxes, and coupons.`,
+		MarkdownDescription: `Portal API: Backend for epilot portals - End Customer Portal & Installer Portal`,
 	}
 }
 
@@ -76,12 +82,16 @@ func (p *EpilotProductProvider) Configure(ctx context.Context, req provider.Conf
 
 	security := shared.Security{}
 
+	if !data.EitherAuth.IsUnknown() {
+		security.EitherAuth = data.EitherAuth.ValueStringPointer()
+	}
+
 	if !data.EpilotAuth.IsUnknown() {
 		security.EpilotAuth = data.EpilotAuth.ValueStringPointer()
 	}
 
-	if !data.EpilotOrg.IsUnknown() {
-		security.EpilotOrg = data.EpilotOrg.ValueStringPointer()
+	if !data.PortalAuth.IsUnknown() {
+		security.PortalAuth = data.PortalAuth.ValueStringPointer()
 	}
 
 	providerHTTPTransportOpts := ProviderHTTPTransportOpts{
@@ -105,23 +115,11 @@ func (p *EpilotProductProvider) Configure(ctx context.Context, req provider.Conf
 }
 
 func (p *EpilotProductProvider) Resources(ctx context.Context) []func() resource.Resource {
-	return []func() resource.Resource{
-		NewCouponResource,
-		NewPriceResource,
-		NewProductResource,
-		NewProductRecommendationResource,
-		NewTaxResource,
-	}
+	return []func() resource.Resource{}
 }
 
 func (p *EpilotProductProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
-	return []func() datasource.DataSource{
-		NewCouponDataSource,
-		NewPriceDataSource,
-		NewProductDataSource,
-		NewProductRecommendationDataSource,
-		NewTaxDataSource,
-	}
+	return []func() datasource.DataSource{}
 }
 
 func (p *EpilotProductProvider) EphemeralResources(ctx context.Context) []func() ephemeral.EphemeralResource {

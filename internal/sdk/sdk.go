@@ -48,18 +48,19 @@ func Float64(f float64) *float64 { return &f }
 // Pointer provides a helper function to return a pointer to a type
 func Pointer[T any](v T) *T { return &v }
 
-// SDK - Product API: This API allows managing products, prices, taxes, and coupons.
+// SDK - Portal API: Backend for epilot portals - End Customer Portal & Installer Portal
 type SDK struct {
 	SDKVersion string
-	// Coupon operations
-	Coupon *Coupon
-	// Price operations
-	Price *Price
-	// Product operations
-	Product               *Product
-	ProductRecommendation *ProductRecommendation
-	// Tax operations
-	Tax *Tax
+	// APIs defined for a ECP Admin
+	ECPAdmin *ECPAdmin
+	// APIs defined for a portal user
+	Ecp      *Ecp
+	Balance  *Balance
+	Activity *Activity
+	Internal *Internal
+	// Public APIs
+	Public *Public
+	Login  *Login
 
 	sdkConfiguration config.SDKConfiguration
 	hooks            *hooks.Hooks
@@ -135,9 +136,9 @@ func WithTimeout(timeout time.Duration) SDKOption {
 // New creates a new instance of the SDK with the provided options
 func New(opts ...SDKOption) *SDK {
 	sdk := &SDK{
-		SDKVersion: "0.15.8",
+		SDKVersion: "0.16.0",
 		sdkConfiguration: config.SDKConfiguration{
-			UserAgent:  "speakeasy-sdk/terraform 0.15.8 2.694.1 1.0.0 github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk",
+			UserAgent:  "speakeasy-sdk/terraform 0.16.0 2.694.1 1.0.0 github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk",
 			ServerList: ServerList,
 		},
 		hooks: hooks.New(),
@@ -158,11 +159,13 @@ func New(opts ...SDKOption) *SDK {
 		sdk.sdkConfiguration.ServerURL = serverURL
 	}
 
-	sdk.Coupon = newCoupon(sdk, sdk.sdkConfiguration, sdk.hooks)
-	sdk.Price = newPrice(sdk, sdk.sdkConfiguration, sdk.hooks)
-	sdk.Product = newProduct(sdk, sdk.sdkConfiguration, sdk.hooks)
-	sdk.ProductRecommendation = newProductRecommendation(sdk, sdk.sdkConfiguration, sdk.hooks)
-	sdk.Tax = newTax(sdk, sdk.sdkConfiguration, sdk.hooks)
+	sdk.ECPAdmin = newECPAdmin(sdk, sdk.sdkConfiguration, sdk.hooks)
+	sdk.Ecp = newEcp(sdk, sdk.sdkConfiguration, sdk.hooks)
+	sdk.Balance = newBalance(sdk, sdk.sdkConfiguration, sdk.hooks)
+	sdk.Activity = newActivity(sdk, sdk.sdkConfiguration, sdk.hooks)
+	sdk.Internal = newInternal(sdk, sdk.sdkConfiguration, sdk.hooks)
+	sdk.Public = newPublic(sdk, sdk.sdkConfiguration, sdk.hooks)
+	sdk.Login = newLogin(sdk, sdk.sdkConfiguration, sdk.hooks)
 
 	return sdk
 }

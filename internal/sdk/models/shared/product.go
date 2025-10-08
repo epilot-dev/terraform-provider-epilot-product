@@ -32,77 +32,22 @@ func (e *ProductSchema) UnmarshalJSON(data []byte) error {
 	}
 }
 
-// ProductType - The type of Product:
-//
-// | type | description |
-// |----| ----|
-// | `product` | Represents a physical good |
-// | `service` | Represents a service or virtual product |
-type ProductType string
-
-const (
-	ProductTypeProduct ProductType = "product"
-	ProductTypeService ProductType = "service"
-)
-
-func (e ProductType) ToPointer() *ProductType {
-	return &e
-}
-func (e *ProductType) UnmarshalJSON(data []byte) error {
-	var v string
-	if err := json.Unmarshal(data, &v); err != nil {
-		return err
-	}
-	switch v {
-	case "product":
-		fallthrough
-	case "service":
-		*e = ProductType(v)
-		return nil
-	default:
-		return fmt.Errorf("invalid value for ProductType: %v", v)
-	}
-}
-
+// Product - The product entity
 type Product struct {
-	// Additional fields that are not part of the schema
-	Additional        any           `json:"__additional,omitempty"`
-	AvailabilityFiles *BaseRelation `json:"_availability_files,omitempty"`
-	CreatedAt         *time.Time    `json:"_created_at,omitempty"`
-	Files             *BaseRelation `json:"_files,omitempty"`
-	ID                *string       `json:"_id,omitempty"`
-	// Manifest ID used to create/update the entity
-	Manifest []string `json:"_manifest,omitempty"`
-	// Organization Id the entity belongs to
-	Org       string        `json:"_org"`
-	Purpose   []string      `json:"_purpose,omitempty"`
-	Schema    ProductSchema `json:"_schema"`
-	Tags      []string      `json:"_tags,omitempty"`
-	Title     *string       `json:"_title,omitempty"`
-	UpdatedAt *time.Time    `json:"_updated_at,omitempty"`
-	Active    bool          `json:"active"`
-	// The categories of the product
-	Categories []string `json:"categories,omitempty"`
-	// The product code
-	Code *string `json:"code,omitempty"`
-	// A description of the product. Multi-line supported.
-	Description *string `json:"description,omitempty"`
-	Feature     []any   `json:"feature,omitempty"`
-	// Not visible to customers, only in internal tables
-	InternalName *string `json:"internal_name,omitempty"`
-	// The description for the product
-	Name             string        `json:"name"`
-	PriceOptions     *BaseRelation `json:"price_options,omitempty"`
-	ProductDownloads *BaseRelation `json:"product_downloads,omitempty"`
-	ProductImages    *BaseRelation `json:"product_images,omitempty"`
-	// The type of Product:
-	//
-	// | type | description |
-	// |----| ----|
-	// | `product` | Represents a physical good |
-	// | `service` | Represents a service or virtual product |
-	//
-	Type *ProductType `default:"product" json:"type"`
+	AdditionalProperties any `additionalProperties:"true" json:"-"`
+	// Creation timestamp of the entity
+	CreatedAt time.Time `json:"_created_at"`
+	// Entity ID
+	ID string `json:"_id"`
+	// Organization ID the entity belongs to
+	Org    string        `json:"_org"`
+	Schema ProductSchema `json:"_schema"`
+	// Array of entity tags
+	Tags []string `json:"_tags,omitempty"`
+	// Title of the entity
+	Title string `json:"_title"`
+	// Last update timestamp of the entity
+	UpdatedAt time.Time `json:"_updated_at"`
 }
 
 func (p Product) MarshalJSON() ([]byte, error) {
@@ -110,52 +55,31 @@ func (p Product) MarshalJSON() ([]byte, error) {
 }
 
 func (p *Product) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &p, "", false, []string{"_org", "_schema", "active", "name"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &p, "", false, []string{"_created_at", "_id", "_org", "_schema", "_title", "_updated_at"}); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *Product) GetAdditional() any {
+func (o *Product) GetAdditionalProperties() any {
 	if o == nil {
 		return nil
 	}
-	return o.Additional
+	return o.AdditionalProperties
 }
 
-func (o *Product) GetAvailabilityFiles() *BaseRelation {
+func (o *Product) GetCreatedAt() time.Time {
 	if o == nil {
-		return nil
-	}
-	return o.AvailabilityFiles
-}
-
-func (o *Product) GetCreatedAt() *time.Time {
-	if o == nil {
-		return nil
+		return time.Time{}
 	}
 	return o.CreatedAt
 }
 
-func (o *Product) GetFiles() *BaseRelation {
+func (o *Product) GetID() string {
 	if o == nil {
-		return nil
-	}
-	return o.Files
-}
-
-func (o *Product) GetID() *string {
-	if o == nil {
-		return nil
+		return ""
 	}
 	return o.ID
-}
-
-func (o *Product) GetManifest() []string {
-	if o == nil {
-		return nil
-	}
-	return o.Manifest
 }
 
 func (o *Product) GetOrg() string {
@@ -163,13 +87,6 @@ func (o *Product) GetOrg() string {
 		return ""
 	}
 	return o.Org
-}
-
-func (o *Product) GetPurpose() []string {
-	if o == nil {
-		return nil
-	}
-	return o.Purpose
 }
 
 func (o *Product) GetSchema() ProductSchema {
@@ -186,93 +103,16 @@ func (o *Product) GetTags() []string {
 	return o.Tags
 }
 
-func (o *Product) GetTitle() *string {
+func (o *Product) GetTitle() string {
 	if o == nil {
-		return nil
+		return ""
 	}
 	return o.Title
 }
 
-func (o *Product) GetUpdatedAt() *time.Time {
+func (o *Product) GetUpdatedAt() time.Time {
 	if o == nil {
-		return nil
+		return time.Time{}
 	}
 	return o.UpdatedAt
-}
-
-func (o *Product) GetActive() bool {
-	if o == nil {
-		return false
-	}
-	return o.Active
-}
-
-func (o *Product) GetCategories() []string {
-	if o == nil {
-		return nil
-	}
-	return o.Categories
-}
-
-func (o *Product) GetCode() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Code
-}
-
-func (o *Product) GetDescription() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Description
-}
-
-func (o *Product) GetFeature() []any {
-	if o == nil {
-		return nil
-	}
-	return o.Feature
-}
-
-func (o *Product) GetInternalName() *string {
-	if o == nil {
-		return nil
-	}
-	return o.InternalName
-}
-
-func (o *Product) GetName() string {
-	if o == nil {
-		return ""
-	}
-	return o.Name
-}
-
-func (o *Product) GetPriceOptions() *BaseRelation {
-	if o == nil {
-		return nil
-	}
-	return o.PriceOptions
-}
-
-func (o *Product) GetProductDownloads() *BaseRelation {
-	if o == nil {
-		return nil
-	}
-	return o.ProductDownloads
-}
-
-func (o *Product) GetProductImages() *BaseRelation {
-	if o == nil {
-		return nil
-	}
-	return o.ProductImages
-}
-
-func (o *Product) GetType() *ProductType {
-	if o == nil {
-		return nil
-	}
-	return o.Type
 }
