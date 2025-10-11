@@ -73,7 +73,7 @@ func (r *PriceDataSourceModel) RefreshFromSharedPrice(ctx context.Context, resp 
 		} else {
 			r.BillingDurationUnit = types.StringNull()
 		}
-		r.Description = types.StringPointerValue(resp.Description)
+		r.Description = types.StringValue(resp.Description)
 		r.IsCompositePrice = types.BoolPointerValue(resp.IsCompositePrice)
 		r.IsTaxInclusive = types.BoolPointerValue(resp.IsTaxInclusive)
 		r.LongDescription = types.StringPointerValue(resp.LongDescription)

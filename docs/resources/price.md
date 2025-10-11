@@ -86,13 +86,13 @@ resource "epilot-product_price" "my_price" {
 ### Required
 
 - `active` (Boolean) Whether the price can be used for new purchases.
+- `description` (String) A brief description of the price.
 
 ### Optional
 
 - `additional` (String) Additional fields that are not part of the schema. Parsed as JSON.
 - `billing_duration_amount` (Number) The billing period duration
 - `billing_duration_unit` (String) The billing period duration unit. must be one of ["weeks", "months", "years"]
-- `description` (String) A brief description of the price.
 - `files` (Attributes) (see [below for nested schema](#nestedatt--files))
 - `is_composite_price` (Boolean) The flag for prices that contain price components.
 - `is_tax_inclusive` (Boolean) Specifies whether the price is considered `inclusive` of taxes or not. Default: false

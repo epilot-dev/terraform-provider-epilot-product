@@ -137,8 +137,7 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 				},
 			},
 			"description": schema.StringAttribute{
-				Computed: true,
-				Optional: true,
+				Required: true,
 				PlanModifiers: []planmodifier.String{
 					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 				},
