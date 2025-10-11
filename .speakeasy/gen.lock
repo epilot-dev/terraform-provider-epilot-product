@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 5a857039-7f4b-42d5-86fd-449767242ed2
 management:
-  docChecksum: 4b7cd702ce516c48de2e4e6e328ef745
+  docChecksum: df607932cff277375f19e59d2610d26c
   docVersion: 1.0.0
-  speakeasyVersion: 1.636.1
-  generationVersion: 2.723.4
-  releaseVersion: 0.17.0
-  configChecksum: 8f383519116563af81e7ed83933e912b
+  speakeasyVersion: 1.636.3
+  generationVersion: 2.723.11
+  releaseVersion: 0.17.1
+  configChecksum: 2fb276be98d4967e46807f5950d9a501
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-product.git
   repoSubDirectory: .
   published: true
@@ -276,10 +276,10 @@ examples:
   createPrice:
     speakeasy-default-create-price:
       requestBody:
-        application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": true, "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
+        application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": true, "description": "inasmuch spherical obnoxiously webbed retention", "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
       responses:
         "201":
-          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": true, "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
+          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": true, "description": "underpants guzzle instead um after descriptive generally legitimize around", "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -291,7 +291,7 @@ examples:
           priceId: "123e4567-e89b-12d3-a456-426614174000"
       responses:
         "200":
-          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": false, "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
+          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": false, "description": "where that outfit quart oof yowza hence", "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -306,7 +306,7 @@ examples:
           strict: false
       responses:
         "200":
-          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": true, "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
+          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": true, "description": "drat sorrowful which border quinoa", "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -320,7 +320,7 @@ examples:
         application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
       responses:
         "200":
-          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": true, "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
+          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": true, "description": "kiddingly hm ugh", "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -331,10 +331,10 @@ examples:
         path:
           priceId: "123e4567-e89b-12d3-a456-426614174000"
       requestBody:
-        application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": false, "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
+        application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": false, "description": "oof unconscious memorise why youthfully variable incidentally", "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
       responses:
         "200":
-          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": false, "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
+          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": false, "description": "er gestate often aside bah than mid ick", "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -1805,3 +1805,4 @@ examples:
           application/json: {"email": "portal-customer@email.com"}
 examplesVersion: 1.0.2
 generatedTests: {}
+releaseNotes: "## Terraform SDK Changes Detected:\n* `SDK.Price.getPrice()`:  `response` **Changed** **Breaking** :warning:\n* `SDK.Tax.deleteTax()`:  `response` **Changed** **Breaking** :warning:\n* `SDK.Tax.updateTax()`: \n  *  `request.TaxCreate.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Tax.patchTax()`: \n  *  `request.TaxPatch.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Tax.getTax()`:  `response` **Changed** **Breaking** :warning:\n* `SDK.Coupon.createCoupon()`: \n  *  `request.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Coupon.deleteCoupon()`:  `response` **Changed** **Breaking** :warning:\n* `SDK.Coupon.getCoupon()`:  `response` **Changed** **Breaking** :warning:\n* `SDK.Coupon.patchCoupon()`: \n  *  `request.CouponPatch.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Coupon.updateCoupon()`: \n  *  `request.CouponCreate.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Price.createPrice()`: \n  *  `request.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Price.deletePrice()`:  `response` **Changed** **Breaking** :warning:\n* `SDK.Price.patchPrice()`: \n  *  `request.PricePatch.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Price.updatePrice()`: \n  *  `request.PriceCreate.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Tax.createTax()`: \n  *  `request.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Product.createProduct()`: \n  *  `request.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Product.deleteProduct()`:  `response` **Changed** **Breaking** :warning:\n* `SDK.Product.getProduct()`:  `response` **Changed** **Breaking** :warning:\n* `SDK.Product.patchProduct()`: \n  *  `request.ProductPatch.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Product.updateProduct()`: \n  *  `request.ProductCreate.__additional` **Changed** **Breaking** :warning:\n  *  `response` **Changed** **Breaking** :warning:\n* `SDK.Product Recommendation.createProductRecommendation()`: **Added**\n* `SDK.Product Recommendation.deleteProductRecommendation()`: **Added**\n* `SDK.Product Recommendation.updateProductRecommendation()`: **Added**\n* `SDK.Product Recommendation.patchProductRecommendation()`: **Added**\n* `SDK.Product Recommendation.getProductRecommendation()`: **Added**\n"

@@ -73,7 +73,7 @@ func (r *PriceResourceModel) RefreshFromSharedPrice(ctx context.Context, resp *s
 		} else {
 			r.BillingDurationUnit = types.StringNull()
 		}
-		r.Description = types.StringPointerValue(resp.Description)
+		r.Description = types.StringValue(resp.Description)
 		r.IsCompositePrice = types.BoolPointerValue(resp.IsCompositePrice)
 		r.IsTaxInclusive = types.BoolPointerValue(resp.IsTaxInclusive)
 		r.LongDescription = types.StringPointerValue(resp.LongDescription)
@@ -281,12 +281,9 @@ func (r *PriceResourceModel) ToSharedPriceCreate(ctx context.Context) (*shared.P
 	} else {
 		billingDurationUnit = nil
 	}
-	description := new(string)
-	if !r.Description.IsUnknown() && !r.Description.IsNull() {
-		*description = r.Description.ValueString()
-	} else {
-		description = nil
-	}
+	var description string
+	description = r.Description.ValueString()
+
 	isCompositePrice := new(bool)
 	if !r.IsCompositePrice.IsUnknown() && !r.IsCompositePrice.IsNull() {
 		*isCompositePrice = r.IsCompositePrice.ValueBool()

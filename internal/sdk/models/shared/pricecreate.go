@@ -273,7 +273,7 @@ type PriceCreate struct {
 	// The billing period duration unit
 	BillingDurationUnit *PriceCreateBillingDurationUnit `json:"billing_duration_unit,omitempty"`
 	// A brief description of the price.
-	Description *string `json:"description,omitempty"`
+	Description string `json:"description"`
 	// The flag for prices that contain price components.
 	IsCompositePrice *bool `json:"is_composite_price,omitempty"`
 	// Specifies whether the price is considered `inclusive` of taxes or not.
@@ -326,7 +326,7 @@ func (p PriceCreate) MarshalJSON() ([]byte, error) {
 }
 
 func (p *PriceCreate) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &p, "", false, []string{"active"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &p, "", false, []string{"active", "description"}); err != nil {
 		return err
 	}
 	return nil
@@ -395,9 +395,9 @@ func (p *PriceCreate) GetBillingDurationUnit() *PriceCreateBillingDurationUnit {
 	return p.BillingDurationUnit
 }
 
-func (p *PriceCreate) GetDescription() *string {
+func (p *PriceCreate) GetDescription() string {
 	if p == nil {
-		return nil
+		return ""
 	}
 	return p.Description
 }
