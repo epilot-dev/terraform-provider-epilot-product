@@ -38,7 +38,7 @@ data "epilot-product_tax" "my_tax" {
 - `manifest` (List of String) Manifest ID used to create/update the entity
 - `org` (String) Organization Id the entity belongs to
 - `purpose` (List of String)
-- `rate` (String)
+- `rate` (String) Parsed as JSON.
 - `region` (String)
 - `schema` (String)
 - `tags` (List of String)

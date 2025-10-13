@@ -68,7 +68,8 @@ func (r *TaxDataSourceModel) RefreshFromSharedTax(ctx context.Context, resp *sha
 		r.UpdatedAt = types.StringPointerValue(typeconvert.TimePointerToStringPointer(resp.UpdatedAt))
 		r.Active = types.BoolValue(resp.Active)
 		r.Description = types.StringPointerValue(resp.Description)
-		r.Rate = types.StringValue(resp.Rate)
+		rateResult, _ := json.Marshal(resp.Rate)
+		r.Rate = jsontypes.NewNormalizedValue(string(rateResult))
 		r.Region = types.StringValue(resp.Region)
 		r.Type = types.StringValue(string(resp.Type))
 	}

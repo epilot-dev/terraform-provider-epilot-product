@@ -64,7 +64,7 @@ func (s *Price) CreatePrice(ctx context.Context, request shared.PriceCreate, opt
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "createPrice",
-		OAuth2Scopes:     nil,
+		OAuth2Scopes:     []string{},
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "Request", "json", `request:"mediaType=application/json"`)
@@ -312,7 +312,7 @@ func (s *Price) DeletePrice(ctx context.Context, request operations.DeletePriceR
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "deletePrice",
-		OAuth2Scopes:     nil,
+		OAuth2Scopes:     []string{},
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 
@@ -553,7 +553,7 @@ func (s *Price) GetPrice(ctx context.Context, request operations.GetPriceRequest
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "getPrice",
-		OAuth2Scopes:     nil,
+		OAuth2Scopes:     []string{},
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 
@@ -798,7 +798,7 @@ func (s *Price) PatchPrice(ctx context.Context, request operations.PatchPriceReq
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "patchPrice",
-		OAuth2Scopes:     nil,
+		OAuth2Scopes:     []string{},
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "PricePatch", "json", `request:"mediaType=application/json"`)
@@ -1046,7 +1046,7 @@ func (s *Price) UpdatePrice(ctx context.Context, request operations.UpdatePriceR
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "updatePrice",
-		OAuth2Scopes:     nil,
+		OAuth2Scopes:     []string{},
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "PriceCreate", "json", `request:"mediaType=application/json"`)

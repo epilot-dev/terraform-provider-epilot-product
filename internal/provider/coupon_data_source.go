@@ -47,8 +47,8 @@ type CouponDataSourceModel struct {
 	Org                types.String          `tfsdk:"org"`
 	PercentageValue    types.String          `tfsdk:"percentage_value"`
 	Prices             *tfTypes.BaseRelation `tfsdk:"prices"`
-	PromoCodes         []tfTypes.PromoCode   `tfsdk:"promo_codes"`
 	PromoCodeUsage     jsontypes.Normalized  `tfsdk:"promo_code_usage"`
+	PromoCodes         []tfTypes.PromoCode   `tfsdk:"promo_codes"`
 	Purpose            []types.String        `tfsdk:"purpose"`
 	RequiresPromoCode  types.Bool            `tfsdk:"requires_promo_code"`
 	Schema             types.String          `tfsdk:"schema"`

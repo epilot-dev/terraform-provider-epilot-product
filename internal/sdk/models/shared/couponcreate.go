@@ -141,142 +141,142 @@ type CouponCreate struct {
 	Type              CouponCreateType `json:"type"`
 }
 
-func (c *CouponCreate) GetAdditional() any {
-	if c == nil {
+func (o *CouponCreate) GetAdditional() any {
+	if o == nil {
 		return nil
 	}
-	return c.Additional
+	return o.Additional
 }
 
-func (c *CouponCreate) GetFiles() *BaseRelation {
-	if c == nil {
+func (o *CouponCreate) GetFiles() *BaseRelation {
+	if o == nil {
 		return nil
 	}
-	return c.Files
+	return o.Files
 }
 
-func (c *CouponCreate) GetManifest() []string {
-	if c == nil {
+func (o *CouponCreate) GetManifest() []string {
+	if o == nil {
 		return nil
 	}
-	return c.Manifest
+	return o.Manifest
 }
 
-func (c *CouponCreate) GetPurpose() []string {
-	if c == nil {
+func (o *CouponCreate) GetPurpose() []string {
+	if o == nil {
 		return nil
 	}
-	return c.Purpose
+	return o.Purpose
 }
 
-func (c *CouponCreate) GetSchema() *CouponCreateSchema {
-	if c == nil {
+func (o *CouponCreate) GetSchema() *CouponCreateSchema {
+	if o == nil {
 		return nil
 	}
-	return c.Schema
+	return o.Schema
 }
 
-func (c *CouponCreate) GetTags() []string {
-	if c == nil {
+func (o *CouponCreate) GetTags() []string {
+	if o == nil {
 		return nil
 	}
-	return c.Tags
+	return o.Tags
 }
 
-func (c *CouponCreate) GetActive() bool {
-	if c == nil {
+func (o *CouponCreate) GetActive() bool {
+	if o == nil {
 		return false
 	}
-	return c.Active
+	return o.Active
 }
 
-func (c *CouponCreate) GetCashbackPeriod() *CouponCreateCashbackPeriod {
-	if c == nil {
+func (o *CouponCreate) GetCashbackPeriod() *CouponCreateCashbackPeriod {
+	if o == nil {
 		return nil
 	}
-	return c.CashbackPeriod
+	return o.CashbackPeriod
 }
 
-func (c *CouponCreate) GetCategory() CouponCreateCategory {
-	if c == nil {
+func (o *CouponCreate) GetCategory() CouponCreateCategory {
+	if o == nil {
 		return CouponCreateCategory("")
 	}
-	return c.Category
+	return o.Category
 }
 
-func (c *CouponCreate) GetDescription() *string {
-	if c == nil {
+func (o *CouponCreate) GetDescription() *string {
+	if o == nil {
 		return nil
 	}
-	return c.Description
+	return o.Description
 }
 
-func (c *CouponCreate) GetFixedValue() *float64 {
-	if c == nil {
+func (o *CouponCreate) GetFixedValue() *float64 {
+	if o == nil {
 		return nil
 	}
-	return c.FixedValue
+	return o.FixedValue
 }
 
-func (c *CouponCreate) GetFixedValueCurrency() *string {
-	if c == nil {
+func (o *CouponCreate) GetFixedValueCurrency() *string {
+	if o == nil {
 		return nil
 	}
-	return c.FixedValueCurrency
+	return o.FixedValueCurrency
 }
 
-func (c *CouponCreate) GetFixedValueDecimal() *string {
-	if c == nil {
+func (o *CouponCreate) GetFixedValueDecimal() *string {
+	if o == nil {
 		return nil
 	}
-	return c.FixedValueDecimal
+	return o.FixedValueDecimal
 }
 
-func (c *CouponCreate) GetName() string {
-	if c == nil {
+func (o *CouponCreate) GetName() string {
+	if o == nil {
 		return ""
 	}
-	return c.Name
+	return o.Name
 }
 
-func (c *CouponCreate) GetPercentageValue() *string {
-	if c == nil {
+func (o *CouponCreate) GetPercentageValue() *string {
+	if o == nil {
 		return nil
 	}
-	return c.PercentageValue
+	return o.PercentageValue
 }
 
-func (c *CouponCreate) GetPrices() *BaseRelation {
-	if c == nil {
+func (o *CouponCreate) GetPrices() *BaseRelation {
+	if o == nil {
 		return nil
 	}
-	return c.Prices
+	return o.Prices
 }
 
-func (c *CouponCreate) GetPromoCodeUsage() any {
-	if c == nil {
+func (o *CouponCreate) GetPromoCodeUsage() any {
+	if o == nil {
 		return nil
 	}
-	return c.PromoCodeUsage
+	return o.PromoCodeUsage
 }
 
-func (c *CouponCreate) GetPromoCodes() []PromoCode {
-	if c == nil {
+func (o *CouponCreate) GetPromoCodes() []PromoCode {
+	if o == nil {
 		return nil
 	}
-	return c.PromoCodes
+	return o.PromoCodes
 }
 
-func (c *CouponCreate) GetRequiresPromoCode() *bool {
-	if c == nil {
+func (o *CouponCreate) GetRequiresPromoCode() *bool {
+	if o == nil {
 		return nil
 	}
-	return c.RequiresPromoCode
+	return o.RequiresPromoCode
 }
 
-func (c *CouponCreate) GetType() CouponCreateType {
-	if c == nil {
+func (o *CouponCreate) GetType() CouponCreateType {
+	if o == nil {
 		return CouponCreateType("")
 	}
-	return c.Type
+	return o.Type
 }

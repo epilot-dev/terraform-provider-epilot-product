@@ -40,7 +40,7 @@ type TaxDataSourceModel struct {
 	Manifest    []types.String        `tfsdk:"manifest"`
 	Org         types.String          `tfsdk:"org"`
 	Purpose     []types.String        `tfsdk:"purpose"`
-	Rate        types.String          `tfsdk:"rate"`
+	Rate        jsontypes.Normalized  `tfsdk:"rate"`
 	Region      types.String          `tfsdk:"region"`
 	Schema      types.String          `tfsdk:"schema"`
 	Strict      types.Bool            `queryParam:"style=form,explode=true,name=strict" tfsdk:"strict"`
@@ -115,7 +115,9 @@ func (r *TaxDataSource) Schema(ctx context.Context, req datasource.SchemaRequest
 				ElementType: types.StringType,
 			},
 			"rate": schema.StringAttribute{
-				Computed: true,
+				CustomType:  jsontypes.NormalizedType{},
+				Computed:    true,
+				Description: `Parsed as JSON.`,
 			},
 			"region": schema.StringAttribute{
 				Computed: true,

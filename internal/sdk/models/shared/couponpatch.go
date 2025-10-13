@@ -141,142 +141,142 @@ type CouponPatch struct {
 	Type              *CouponPatchType `json:"type,omitempty"`
 }
 
-func (c *CouponPatch) GetAdditional() any {
-	if c == nil {
+func (o *CouponPatch) GetAdditional() any {
+	if o == nil {
 		return nil
 	}
-	return c.Additional
+	return o.Additional
 }
 
-func (c *CouponPatch) GetFiles() *BaseRelation {
-	if c == nil {
+func (o *CouponPatch) GetFiles() *BaseRelation {
+	if o == nil {
 		return nil
 	}
-	return c.Files
+	return o.Files
 }
 
-func (c *CouponPatch) GetManifest() []string {
-	if c == nil {
+func (o *CouponPatch) GetManifest() []string {
+	if o == nil {
 		return nil
 	}
-	return c.Manifest
+	return o.Manifest
 }
 
-func (c *CouponPatch) GetPurpose() []string {
-	if c == nil {
+func (o *CouponPatch) GetPurpose() []string {
+	if o == nil {
 		return nil
 	}
-	return c.Purpose
+	return o.Purpose
 }
 
-func (c *CouponPatch) GetSchema() *CouponPatchSchema {
-	if c == nil {
+func (o *CouponPatch) GetSchema() *CouponPatchSchema {
+	if o == nil {
 		return nil
 	}
-	return c.Schema
+	return o.Schema
 }
 
-func (c *CouponPatch) GetTags() []string {
-	if c == nil {
+func (o *CouponPatch) GetTags() []string {
+	if o == nil {
 		return nil
 	}
-	return c.Tags
+	return o.Tags
 }
 
-func (c *CouponPatch) GetActive() *bool {
-	if c == nil {
+func (o *CouponPatch) GetActive() *bool {
+	if o == nil {
 		return nil
 	}
-	return c.Active
+	return o.Active
 }
 
-func (c *CouponPatch) GetCashbackPeriod() *CouponPatchCashbackPeriod {
-	if c == nil {
+func (o *CouponPatch) GetCashbackPeriod() *CouponPatchCashbackPeriod {
+	if o == nil {
 		return nil
 	}
-	return c.CashbackPeriod
+	return o.CashbackPeriod
 }
 
-func (c *CouponPatch) GetCategory() *CouponPatchCategory {
-	if c == nil {
+func (o *CouponPatch) GetCategory() *CouponPatchCategory {
+	if o == nil {
 		return nil
 	}
-	return c.Category
+	return o.Category
 }
 
-func (c *CouponPatch) GetDescription() *string {
-	if c == nil {
+func (o *CouponPatch) GetDescription() *string {
+	if o == nil {
 		return nil
 	}
-	return c.Description
+	return o.Description
 }
 
-func (c *CouponPatch) GetFixedValue() *float64 {
-	if c == nil {
+func (o *CouponPatch) GetFixedValue() *float64 {
+	if o == nil {
 		return nil
 	}
-	return c.FixedValue
+	return o.FixedValue
 }
 
-func (c *CouponPatch) GetFixedValueCurrency() *string {
-	if c == nil {
+func (o *CouponPatch) GetFixedValueCurrency() *string {
+	if o == nil {
 		return nil
 	}
-	return c.FixedValueCurrency
+	return o.FixedValueCurrency
 }
 
-func (c *CouponPatch) GetFixedValueDecimal() *string {
-	if c == nil {
+func (o *CouponPatch) GetFixedValueDecimal() *string {
+	if o == nil {
 		return nil
 	}
-	return c.FixedValueDecimal
+	return o.FixedValueDecimal
 }
 
-func (c *CouponPatch) GetName() *string {
-	if c == nil {
+func (o *CouponPatch) GetName() *string {
+	if o == nil {
 		return nil
 	}
-	return c.Name
+	return o.Name
 }
 
-func (c *CouponPatch) GetPercentageValue() *string {
-	if c == nil {
+func (o *CouponPatch) GetPercentageValue() *string {
+	if o == nil {
 		return nil
 	}
-	return c.PercentageValue
+	return o.PercentageValue
 }
 
-func (c *CouponPatch) GetPrices() *BaseRelation {
-	if c == nil {
+func (o *CouponPatch) GetPrices() *BaseRelation {
+	if o == nil {
 		return nil
 	}
-	return c.Prices
+	return o.Prices
 }
 
-func (c *CouponPatch) GetPromoCodeUsage() any {
-	if c == nil {
+func (o *CouponPatch) GetPromoCodeUsage() any {
+	if o == nil {
 		return nil
 	}
-	return c.PromoCodeUsage
+	return o.PromoCodeUsage
 }
 
-func (c *CouponPatch) GetPromoCodes() []PromoCode {
-	if c == nil {
+func (o *CouponPatch) GetPromoCodes() []PromoCode {
+	if o == nil {
 		return nil
 	}
-	return c.PromoCodes
+	return o.PromoCodes
 }
 
-func (c *CouponPatch) GetRequiresPromoCode() *bool {
-	if c == nil {
+func (o *CouponPatch) GetRequiresPromoCode() *bool {
+	if o == nil {
 		return nil
 	}
-	return c.RequiresPromoCode
+	return o.RequiresPromoCode
 }
 
-func (c *CouponPatch) GetType() *CouponPatchType {
-	if c == nil {
+func (o *CouponPatch) GetType() *CouponPatchType {
+	if o == nil {
 		return nil
 	}
-	return c.Type
+	return o.Type
 }

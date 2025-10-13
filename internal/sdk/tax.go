@@ -64,7 +64,7 @@ func (s *Tax) CreateTax(ctx context.Context, request shared.TaxCreate, opts ...o
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "createTax",
-		OAuth2Scopes:     nil,
+		OAuth2Scopes:     []string{},
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "Request", "json", `request:"mediaType=application/json"`)
@@ -312,7 +312,7 @@ func (s *Tax) DeleteTax(ctx context.Context, request operations.DeleteTaxRequest
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "deleteTax",
-		OAuth2Scopes:     nil,
+		OAuth2Scopes:     []string{},
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 
@@ -553,7 +553,7 @@ func (s *Tax) GetTax(ctx context.Context, request operations.GetTaxRequest, opts
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "getTax",
-		OAuth2Scopes:     nil,
+		OAuth2Scopes:     []string{},
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 
@@ -798,7 +798,7 @@ func (s *Tax) PatchTax(ctx context.Context, request operations.PatchTaxRequest, 
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "patchTax",
-		OAuth2Scopes:     nil,
+		OAuth2Scopes:     []string{},
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "TaxPatch", "json", `request:"mediaType=application/json"`)
@@ -1046,7 +1046,7 @@ func (s *Tax) UpdateTax(ctx context.Context, request operations.UpdateTaxRequest
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "updateTax",
-		OAuth2Scopes:     nil,
+		OAuth2Scopes:     []string{},
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "TaxCreate", "json", `request:"mediaType=application/json"`)

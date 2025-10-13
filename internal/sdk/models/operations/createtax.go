@@ -20,37 +20,37 @@ type CreateTaxResponse struct {
 	Tax *shared.Tax
 }
 
-func (c *CreateTaxResponse) GetClientError() *shared.ClientError {
-	if c == nil {
+func (o *CreateTaxResponse) GetClientError() *shared.ClientError {
+	if o == nil {
 		return nil
 	}
-	return c.ClientError
+	return o.ClientError
 }
 
-func (c *CreateTaxResponse) GetContentType() string {
-	if c == nil {
+func (o *CreateTaxResponse) GetContentType() string {
+	if o == nil {
 		return ""
 	}
-	return c.ContentType
+	return o.ContentType
 }
 
-func (c *CreateTaxResponse) GetStatusCode() int {
-	if c == nil {
+func (o *CreateTaxResponse) GetStatusCode() int {
+	if o == nil {
 		return 0
 	}
-	return c.StatusCode
+	return o.StatusCode
 }
 
-func (c *CreateTaxResponse) GetRawResponse() *http.Response {
-	if c == nil {
+func (o *CreateTaxResponse) GetRawResponse() *http.Response {
+	if o == nil {
 		return nil
 	}
-	return c.RawResponse
+	return o.RawResponse
 }
 
-func (c *CreateTaxResponse) GetTax() *shared.Tax {
-	if c == nil {
+func (o *CreateTaxResponse) GetTax() *shared.Tax {
+	if o == nil {
 		return nil
 	}
-	return c.Tax
+	return o.Tax
 }

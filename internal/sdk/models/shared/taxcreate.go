@@ -67,84 +67,84 @@ type TaxCreate struct {
 	Tags        []string         `json:"_tags,omitempty"`
 	Active      bool             `json:"active"`
 	Description *string          `json:"description,omitempty"`
-	Rate        string           `json:"rate"`
+	Rate        any              `json:"rate"`
 	Region      string           `json:"region"`
 	Type        TaxCreateType    `json:"type"`
 }
 
-func (t *TaxCreate) GetAdditional() any {
-	if t == nil {
+func (o *TaxCreate) GetAdditional() any {
+	if o == nil {
 		return nil
 	}
-	return t.Additional
+	return o.Additional
 }
 
-func (t *TaxCreate) GetFiles() *BaseRelation {
-	if t == nil {
+func (o *TaxCreate) GetFiles() *BaseRelation {
+	if o == nil {
 		return nil
 	}
-	return t.Files
+	return o.Files
 }
 
-func (t *TaxCreate) GetManifest() []string {
-	if t == nil {
+func (o *TaxCreate) GetManifest() []string {
+	if o == nil {
 		return nil
 	}
-	return t.Manifest
+	return o.Manifest
 }
 
-func (t *TaxCreate) GetPurpose() []string {
-	if t == nil {
+func (o *TaxCreate) GetPurpose() []string {
+	if o == nil {
 		return nil
 	}
-	return t.Purpose
+	return o.Purpose
 }
 
-func (t *TaxCreate) GetSchema() *TaxCreateSchema {
-	if t == nil {
+func (o *TaxCreate) GetSchema() *TaxCreateSchema {
+	if o == nil {
 		return nil
 	}
-	return t.Schema
+	return o.Schema
 }
 
-func (t *TaxCreate) GetTags() []string {
-	if t == nil {
+func (o *TaxCreate) GetTags() []string {
+	if o == nil {
 		return nil
 	}
-	return t.Tags
+	return o.Tags
 }
 
-func (t *TaxCreate) GetActive() bool {
-	if t == nil {
+func (o *TaxCreate) GetActive() bool {
+	if o == nil {
 		return false
 	}
-	return t.Active
+	return o.Active
 }
 
-func (t *TaxCreate) GetDescription() *string {
-	if t == nil {
+func (o *TaxCreate) GetDescription() *string {
+	if o == nil {
 		return nil
 	}
-	return t.Description
+	return o.Description
 }
 
-func (t *TaxCreate) GetRate() string {
-	if t == nil {
+func (o *TaxCreate) GetRate() any {
+	if o == nil {
+		return nil
+	}
+	return o.Rate
+}
+
+func (o *TaxCreate) GetRegion() string {
+	if o == nil {
 		return ""
 	}
-	return t.Rate
+	return o.Region
 }
 
-func (t *TaxCreate) GetRegion() string {
-	if t == nil {
-		return ""
-	}
-	return t.Region
-}
-
-func (t *TaxCreate) GetType() TaxCreateType {
-	if t == nil {
+func (o *TaxCreate) GetType() TaxCreateType {
+	if o == nil {
 		return TaxCreateType("")
 	}
-	return t.Type
+	return o.Type
 }

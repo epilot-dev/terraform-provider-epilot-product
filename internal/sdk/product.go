@@ -64,7 +64,7 @@ func (s *Product) CreateProduct(ctx context.Context, request shared.ProductCreat
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "createProduct",
-		OAuth2Scopes:     nil,
+		OAuth2Scopes:     []string{},
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "Request", "json", `request:"mediaType=application/json"`)
@@ -312,7 +312,7 @@ func (s *Product) DeleteProduct(ctx context.Context, request operations.DeletePr
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "deleteProduct",
-		OAuth2Scopes:     nil,
+		OAuth2Scopes:     []string{},
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 
@@ -553,7 +553,7 @@ func (s *Product) GetProduct(ctx context.Context, request operations.GetProductR
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "getProduct",
-		OAuth2Scopes:     nil,
+		OAuth2Scopes:     []string{},
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 
@@ -798,7 +798,7 @@ func (s *Product) PatchProduct(ctx context.Context, request operations.PatchProd
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "patchProduct",
-		OAuth2Scopes:     nil,
+		OAuth2Scopes:     []string{},
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "ProductPatch", "json", `request:"mediaType=application/json"`)
@@ -1046,7 +1046,7 @@ func (s *Product) UpdateProduct(ctx context.Context, request operations.UpdatePr
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "updateProduct",
-		OAuth2Scopes:     nil,
+		OAuth2Scopes:     []string{},
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "ProductCreate", "json", `request:"mediaType=application/json"`)

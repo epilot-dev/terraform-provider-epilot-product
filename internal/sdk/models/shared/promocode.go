@@ -13,30 +13,30 @@ type PromoCode struct {
 	UsageLimit *float64 `json:"usage_limit,omitempty"`
 }
 
-func (p *PromoCode) GetCode() string {
-	if p == nil {
+func (o *PromoCode) GetCode() string {
+	if o == nil {
 		return ""
 	}
-	return p.Code
+	return o.Code
 }
 
-func (p *PromoCode) GetHasUsageLimit() *bool {
-	if p == nil {
+func (o *PromoCode) GetHasUsageLimit() *bool {
+	if o == nil {
 		return nil
 	}
-	return p.HasUsageLimit
+	return o.HasUsageLimit
 }
 
-func (p *PromoCode) GetID() string {
-	if p == nil {
+func (o *PromoCode) GetID() string {
+	if o == nil {
 		return ""
 	}
-	return p.ID
+	return o.ID
 }
 
-func (p *PromoCode) GetUsageLimit() *float64 {
-	if p == nil {
+func (o *PromoCode) GetUsageLimit() *float64 {
+	if o == nil {
 		return nil
 	}
-	return p.UsageLimit
+	return o.UsageLimit
 }

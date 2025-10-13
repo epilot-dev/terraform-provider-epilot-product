@@ -12,11 +12,11 @@ type DeleteProductRecommendationRequest struct {
 	ProductRecommendationID string `pathParam:"style=simple,explode=false,name=productRecommendationId"`
 }
 
-func (d *DeleteProductRecommendationRequest) GetProductRecommendationID() string {
-	if d == nil {
+func (o *DeleteProductRecommendationRequest) GetProductRecommendationID() string {
+	if o == nil {
 		return ""
 	}
-	return d.ProductRecommendationID
+	return o.ProductRecommendationID
 }
 
 type DeleteProductRecommendationResponse struct {
@@ -32,37 +32,37 @@ type DeleteProductRecommendationResponse struct {
 	RawResponse *http.Response
 }
 
-func (d *DeleteProductRecommendationResponse) GetClientError() *shared.ClientError {
-	if d == nil {
+func (o *DeleteProductRecommendationResponse) GetClientError() *shared.ClientError {
+	if o == nil {
 		return nil
 	}
-	return d.ClientError
+	return o.ClientError
 }
 
-func (d *DeleteProductRecommendationResponse) GetContentType() string {
-	if d == nil {
+func (o *DeleteProductRecommendationResponse) GetContentType() string {
+	if o == nil {
 		return ""
 	}
-	return d.ContentType
+	return o.ContentType
 }
 
-func (d *DeleteProductRecommendationResponse) GetProductRecommendation() *shared.ProductRecommendation {
-	if d == nil {
+func (o *DeleteProductRecommendationResponse) GetProductRecommendation() *shared.ProductRecommendation {
+	if o == nil {
 		return nil
 	}
-	return d.ProductRecommendation
+	return o.ProductRecommendation
 }
 
-func (d *DeleteProductRecommendationResponse) GetStatusCode() int {
-	if d == nil {
+func (o *DeleteProductRecommendationResponse) GetStatusCode() int {
+	if o == nil {
 		return 0
 	}
-	return d.StatusCode
+	return o.StatusCode
 }
 
-func (d *DeleteProductRecommendationResponse) GetRawResponse() *http.Response {
-	if d == nil {
+func (o *DeleteProductRecommendationResponse) GetRawResponse() *http.Response {
+	if o == nil {
 		return nil
 	}
-	return d.RawResponse
+	return o.RawResponse
 }

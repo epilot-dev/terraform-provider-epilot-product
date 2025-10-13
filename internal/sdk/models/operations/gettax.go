@@ -28,25 +28,25 @@ func (g *GetTaxRequest) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (g *GetTaxRequest) GetHydrate() *bool {
-	if g == nil {
+func (o *GetTaxRequest) GetHydrate() *bool {
+	if o == nil {
 		return nil
 	}
-	return g.Hydrate
+	return o.Hydrate
 }
 
-func (g *GetTaxRequest) GetStrict() *bool {
-	if g == nil {
+func (o *GetTaxRequest) GetStrict() *bool {
+	if o == nil {
 		return nil
 	}
-	return g.Strict
+	return o.Strict
 }
 
-func (g *GetTaxRequest) GetTaxID() string {
-	if g == nil {
+func (o *GetTaxRequest) GetTaxID() string {
+	if o == nil {
 		return ""
 	}
-	return g.TaxID
+	return o.TaxID
 }
 
 type GetTaxResponse struct {
@@ -62,37 +62,37 @@ type GetTaxResponse struct {
 	Tax *shared.Tax
 }
 
-func (g *GetTaxResponse) GetClientError() *shared.ClientError {
-	if g == nil {
+func (o *GetTaxResponse) GetClientError() *shared.ClientError {
+	if o == nil {
 		return nil
 	}
-	return g.ClientError
+	return o.ClientError
 }
 
-func (g *GetTaxResponse) GetContentType() string {
-	if g == nil {
+func (o *GetTaxResponse) GetContentType() string {
+	if o == nil {
 		return ""
 	}
-	return g.ContentType
+	return o.ContentType
 }
 
-func (g *GetTaxResponse) GetStatusCode() int {
-	if g == nil {
+func (o *GetTaxResponse) GetStatusCode() int {
+	if o == nil {
 		return 0
 	}
-	return g.StatusCode
+	return o.StatusCode
 }
 
-func (g *GetTaxResponse) GetRawResponse() *http.Response {
-	if g == nil {
+func (o *GetTaxResponse) GetRawResponse() *http.Response {
+	if o == nil {
 		return nil
 	}
-	return g.RawResponse
+	return o.RawResponse
 }
 
-func (g *GetTaxResponse) GetTax() *shared.Tax {
-	if g == nil {
+func (o *GetTaxResponse) GetTax() *shared.Tax {
+	if o == nil {
 		return nil
 	}
-	return g.Tax
+	return o.Tax
 }

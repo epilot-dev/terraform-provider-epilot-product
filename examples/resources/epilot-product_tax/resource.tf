@@ -18,7 +18,7 @@ resource "epilot-product_tax" "my_tax" {
   purpose = [
     "..."
   ]
-  rate   = "...my_rate..."
+  rate   = "{ \"see\": \"documentation\" }"
   region = "DE"
   schema = "tax"
   tags = [

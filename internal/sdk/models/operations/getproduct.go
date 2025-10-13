@@ -28,25 +28,25 @@ func (g *GetProductRequest) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (g *GetProductRequest) GetHydrate() *bool {
-	if g == nil {
+func (o *GetProductRequest) GetHydrate() *bool {
+	if o == nil {
 		return nil
 	}
-	return g.Hydrate
+	return o.Hydrate
 }
 
-func (g *GetProductRequest) GetProductID() string {
-	if g == nil {
+func (o *GetProductRequest) GetProductID() string {
+	if o == nil {
 		return ""
 	}
-	return g.ProductID
+	return o.ProductID
 }
 
-func (g *GetProductRequest) GetStrict() *bool {
-	if g == nil {
+func (o *GetProductRequest) GetStrict() *bool {
+	if o == nil {
 		return nil
 	}
-	return g.Strict
+	return o.Strict
 }
 
 type GetProductResponse struct {
@@ -62,37 +62,37 @@ type GetProductResponse struct {
 	RawResponse *http.Response
 }
 
-func (g *GetProductResponse) GetClientError() *shared.ClientError {
-	if g == nil {
+func (o *GetProductResponse) GetClientError() *shared.ClientError {
+	if o == nil {
 		return nil
 	}
-	return g.ClientError
+	return o.ClientError
 }
 
-func (g *GetProductResponse) GetContentType() string {
-	if g == nil {
+func (o *GetProductResponse) GetContentType() string {
+	if o == nil {
 		return ""
 	}
-	return g.ContentType
+	return o.ContentType
 }
 
-func (g *GetProductResponse) GetProduct() *shared.Product {
-	if g == nil {
+func (o *GetProductResponse) GetProduct() *shared.Product {
+	if o == nil {
 		return nil
 	}
-	return g.Product
+	return o.Product
 }
 
-func (g *GetProductResponse) GetStatusCode() int {
-	if g == nil {
+func (o *GetProductResponse) GetStatusCode() int {
+	if o == nil {
 		return 0
 	}
-	return g.StatusCode
+	return o.StatusCode
 }
 
-func (g *GetProductResponse) GetRawResponse() *http.Response {
-	if g == nil {
+func (o *GetProductResponse) GetRawResponse() *http.Response {
+	if o == nil {
 		return nil
 	}
-	return g.RawResponse
+	return o.RawResponse
 }

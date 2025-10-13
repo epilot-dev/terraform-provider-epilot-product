@@ -9,16 +9,16 @@ type PriceComponentRelation struct {
 	EntityID *string `json:"entity_id,omitempty"`
 }
 
-func (p *PriceComponentRelation) GetTags() []string {
-	if p == nil {
+func (o *PriceComponentRelation) GetTags() []string {
+	if o == nil {
 		return nil
 	}
-	return p.Tags
+	return o.Tags
 }
 
-func (p *PriceComponentRelation) GetEntityID() *string {
-	if p == nil {
+func (o *PriceComponentRelation) GetEntityID() *string {
+	if o == nil {
 		return nil
 	}
-	return p.EntityID
+	return o.EntityID
 }

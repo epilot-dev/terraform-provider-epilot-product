@@ -7,27 +7,27 @@ type DollarRelation struct {
 	EntityID *string  `json:"entity_id,omitempty"`
 }
 
-func (d *DollarRelation) GetTags() []string {
-	if d == nil {
+func (o *DollarRelation) GetTags() []string {
+	if o == nil {
 		return nil
 	}
-	return d.Tags
+	return o.Tags
 }
 
-func (d *DollarRelation) GetEntityID() *string {
-	if d == nil {
+func (o *DollarRelation) GetEntityID() *string {
+	if o == nil {
 		return nil
 	}
-	return d.EntityID
+	return o.EntityID
 }
 
 type BaseRelation struct {
 	DollarRelation []DollarRelation `json:"$relation,omitempty"`
 }
 
-func (b *BaseRelation) GetDollarRelation() []DollarRelation {
-	if b == nil {
+func (o *BaseRelation) GetDollarRelation() []DollarRelation {
+	if o == nil {
 		return nil
 	}
-	return b.DollarRelation
+	return o.DollarRelation
 }

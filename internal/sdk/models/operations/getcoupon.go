@@ -28,25 +28,25 @@ func (g *GetCouponRequest) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (g *GetCouponRequest) GetCouponID() string {
-	if g == nil {
+func (o *GetCouponRequest) GetCouponID() string {
+	if o == nil {
 		return ""
 	}
-	return g.CouponID
+	return o.CouponID
 }
 
-func (g *GetCouponRequest) GetHydrate() *bool {
-	if g == nil {
+func (o *GetCouponRequest) GetHydrate() *bool {
+	if o == nil {
 		return nil
 	}
-	return g.Hydrate
+	return o.Hydrate
 }
 
-func (g *GetCouponRequest) GetStrict() *bool {
-	if g == nil {
+func (o *GetCouponRequest) GetStrict() *bool {
+	if o == nil {
 		return nil
 	}
-	return g.Strict
+	return o.Strict
 }
 
 type GetCouponResponse struct {
@@ -62,37 +62,37 @@ type GetCouponResponse struct {
 	RawResponse *http.Response
 }
 
-func (g *GetCouponResponse) GetClientError() *shared.ClientError {
-	if g == nil {
+func (o *GetCouponResponse) GetClientError() *shared.ClientError {
+	if o == nil {
 		return nil
 	}
-	return g.ClientError
+	return o.ClientError
 }
 
-func (g *GetCouponResponse) GetContentType() string {
-	if g == nil {
+func (o *GetCouponResponse) GetContentType() string {
+	if o == nil {
 		return ""
 	}
-	return g.ContentType
+	return o.ContentType
 }
 
-func (g *GetCouponResponse) GetCoupon() *shared.Coupon {
-	if g == nil {
+func (o *GetCouponResponse) GetCoupon() *shared.Coupon {
+	if o == nil {
 		return nil
 	}
-	return g.Coupon
+	return o.Coupon
 }
 
-func (g *GetCouponResponse) GetStatusCode() int {
-	if g == nil {
+func (o *GetCouponResponse) GetStatusCode() int {
+	if o == nil {
 		return 0
 	}
-	return g.StatusCode
+	return o.StatusCode
 }
 
-func (g *GetCouponResponse) GetRawResponse() *http.Response {
-	if g == nil {
+func (o *GetCouponResponse) GetRawResponse() *http.Response {
+	if o == nil {
 		return nil
 	}
-	return g.RawResponse
+	return o.RawResponse
 }

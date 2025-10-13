@@ -68,7 +68,8 @@ func (r *TaxResourceModel) RefreshFromSharedTax(ctx context.Context, resp *share
 		r.UpdatedAt = types.StringPointerValue(typeconvert.TimePointerToStringPointer(resp.UpdatedAt))
 		r.Active = types.BoolValue(resp.Active)
 		r.Description = types.StringPointerValue(resp.Description)
-		r.Rate = types.StringValue(resp.Rate)
+		rateResult, _ := json.Marshal(resp.Rate)
+		r.Rate = jsontypes.NewNormalizedValue(string(rateResult))
 		r.Region = types.StringValue(resp.Region)
 		r.Type = types.StringValue(string(resp.Type))
 	}
@@ -189,9 +190,8 @@ func (r *TaxResourceModel) ToSharedTaxCreate(ctx context.Context) (*shared.TaxCr
 	} else {
 		description = nil
 	}
-	var rate string
-	rate = r.Rate.ValueString()
-
+	var rate interface{}
+	_ = json.Unmarshal([]byte(r.Rate.ValueString()), &rate)
 	var region string
 	region = r.Region.ValueString()
 
@@ -282,11 +282,9 @@ func (r *TaxResourceModel) ToSharedTaxPatch(ctx context.Context) (*shared.TaxPat
 	} else {
 		description = nil
 	}
-	rate := new(string)
+	var rate interface{}
 	if !r.Rate.IsUnknown() && !r.Rate.IsNull() {
-		*rate = r.Rate.ValueString()
-	} else {
-		rate = nil
+		_ = json.Unmarshal([]byte(r.Rate.ValueString()), &rate)
 	}
 	region := new(string)
 	if !r.Region.IsUnknown() && !r.Region.IsNull() {

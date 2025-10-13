@@ -15,6 +15,8 @@ import (
 	"unsafe"
 
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk/types"
+
+	"github.com/ericlagergren/decimal"
 )
 
 func MarshalJSON(v interface{}, tag reflect.StructTag, topLevel bool) ([]byte, error) {
@@ -285,11 +287,6 @@ func marshalValue(v interface{}, tag reflect.StructTag) (json.RawMessage, error)
 			return []byte("null"), nil
 		}
 
-		// Check if the map implements json.Marshaler (like optionalnullable.OptionalNullable[T])
-		if marshaler, ok := val.Interface().(json.Marshaler); ok {
-			return marshaler.MarshalJSON()
-		}
-
 		out := map[string]json.RawMessage{}
 
 		for _, key := range val.MapKeys() {
@@ -343,6 +340,17 @@ func marshalValue(v interface{}, tag reflect.StructTag) (json.RawMessage, error)
 				b := val.Interface().(big.Int)
 				return []byte(fmt.Sprintf(`"%s"`, (&b).String())), nil
 			}
+		case reflect.TypeOf(decimal.Big{}):
+			format := tag.Get("decimal")
+			if format == "number" {
+				b := val.Interface().(decimal.Big)
+				f, ok := (&b).Float64()
+				if ok {
+					return []byte(b.String()), nil
+				}
+
+				return []byte(fmt.Sprintf(`%f`, f)), nil
+			}
 		}
 	}
 
@@ -371,6 +379,11 @@ func handleDefaultConstValue(tagValue string, val interface{}, tag reflect.Struc
 	case reflect.TypeOf(float64(0)):
 		format := tag.Get("number")
 		if format == "string" {
+			return []byte(fmt.Sprintf(`"%s"`, tagValue))
+		}
+	case reflect.TypeOf(decimal.Big{}):
+		decimalTag := tag.Get("decimal")
+		if decimalTag != "number" {
 			return []byte(fmt.Sprintf(`"%s"`, tagValue))
 		}
 	case reflect.TypeOf(types.Date{}):
@@ -553,6 +566,27 @@ func unmarshalValue(value json.RawMessage, v reflect.Value, tag reflect.StructTa
 
 			v.Set(reflect.ValueOf(b))
 			return nil
+		case reflect.TypeOf(decimal.Big{}):
+			var d *decimal.Big
+			format := tag.Get("decimal")
+			if format == "number" {
+				var ok bool
+				d, ok = new(decimal.Big).SetString(string(value))
+				if !ok {
+					return fmt.Errorf("failed to parse number as decimal.Big")
+				}
+			} else {
+				if err := json.Unmarshal(value, &d); err != nil {
+					return err
+				}
+			}
+
+			if v.Kind() == reflect.Ptr && v.Elem().Kind() == reflect.Ptr {
+				v = v.Elem()
+			}
+
+			v.Set(reflect.ValueOf(d))
+			return nil
 		case reflect.TypeOf(types.Date{}):
 			var s string
 
@@ -616,6 +650,8 @@ func isComplexValueType(typ reflect.Type) bool {
 		case reflect.TypeOf(time.Time{}):
 			fallthrough
 		case reflect.TypeOf(big.Int{}):
+			fallthrough
+		case reflect.TypeOf(decimal.Big{}):
 			fallthrough
 		case reflect.TypeOf(types.Date{}):
 			return true

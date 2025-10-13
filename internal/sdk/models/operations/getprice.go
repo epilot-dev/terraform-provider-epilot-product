@@ -28,25 +28,25 @@ func (g *GetPriceRequest) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (g *GetPriceRequest) GetHydrate() *bool {
-	if g == nil {
+func (o *GetPriceRequest) GetHydrate() *bool {
+	if o == nil {
 		return nil
 	}
-	return g.Hydrate
+	return o.Hydrate
 }
 
-func (g *GetPriceRequest) GetPriceID() string {
-	if g == nil {
+func (o *GetPriceRequest) GetPriceID() string {
+	if o == nil {
 		return ""
 	}
-	return g.PriceID
+	return o.PriceID
 }
 
-func (g *GetPriceRequest) GetStrict() *bool {
-	if g == nil {
+func (o *GetPriceRequest) GetStrict() *bool {
+	if o == nil {
 		return nil
 	}
-	return g.Strict
+	return o.Strict
 }
 
 type GetPriceResponse struct {
@@ -62,37 +62,37 @@ type GetPriceResponse struct {
 	RawResponse *http.Response
 }
 
-func (g *GetPriceResponse) GetClientError() *shared.ClientError {
-	if g == nil {
+func (o *GetPriceResponse) GetClientError() *shared.ClientError {
+	if o == nil {
 		return nil
 	}
-	return g.ClientError
+	return o.ClientError
 }
 
-func (g *GetPriceResponse) GetContentType() string {
-	if g == nil {
+func (o *GetPriceResponse) GetContentType() string {
+	if o == nil {
 		return ""
 	}
-	return g.ContentType
+	return o.ContentType
 }
 
-func (g *GetPriceResponse) GetPrice() *shared.Price {
-	if g == nil {
+func (o *GetPriceResponse) GetPrice() *shared.Price {
+	if o == nil {
 		return nil
 	}
-	return g.Price
+	return o.Price
 }
 
-func (g *GetPriceResponse) GetStatusCode() int {
-	if g == nil {
+func (o *GetPriceResponse) GetStatusCode() int {
+	if o == nil {
 		return 0
 	}
-	return g.StatusCode
+	return o.StatusCode
 }
 
-func (g *GetPriceResponse) GetRawResponse() *http.Response {
-	if g == nil {
+func (o *GetPriceResponse) GetRawResponse() *http.Response {
+	if o == nil {
 		return nil
 	}
-	return g.RawResponse
+	return o.RawResponse
 }

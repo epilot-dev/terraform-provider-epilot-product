@@ -20,37 +20,37 @@ type CreateProductRecommendationResponse struct {
 	RawResponse *http.Response
 }
 
-func (c *CreateProductRecommendationResponse) GetClientError() *shared.ClientError {
-	if c == nil {
+func (o *CreateProductRecommendationResponse) GetClientError() *shared.ClientError {
+	if o == nil {
 		return nil
 	}
-	return c.ClientError
+	return o.ClientError
 }
 
-func (c *CreateProductRecommendationResponse) GetContentType() string {
-	if c == nil {
+func (o *CreateProductRecommendationResponse) GetContentType() string {
+	if o == nil {
 		return ""
 	}
-	return c.ContentType
+	return o.ContentType
 }
 
-func (c *CreateProductRecommendationResponse) GetProductRecommendation() *shared.ProductRecommendation {
-	if c == nil {
+func (o *CreateProductRecommendationResponse) GetProductRecommendation() *shared.ProductRecommendation {
+	if o == nil {
 		return nil
 	}
-	return c.ProductRecommendation
+	return o.ProductRecommendation
 }
 
-func (c *CreateProductRecommendationResponse) GetStatusCode() int {
-	if c == nil {
+func (o *CreateProductRecommendationResponse) GetStatusCode() int {
+	if o == nil {
 		return 0
 	}
-	return c.StatusCode
+	return o.StatusCode
 }
 
-func (c *CreateProductRecommendationResponse) GetRawResponse() *http.Response {
-	if c == nil {
+func (o *CreateProductRecommendationResponse) GetRawResponse() *http.Response {
+	if o == nil {
 		return nil
 	}
-	return c.RawResponse
+	return o.RawResponse
 }

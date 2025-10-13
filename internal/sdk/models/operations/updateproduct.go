@@ -14,18 +14,18 @@ type UpdateProductRequest struct {
 	ProductID string `pathParam:"style=simple,explode=false,name=productId"`
 }
 
-func (u *UpdateProductRequest) GetProductCreate() shared.ProductCreate {
-	if u == nil {
+func (o *UpdateProductRequest) GetProductCreate() shared.ProductCreate {
+	if o == nil {
 		return shared.ProductCreate{}
 	}
-	return u.ProductCreate
+	return o.ProductCreate
 }
 
-func (u *UpdateProductRequest) GetProductID() string {
-	if u == nil {
+func (o *UpdateProductRequest) GetProductID() string {
+	if o == nil {
 		return ""
 	}
-	return u.ProductID
+	return o.ProductID
 }
 
 type UpdateProductResponse struct {
@@ -41,37 +41,37 @@ type UpdateProductResponse struct {
 	RawResponse *http.Response
 }
 
-func (u *UpdateProductResponse) GetClientError() *shared.ClientError {
-	if u == nil {
+func (o *UpdateProductResponse) GetClientError() *shared.ClientError {
+	if o == nil {
 		return nil
 	}
-	return u.ClientError
+	return o.ClientError
 }
 
-func (u *UpdateProductResponse) GetContentType() string {
-	if u == nil {
+func (o *UpdateProductResponse) GetContentType() string {
+	if o == nil {
 		return ""
 	}
-	return u.ContentType
+	return o.ContentType
 }
 
-func (u *UpdateProductResponse) GetProduct() *shared.Product {
-	if u == nil {
+func (o *UpdateProductResponse) GetProduct() *shared.Product {
+	if o == nil {
 		return nil
 	}
-	return u.Product
+	return o.Product
 }
 
-func (u *UpdateProductResponse) GetStatusCode() int {
-	if u == nil {
+func (o *UpdateProductResponse) GetStatusCode() int {
+	if o == nil {
 		return 0
 	}
-	return u.StatusCode
+	return o.StatusCode
 }
 
-func (u *UpdateProductResponse) GetRawResponse() *http.Response {
-	if u == nil {
+func (o *UpdateProductResponse) GetRawResponse() *http.Response {
+	if o == nil {
 		return nil
 	}
-	return u.RawResponse
+	return o.RawResponse
 }

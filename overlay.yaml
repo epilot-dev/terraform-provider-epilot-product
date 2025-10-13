@@ -55,6 +55,9 @@ actions:
   - target: $["components"]["parameters"]["TaxIdPathParam"]
     update:
       x-speakeasy-match: id
+  - target: $["components"]["schemas"]["BaseTax"]["properties"]["rate"]
+    update:
+      x-speakeasy-type-override: any
 
   # Product
   - target: $["paths"]["/v1/product"]["post"]

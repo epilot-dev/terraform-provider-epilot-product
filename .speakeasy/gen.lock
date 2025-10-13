@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 5a857039-7f4b-42d5-86fd-449767242ed2
 management:
-  docChecksum: 4b7cd702ce516c48de2e4e6e328ef745
+  docChecksum: 7feaa06db5db927e1d78fe39ce081693
   docVersion: 1.0.0
-  speakeasyVersion: 1.636.1
-  generationVersion: 2.723.4
-  releaseVersion: 0.17.0
-  configChecksum: 8f383519116563af81e7ed83933e912b
+  speakeasyVersion: 1.611.0
+  generationVersion: 2.694.1
+  releaseVersion: 0.17.1
+  configChecksum: 586a39e186e58fc9d58e17c17f8da7dc
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-product.git
   repoSubDirectory: .
   published: true
@@ -21,9 +21,9 @@ features:
     unions: 2.85.0
   terraform:
     additionalDependencies: 0.1.0
-    constsAndDefaults: 0.3.0
-    core: 3.45.3
-    globalSecurity: 2.82.1
+    constsAndDefaults: 0.2.1
+    core: 3.44.1
+    globalSecurity: 2.82.0
     globalServerURLs: 2.83.0
     nullables: 0.0.0
     retries: 2.81.4
@@ -31,6 +31,7 @@ features:
 generatedFiles:
   - .gitattributes
   - USAGE.md
+  - examples/README.md
   - examples/data-sources/epilot-product_coupon/data-source.tf
   - examples/data-sources/epilot-product_price/data-source.tf
   - examples/data-sources/epilot-product_product/data-source.tf
@@ -176,8 +177,6 @@ generatedFiles:
   - internal/sdk/models/shared/tax.go
   - internal/sdk/models/shared/taxcreate.go
   - internal/sdk/models/shared/taxpatch.go
-  - internal/sdk/optionalnullable/optionalnullable.go
-  - internal/sdk/optionalnullable/optionalnullable_test.go
   - internal/sdk/price.go
   - internal/sdk/product.go
   - internal/sdk/productrecommendation.go
@@ -187,6 +186,7 @@ generatedFiles:
   - internal/sdk/types/bigint.go
   - internal/sdk/types/date.go
   - internal/sdk/types/datetime.go
+  - internal/sdk/types/decimal.go
   - internal/sdk/types/pointers.go
   - internal/validators/DateValidator.go
   - internal/validators/ExactlyOneChild.go

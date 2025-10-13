@@ -78,72 +78,72 @@ type ProductRecommendationCreate struct {
 	Type ProductRecommendationCreateType `json:"type"`
 }
 
-func (p *ProductRecommendationCreate) GetAdditional() any {
-	if p == nil {
+func (o *ProductRecommendationCreate) GetAdditional() any {
+	if o == nil {
 		return nil
 	}
-	return p.Additional
+	return o.Additional
 }
 
-func (p *ProductRecommendationCreate) GetFiles() *BaseRelation {
-	if p == nil {
+func (o *ProductRecommendationCreate) GetFiles() *BaseRelation {
+	if o == nil {
 		return nil
 	}
-	return p.Files
+	return o.Files
 }
 
-func (p *ProductRecommendationCreate) GetManifest() []string {
-	if p == nil {
+func (o *ProductRecommendationCreate) GetManifest() []string {
+	if o == nil {
 		return nil
 	}
-	return p.Manifest
+	return o.Manifest
 }
 
-func (p *ProductRecommendationCreate) GetPurpose() []string {
-	if p == nil {
+func (o *ProductRecommendationCreate) GetPurpose() []string {
+	if o == nil {
 		return nil
 	}
-	return p.Purpose
+	return o.Purpose
 }
 
-func (p *ProductRecommendationCreate) GetSchema() *ProductRecommendationCreateSchema {
-	if p == nil {
+func (o *ProductRecommendationCreate) GetSchema() *ProductRecommendationCreateSchema {
+	if o == nil {
 		return nil
 	}
-	return p.Schema
+	return o.Schema
 }
 
-func (p *ProductRecommendationCreate) GetTags() []string {
-	if p == nil {
+func (o *ProductRecommendationCreate) GetTags() []string {
+	if o == nil {
 		return nil
 	}
-	return p.Tags
+	return o.Tags
 }
 
-func (p *ProductRecommendationCreate) GetOffers() any {
-	if p == nil {
+func (o *ProductRecommendationCreate) GetOffers() any {
+	if o == nil {
 		return nil
 	}
-	return p.Offers
+	return o.Offers
 }
 
-func (p *ProductRecommendationCreate) GetSourcePrice() any {
-	if p == nil {
+func (o *ProductRecommendationCreate) GetSourcePrice() any {
+	if o == nil {
 		return nil
 	}
-	return p.SourcePrice
+	return o.SourcePrice
 }
 
-func (p *ProductRecommendationCreate) GetSourceProduct() any {
-	if p == nil {
+func (o *ProductRecommendationCreate) GetSourceProduct() any {
+	if o == nil {
 		return nil
 	}
-	return p.SourceProduct
+	return o.SourceProduct
 }
 
-func (p *ProductRecommendationCreate) GetType() ProductRecommendationCreateType {
-	if p == nil {
+func (o *ProductRecommendationCreate) GetType() ProductRecommendationCreateType {
+	if o == nil {
 		return ProductRecommendationCreateType("")
 	}
-	return p.Type
+	return o.Type
 }

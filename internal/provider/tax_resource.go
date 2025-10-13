@@ -49,7 +49,7 @@ type TaxResourceModel struct {
 	Manifest    []types.String        `tfsdk:"manifest"`
 	Org         types.String          `tfsdk:"org"`
 	Purpose     []types.String        `tfsdk:"purpose"`
-	Rate        types.String          `tfsdk:"rate"`
+	Rate        jsontypes.Normalized  `tfsdk:"rate"`
 	Region      types.String          `tfsdk:"region"`
 	Schema      types.String          `tfsdk:"schema"`
 	Tags        []types.String        `tfsdk:"tags"`
@@ -169,10 +169,12 @@ func (r *TaxResource) Schema(ctx context.Context, req resource.SchemaRequest, re
 				ElementType: types.StringType,
 			},
 			"rate": schema.StringAttribute{
-				Required: true,
+				CustomType: jsontypes.NormalizedType{},
+				Required:   true,
 				PlanModifiers: []planmodifier.String{
 					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 				},
+				Description: `Parsed as JSON.`,
 			},
 			"region": schema.StringAttribute{
 				Required: true,

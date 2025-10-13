@@ -33,7 +33,7 @@ resource "epilot-product_tax" "my_tax" {
   purpose = [
     "..."
   ]
-  rate   = "...my_rate..."
+  rate   = "{ \"see\": \"documentation\" }"
   region = "DE"
   schema = "tax"
   tags = [
@@ -49,7 +49,7 @@ resource "epilot-product_tax" "my_tax" {
 ### Required
 
 - `active` (Boolean)
-- `rate` (String)
+- `rate` (String) Parsed as JSON.
 - `region` (String)
 - `type` (String) must be one of ["VAT", "Custom"]
 

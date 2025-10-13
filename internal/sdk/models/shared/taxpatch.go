@@ -67,84 +67,84 @@ type TaxPatch struct {
 	Tags        []string        `json:"_tags,omitempty"`
 	Active      *bool           `json:"active,omitempty"`
 	Description *string         `json:"description,omitempty"`
-	Rate        *string         `json:"rate,omitempty"`
+	Rate        any             `json:"rate,omitempty"`
 	Region      *string         `json:"region,omitempty"`
 	Type        *TaxPatchType   `json:"type,omitempty"`
 }
 
-func (t *TaxPatch) GetAdditional() any {
-	if t == nil {
+func (o *TaxPatch) GetAdditional() any {
+	if o == nil {
 		return nil
 	}
-	return t.Additional
+	return o.Additional
 }
 
-func (t *TaxPatch) GetFiles() *BaseRelation {
-	if t == nil {
+func (o *TaxPatch) GetFiles() *BaseRelation {
+	if o == nil {
 		return nil
 	}
-	return t.Files
+	return o.Files
 }
 
-func (t *TaxPatch) GetManifest() []string {
-	if t == nil {
+func (o *TaxPatch) GetManifest() []string {
+	if o == nil {
 		return nil
 	}
-	return t.Manifest
+	return o.Manifest
 }
 
-func (t *TaxPatch) GetPurpose() []string {
-	if t == nil {
+func (o *TaxPatch) GetPurpose() []string {
+	if o == nil {
 		return nil
 	}
-	return t.Purpose
+	return o.Purpose
 }
 
-func (t *TaxPatch) GetSchema() *TaxPatchSchema {
-	if t == nil {
+func (o *TaxPatch) GetSchema() *TaxPatchSchema {
+	if o == nil {
 		return nil
 	}
-	return t.Schema
+	return o.Schema
 }
 
-func (t *TaxPatch) GetTags() []string {
-	if t == nil {
+func (o *TaxPatch) GetTags() []string {
+	if o == nil {
 		return nil
 	}
-	return t.Tags
+	return o.Tags
 }
 
-func (t *TaxPatch) GetActive() *bool {
-	if t == nil {
+func (o *TaxPatch) GetActive() *bool {
+	if o == nil {
 		return nil
 	}
-	return t.Active
+	return o.Active
 }
 
-func (t *TaxPatch) GetDescription() *string {
-	if t == nil {
+func (o *TaxPatch) GetDescription() *string {
+	if o == nil {
 		return nil
 	}
-	return t.Description
+	return o.Description
 }
 
-func (t *TaxPatch) GetRate() *string {
-	if t == nil {
+func (o *TaxPatch) GetRate() any {
+	if o == nil {
 		return nil
 	}
-	return t.Rate
+	return o.Rate
 }
 
-func (t *TaxPatch) GetRegion() *string {
-	if t == nil {
+func (o *TaxPatch) GetRegion() *string {
+	if o == nil {
 		return nil
 	}
-	return t.Region
+	return o.Region
 }
 
-func (t *TaxPatch) GetType() *TaxPatchType {
-	if t == nil {
+func (o *TaxPatch) GetType() *TaxPatchType {
+	if o == nil {
 		return nil
 	}
-	return t.Type
+	return o.Type
 }

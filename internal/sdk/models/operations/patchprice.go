@@ -14,18 +14,18 @@ type PatchPriceRequest struct {
 	PriceID string `pathParam:"style=simple,explode=false,name=priceId"`
 }
 
-func (p *PatchPriceRequest) GetPricePatch() shared.PricePatch {
-	if p == nil {
+func (o *PatchPriceRequest) GetPricePatch() shared.PricePatch {
+	if o == nil {
 		return shared.PricePatch{}
 	}
-	return p.PricePatch
+	return o.PricePatch
 }
 
-func (p *PatchPriceRequest) GetPriceID() string {
-	if p == nil {
+func (o *PatchPriceRequest) GetPriceID() string {
+	if o == nil {
 		return ""
 	}
-	return p.PriceID
+	return o.PriceID
 }
 
 type PatchPriceResponse struct {
@@ -41,37 +41,37 @@ type PatchPriceResponse struct {
 	RawResponse *http.Response
 }
 
-func (p *PatchPriceResponse) GetClientError() *shared.ClientError {
-	if p == nil {
+func (o *PatchPriceResponse) GetClientError() *shared.ClientError {
+	if o == nil {
 		return nil
 	}
-	return p.ClientError
+	return o.ClientError
 }
 
-func (p *PatchPriceResponse) GetContentType() string {
-	if p == nil {
+func (o *PatchPriceResponse) GetContentType() string {
+	if o == nil {
 		return ""
 	}
-	return p.ContentType
+	return o.ContentType
 }
 
-func (p *PatchPriceResponse) GetPrice() *shared.Price {
-	if p == nil {
+func (o *PatchPriceResponse) GetPrice() *shared.Price {
+	if o == nil {
 		return nil
 	}
-	return p.Price
+	return o.Price
 }
 
-func (p *PatchPriceResponse) GetStatusCode() int {
-	if p == nil {
+func (o *PatchPriceResponse) GetStatusCode() int {
+	if o == nil {
 		return 0
 	}
-	return p.StatusCode
+	return o.StatusCode
 }
 
-func (p *PatchPriceResponse) GetRawResponse() *http.Response {
-	if p == nil {
+func (o *PatchPriceResponse) GetRawResponse() *http.Response {
+	if o == nil {
 		return nil
 	}
-	return p.RawResponse
+	return o.RawResponse
 }
