@@ -20,37 +20,37 @@ type CreateProductResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *CreateProductResponse) GetClientError() *shared.ClientError {
-	if o == nil {
+func (c *CreateProductResponse) GetClientError() *shared.ClientError {
+	if c == nil {
 		return nil
 	}
-	return o.ClientError
+	return c.ClientError
 }
 
-func (o *CreateProductResponse) GetContentType() string {
-	if o == nil {
+func (c *CreateProductResponse) GetContentType() string {
+	if c == nil {
 		return ""
 	}
-	return o.ContentType
+	return c.ContentType
 }
 
-func (o *CreateProductResponse) GetProduct() *shared.Product {
-	if o == nil {
+func (c *CreateProductResponse) GetProduct() *shared.Product {
+	if c == nil {
 		return nil
 	}
-	return o.Product
+	return c.Product
 }
 
-func (o *CreateProductResponse) GetStatusCode() int {
-	if o == nil {
+func (c *CreateProductResponse) GetStatusCode() int {
+	if c == nil {
 		return 0
 	}
-	return o.StatusCode
+	return c.StatusCode
 }
 
-func (o *CreateProductResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (c *CreateProductResponse) GetRawResponse() *http.Response {
+	if c == nil {
 		return nil
 	}
-	return o.RawResponse
+	return c.RawResponse
 }

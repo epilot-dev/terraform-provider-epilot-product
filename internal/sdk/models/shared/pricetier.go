@@ -11,44 +11,44 @@ type PriceTier struct {
 	UpTo                 *float64              `json:"up_to,omitempty"`
 }
 
-func (o *PriceTier) GetDisplayMode() *PriceTierDisplayMode {
-	if o == nil {
+func (p *PriceTier) GetDisplayMode() *PriceTierDisplayMode {
+	if p == nil {
 		return nil
 	}
-	return o.DisplayMode
+	return p.DisplayMode
 }
 
-func (o *PriceTier) GetFlatFeeAmount() *float64 {
-	if o == nil {
+func (p *PriceTier) GetFlatFeeAmount() *float64 {
+	if p == nil {
 		return nil
 	}
-	return o.FlatFeeAmount
+	return p.FlatFeeAmount
 }
 
-func (o *PriceTier) GetFlatFeeAmountDecimal() *string {
-	if o == nil {
+func (p *PriceTier) GetFlatFeeAmountDecimal() *string {
+	if p == nil {
 		return nil
 	}
-	return o.FlatFeeAmountDecimal
+	return p.FlatFeeAmountDecimal
 }
 
-func (o *PriceTier) GetUnitAmount() *float64 {
-	if o == nil {
+func (p *PriceTier) GetUnitAmount() *float64 {
+	if p == nil {
 		return nil
 	}
-	return o.UnitAmount
+	return p.UnitAmount
 }
 
-func (o *PriceTier) GetUnitAmountDecimal() *string {
-	if o == nil {
+func (p *PriceTier) GetUnitAmountDecimal() *string {
+	if p == nil {
 		return nil
 	}
-	return o.UnitAmountDecimal
+	return p.UnitAmountDecimal
 }
 
-func (o *PriceTier) GetUpTo() *float64 {
-	if o == nil {
+func (p *PriceTier) GetUpTo() *float64 {
+	if p == nil {
 		return nil
 	}
-	return o.UpTo
+	return p.UpTo
 }
