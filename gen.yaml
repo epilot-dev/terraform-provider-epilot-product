@@ -13,6 +13,9 @@ generation:
   auth:
     oAuth2ClientCredentialsEnabled: false
     oAuth2PasswordEnabled: false
+    hoistGlobalSecurity: true
+  schemas:
+    allOfMergeStrategy: shallowMerge
   tests:
     generateTests: true
     generateNewTests: false
@@ -35,7 +38,7 @@ go:
   outputModelSuffix: output
   packageName: openapi
 terraform:
-  version: 0.17.1
+  version: 0.18.0
   additionalDataSources: []
   additionalDependencies: {}
   additionalEphemeralResources: []

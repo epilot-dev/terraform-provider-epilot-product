@@ -72,79 +72,79 @@ type TaxPatch struct {
 	Type        *TaxPatchType   `json:"type,omitempty"`
 }
 
-func (o *TaxPatch) GetAdditional() any {
-	if o == nil {
+func (t *TaxPatch) GetAdditional() any {
+	if t == nil {
 		return nil
 	}
-	return o.Additional
+	return t.Additional
 }
 
-func (o *TaxPatch) GetFiles() *BaseRelation {
-	if o == nil {
+func (t *TaxPatch) GetFiles() *BaseRelation {
+	if t == nil {
 		return nil
 	}
-	return o.Files
+	return t.Files
 }
 
-func (o *TaxPatch) GetManifest() []string {
-	if o == nil {
+func (t *TaxPatch) GetManifest() []string {
+	if t == nil {
 		return nil
 	}
-	return o.Manifest
+	return t.Manifest
 }
 
-func (o *TaxPatch) GetPurpose() []string {
-	if o == nil {
+func (t *TaxPatch) GetPurpose() []string {
+	if t == nil {
 		return nil
 	}
-	return o.Purpose
+	return t.Purpose
 }
 
-func (o *TaxPatch) GetSchema() *TaxPatchSchema {
-	if o == nil {
+func (t *TaxPatch) GetSchema() *TaxPatchSchema {
+	if t == nil {
 		return nil
 	}
-	return o.Schema
+	return t.Schema
 }
 
-func (o *TaxPatch) GetTags() []string {
-	if o == nil {
+func (t *TaxPatch) GetTags() []string {
+	if t == nil {
 		return nil
 	}
-	return o.Tags
+	return t.Tags
 }
 
-func (o *TaxPatch) GetActive() *bool {
-	if o == nil {
+func (t *TaxPatch) GetActive() *bool {
+	if t == nil {
 		return nil
 	}
-	return o.Active
+	return t.Active
 }
 
-func (o *TaxPatch) GetDescription() *string {
-	if o == nil {
+func (t *TaxPatch) GetDescription() *string {
+	if t == nil {
 		return nil
 	}
-	return o.Description
+	return t.Description
 }
 
-func (o *TaxPatch) GetRate() any {
-	if o == nil {
+func (t *TaxPatch) GetRate() any {
+	if t == nil {
 		return nil
 	}
-	return o.Rate
+	return t.Rate
 }
 
-func (o *TaxPatch) GetRegion() *string {
-	if o == nil {
+func (t *TaxPatch) GetRegion() *string {
+	if t == nil {
 		return nil
 	}
-	return o.Region
+	return t.Region
 }
 
-func (o *TaxPatch) GetType() *TaxPatchType {
-	if o == nil {
+func (t *TaxPatch) GetType() *TaxPatchType {
+	if t == nil {
 		return nil
 	}
-	return o.Type
+	return t.Type
 }
