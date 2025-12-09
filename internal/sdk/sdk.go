@@ -18,6 +18,7 @@ import (
 
 // ServerList contains the list of servers available to the SDK
 var ServerList = []string{
+	"https://product.sls.epilot.io",
 	// Production server
 	"https://product.sls.epilot.io",
 }
@@ -135,9 +136,9 @@ func WithTimeout(timeout time.Duration) SDKOption {
 // New creates a new instance of the SDK with the provided options
 func New(opts ...SDKOption) *SDK {
 	sdk := &SDK{
-		SDKVersion: "0.17.1",
+		SDKVersion: "0.17.3",
 		sdkConfiguration: config.SDKConfiguration{
-			UserAgent:  "speakeasy-sdk/terraform 0.17.1 2.694.1 1.0.0 github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk",
+			UserAgent:  "speakeasy-sdk/terraform 0.17.3 2.694.1 1.0.0 github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk",
 			ServerList: ServerList,
 		},
 		hooks: hooks.New(),

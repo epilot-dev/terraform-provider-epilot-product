@@ -787,6 +787,8 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/PriceComponentRelation"
+          required:
+            - $relation
         unit_amount:
           description: The unit amount in cents to be charged, represented as a whole integer if possible.
           type: number
