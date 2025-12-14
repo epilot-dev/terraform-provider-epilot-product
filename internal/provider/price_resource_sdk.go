@@ -118,10 +118,24 @@ func (r *PriceResourceModel) RefreshFromSharedPrice(ctx context.Context, resp *s
 			r.RenewalDurationUnit = types.StringNull()
 		}
 		if resp.Tax == nil {
-			r.Tax = jsontypes.NewNormalizedNull()
+			r.Tax = nil
 		} else {
-			taxResult, _ := json.Marshal(resp.Tax)
-			r.Tax = jsontypes.NewNormalizedValue(string(taxResult))
+			r.Tax = &tfTypes.BaseRelation{}
+			r.Tax.DollarRelation = []tfTypes.DollarRelation{}
+
+			for _, dollarRelationItem2 := range resp.Tax.DollarRelation {
+				var dollarRelation2 tfTypes.DollarRelation
+
+				if dollarRelationItem2.Tags != nil {
+					dollarRelation2.Tags = make([]types.String, 0, len(dollarRelationItem2.Tags))
+					for _, v := range dollarRelationItem2.Tags {
+						dollarRelation2.Tags = append(dollarRelation2.Tags, types.StringValue(v))
+					}
+				}
+				dollarRelation2.EntityID = types.StringPointerValue(dollarRelationItem2.EntityID)
+
+				r.Tax.DollarRelation = append(r.Tax.DollarRelation, dollarRelation2)
+			}
 		}
 		r.TerminationTimeAmount = types.Float64PointerValue(resp.TerminationTimeAmount)
 		if resp.TerminationTimeUnit != nil {
@@ -219,17 +233,17 @@ func (r *PriceResourceModel) ToSharedPriceCreate(ctx context.Context) (*shared.P
 	var files *shared.BaseRelation
 	if r.Files != nil {
 		dollarRelation := make([]shared.DollarRelation, 0, len(r.Files.DollarRelation))
-		for _, dollarRelationItem := range r.Files.DollarRelation {
+		for dollarRelationIndex := range r.Files.DollarRelation {
 			var tags []string
-			if dollarRelationItem.Tags != nil {
-				tags = make([]string, 0, len(dollarRelationItem.Tags))
-				for _, tagsItem := range dollarRelationItem.Tags {
-					tags = append(tags, tagsItem.ValueString())
+			if r.Files.DollarRelation[dollarRelationIndex].Tags != nil {
+				tags = make([]string, 0, len(r.Files.DollarRelation[dollarRelationIndex].Tags))
+				for tagsIndex := range r.Files.DollarRelation[dollarRelationIndex].Tags {
+					tags = append(tags, r.Files.DollarRelation[dollarRelationIndex].Tags[tagsIndex].ValueString())
 				}
 			}
 			entityID := new(string)
-			if !dollarRelationItem.EntityID.IsUnknown() && !dollarRelationItem.EntityID.IsNull() {
-				*entityID = dollarRelationItem.EntityID.ValueString()
+			if !r.Files.DollarRelation[dollarRelationIndex].EntityID.IsUnknown() && !r.Files.DollarRelation[dollarRelationIndex].EntityID.IsNull() {
+				*entityID = r.Files.DollarRelation[dollarRelationIndex].EntityID.ValueString()
 			} else {
 				entityID = nil
 			}
@@ -243,14 +257,14 @@ func (r *PriceResourceModel) ToSharedPriceCreate(ctx context.Context) (*shared.P
 		}
 	}
 	manifest := make([]string, 0, len(r.Manifest))
-	for _, manifestItem := range r.Manifest {
-		manifest = append(manifest, manifestItem.ValueString())
+	for manifestIndex := range r.Manifest {
+		manifest = append(manifest, r.Manifest[manifestIndex].ValueString())
 	}
 	var purpose []string
 	if r.Purpose != nil {
 		purpose = make([]string, 0, len(r.Purpose))
-		for _, purposeItem := range r.Purpose {
-			purpose = append(purpose, purposeItem.ValueString())
+		for purposeIndex := range r.Purpose {
+			purpose = append(purpose, r.Purpose[purposeIndex].ValueString())
 		}
 	}
 	schema := new(shared.PriceCreateSchema)
@@ -262,8 +276,8 @@ func (r *PriceResourceModel) ToSharedPriceCreate(ctx context.Context) (*shared.P
 	var tags1 []string
 	if r.Tags != nil {
 		tags1 = make([]string, 0, len(r.Tags))
-		for _, tagsItem1 := range r.Tags {
-			tags1 = append(tags1, tagsItem1.ValueString())
+		for tagsIndex1 := range r.Tags {
+			tags1 = append(tags1, r.Tags[tagsIndex1].ValueString())
 		}
 	}
 	var active bool
@@ -320,14 +334,14 @@ func (r *PriceResourceModel) ToSharedPriceCreate(ctx context.Context) (*shared.P
 	var priceComponents *shared.PriceCreatePriceComponents
 	if r.PriceComponents != nil {
 		dollarRelation1 := make([]shared.PriceComponentRelation, 0, len(r.PriceComponents.DollarRelation))
-		for _, dollarRelationItem1 := range r.PriceComponents.DollarRelation {
-			tags2 := make([]string, 0, len(dollarRelationItem1.Tags))
-			for _, tagsItem2 := range dollarRelationItem1.Tags {
-				tags2 = append(tags2, tagsItem2.ValueString())
+		for dollarRelationIndex1 := range r.PriceComponents.DollarRelation {
+			tags2 := make([]string, 0, len(r.PriceComponents.DollarRelation[dollarRelationIndex1].Tags))
+			for tagsIndex2 := range r.PriceComponents.DollarRelation[dollarRelationIndex1].Tags {
+				tags2 = append(tags2, r.PriceComponents.DollarRelation[dollarRelationIndex1].Tags[tagsIndex2].ValueString())
 			}
 			entityId1 := new(string)
-			if !dollarRelationItem1.EntityID.IsUnknown() && !dollarRelationItem1.EntityID.IsNull() {
-				*entityId1 = dollarRelationItem1.EntityID.ValueString()
+			if !r.PriceComponents.DollarRelation[dollarRelationIndex1].EntityID.IsUnknown() && !r.PriceComponents.DollarRelation[dollarRelationIndex1].EntityID.IsNull() {
+				*entityId1 = r.PriceComponents.DollarRelation[dollarRelationIndex1].EntityID.ValueString()
 			} else {
 				entityId1 = nil
 			}
@@ -364,9 +378,31 @@ func (r *PriceResourceModel) ToSharedPriceCreate(ctx context.Context) (*shared.P
 	} else {
 		renewalDurationUnit = nil
 	}
-	var tax interface{}
-	if !r.Tax.IsUnknown() && !r.Tax.IsNull() {
-		_ = json.Unmarshal([]byte(r.Tax.ValueString()), &tax)
+	var tax *shared.BaseRelation
+	if r.Tax != nil {
+		dollarRelation2 := make([]shared.DollarRelation, 0, len(r.Tax.DollarRelation))
+		for dollarRelationIndex2 := range r.Tax.DollarRelation {
+			var tags3 []string
+			if r.Tax.DollarRelation[dollarRelationIndex2].Tags != nil {
+				tags3 = make([]string, 0, len(r.Tax.DollarRelation[dollarRelationIndex2].Tags))
+				for tagsIndex3 := range r.Tax.DollarRelation[dollarRelationIndex2].Tags {
+					tags3 = append(tags3, r.Tax.DollarRelation[dollarRelationIndex2].Tags[tagsIndex3].ValueString())
+				}
+			}
+			entityId2 := new(string)
+			if !r.Tax.DollarRelation[dollarRelationIndex2].EntityID.IsUnknown() && !r.Tax.DollarRelation[dollarRelationIndex2].EntityID.IsNull() {
+				*entityId2 = r.Tax.DollarRelation[dollarRelationIndex2].EntityID.ValueString()
+			} else {
+				entityId2 = nil
+			}
+			dollarRelation2 = append(dollarRelation2, shared.DollarRelation{
+				Tags:     tags3,
+				EntityID: entityId2,
+			})
+		}
+		tax = &shared.BaseRelation{
+			DollarRelation: dollarRelation2,
+		}
 	}
 	terminationTimeAmount := new(float64)
 	if !r.TerminationTimeAmount.IsUnknown() && !r.TerminationTimeAmount.IsNull() {
@@ -381,40 +417,40 @@ func (r *PriceResourceModel) ToSharedPriceCreate(ctx context.Context) (*shared.P
 		terminationTimeUnit = nil
 	}
 	tiers := make([]shared.PriceTier, 0, len(r.Tiers))
-	for _, tiersItem := range r.Tiers {
+	for tiersIndex := range r.Tiers {
 		displayMode := new(shared.PriceTierDisplayMode)
-		if !tiersItem.DisplayMode.IsUnknown() && !tiersItem.DisplayMode.IsNull() {
-			*displayMode = shared.PriceTierDisplayMode(tiersItem.DisplayMode.ValueString())
+		if !r.Tiers[tiersIndex].DisplayMode.IsUnknown() && !r.Tiers[tiersIndex].DisplayMode.IsNull() {
+			*displayMode = shared.PriceTierDisplayMode(r.Tiers[tiersIndex].DisplayMode.ValueString())
 		} else {
 			displayMode = nil
 		}
 		flatFeeAmount := new(float64)
-		if !tiersItem.FlatFeeAmount.IsUnknown() && !tiersItem.FlatFeeAmount.IsNull() {
-			*flatFeeAmount = tiersItem.FlatFeeAmount.ValueFloat64()
+		if !r.Tiers[tiersIndex].FlatFeeAmount.IsUnknown() && !r.Tiers[tiersIndex].FlatFeeAmount.IsNull() {
+			*flatFeeAmount = r.Tiers[tiersIndex].FlatFeeAmount.ValueFloat64()
 		} else {
 			flatFeeAmount = nil
 		}
 		flatFeeAmountDecimal := new(string)
-		if !tiersItem.FlatFeeAmountDecimal.IsUnknown() && !tiersItem.FlatFeeAmountDecimal.IsNull() {
-			*flatFeeAmountDecimal = tiersItem.FlatFeeAmountDecimal.ValueString()
+		if !r.Tiers[tiersIndex].FlatFeeAmountDecimal.IsUnknown() && !r.Tiers[tiersIndex].FlatFeeAmountDecimal.IsNull() {
+			*flatFeeAmountDecimal = r.Tiers[tiersIndex].FlatFeeAmountDecimal.ValueString()
 		} else {
 			flatFeeAmountDecimal = nil
 		}
 		unitAmount := new(float64)
-		if !tiersItem.UnitAmount.IsUnknown() && !tiersItem.UnitAmount.IsNull() {
-			*unitAmount = tiersItem.UnitAmount.ValueFloat64()
+		if !r.Tiers[tiersIndex].UnitAmount.IsUnknown() && !r.Tiers[tiersIndex].UnitAmount.IsNull() {
+			*unitAmount = r.Tiers[tiersIndex].UnitAmount.ValueFloat64()
 		} else {
 			unitAmount = nil
 		}
 		unitAmountDecimal := new(string)
-		if !tiersItem.UnitAmountDecimal.IsUnknown() && !tiersItem.UnitAmountDecimal.IsNull() {
-			*unitAmountDecimal = tiersItem.UnitAmountDecimal.ValueString()
+		if !r.Tiers[tiersIndex].UnitAmountDecimal.IsUnknown() && !r.Tiers[tiersIndex].UnitAmountDecimal.IsNull() {
+			*unitAmountDecimal = r.Tiers[tiersIndex].UnitAmountDecimal.ValueString()
 		} else {
 			unitAmountDecimal = nil
 		}
 		upTo := new(float64)
-		if !tiersItem.UpTo.IsUnknown() && !tiersItem.UpTo.IsNull() {
-			*upTo = tiersItem.UpTo.ValueFloat64()
+		if !r.Tiers[tiersIndex].UpTo.IsUnknown() && !r.Tiers[tiersIndex].UpTo.IsNull() {
+			*upTo = r.Tiers[tiersIndex].UpTo.ValueFloat64()
 		} else {
 			upTo = nil
 		}
@@ -509,17 +545,17 @@ func (r *PriceResourceModel) ToSharedPricePatch(ctx context.Context) (*shared.Pr
 	var files *shared.BaseRelation
 	if r.Files != nil {
 		dollarRelation := make([]shared.DollarRelation, 0, len(r.Files.DollarRelation))
-		for _, dollarRelationItem := range r.Files.DollarRelation {
+		for dollarRelationIndex := range r.Files.DollarRelation {
 			var tags []string
-			if dollarRelationItem.Tags != nil {
-				tags = make([]string, 0, len(dollarRelationItem.Tags))
-				for _, tagsItem := range dollarRelationItem.Tags {
-					tags = append(tags, tagsItem.ValueString())
+			if r.Files.DollarRelation[dollarRelationIndex].Tags != nil {
+				tags = make([]string, 0, len(r.Files.DollarRelation[dollarRelationIndex].Tags))
+				for tagsIndex := range r.Files.DollarRelation[dollarRelationIndex].Tags {
+					tags = append(tags, r.Files.DollarRelation[dollarRelationIndex].Tags[tagsIndex].ValueString())
 				}
 			}
 			entityID := new(string)
-			if !dollarRelationItem.EntityID.IsUnknown() && !dollarRelationItem.EntityID.IsNull() {
-				*entityID = dollarRelationItem.EntityID.ValueString()
+			if !r.Files.DollarRelation[dollarRelationIndex].EntityID.IsUnknown() && !r.Files.DollarRelation[dollarRelationIndex].EntityID.IsNull() {
+				*entityID = r.Files.DollarRelation[dollarRelationIndex].EntityID.ValueString()
 			} else {
 				entityID = nil
 			}
@@ -533,14 +569,14 @@ func (r *PriceResourceModel) ToSharedPricePatch(ctx context.Context) (*shared.Pr
 		}
 	}
 	manifest := make([]string, 0, len(r.Manifest))
-	for _, manifestItem := range r.Manifest {
-		manifest = append(manifest, manifestItem.ValueString())
+	for manifestIndex := range r.Manifest {
+		manifest = append(manifest, r.Manifest[manifestIndex].ValueString())
 	}
 	var purpose []string
 	if r.Purpose != nil {
 		purpose = make([]string, 0, len(r.Purpose))
-		for _, purposeItem := range r.Purpose {
-			purpose = append(purpose, purposeItem.ValueString())
+		for purposeIndex := range r.Purpose {
+			purpose = append(purpose, r.Purpose[purposeIndex].ValueString())
 		}
 	}
 	schema := new(shared.PricePatchSchema)
@@ -552,8 +588,8 @@ func (r *PriceResourceModel) ToSharedPricePatch(ctx context.Context) (*shared.Pr
 	var tags1 []string
 	if r.Tags != nil {
 		tags1 = make([]string, 0, len(r.Tags))
-		for _, tagsItem1 := range r.Tags {
-			tags1 = append(tags1, tagsItem1.ValueString())
+		for tagsIndex1 := range r.Tags {
+			tags1 = append(tags1, r.Tags[tagsIndex1].ValueString())
 		}
 	}
 	active := new(bool)
@@ -613,14 +649,14 @@ func (r *PriceResourceModel) ToSharedPricePatch(ctx context.Context) (*shared.Pr
 	var priceComponents *shared.PricePatchPriceComponents
 	if r.PriceComponents != nil {
 		dollarRelation1 := make([]shared.PriceComponentRelation, 0, len(r.PriceComponents.DollarRelation))
-		for _, dollarRelationItem1 := range r.PriceComponents.DollarRelation {
-			tags2 := make([]string, 0, len(dollarRelationItem1.Tags))
-			for _, tagsItem2 := range dollarRelationItem1.Tags {
-				tags2 = append(tags2, tagsItem2.ValueString())
+		for dollarRelationIndex1 := range r.PriceComponents.DollarRelation {
+			tags2 := make([]string, 0, len(r.PriceComponents.DollarRelation[dollarRelationIndex1].Tags))
+			for tagsIndex2 := range r.PriceComponents.DollarRelation[dollarRelationIndex1].Tags {
+				tags2 = append(tags2, r.PriceComponents.DollarRelation[dollarRelationIndex1].Tags[tagsIndex2].ValueString())
 			}
 			entityId1 := new(string)
-			if !dollarRelationItem1.EntityID.IsUnknown() && !dollarRelationItem1.EntityID.IsNull() {
-				*entityId1 = dollarRelationItem1.EntityID.ValueString()
+			if !r.PriceComponents.DollarRelation[dollarRelationIndex1].EntityID.IsUnknown() && !r.PriceComponents.DollarRelation[dollarRelationIndex1].EntityID.IsNull() {
+				*entityId1 = r.PriceComponents.DollarRelation[dollarRelationIndex1].EntityID.ValueString()
 			} else {
 				entityId1 = nil
 			}
@@ -657,9 +693,31 @@ func (r *PriceResourceModel) ToSharedPricePatch(ctx context.Context) (*shared.Pr
 	} else {
 		renewalDurationUnit = nil
 	}
-	var tax interface{}
-	if !r.Tax.IsUnknown() && !r.Tax.IsNull() {
-		_ = json.Unmarshal([]byte(r.Tax.ValueString()), &tax)
+	var tax *shared.BaseRelation
+	if r.Tax != nil {
+		dollarRelation2 := make([]shared.DollarRelation, 0, len(r.Tax.DollarRelation))
+		for dollarRelationIndex2 := range r.Tax.DollarRelation {
+			var tags3 []string
+			if r.Tax.DollarRelation[dollarRelationIndex2].Tags != nil {
+				tags3 = make([]string, 0, len(r.Tax.DollarRelation[dollarRelationIndex2].Tags))
+				for tagsIndex3 := range r.Tax.DollarRelation[dollarRelationIndex2].Tags {
+					tags3 = append(tags3, r.Tax.DollarRelation[dollarRelationIndex2].Tags[tagsIndex3].ValueString())
+				}
+			}
+			entityId2 := new(string)
+			if !r.Tax.DollarRelation[dollarRelationIndex2].EntityID.IsUnknown() && !r.Tax.DollarRelation[dollarRelationIndex2].EntityID.IsNull() {
+				*entityId2 = r.Tax.DollarRelation[dollarRelationIndex2].EntityID.ValueString()
+			} else {
+				entityId2 = nil
+			}
+			dollarRelation2 = append(dollarRelation2, shared.DollarRelation{
+				Tags:     tags3,
+				EntityID: entityId2,
+			})
+		}
+		tax = &shared.BaseRelation{
+			DollarRelation: dollarRelation2,
+		}
 	}
 	terminationTimeAmount := new(float64)
 	if !r.TerminationTimeAmount.IsUnknown() && !r.TerminationTimeAmount.IsNull() {
@@ -674,40 +732,40 @@ func (r *PriceResourceModel) ToSharedPricePatch(ctx context.Context) (*shared.Pr
 		terminationTimeUnit = nil
 	}
 	tiers := make([]shared.PriceTier, 0, len(r.Tiers))
-	for _, tiersItem := range r.Tiers {
+	for tiersIndex := range r.Tiers {
 		displayMode := new(shared.PriceTierDisplayMode)
-		if !tiersItem.DisplayMode.IsUnknown() && !tiersItem.DisplayMode.IsNull() {
-			*displayMode = shared.PriceTierDisplayMode(tiersItem.DisplayMode.ValueString())
+		if !r.Tiers[tiersIndex].DisplayMode.IsUnknown() && !r.Tiers[tiersIndex].DisplayMode.IsNull() {
+			*displayMode = shared.PriceTierDisplayMode(r.Tiers[tiersIndex].DisplayMode.ValueString())
 		} else {
 			displayMode = nil
 		}
 		flatFeeAmount := new(float64)
-		if !tiersItem.FlatFeeAmount.IsUnknown() && !tiersItem.FlatFeeAmount.IsNull() {
-			*flatFeeAmount = tiersItem.FlatFeeAmount.ValueFloat64()
+		if !r.Tiers[tiersIndex].FlatFeeAmount.IsUnknown() && !r.Tiers[tiersIndex].FlatFeeAmount.IsNull() {
+			*flatFeeAmount = r.Tiers[tiersIndex].FlatFeeAmount.ValueFloat64()
 		} else {
 			flatFeeAmount = nil
 		}
 		flatFeeAmountDecimal := new(string)
-		if !tiersItem.FlatFeeAmountDecimal.IsUnknown() && !tiersItem.FlatFeeAmountDecimal.IsNull() {
-			*flatFeeAmountDecimal = tiersItem.FlatFeeAmountDecimal.ValueString()
+		if !r.Tiers[tiersIndex].FlatFeeAmountDecimal.IsUnknown() && !r.Tiers[tiersIndex].FlatFeeAmountDecimal.IsNull() {
+			*flatFeeAmountDecimal = r.Tiers[tiersIndex].FlatFeeAmountDecimal.ValueString()
 		} else {
 			flatFeeAmountDecimal = nil
 		}
 		unitAmount := new(float64)
-		if !tiersItem.UnitAmount.IsUnknown() && !tiersItem.UnitAmount.IsNull() {
-			*unitAmount = tiersItem.UnitAmount.ValueFloat64()
+		if !r.Tiers[tiersIndex].UnitAmount.IsUnknown() && !r.Tiers[tiersIndex].UnitAmount.IsNull() {
+			*unitAmount = r.Tiers[tiersIndex].UnitAmount.ValueFloat64()
 		} else {
 			unitAmount = nil
 		}
 		unitAmountDecimal := new(string)
-		if !tiersItem.UnitAmountDecimal.IsUnknown() && !tiersItem.UnitAmountDecimal.IsNull() {
-			*unitAmountDecimal = tiersItem.UnitAmountDecimal.ValueString()
+		if !r.Tiers[tiersIndex].UnitAmountDecimal.IsUnknown() && !r.Tiers[tiersIndex].UnitAmountDecimal.IsNull() {
+			*unitAmountDecimal = r.Tiers[tiersIndex].UnitAmountDecimal.ValueString()
 		} else {
 			unitAmountDecimal = nil
 		}
 		upTo := new(float64)
-		if !tiersItem.UpTo.IsUnknown() && !tiersItem.UpTo.IsNull() {
-			*upTo = tiersItem.UpTo.ValueFloat64()
+		if !r.Tiers[tiersIndex].UpTo.IsUnknown() && !r.Tiers[tiersIndex].UpTo.IsNull() {
+			*upTo = r.Tiers[tiersIndex].UpTo.ValueFloat64()
 		} else {
 			upTo = nil
 		}

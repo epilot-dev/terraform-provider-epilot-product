@@ -58,7 +58,16 @@ resource "epilot-product_price" "my_price" {
   tags = [
     "..."
   ]
-  tax                     = "{ \"see\": \"documentation\" }"
+  tax = {
+    dollar_relation = [
+      {
+        entity_id = "123e4567-e89b-12d3-a456-426614174000"
+        tags = [
+          "..."
+        ]
+      }
+    ]
+  }
   termination_time_amount = 2.23
   termination_time_unit   = "years"
   tiers = [
@@ -113,7 +122,7 @@ Default: "per_unit"; must be one of ["per_unit", "tiered_volume", "tiered_gradua
 - `renewal_duration_unit` (String) The renewal period duration unit. must be one of ["weeks", "months", "years"]
 - `schema` (String) must be "price"
 - `tags` (List of String)
-- `tax` (String) Parsed as JSON.
+- `tax` (Attributes) (see [below for nested schema](#nestedatt--tax))
 - `termination_time_amount` (Number) The termination period duration
 - `termination_time_unit` (String) The termination period duration unit. must be one of ["weeks", "months", "years"]
 - `tiers` (Attributes List) Defines an array of tiers. Each tier has an upper bound, an unit amount and a flat fee. (see [below for nested schema](#nestedatt--tiers))
@@ -137,7 +146,7 @@ Default: "per_unit"; must be one of ["per_unit", "tiered_volume", "tiered_gradua
 
 Optional:
 
-- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--files--dollar_relation))
+- `dollar_relation` (Attributes List) Not Null (see [below for nested schema](#nestedatt--files--dollar_relation))
 
 <a id="nestedatt--files--dollar_relation"></a>
 ### Nested Schema for `files.dollar_relation`
@@ -154,7 +163,7 @@ Optional:
 
 Optional:
 
-- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--price_components--dollar_relation))
+- `dollar_relation` (Attributes List) Not Null (see [below for nested schema](#nestedatt--price_components--dollar_relation))
 
 <a id="nestedatt--price_components--dollar_relation"></a>
 ### Nested Schema for `price_components.dollar_relation`
@@ -163,6 +172,23 @@ Optional:
 
 - `entity_id` (String) The id of the price component
 - `tags` (List of String) An arbitrary set of tags attached to the composite price - component relation
+
+
+
+<a id="nestedatt--tax"></a>
+### Nested Schema for `tax`
+
+Optional:
+
+- `dollar_relation` (Attributes List) Not Null (see [below for nested schema](#nestedatt--tax--dollar_relation))
+
+<a id="nestedatt--tax--dollar_relation"></a>
+### Nested Schema for `tax.dollar_relation`
+
+Optional:
+
+- `entity_id` (String)
+- `tags` (List of String)
 
 
 

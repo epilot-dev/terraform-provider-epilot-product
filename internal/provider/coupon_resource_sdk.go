@@ -181,17 +181,17 @@ func (r *CouponResourceModel) ToSharedCouponCreate(ctx context.Context) (*shared
 	var files *shared.BaseRelation
 	if r.Files != nil {
 		dollarRelation := make([]shared.DollarRelation, 0, len(r.Files.DollarRelation))
-		for _, dollarRelationItem := range r.Files.DollarRelation {
+		for dollarRelationIndex := range r.Files.DollarRelation {
 			var tags []string
-			if dollarRelationItem.Tags != nil {
-				tags = make([]string, 0, len(dollarRelationItem.Tags))
-				for _, tagsItem := range dollarRelationItem.Tags {
-					tags = append(tags, tagsItem.ValueString())
+			if r.Files.DollarRelation[dollarRelationIndex].Tags != nil {
+				tags = make([]string, 0, len(r.Files.DollarRelation[dollarRelationIndex].Tags))
+				for tagsIndex := range r.Files.DollarRelation[dollarRelationIndex].Tags {
+					tags = append(tags, r.Files.DollarRelation[dollarRelationIndex].Tags[tagsIndex].ValueString())
 				}
 			}
 			entityID := new(string)
-			if !dollarRelationItem.EntityID.IsUnknown() && !dollarRelationItem.EntityID.IsNull() {
-				*entityID = dollarRelationItem.EntityID.ValueString()
+			if !r.Files.DollarRelation[dollarRelationIndex].EntityID.IsUnknown() && !r.Files.DollarRelation[dollarRelationIndex].EntityID.IsNull() {
+				*entityID = r.Files.DollarRelation[dollarRelationIndex].EntityID.ValueString()
 			} else {
 				entityID = nil
 			}
@@ -205,14 +205,14 @@ func (r *CouponResourceModel) ToSharedCouponCreate(ctx context.Context) (*shared
 		}
 	}
 	manifest := make([]string, 0, len(r.Manifest))
-	for _, manifestItem := range r.Manifest {
-		manifest = append(manifest, manifestItem.ValueString())
+	for manifestIndex := range r.Manifest {
+		manifest = append(manifest, r.Manifest[manifestIndex].ValueString())
 	}
 	var purpose []string
 	if r.Purpose != nil {
 		purpose = make([]string, 0, len(r.Purpose))
-		for _, purposeItem := range r.Purpose {
-			purpose = append(purpose, purposeItem.ValueString())
+		for purposeIndex := range r.Purpose {
+			purpose = append(purpose, r.Purpose[purposeIndex].ValueString())
 		}
 	}
 	schema := new(shared.CouponCreateSchema)
@@ -224,8 +224,8 @@ func (r *CouponResourceModel) ToSharedCouponCreate(ctx context.Context) (*shared
 	var tags1 []string
 	if r.Tags != nil {
 		tags1 = make([]string, 0, len(r.Tags))
-		for _, tagsItem1 := range r.Tags {
-			tags1 = append(tags1, tagsItem1.ValueString())
+		for tagsIndex1 := range r.Tags {
+			tags1 = append(tags1, r.Tags[tagsIndex1].ValueString())
 		}
 	}
 	var active bool
@@ -274,17 +274,17 @@ func (r *CouponResourceModel) ToSharedCouponCreate(ctx context.Context) (*shared
 	var prices *shared.BaseRelation
 	if r.Prices != nil {
 		dollarRelation1 := make([]shared.DollarRelation, 0, len(r.Prices.DollarRelation))
-		for _, dollarRelationItem1 := range r.Prices.DollarRelation {
+		for dollarRelationIndex1 := range r.Prices.DollarRelation {
 			var tags2 []string
-			if dollarRelationItem1.Tags != nil {
-				tags2 = make([]string, 0, len(dollarRelationItem1.Tags))
-				for _, tagsItem2 := range dollarRelationItem1.Tags {
-					tags2 = append(tags2, tagsItem2.ValueString())
+			if r.Prices.DollarRelation[dollarRelationIndex1].Tags != nil {
+				tags2 = make([]string, 0, len(r.Prices.DollarRelation[dollarRelationIndex1].Tags))
+				for tagsIndex2 := range r.Prices.DollarRelation[dollarRelationIndex1].Tags {
+					tags2 = append(tags2, r.Prices.DollarRelation[dollarRelationIndex1].Tags[tagsIndex2].ValueString())
 				}
 			}
 			entityId1 := new(string)
-			if !dollarRelationItem1.EntityID.IsUnknown() && !dollarRelationItem1.EntityID.IsNull() {
-				*entityId1 = dollarRelationItem1.EntityID.ValueString()
+			if !r.Prices.DollarRelation[dollarRelationIndex1].EntityID.IsUnknown() && !r.Prices.DollarRelation[dollarRelationIndex1].EntityID.IsNull() {
+				*entityId1 = r.Prices.DollarRelation[dollarRelationIndex1].EntityID.ValueString()
 			} else {
 				entityId1 = nil
 			}
@@ -302,22 +302,22 @@ func (r *CouponResourceModel) ToSharedCouponCreate(ctx context.Context) (*shared
 		_ = json.Unmarshal([]byte(r.PromoCodeUsage.ValueString()), &promoCodeUsage)
 	}
 	promoCodes := make([]shared.PromoCode, 0, len(r.PromoCodes))
-	for _, promoCodesItem := range r.PromoCodes {
+	for promoCodesIndex := range r.PromoCodes {
 		var code string
-		code = promoCodesItem.Code.ValueString()
+		code = r.PromoCodes[promoCodesIndex].Code.ValueString()
 
 		hasUsageLimit := new(bool)
-		if !promoCodesItem.HasUsageLimit.IsUnknown() && !promoCodesItem.HasUsageLimit.IsNull() {
-			*hasUsageLimit = promoCodesItem.HasUsageLimit.ValueBool()
+		if !r.PromoCodes[promoCodesIndex].HasUsageLimit.IsUnknown() && !r.PromoCodes[promoCodesIndex].HasUsageLimit.IsNull() {
+			*hasUsageLimit = r.PromoCodes[promoCodesIndex].HasUsageLimit.ValueBool()
 		} else {
 			hasUsageLimit = nil
 		}
 		var id string
-		id = promoCodesItem.ID.ValueString()
+		id = r.PromoCodes[promoCodesIndex].ID.ValueString()
 
 		usageLimit := new(float64)
-		if !promoCodesItem.UsageLimit.IsUnknown() && !promoCodesItem.UsageLimit.IsNull() {
-			*usageLimit = promoCodesItem.UsageLimit.ValueFloat64()
+		if !r.PromoCodes[promoCodesIndex].UsageLimit.IsUnknown() && !r.PromoCodes[promoCodesIndex].UsageLimit.IsNull() {
+			*usageLimit = r.PromoCodes[promoCodesIndex].UsageLimit.ValueFloat64()
 		} else {
 			usageLimit = nil
 		}
@@ -371,17 +371,17 @@ func (r *CouponResourceModel) ToSharedCouponPatch(ctx context.Context) (*shared.
 	var files *shared.BaseRelation
 	if r.Files != nil {
 		dollarRelation := make([]shared.DollarRelation, 0, len(r.Files.DollarRelation))
-		for _, dollarRelationItem := range r.Files.DollarRelation {
+		for dollarRelationIndex := range r.Files.DollarRelation {
 			var tags []string
-			if dollarRelationItem.Tags != nil {
-				tags = make([]string, 0, len(dollarRelationItem.Tags))
-				for _, tagsItem := range dollarRelationItem.Tags {
-					tags = append(tags, tagsItem.ValueString())
+			if r.Files.DollarRelation[dollarRelationIndex].Tags != nil {
+				tags = make([]string, 0, len(r.Files.DollarRelation[dollarRelationIndex].Tags))
+				for tagsIndex := range r.Files.DollarRelation[dollarRelationIndex].Tags {
+					tags = append(tags, r.Files.DollarRelation[dollarRelationIndex].Tags[tagsIndex].ValueString())
 				}
 			}
 			entityID := new(string)
-			if !dollarRelationItem.EntityID.IsUnknown() && !dollarRelationItem.EntityID.IsNull() {
-				*entityID = dollarRelationItem.EntityID.ValueString()
+			if !r.Files.DollarRelation[dollarRelationIndex].EntityID.IsUnknown() && !r.Files.DollarRelation[dollarRelationIndex].EntityID.IsNull() {
+				*entityID = r.Files.DollarRelation[dollarRelationIndex].EntityID.ValueString()
 			} else {
 				entityID = nil
 			}
@@ -395,14 +395,14 @@ func (r *CouponResourceModel) ToSharedCouponPatch(ctx context.Context) (*shared.
 		}
 	}
 	manifest := make([]string, 0, len(r.Manifest))
-	for _, manifestItem := range r.Manifest {
-		manifest = append(manifest, manifestItem.ValueString())
+	for manifestIndex := range r.Manifest {
+		manifest = append(manifest, r.Manifest[manifestIndex].ValueString())
 	}
 	var purpose []string
 	if r.Purpose != nil {
 		purpose = make([]string, 0, len(r.Purpose))
-		for _, purposeItem := range r.Purpose {
-			purpose = append(purpose, purposeItem.ValueString())
+		for purposeIndex := range r.Purpose {
+			purpose = append(purpose, r.Purpose[purposeIndex].ValueString())
 		}
 	}
 	schema := new(shared.CouponPatchSchema)
@@ -414,8 +414,8 @@ func (r *CouponResourceModel) ToSharedCouponPatch(ctx context.Context) (*shared.
 	var tags1 []string
 	if r.Tags != nil {
 		tags1 = make([]string, 0, len(r.Tags))
-		for _, tagsItem1 := range r.Tags {
-			tags1 = append(tags1, tagsItem1.ValueString())
+		for tagsIndex1 := range r.Tags {
+			tags1 = append(tags1, r.Tags[tagsIndex1].ValueString())
 		}
 	}
 	active := new(bool)
@@ -475,17 +475,17 @@ func (r *CouponResourceModel) ToSharedCouponPatch(ctx context.Context) (*shared.
 	var prices *shared.BaseRelation
 	if r.Prices != nil {
 		dollarRelation1 := make([]shared.DollarRelation, 0, len(r.Prices.DollarRelation))
-		for _, dollarRelationItem1 := range r.Prices.DollarRelation {
+		for dollarRelationIndex1 := range r.Prices.DollarRelation {
 			var tags2 []string
-			if dollarRelationItem1.Tags != nil {
-				tags2 = make([]string, 0, len(dollarRelationItem1.Tags))
-				for _, tagsItem2 := range dollarRelationItem1.Tags {
-					tags2 = append(tags2, tagsItem2.ValueString())
+			if r.Prices.DollarRelation[dollarRelationIndex1].Tags != nil {
+				tags2 = make([]string, 0, len(r.Prices.DollarRelation[dollarRelationIndex1].Tags))
+				for tagsIndex2 := range r.Prices.DollarRelation[dollarRelationIndex1].Tags {
+					tags2 = append(tags2, r.Prices.DollarRelation[dollarRelationIndex1].Tags[tagsIndex2].ValueString())
 				}
 			}
 			entityId1 := new(string)
-			if !dollarRelationItem1.EntityID.IsUnknown() && !dollarRelationItem1.EntityID.IsNull() {
-				*entityId1 = dollarRelationItem1.EntityID.ValueString()
+			if !r.Prices.DollarRelation[dollarRelationIndex1].EntityID.IsUnknown() && !r.Prices.DollarRelation[dollarRelationIndex1].EntityID.IsNull() {
+				*entityId1 = r.Prices.DollarRelation[dollarRelationIndex1].EntityID.ValueString()
 			} else {
 				entityId1 = nil
 			}
@@ -503,22 +503,22 @@ func (r *CouponResourceModel) ToSharedCouponPatch(ctx context.Context) (*shared.
 		_ = json.Unmarshal([]byte(r.PromoCodeUsage.ValueString()), &promoCodeUsage)
 	}
 	promoCodes := make([]shared.PromoCode, 0, len(r.PromoCodes))
-	for _, promoCodesItem := range r.PromoCodes {
+	for promoCodesIndex := range r.PromoCodes {
 		var code string
-		code = promoCodesItem.Code.ValueString()
+		code = r.PromoCodes[promoCodesIndex].Code.ValueString()
 
 		hasUsageLimit := new(bool)
-		if !promoCodesItem.HasUsageLimit.IsUnknown() && !promoCodesItem.HasUsageLimit.IsNull() {
-			*hasUsageLimit = promoCodesItem.HasUsageLimit.ValueBool()
+		if !r.PromoCodes[promoCodesIndex].HasUsageLimit.IsUnknown() && !r.PromoCodes[promoCodesIndex].HasUsageLimit.IsNull() {
+			*hasUsageLimit = r.PromoCodes[promoCodesIndex].HasUsageLimit.ValueBool()
 		} else {
 			hasUsageLimit = nil
 		}
 		var id string
-		id = promoCodesItem.ID.ValueString()
+		id = r.PromoCodes[promoCodesIndex].ID.ValueString()
 
 		usageLimit := new(float64)
-		if !promoCodesItem.UsageLimit.IsUnknown() && !promoCodesItem.UsageLimit.IsNull() {
-			*usageLimit = promoCodesItem.UsageLimit.ValueFloat64()
+		if !r.PromoCodes[promoCodesIndex].UsageLimit.IsUnknown() && !r.PromoCodes[promoCodesIndex].UsageLimit.IsNull() {
+			*usageLimit = r.PromoCodes[promoCodesIndex].UsageLimit.ValueFloat64()
 		} else {
 			usageLimit = nil
 		}

@@ -8,16 +8,16 @@ type ClientError struct {
 	Status  int64  `json:"status"`
 }
 
-func (o *ClientError) GetMessage() string {
-	if o == nil {
+func (c *ClientError) GetMessage() string {
+	if c == nil {
 		return ""
 	}
-	return o.Message
+	return c.Message
 }
 
-func (o *ClientError) GetStatus() int64 {
-	if o == nil {
+func (c *ClientError) GetStatus() int64 {
+	if c == nil {
 		return 0
 	}
-	return o.Status
+	return c.Status
 }
