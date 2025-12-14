@@ -14,18 +14,18 @@ type PatchCouponRequest struct {
 	CouponID string `pathParam:"style=simple,explode=false,name=couponId"`
 }
 
-func (o *PatchCouponRequest) GetCouponPatch() shared.CouponPatch {
-	if o == nil {
+func (p *PatchCouponRequest) GetCouponPatch() shared.CouponPatch {
+	if p == nil {
 		return shared.CouponPatch{}
 	}
-	return o.CouponPatch
+	return p.CouponPatch
 }
 
-func (o *PatchCouponRequest) GetCouponID() string {
-	if o == nil {
+func (p *PatchCouponRequest) GetCouponID() string {
+	if p == nil {
 		return ""
 	}
-	return o.CouponID
+	return p.CouponID
 }
 
 type PatchCouponResponse struct {
@@ -41,37 +41,37 @@ type PatchCouponResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *PatchCouponResponse) GetClientError() *shared.ClientError {
-	if o == nil {
+func (p *PatchCouponResponse) GetClientError() *shared.ClientError {
+	if p == nil {
 		return nil
 	}
-	return o.ClientError
+	return p.ClientError
 }
 
-func (o *PatchCouponResponse) GetContentType() string {
-	if o == nil {
+func (p *PatchCouponResponse) GetContentType() string {
+	if p == nil {
 		return ""
 	}
-	return o.ContentType
+	return p.ContentType
 }
 
-func (o *PatchCouponResponse) GetCoupon() *shared.Coupon {
-	if o == nil {
+func (p *PatchCouponResponse) GetCoupon() *shared.Coupon {
+	if p == nil {
 		return nil
 	}
-	return o.Coupon
+	return p.Coupon
 }
 
-func (o *PatchCouponResponse) GetStatusCode() int {
-	if o == nil {
+func (p *PatchCouponResponse) GetStatusCode() int {
+	if p == nil {
 		return 0
 	}
-	return o.StatusCode
+	return p.StatusCode
 }
 
-func (o *PatchCouponResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (p *PatchCouponResponse) GetRawResponse() *http.Response {
+	if p == nil {
 		return nil
 	}
-	return o.RawResponse
+	return p.RawResponse
 }

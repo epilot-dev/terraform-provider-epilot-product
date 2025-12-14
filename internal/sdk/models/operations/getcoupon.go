@@ -22,31 +22,31 @@ func (g GetCouponRequest) MarshalJSON() ([]byte, error) {
 }
 
 func (g *GetCouponRequest) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &g, "", false, []string{"couponId"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &g, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *GetCouponRequest) GetCouponID() string {
-	if o == nil {
+func (g *GetCouponRequest) GetCouponID() string {
+	if g == nil {
 		return ""
 	}
-	return o.CouponID
+	return g.CouponID
 }
 
-func (o *GetCouponRequest) GetHydrate() *bool {
-	if o == nil {
+func (g *GetCouponRequest) GetHydrate() *bool {
+	if g == nil {
 		return nil
 	}
-	return o.Hydrate
+	return g.Hydrate
 }
 
-func (o *GetCouponRequest) GetStrict() *bool {
-	if o == nil {
+func (g *GetCouponRequest) GetStrict() *bool {
+	if g == nil {
 		return nil
 	}
-	return o.Strict
+	return g.Strict
 }
 
 type GetCouponResponse struct {
@@ -62,37 +62,37 @@ type GetCouponResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *GetCouponResponse) GetClientError() *shared.ClientError {
-	if o == nil {
+func (g *GetCouponResponse) GetClientError() *shared.ClientError {
+	if g == nil {
 		return nil
 	}
-	return o.ClientError
+	return g.ClientError
 }
 
-func (o *GetCouponResponse) GetContentType() string {
-	if o == nil {
+func (g *GetCouponResponse) GetContentType() string {
+	if g == nil {
 		return ""
 	}
-	return o.ContentType
+	return g.ContentType
 }
 
-func (o *GetCouponResponse) GetCoupon() *shared.Coupon {
-	if o == nil {
+func (g *GetCouponResponse) GetCoupon() *shared.Coupon {
+	if g == nil {
 		return nil
 	}
-	return o.Coupon
+	return g.Coupon
 }
 
-func (o *GetCouponResponse) GetStatusCode() int {
-	if o == nil {
+func (g *GetCouponResponse) GetStatusCode() int {
+	if g == nil {
 		return 0
 	}
-	return o.StatusCode
+	return g.StatusCode
 }
 
-func (o *GetCouponResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (g *GetCouponResponse) GetRawResponse() *http.Response {
+	if g == nil {
 		return nil
 	}
-	return o.RawResponse
+	return g.RawResponse
 }

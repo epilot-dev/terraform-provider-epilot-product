@@ -74,7 +74,7 @@ resource "epilot-product_product_recommendation" "my_productrecommendation" {
 
 Optional:
 
-- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--files--dollar_relation))
+- `dollar_relation` (Attributes List) Not Null (see [below for nested schema](#nestedatt--files--dollar_relation))
 
 <a id="nestedatt--files--dollar_relation"></a>
 ### Nested Schema for `files.dollar_relation`

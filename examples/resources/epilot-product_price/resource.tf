@@ -43,7 +43,16 @@ resource "epilot-product_price" "my_price" {
   tags = [
     "..."
   ]
-  tax                     = "{ \"see\": \"documentation\" }"
+  tax = {
+    dollar_relation = [
+      {
+        entity_id = "123e4567-e89b-12d3-a456-426614174000"
+        tags = [
+          "..."
+        ]
+      }
+    ]
+  }
   termination_time_amount = 2.23
   termination_time_unit   = "years"
   tiers = [
