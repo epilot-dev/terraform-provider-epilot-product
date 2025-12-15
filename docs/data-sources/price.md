@@ -56,7 +56,7 @@ data "epilot-product_price" "my_price" {
 - `renewal_duration_unit` (String) The renewal period duration unit
 - `schema` (String)
 - `tags` (List of String)
-- `tax` (String) Parsed as JSON.
+- `tax` (Attributes) (see [below for nested schema](#nestedatt--tax))
 - `termination_time_amount` (Number) The termination period duration
 - `termination_time_unit` (String) The termination period duration unit
 - `tiers` (Attributes List) Defines an array of tiers. Each tier has an upper bound, an unit amount and a flat fee. (see [below for nested schema](#nestedatt--tiers))
@@ -100,6 +100,23 @@ Read-Only:
 
 - `entity_id` (String) The id of the price component
 - `tags` (List of String) An arbitrary set of tags attached to the composite price - component relation
+
+
+
+<a id="nestedatt--tax"></a>
+### Nested Schema for `tax`
+
+Read-Only:
+
+- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--tax--dollar_relation))
+
+<a id="nestedatt--tax--dollar_relation"></a>
+### Nested Schema for `tax.dollar_relation`
+
+Read-Only:
+
+- `entity_id` (String)
+- `tags` (List of String)
 
 
 

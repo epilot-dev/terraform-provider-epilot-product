@@ -136,7 +136,7 @@ Default: "product"; must be one of ["product", "service"]
 
 Optional:
 
-- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--availability_files--dollar_relation))
+- `dollar_relation` (Attributes List) Not Null (see [below for nested schema](#nestedatt--availability_files--dollar_relation))
 
 <a id="nestedatt--availability_files--dollar_relation"></a>
 ### Nested Schema for `availability_files.dollar_relation`
@@ -153,7 +153,7 @@ Optional:
 
 Optional:
 
-- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--files--dollar_relation))
+- `dollar_relation` (Attributes List) Not Null (see [below for nested schema](#nestedatt--files--dollar_relation))
 
 <a id="nestedatt--files--dollar_relation"></a>
 ### Nested Schema for `files.dollar_relation`
@@ -170,7 +170,7 @@ Optional:
 
 Optional:
 
-- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--price_options--dollar_relation))
+- `dollar_relation` (Attributes List) Not Null (see [below for nested schema](#nestedatt--price_options--dollar_relation))
 
 <a id="nestedatt--price_options--dollar_relation"></a>
 ### Nested Schema for `price_options.dollar_relation`
@@ -187,7 +187,7 @@ Optional:
 
 Optional:
 
-- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--product_downloads--dollar_relation))
+- `dollar_relation` (Attributes List) Not Null (see [below for nested schema](#nestedatt--product_downloads--dollar_relation))
 
 <a id="nestedatt--product_downloads--dollar_relation"></a>
 ### Nested Schema for `product_downloads.dollar_relation`
@@ -204,7 +204,7 @@ Optional:
 
 Optional:
 
-- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--product_images--dollar_relation))
+- `dollar_relation` (Attributes List) Not Null (see [below for nested schema](#nestedatt--product_images--dollar_relation))
 
 <a id="nestedatt--product_images--dollar_relation"></a>
 ### Nested Schema for `product_images.dollar_relation`

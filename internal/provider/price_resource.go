@@ -13,6 +13,7 @@ import (
 	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/validators"
+	speakeasy_listvalidators "github.com/epilot-dev/terraform-provider-epilot-product/internal/validators/listvalidators"
 	speakeasy_objectvalidators "github.com/epilot-dev/terraform-provider-epilot-product/internal/validators/objectvalidators"
 	"github.com/hashicorp/terraform-plugin-framework-jsontypes/jsontypes"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
@@ -66,7 +67,7 @@ type PriceResourceModel struct {
 	RenewalDurationUnit    types.String                        `tfsdk:"renewal_duration_unit"`
 	Schema                 types.String                        `tfsdk:"schema"`
 	Tags                   []types.String                      `tfsdk:"tags"`
-	Tax                    jsontypes.Normalized                `tfsdk:"tax"`
+	Tax                    *tfTypes.BaseRelation               `tfsdk:"tax"`
 	TerminationTimeAmount  types.Float64                       `tfsdk:"termination_time_amount"`
 	TerminationTimeUnit    types.String                        `tfsdk:"termination_time_unit"`
 	Tiers                  []tfTypes.PriceTier                 `tfsdk:"tiers"`
@@ -182,6 +183,10 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 								},
 							},
 						},
+						Description: `Not Null`,
+						Validators: []validator.List{
+							speakeasy_listvalidators.NotNull(),
+						},
 					},
 				},
 			},
@@ -295,6 +300,10 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 								},
 							},
 						},
+						Description: `Not Null`,
+						Validators: []validator.List{
+							speakeasy_listvalidators.NotNull(),
+						},
 					},
 				},
 				Description: `A set of [price](/api/pricing#tag/simple_price_schema) components that define the composite price.`,
@@ -386,14 +395,50 @@ func (r *PriceResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 				},
 				ElementType: types.StringType,
 			},
-			"tax": schema.StringAttribute{
-				CustomType: jsontypes.NormalizedType{},
-				Computed:   true,
-				Optional:   true,
-				PlanModifiers: []planmodifier.String{
-					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+			"tax": schema.SingleNestedAttribute{
+				Computed: true,
+				Optional: true,
+				PlanModifiers: []planmodifier.Object{
+					speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
 				},
-				Description: `Parsed as JSON.`,
+				Attributes: map[string]schema.Attribute{
+					"dollar_relation": schema.ListNestedAttribute{
+						Computed: true,
+						Optional: true,
+						PlanModifiers: []planmodifier.List{
+							speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
+						},
+						NestedObject: schema.NestedAttributeObject{
+							Validators: []validator.Object{
+								speakeasy_objectvalidators.NotNull(),
+							},
+							PlanModifiers: []planmodifier.Object{
+								speakeasy_objectplanmodifier.SuppressDiff(speakeasy_objectplanmodifier.ExplicitSuppress),
+							},
+							Attributes: map[string]schema.Attribute{
+								"entity_id": schema.StringAttribute{
+									Computed: true,
+									Optional: true,
+									PlanModifiers: []planmodifier.String{
+										speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
+									},
+								},
+								"tags": schema.ListAttribute{
+									Computed: true,
+									Optional: true,
+									PlanModifiers: []planmodifier.List{
+										speakeasy_listplanmodifier.SuppressDiff(speakeasy_listplanmodifier.ExplicitSuppress),
+									},
+									ElementType: types.StringType,
+								},
+							},
+						},
+						Description: `Not Null`,
+						Validators: []validator.List{
+							speakeasy_listvalidators.NotNull(),
+						},
+					},
+				},
 			},
 			"termination_time_amount": schema.Float64Attribute{
 				Computed: true,

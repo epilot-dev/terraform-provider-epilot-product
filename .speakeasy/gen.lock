@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 5a857039-7f4b-42d5-86fd-449767242ed2
 management:
-  docChecksum: a06d385c580841d3b951c08cabc6cf6b
+  docChecksum: 1febba20a2a8174715b3e24220e2b357
   docVersion: 1.0.0
   speakeasyVersion: 1.611.0
   generationVersion: 2.694.1
-  releaseVersion: 0.17.3
-  configChecksum: 27a7ba8b48dac788ae650b8611a6eca7
+  releaseVersion: 0.17.4
+  configChecksum: b1748db5bbd2c86b604870398689e7a2
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-product.git
   repoSubDirectory: .
   published: true
@@ -276,10 +276,10 @@ examples:
   createPrice:
     speakeasy-default-create-price:
       requestBody:
-        application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": true, "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
+        application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": true, "is_tax_inclusive": false, "pricing_model": "per_unit", "tax": {"$relation": []}, "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
       responses:
         "201":
-          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": true, "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
+          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": true, "is_tax_inclusive": false, "pricing_model": "per_unit", "tax": {"$relation": []}, "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -291,7 +291,7 @@ examples:
           priceId: "123e4567-e89b-12d3-a456-426614174000"
       responses:
         "200":
-          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": false, "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
+          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": false, "is_tax_inclusive": false, "pricing_model": "per_unit", "tax": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -306,7 +306,7 @@ examples:
           strict: false
       responses:
         "200":
-          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": true, "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
+          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": true, "is_tax_inclusive": false, "pricing_model": "per_unit", "tax": {"$relation": []}, "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -317,10 +317,10 @@ examples:
         path:
           priceId: "123e4567-e89b-12d3-a456-426614174000"
       requestBody:
-        application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
+        application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "is_tax_inclusive": false, "pricing_model": "per_unit", "tax": {"$relation": []}, "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
       responses:
         "200":
-          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": true, "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
+          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": true, "is_tax_inclusive": false, "pricing_model": "per_unit", "tax": {"$relation": []}, "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":
@@ -331,10 +331,10 @@ examples:
         path:
           priceId: "123e4567-e89b-12d3-a456-426614174000"
       requestBody:
-        application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": false, "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
+        application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "active": false, "is_tax_inclusive": false, "pricing_model": "per_unit", "tax": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
       responses:
         "200":
-          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": false, "is_tax_inclusive": false, "pricing_model": "per_unit", "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
+          application/json: {"_files": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "_id": "123e4567-e89b-12d3-a456-426614174000", "_manifest": ["123e4567-e89b-12d3-a456-426614174000"], "_org": "<value>", "_schema": "price", "active": false, "is_tax_inclusive": false, "pricing_model": "per_unit", "tax": {"$relation": [{"entity_id": "123e4567-e89b-12d3-a456-426614174000"}]}, "type": "one_time", "unit_amount_currency": "EUR", "variable_price": false}
         "400":
           application/json: {"message": "Entity not found", "status": 404}
         "500":

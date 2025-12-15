@@ -94,12 +94,12 @@ func (e *NoticeTimeUnit) UnmarshalJSON(data []byte) error {
 
 // PriceComponents - A set of [price](/api/pricing#tag/simple_price_schema) components that define the composite price.
 type PriceComponents struct {
-	DollarRelation []PriceComponentRelation `json:"$relation,omitempty"`
+	DollarRelation []PriceComponentRelation `json:"$relation"`
 }
 
 func (o *PriceComponents) GetDollarRelation() []PriceComponentRelation {
 	if o == nil {
-		return nil
+		return []PriceComponentRelation{}
 	}
 	return o.DollarRelation
 }
@@ -306,7 +306,7 @@ type Price struct {
 	RenewalDurationAmount *float64 `json:"renewal_duration_amount,omitempty"`
 	// The renewal period duration unit
 	RenewalDurationUnit *RenewalDurationUnit `json:"renewal_duration_unit,omitempty"`
-	Tax                 any                  `json:"tax,omitempty"`
+	Tax                 *BaseRelation        `json:"tax,omitempty"`
 	// The termination period duration
 	TerminationTimeAmount *float64 `json:"termination_time_amount,omitempty"`
 	// The termination period duration unit
@@ -514,7 +514,7 @@ func (o *Price) GetRenewalDurationUnit() *RenewalDurationUnit {
 	return o.RenewalDurationUnit
 }
 
-func (o *Price) GetTax() any {
+func (o *Price) GetTax() *BaseRelation {
 	if o == nil {
 		return nil
 	}

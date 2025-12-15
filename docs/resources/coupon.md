@@ -110,7 +110,7 @@ resource "epilot-product_coupon" "my_coupon" {
 
 Optional:
 
-- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--files--dollar_relation))
+- `dollar_relation` (Attributes List) Not Null (see [below for nested schema](#nestedatt--files--dollar_relation))
 
 <a id="nestedatt--files--dollar_relation"></a>
 ### Nested Schema for `files.dollar_relation`
@@ -127,7 +127,7 @@ Optional:
 
 Optional:
 
-- `dollar_relation` (Attributes List) (see [below for nested schema](#nestedatt--prices--dollar_relation))
+- `dollar_relation` (Attributes List) Not Null (see [below for nested schema](#nestedatt--prices--dollar_relation))
 
 <a id="nestedatt--prices--dollar_relation"></a>
 ### Nested Schema for `prices.dollar_relation`

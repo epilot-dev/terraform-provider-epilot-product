@@ -13,6 +13,7 @@ import (
 	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/validators"
+	speakeasy_listvalidators "github.com/epilot-dev/terraform-provider-epilot-product/internal/validators/listvalidators"
 	speakeasy_objectvalidators "github.com/epilot-dev/terraform-provider-epilot-product/internal/validators/objectvalidators"
 	speakeasy_stringvalidators "github.com/epilot-dev/terraform-provider-epilot-product/internal/validators/stringvalidators"
 	"github.com/hashicorp/terraform-plugin-framework-jsontypes/jsontypes"
@@ -170,6 +171,10 @@ func (r *CouponResource) Schema(ctx context.Context, req resource.SchemaRequest,
 								},
 							},
 						},
+						Description: `Not Null`,
+						Validators: []validator.List{
+							speakeasy_listvalidators.NotNull(),
+						},
 					},
 				},
 			},
@@ -270,6 +275,10 @@ func (r *CouponResource) Schema(ctx context.Context, req resource.SchemaRequest,
 									ElementType: types.StringType,
 								},
 							},
+						},
+						Description: `Not Null`,
+						Validators: []validator.List{
+							speakeasy_listvalidators.NotNull(),
 						},
 					},
 				},

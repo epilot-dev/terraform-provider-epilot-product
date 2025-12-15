@@ -118,10 +118,24 @@ func (r *PriceResourceModel) RefreshFromSharedPrice(ctx context.Context, resp *s
 			r.RenewalDurationUnit = types.StringNull()
 		}
 		if resp.Tax == nil {
-			r.Tax = jsontypes.NewNormalizedNull()
+			r.Tax = nil
 		} else {
-			taxResult, _ := json.Marshal(resp.Tax)
-			r.Tax = jsontypes.NewNormalizedValue(string(taxResult))
+			r.Tax = &tfTypes.BaseRelation{}
+			r.Tax.DollarRelation = []tfTypes.DollarRelation{}
+
+			for _, dollarRelationItem2 := range resp.Tax.DollarRelation {
+				var dollarRelation2 tfTypes.DollarRelation
+
+				if dollarRelationItem2.Tags != nil {
+					dollarRelation2.Tags = make([]types.String, 0, len(dollarRelationItem2.Tags))
+					for _, v := range dollarRelationItem2.Tags {
+						dollarRelation2.Tags = append(dollarRelation2.Tags, types.StringValue(v))
+					}
+				}
+				dollarRelation2.EntityID = types.StringPointerValue(dollarRelationItem2.EntityID)
+
+				r.Tax.DollarRelation = append(r.Tax.DollarRelation, dollarRelation2)
+			}
 		}
 		r.TerminationTimeAmount = types.Float64PointerValue(resp.TerminationTimeAmount)
 		if resp.TerminationTimeUnit != nil {
@@ -364,9 +378,31 @@ func (r *PriceResourceModel) ToSharedPriceCreate(ctx context.Context) (*shared.P
 	} else {
 		renewalDurationUnit = nil
 	}
-	var tax interface{}
-	if !r.Tax.IsUnknown() && !r.Tax.IsNull() {
-		_ = json.Unmarshal([]byte(r.Tax.ValueString()), &tax)
+	var tax *shared.BaseRelation
+	if r.Tax != nil {
+		dollarRelation2 := make([]shared.DollarRelation, 0, len(r.Tax.DollarRelation))
+		for _, dollarRelationItem2 := range r.Tax.DollarRelation {
+			var tags3 []string
+			if dollarRelationItem2.Tags != nil {
+				tags3 = make([]string, 0, len(dollarRelationItem2.Tags))
+				for _, tagsItem3 := range dollarRelationItem2.Tags {
+					tags3 = append(tags3, tagsItem3.ValueString())
+				}
+			}
+			entityId2 := new(string)
+			if !dollarRelationItem2.EntityID.IsUnknown() && !dollarRelationItem2.EntityID.IsNull() {
+				*entityId2 = dollarRelationItem2.EntityID.ValueString()
+			} else {
+				entityId2 = nil
+			}
+			dollarRelation2 = append(dollarRelation2, shared.DollarRelation{
+				Tags:     tags3,
+				EntityID: entityId2,
+			})
+		}
+		tax = &shared.BaseRelation{
+			DollarRelation: dollarRelation2,
+		}
 	}
 	terminationTimeAmount := new(float64)
 	if !r.TerminationTimeAmount.IsUnknown() && !r.TerminationTimeAmount.IsNull() {
@@ -657,9 +693,31 @@ func (r *PriceResourceModel) ToSharedPricePatch(ctx context.Context) (*shared.Pr
 	} else {
 		renewalDurationUnit = nil
 	}
-	var tax interface{}
-	if !r.Tax.IsUnknown() && !r.Tax.IsNull() {
-		_ = json.Unmarshal([]byte(r.Tax.ValueString()), &tax)
+	var tax *shared.BaseRelation
+	if r.Tax != nil {
+		dollarRelation2 := make([]shared.DollarRelation, 0, len(r.Tax.DollarRelation))
+		for _, dollarRelationItem2 := range r.Tax.DollarRelation {
+			var tags3 []string
+			if dollarRelationItem2.Tags != nil {
+				tags3 = make([]string, 0, len(dollarRelationItem2.Tags))
+				for _, tagsItem3 := range dollarRelationItem2.Tags {
+					tags3 = append(tags3, tagsItem3.ValueString())
+				}
+			}
+			entityId2 := new(string)
+			if !dollarRelationItem2.EntityID.IsUnknown() && !dollarRelationItem2.EntityID.IsNull() {
+				*entityId2 = dollarRelationItem2.EntityID.ValueString()
+			} else {
+				entityId2 = nil
+			}
+			dollarRelation2 = append(dollarRelation2, shared.DollarRelation{
+				Tags:     tags3,
+				EntityID: entityId2,
+			})
+		}
+		tax = &shared.BaseRelation{
+			DollarRelation: dollarRelation2,
+		}
 	}
 	terminationTimeAmount := new(float64)
 	if !r.TerminationTimeAmount.IsUnknown() && !r.TerminationTimeAmount.IsNull() {

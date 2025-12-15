@@ -118,10 +118,24 @@ func (r *PriceDataSourceModel) RefreshFromSharedPrice(ctx context.Context, resp 
 			r.RenewalDurationUnit = types.StringNull()
 		}
 		if resp.Tax == nil {
-			r.Tax = jsontypes.NewNormalizedNull()
+			r.Tax = nil
 		} else {
-			taxResult, _ := json.Marshal(resp.Tax)
-			r.Tax = jsontypes.NewNormalizedValue(string(taxResult))
+			r.Tax = &tfTypes.BaseRelation{}
+			r.Tax.DollarRelation = []tfTypes.DollarRelation{}
+
+			for _, dollarRelationItem2 := range resp.Tax.DollarRelation {
+				var dollarRelation2 tfTypes.DollarRelation
+
+				if dollarRelationItem2.Tags != nil {
+					dollarRelation2.Tags = make([]types.String, 0, len(dollarRelationItem2.Tags))
+					for _, v := range dollarRelationItem2.Tags {
+						dollarRelation2.Tags = append(dollarRelation2.Tags, types.StringValue(v))
+					}
+				}
+				dollarRelation2.EntityID = types.StringPointerValue(dollarRelationItem2.EntityID)
+
+				r.Tax.DollarRelation = append(r.Tax.DollarRelation, dollarRelation2)
+			}
 		}
 		r.TerminationTimeAmount = types.Float64PointerValue(resp.TerminationTimeAmount)
 		if resp.TerminationTimeUnit != nil {

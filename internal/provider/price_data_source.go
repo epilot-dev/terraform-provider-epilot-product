@@ -55,7 +55,7 @@ type PriceDataSourceModel struct {
 	Schema                 types.String                        `tfsdk:"schema"`
 	Strict                 types.Bool                          `queryParam:"style=form,explode=true,name=strict" tfsdk:"strict"`
 	Tags                   []types.String                      `tfsdk:"tags"`
-	Tax                    jsontypes.Normalized                `tfsdk:"tax"`
+	Tax                    *tfTypes.BaseRelation               `tfsdk:"tax"`
 	TerminationTimeAmount  types.Float64                       `tfsdk:"termination_time_amount"`
 	TerminationTimeUnit    types.String                        `tfsdk:"termination_time_unit"`
 	Tiers                  []tfTypes.PriceTier                 `tfsdk:"tiers"`
@@ -216,10 +216,24 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 				Computed:    true,
 				ElementType: types.StringType,
 			},
-			"tax": schema.StringAttribute{
-				CustomType:  jsontypes.NormalizedType{},
-				Computed:    true,
-				Description: `Parsed as JSON.`,
+			"tax": schema.SingleNestedAttribute{
+				Computed: true,
+				Attributes: map[string]schema.Attribute{
+					"dollar_relation": schema.ListNestedAttribute{
+						Computed: true,
+						NestedObject: schema.NestedAttributeObject{
+							Attributes: map[string]schema.Attribute{
+								"entity_id": schema.StringAttribute{
+									Computed: true,
+								},
+								"tags": schema.ListAttribute{
+									Computed:    true,
+									ElementType: types.StringType,
+								},
+							},
+						},
+					},
+				},
 			},
 			"termination_time_amount": schema.Float64Attribute{
 				Computed:    true,

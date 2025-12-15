@@ -12,6 +12,7 @@ import (
 	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/validators"
+	speakeasy_listvalidators "github.com/epilot-dev/terraform-provider-epilot-product/internal/validators/listvalidators"
 	speakeasy_objectvalidators "github.com/epilot-dev/terraform-provider-epilot-product/internal/validators/objectvalidators"
 	"github.com/hashicorp/terraform-plugin-framework-jsontypes/jsontypes"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
@@ -134,6 +135,10 @@ func (r *TaxResource) Schema(ctx context.Context, req resource.SchemaRequest, re
 									ElementType: types.StringType,
 								},
 							},
+						},
+						Description: `Not Null`,
+						Validators: []validator.List{
+							speakeasy_listvalidators.NotNull(),
 						},
 					},
 				},

@@ -22,12 +22,12 @@ func (o *DollarRelation) GetEntityID() *string {
 }
 
 type BaseRelation struct {
-	DollarRelation []DollarRelation `json:"$relation,omitempty"`
+	DollarRelation []DollarRelation `json:"$relation"`
 }
 
 func (o *BaseRelation) GetDollarRelation() []DollarRelation {
 	if o == nil {
-		return nil
+		return []DollarRelation{}
 	}
 	return o.DollarRelation
 }
