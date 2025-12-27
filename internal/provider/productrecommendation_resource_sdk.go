@@ -147,17 +147,17 @@ func (r *ProductRecommendationResourceModel) ToSharedProductRecommendationCreate
 	var files *shared.BaseRelation
 	if r.Files != nil {
 		dollarRelation := make([]shared.DollarRelation, 0, len(r.Files.DollarRelation))
-		for _, dollarRelationItem := range r.Files.DollarRelation {
+		for dollarRelationIndex := range r.Files.DollarRelation {
 			var tags []string
-			if dollarRelationItem.Tags != nil {
-				tags = make([]string, 0, len(dollarRelationItem.Tags))
-				for _, tagsItem := range dollarRelationItem.Tags {
-					tags = append(tags, tagsItem.ValueString())
+			if r.Files.DollarRelation[dollarRelationIndex].Tags != nil {
+				tags = make([]string, 0, len(r.Files.DollarRelation[dollarRelationIndex].Tags))
+				for tagsIndex := range r.Files.DollarRelation[dollarRelationIndex].Tags {
+					tags = append(tags, r.Files.DollarRelation[dollarRelationIndex].Tags[tagsIndex].ValueString())
 				}
 			}
 			entityID := new(string)
-			if !dollarRelationItem.EntityID.IsUnknown() && !dollarRelationItem.EntityID.IsNull() {
-				*entityID = dollarRelationItem.EntityID.ValueString()
+			if !r.Files.DollarRelation[dollarRelationIndex].EntityID.IsUnknown() && !r.Files.DollarRelation[dollarRelationIndex].EntityID.IsNull() {
+				*entityID = r.Files.DollarRelation[dollarRelationIndex].EntityID.ValueString()
 			} else {
 				entityID = nil
 			}
@@ -171,14 +171,14 @@ func (r *ProductRecommendationResourceModel) ToSharedProductRecommendationCreate
 		}
 	}
 	manifest := make([]string, 0, len(r.Manifest))
-	for _, manifestItem := range r.Manifest {
-		manifest = append(manifest, manifestItem.ValueString())
+	for manifestIndex := range r.Manifest {
+		manifest = append(manifest, r.Manifest[manifestIndex].ValueString())
 	}
 	var purpose []string
 	if r.Purpose != nil {
 		purpose = make([]string, 0, len(r.Purpose))
-		for _, purposeItem := range r.Purpose {
-			purpose = append(purpose, purposeItem.ValueString())
+		for purposeIndex := range r.Purpose {
+			purpose = append(purpose, r.Purpose[purposeIndex].ValueString())
 		}
 	}
 	schema := new(shared.ProductRecommendationCreateSchema)
@@ -190,8 +190,8 @@ func (r *ProductRecommendationResourceModel) ToSharedProductRecommendationCreate
 	var tags1 []string
 	if r.Tags != nil {
 		tags1 = make([]string, 0, len(r.Tags))
-		for _, tagsItem1 := range r.Tags {
-			tags1 = append(tags1, tagsItem1.ValueString())
+		for tagsIndex1 := range r.Tags {
+			tags1 = append(tags1, r.Tags[tagsIndex1].ValueString())
 		}
 	}
 	var offers interface{}
@@ -233,17 +233,17 @@ func (r *ProductRecommendationResourceModel) ToSharedProductRecommendationPatch(
 	var files *shared.BaseRelation
 	if r.Files != nil {
 		dollarRelation := make([]shared.DollarRelation, 0, len(r.Files.DollarRelation))
-		for _, dollarRelationItem := range r.Files.DollarRelation {
+		for dollarRelationIndex := range r.Files.DollarRelation {
 			var tags []string
-			if dollarRelationItem.Tags != nil {
-				tags = make([]string, 0, len(dollarRelationItem.Tags))
-				for _, tagsItem := range dollarRelationItem.Tags {
-					tags = append(tags, tagsItem.ValueString())
+			if r.Files.DollarRelation[dollarRelationIndex].Tags != nil {
+				tags = make([]string, 0, len(r.Files.DollarRelation[dollarRelationIndex].Tags))
+				for tagsIndex := range r.Files.DollarRelation[dollarRelationIndex].Tags {
+					tags = append(tags, r.Files.DollarRelation[dollarRelationIndex].Tags[tagsIndex].ValueString())
 				}
 			}
 			entityID := new(string)
-			if !dollarRelationItem.EntityID.IsUnknown() && !dollarRelationItem.EntityID.IsNull() {
-				*entityID = dollarRelationItem.EntityID.ValueString()
+			if !r.Files.DollarRelation[dollarRelationIndex].EntityID.IsUnknown() && !r.Files.DollarRelation[dollarRelationIndex].EntityID.IsNull() {
+				*entityID = r.Files.DollarRelation[dollarRelationIndex].EntityID.ValueString()
 			} else {
 				entityID = nil
 			}
@@ -257,14 +257,14 @@ func (r *ProductRecommendationResourceModel) ToSharedProductRecommendationPatch(
 		}
 	}
 	manifest := make([]string, 0, len(r.Manifest))
-	for _, manifestItem := range r.Manifest {
-		manifest = append(manifest, manifestItem.ValueString())
+	for manifestIndex := range r.Manifest {
+		manifest = append(manifest, r.Manifest[manifestIndex].ValueString())
 	}
 	var purpose []string
 	if r.Purpose != nil {
 		purpose = make([]string, 0, len(r.Purpose))
-		for _, purposeItem := range r.Purpose {
-			purpose = append(purpose, purposeItem.ValueString())
+		for purposeIndex := range r.Purpose {
+			purpose = append(purpose, r.Purpose[purposeIndex].ValueString())
 		}
 	}
 	schema := new(shared.ProductRecommendationPatchSchema)
@@ -276,8 +276,8 @@ func (r *ProductRecommendationResourceModel) ToSharedProductRecommendationPatch(
 	var tags1 []string
 	if r.Tags != nil {
 		tags1 = make([]string, 0, len(r.Tags))
-		for _, tagsItem1 := range r.Tags {
-			tags1 = append(tags1, tagsItem1.ValueString())
+		for tagsIndex1 := range r.Tags {
+			tags1 = append(tags1, r.Tags[tagsIndex1].ValueString())
 		}
 	}
 	var offers interface{}

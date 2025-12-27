@@ -20,37 +20,37 @@ type CreatePriceResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *CreatePriceResponse) GetClientError() *shared.ClientError {
-	if o == nil {
+func (c *CreatePriceResponse) GetClientError() *shared.ClientError {
+	if c == nil {
 		return nil
 	}
-	return o.ClientError
+	return c.ClientError
 }
 
-func (o *CreatePriceResponse) GetContentType() string {
-	if o == nil {
+func (c *CreatePriceResponse) GetContentType() string {
+	if c == nil {
 		return ""
 	}
-	return o.ContentType
+	return c.ContentType
 }
 
-func (o *CreatePriceResponse) GetPrice() *shared.Price {
-	if o == nil {
+func (c *CreatePriceResponse) GetPrice() *shared.Price {
+	if c == nil {
 		return nil
 	}
-	return o.Price
+	return c.Price
 }
 
-func (o *CreatePriceResponse) GetStatusCode() int {
-	if o == nil {
+func (c *CreatePriceResponse) GetStatusCode() int {
+	if c == nil {
 		return 0
 	}
-	return o.StatusCode
+	return c.StatusCode
 }
 
-func (o *CreatePriceResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (c *CreatePriceResponse) GetRawResponse() *http.Response {
+	if c == nil {
 		return nil
 	}
-	return o.RawResponse
+	return c.RawResponse
 }

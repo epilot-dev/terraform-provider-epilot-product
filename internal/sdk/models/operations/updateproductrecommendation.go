@@ -14,18 +14,18 @@ type UpdateProductRecommendationRequest struct {
 	ProductRecommendationID string `pathParam:"style=simple,explode=false,name=productRecommendationId"`
 }
 
-func (o *UpdateProductRecommendationRequest) GetProductRecommendationCreate() shared.ProductRecommendationCreate {
-	if o == nil {
+func (u *UpdateProductRecommendationRequest) GetProductRecommendationCreate() shared.ProductRecommendationCreate {
+	if u == nil {
 		return shared.ProductRecommendationCreate{}
 	}
-	return o.ProductRecommendationCreate
+	return u.ProductRecommendationCreate
 }
 
-func (o *UpdateProductRecommendationRequest) GetProductRecommendationID() string {
-	if o == nil {
+func (u *UpdateProductRecommendationRequest) GetProductRecommendationID() string {
+	if u == nil {
 		return ""
 	}
-	return o.ProductRecommendationID
+	return u.ProductRecommendationID
 }
 
 type UpdateProductRecommendationResponse struct {
@@ -41,37 +41,37 @@ type UpdateProductRecommendationResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *UpdateProductRecommendationResponse) GetClientError() *shared.ClientError {
-	if o == nil {
+func (u *UpdateProductRecommendationResponse) GetClientError() *shared.ClientError {
+	if u == nil {
 		return nil
 	}
-	return o.ClientError
+	return u.ClientError
 }
 
-func (o *UpdateProductRecommendationResponse) GetContentType() string {
-	if o == nil {
+func (u *UpdateProductRecommendationResponse) GetContentType() string {
+	if u == nil {
 		return ""
 	}
-	return o.ContentType
+	return u.ContentType
 }
 
-func (o *UpdateProductRecommendationResponse) GetProductRecommendation() *shared.ProductRecommendation {
-	if o == nil {
+func (u *UpdateProductRecommendationResponse) GetProductRecommendation() *shared.ProductRecommendation {
+	if u == nil {
 		return nil
 	}
-	return o.ProductRecommendation
+	return u.ProductRecommendation
 }
 
-func (o *UpdateProductRecommendationResponse) GetStatusCode() int {
-	if o == nil {
+func (u *UpdateProductRecommendationResponse) GetStatusCode() int {
+	if u == nil {
 		return 0
 	}
-	return o.StatusCode
+	return u.StatusCode
 }
 
-func (o *UpdateProductRecommendationResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (u *UpdateProductRecommendationResponse) GetRawResponse() *http.Response {
+	if u == nil {
 		return nil
 	}
-	return o.RawResponse
+	return u.RawResponse
 }
