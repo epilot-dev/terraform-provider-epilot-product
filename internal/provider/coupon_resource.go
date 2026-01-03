@@ -12,7 +12,6 @@ import (
 	speakeasy_stringplanmodifier "github.com/epilot-dev/terraform-provider-epilot-product/internal/planmodifiers/stringplanmodifier"
 	tfTypes "github.com/epilot-dev/terraform-provider-epilot-product/internal/provider/types"
 	"github.com/epilot-dev/terraform-provider-epilot-product/internal/sdk"
-	"github.com/epilot-dev/terraform-provider-epilot-product/internal/validators"
 	speakeasy_listvalidators "github.com/epilot-dev/terraform-provider-epilot-product/internal/validators/listvalidators"
 	speakeasy_objectvalidators "github.com/epilot-dev/terraform-provider-epilot-product/internal/validators/objectvalidators"
 	speakeasy_stringvalidators "github.com/epilot-dev/terraform-provider-epilot-product/internal/validators/stringvalidators"
@@ -59,8 +58,8 @@ type CouponResourceModel struct {
 	Org                types.String          `tfsdk:"org"`
 	PercentageValue    types.String          `tfsdk:"percentage_value"`
 	Prices             *tfTypes.BaseRelation `tfsdk:"prices"`
-	PromoCodeUsage     jsontypes.Normalized  `tfsdk:"promo_code_usage"`
 	PromoCodes         []tfTypes.PromoCode   `tfsdk:"promo_codes"`
+	PromoCodeUsage     jsontypes.Normalized  `tfsdk:"promo_code_usage"`
 	Purpose            []types.String        `tfsdk:"purpose"`
 	RequiresPromoCode  types.Bool            `tfsdk:"requires_promo_code"`
 	Schema             types.String          `tfsdk:"schema"`
@@ -121,9 +120,6 @@ func (r *CouponResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
-				},
-				Validators: []validator.String{
-					validators.IsRFC3339(),
 				},
 			},
 			"description": schema.StringAttribute{
@@ -406,9 +402,6 @@ func (r *CouponResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				PlanModifiers: []planmodifier.String{
 					speakeasy_stringplanmodifier.SuppressDiff(speakeasy_stringplanmodifier.ExplicitSuppress),
 				},
-				Validators: []validator.String{
-					validators.IsRFC3339(),
-				},
 			},
 		},
 	}
@@ -644,7 +637,10 @@ func (r *CouponResource) Delete(ctx context.Context, req resource.DeleteRequest,
 		resp.Diagnostics.AddError("unexpected response from API", fmt.Sprintf("%v", res))
 		return
 	}
-	if res.StatusCode != 200 {
+	switch res.StatusCode {
+	case 200, 404:
+		break
+	default:
 		resp.Diagnostics.AddError(fmt.Sprintf("unexpected response from API. Got an unexpected response code %v", res.StatusCode), debugResponse(res.RawResponse))
 		return
 	}

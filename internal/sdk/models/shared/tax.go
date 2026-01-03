@@ -85,120 +85,120 @@ func (t Tax) MarshalJSON() ([]byte, error) {
 }
 
 func (t *Tax) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &t, "", false, []string{"_org", "_schema", "active", "rate", "region", "type"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &t, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *Tax) GetAdditional() any {
-	if o == nil {
+func (t *Tax) GetAdditional() any {
+	if t == nil {
 		return nil
 	}
-	return o.Additional
+	return t.Additional
 }
 
-func (o *Tax) GetCreatedAt() *time.Time {
-	if o == nil {
+func (t *Tax) GetCreatedAt() *time.Time {
+	if t == nil {
 		return nil
 	}
-	return o.CreatedAt
+	return t.CreatedAt
 }
 
-func (o *Tax) GetFiles() *BaseRelation {
-	if o == nil {
+func (t *Tax) GetFiles() *BaseRelation {
+	if t == nil {
 		return nil
 	}
-	return o.Files
+	return t.Files
 }
 
-func (o *Tax) GetID() *string {
-	if o == nil {
+func (t *Tax) GetID() *string {
+	if t == nil {
 		return nil
 	}
-	return o.ID
+	return t.ID
 }
 
-func (o *Tax) GetManifest() []string {
-	if o == nil {
+func (t *Tax) GetManifest() []string {
+	if t == nil {
 		return nil
 	}
-	return o.Manifest
+	return t.Manifest
 }
 
-func (o *Tax) GetOrg() string {
-	if o == nil {
+func (t *Tax) GetOrg() string {
+	if t == nil {
 		return ""
 	}
-	return o.Org
+	return t.Org
 }
 
-func (o *Tax) GetPurpose() []string {
-	if o == nil {
+func (t *Tax) GetPurpose() []string {
+	if t == nil {
 		return nil
 	}
-	return o.Purpose
+	return t.Purpose
 }
 
-func (o *Tax) GetSchema() TaxSchema {
-	if o == nil {
+func (t *Tax) GetSchema() TaxSchema {
+	if t == nil {
 		return TaxSchema("")
 	}
-	return o.Schema
+	return t.Schema
 }
 
-func (o *Tax) GetTags() []string {
-	if o == nil {
+func (t *Tax) GetTags() []string {
+	if t == nil {
 		return nil
 	}
-	return o.Tags
+	return t.Tags
 }
 
-func (o *Tax) GetTitle() *string {
-	if o == nil {
+func (t *Tax) GetTitle() *string {
+	if t == nil {
 		return nil
 	}
-	return o.Title
+	return t.Title
 }
 
-func (o *Tax) GetUpdatedAt() *time.Time {
-	if o == nil {
+func (t *Tax) GetUpdatedAt() *time.Time {
+	if t == nil {
 		return nil
 	}
-	return o.UpdatedAt
+	return t.UpdatedAt
 }
 
-func (o *Tax) GetActive() bool {
-	if o == nil {
+func (t *Tax) GetActive() bool {
+	if t == nil {
 		return false
 	}
-	return o.Active
+	return t.Active
 }
 
-func (o *Tax) GetDescription() *string {
-	if o == nil {
+func (t *Tax) GetDescription() *string {
+	if t == nil {
 		return nil
 	}
-	return o.Description
+	return t.Description
 }
 
-func (o *Tax) GetRate() any {
-	if o == nil {
+func (t *Tax) GetRate() any {
+	if t == nil {
 		return nil
 	}
-	return o.Rate
+	return t.Rate
 }
 
-func (o *Tax) GetRegion() string {
-	if o == nil {
+func (t *Tax) GetRegion() string {
+	if t == nil {
 		return ""
 	}
-	return o.Region
+	return t.Region
 }
 
-func (o *Tax) GetType() TaxType {
-	if o == nil {
+func (t *Tax) GetType() TaxType {
+	if t == nil {
 		return TaxType("")
 	}
-	return o.Type
+	return t.Type
 }
