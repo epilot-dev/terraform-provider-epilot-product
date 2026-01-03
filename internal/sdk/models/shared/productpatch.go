@@ -109,128 +109,128 @@ func (p *ProductPatch) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (o *ProductPatch) GetAdditional() any {
-	if o == nil {
+func (p *ProductPatch) GetAdditional() any {
+	if p == nil {
 		return nil
 	}
-	return o.Additional
+	return p.Additional
 }
 
-func (o *ProductPatch) GetAvailabilityFiles() *BaseRelation {
-	if o == nil {
+func (p *ProductPatch) GetAvailabilityFiles() *BaseRelation {
+	if p == nil {
 		return nil
 	}
-	return o.AvailabilityFiles
+	return p.AvailabilityFiles
 }
 
-func (o *ProductPatch) GetFiles() *BaseRelation {
-	if o == nil {
+func (p *ProductPatch) GetFiles() *BaseRelation {
+	if p == nil {
 		return nil
 	}
-	return o.Files
+	return p.Files
 }
 
-func (o *ProductPatch) GetManifest() []string {
-	if o == nil {
+func (p *ProductPatch) GetManifest() []string {
+	if p == nil {
 		return nil
 	}
-	return o.Manifest
+	return p.Manifest
 }
 
-func (o *ProductPatch) GetPurpose() []string {
-	if o == nil {
+func (p *ProductPatch) GetPurpose() []string {
+	if p == nil {
 		return nil
 	}
-	return o.Purpose
+	return p.Purpose
 }
 
-func (o *ProductPatch) GetSchema() *ProductPatchSchema {
-	if o == nil {
+func (p *ProductPatch) GetSchema() *ProductPatchSchema {
+	if p == nil {
 		return nil
 	}
-	return o.Schema
+	return p.Schema
 }
 
-func (o *ProductPatch) GetTags() []string {
-	if o == nil {
+func (p *ProductPatch) GetTags() []string {
+	if p == nil {
 		return nil
 	}
-	return o.Tags
+	return p.Tags
 }
 
-func (o *ProductPatch) GetActive() *bool {
-	if o == nil {
+func (p *ProductPatch) GetActive() *bool {
+	if p == nil {
 		return nil
 	}
-	return o.Active
+	return p.Active
 }
 
-func (o *ProductPatch) GetCategories() []string {
-	if o == nil {
+func (p *ProductPatch) GetCategories() []string {
+	if p == nil {
 		return nil
 	}
-	return o.Categories
+	return p.Categories
 }
 
-func (o *ProductPatch) GetCode() *string {
-	if o == nil {
+func (p *ProductPatch) GetCode() *string {
+	if p == nil {
 		return nil
 	}
-	return o.Code
+	return p.Code
 }
 
-func (o *ProductPatch) GetDescription() *string {
-	if o == nil {
+func (p *ProductPatch) GetDescription() *string {
+	if p == nil {
 		return nil
 	}
-	return o.Description
+	return p.Description
 }
 
-func (o *ProductPatch) GetFeature() []any {
-	if o == nil {
+func (p *ProductPatch) GetFeature() []any {
+	if p == nil {
 		return nil
 	}
-	return o.Feature
+	return p.Feature
 }
 
-func (o *ProductPatch) GetInternalName() *string {
-	if o == nil {
+func (p *ProductPatch) GetInternalName() *string {
+	if p == nil {
 		return nil
 	}
-	return o.InternalName
+	return p.InternalName
 }
 
-func (o *ProductPatch) GetName() *string {
-	if o == nil {
+func (p *ProductPatch) GetName() *string {
+	if p == nil {
 		return nil
 	}
-	return o.Name
+	return p.Name
 }
 
-func (o *ProductPatch) GetPriceOptions() *BaseRelation {
-	if o == nil {
+func (p *ProductPatch) GetPriceOptions() *BaseRelation {
+	if p == nil {
 		return nil
 	}
-	return o.PriceOptions
+	return p.PriceOptions
 }
 
-func (o *ProductPatch) GetProductDownloads() *BaseRelation {
-	if o == nil {
+func (p *ProductPatch) GetProductDownloads() *BaseRelation {
+	if p == nil {
 		return nil
 	}
-	return o.ProductDownloads
+	return p.ProductDownloads
 }
 
-func (o *ProductPatch) GetProductImages() *BaseRelation {
-	if o == nil {
+func (p *ProductPatch) GetProductImages() *BaseRelation {
+	if p == nil {
 		return nil
 	}
-	return o.ProductImages
+	return p.ProductImages
 }
 
-func (o *ProductPatch) GetType() *ProductPatchType {
-	if o == nil {
+func (p *ProductPatch) GetType() *ProductPatchType {
+	if p == nil {
 		return nil
 	}
-	return o.Type
+	return p.Type
 }

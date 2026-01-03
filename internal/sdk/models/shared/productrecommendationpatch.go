@@ -78,72 +78,72 @@ type ProductRecommendationPatch struct {
 	Type *ProductRecommendationPatchType `json:"type,omitempty"`
 }
 
-func (o *ProductRecommendationPatch) GetAdditional() any {
-	if o == nil {
+func (p *ProductRecommendationPatch) GetAdditional() any {
+	if p == nil {
 		return nil
 	}
-	return o.Additional
+	return p.Additional
 }
 
-func (o *ProductRecommendationPatch) GetFiles() *BaseRelation {
-	if o == nil {
+func (p *ProductRecommendationPatch) GetFiles() *BaseRelation {
+	if p == nil {
 		return nil
 	}
-	return o.Files
+	return p.Files
 }
 
-func (o *ProductRecommendationPatch) GetManifest() []string {
-	if o == nil {
+func (p *ProductRecommendationPatch) GetManifest() []string {
+	if p == nil {
 		return nil
 	}
-	return o.Manifest
+	return p.Manifest
 }
 
-func (o *ProductRecommendationPatch) GetPurpose() []string {
-	if o == nil {
+func (p *ProductRecommendationPatch) GetPurpose() []string {
+	if p == nil {
 		return nil
 	}
-	return o.Purpose
+	return p.Purpose
 }
 
-func (o *ProductRecommendationPatch) GetSchema() *ProductRecommendationPatchSchema {
-	if o == nil {
+func (p *ProductRecommendationPatch) GetSchema() *ProductRecommendationPatchSchema {
+	if p == nil {
 		return nil
 	}
-	return o.Schema
+	return p.Schema
 }
 
-func (o *ProductRecommendationPatch) GetTags() []string {
-	if o == nil {
+func (p *ProductRecommendationPatch) GetTags() []string {
+	if p == nil {
 		return nil
 	}
-	return o.Tags
+	return p.Tags
 }
 
-func (o *ProductRecommendationPatch) GetOffers() any {
-	if o == nil {
+func (p *ProductRecommendationPatch) GetOffers() any {
+	if p == nil {
 		return nil
 	}
-	return o.Offers
+	return p.Offers
 }
 
-func (o *ProductRecommendationPatch) GetSourcePrice() any {
-	if o == nil {
+func (p *ProductRecommendationPatch) GetSourcePrice() any {
+	if p == nil {
 		return nil
 	}
-	return o.SourcePrice
+	return p.SourcePrice
 }
 
-func (o *ProductRecommendationPatch) GetSourceProduct() any {
-	if o == nil {
+func (p *ProductRecommendationPatch) GetSourceProduct() any {
+	if p == nil {
 		return nil
 	}
-	return o.SourceProduct
+	return p.SourceProduct
 }
 
-func (o *ProductRecommendationPatch) GetType() *ProductRecommendationPatchType {
-	if o == nil {
+func (p *ProductRecommendationPatch) GetType() *ProductRecommendationPatchType {
+	if p == nil {
 		return nil
 	}
-	return o.Type
+	return p.Type
 }

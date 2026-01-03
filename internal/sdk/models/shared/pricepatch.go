@@ -96,11 +96,11 @@ type PricePatchPriceComponents struct {
 	DollarRelation []PriceComponentRelation `json:"$relation"`
 }
 
-func (o *PricePatchPriceComponents) GetDollarRelation() []PriceComponentRelation {
-	if o == nil {
+func (p *PricePatchPriceComponents) GetDollarRelation() []PriceComponentRelation {
+	if p == nil {
 		return []PriceComponentRelation{}
 	}
-	return o.DollarRelation
+	return p.DollarRelation
 }
 
 // PricePatchPriceDisplayInJourneys - Defines the way the price amount is display in epilot journeys.
@@ -332,212 +332,212 @@ func (p *PricePatch) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (o *PricePatch) GetAdditional() any {
-	if o == nil {
+func (p *PricePatch) GetAdditional() any {
+	if p == nil {
 		return nil
 	}
-	return o.Additional
+	return p.Additional
 }
 
-func (o *PricePatch) GetFiles() *BaseRelation {
-	if o == nil {
+func (p *PricePatch) GetFiles() *BaseRelation {
+	if p == nil {
 		return nil
 	}
-	return o.Files
+	return p.Files
 }
 
-func (o *PricePatch) GetManifest() []string {
-	if o == nil {
+func (p *PricePatch) GetManifest() []string {
+	if p == nil {
 		return nil
 	}
-	return o.Manifest
+	return p.Manifest
 }
 
-func (o *PricePatch) GetPurpose() []string {
-	if o == nil {
+func (p *PricePatch) GetPurpose() []string {
+	if p == nil {
 		return nil
 	}
-	return o.Purpose
+	return p.Purpose
 }
 
-func (o *PricePatch) GetSchema() *PricePatchSchema {
-	if o == nil {
+func (p *PricePatch) GetSchema() *PricePatchSchema {
+	if p == nil {
 		return nil
 	}
-	return o.Schema
+	return p.Schema
 }
 
-func (o *PricePatch) GetTags() []string {
-	if o == nil {
+func (p *PricePatch) GetTags() []string {
+	if p == nil {
 		return nil
 	}
-	return o.Tags
+	return p.Tags
 }
 
-func (o *PricePatch) GetActive() *bool {
-	if o == nil {
+func (p *PricePatch) GetActive() *bool {
+	if p == nil {
 		return nil
 	}
-	return o.Active
+	return p.Active
 }
 
-func (o *PricePatch) GetBillingDurationAmount() *float64 {
-	if o == nil {
+func (p *PricePatch) GetBillingDurationAmount() *float64 {
+	if p == nil {
 		return nil
 	}
-	return o.BillingDurationAmount
+	return p.BillingDurationAmount
 }
 
-func (o *PricePatch) GetBillingDurationUnit() *PricePatchBillingDurationUnit {
-	if o == nil {
+func (p *PricePatch) GetBillingDurationUnit() *PricePatchBillingDurationUnit {
+	if p == nil {
 		return nil
 	}
-	return o.BillingDurationUnit
+	return p.BillingDurationUnit
 }
 
-func (o *PricePatch) GetDescription() *string {
-	if o == nil {
+func (p *PricePatch) GetDescription() *string {
+	if p == nil {
 		return nil
 	}
-	return o.Description
+	return p.Description
 }
 
-func (o *PricePatch) GetIsCompositePrice() *bool {
-	if o == nil {
+func (p *PricePatch) GetIsCompositePrice() *bool {
+	if p == nil {
 		return nil
 	}
-	return o.IsCompositePrice
+	return p.IsCompositePrice
 }
 
-func (o *PricePatch) GetIsTaxInclusive() *bool {
-	if o == nil {
+func (p *PricePatch) GetIsTaxInclusive() *bool {
+	if p == nil {
 		return nil
 	}
-	return o.IsTaxInclusive
+	return p.IsTaxInclusive
 }
 
-func (o *PricePatch) GetLongDescription() *string {
-	if o == nil {
+func (p *PricePatch) GetLongDescription() *string {
+	if p == nil {
 		return nil
 	}
-	return o.LongDescription
+	return p.LongDescription
 }
 
-func (o *PricePatch) GetNoticeTimeAmount() *float64 {
-	if o == nil {
+func (p *PricePatch) GetNoticeTimeAmount() *float64 {
+	if p == nil {
 		return nil
 	}
-	return o.NoticeTimeAmount
+	return p.NoticeTimeAmount
 }
 
-func (o *PricePatch) GetNoticeTimeUnit() *PricePatchNoticeTimeUnit {
-	if o == nil {
+func (p *PricePatch) GetNoticeTimeUnit() *PricePatchNoticeTimeUnit {
+	if p == nil {
 		return nil
 	}
-	return o.NoticeTimeUnit
+	return p.NoticeTimeUnit
 }
 
-func (o *PricePatch) GetPriceComponents() *PricePatchPriceComponents {
-	if o == nil {
+func (p *PricePatch) GetPriceComponents() *PricePatchPriceComponents {
+	if p == nil {
 		return nil
 	}
-	return o.PriceComponents
+	return p.PriceComponents
 }
 
-func (o *PricePatch) GetPriceDisplayInJourneys() *PricePatchPriceDisplayInJourneys {
-	if o == nil {
+func (p *PricePatch) GetPriceDisplayInJourneys() *PricePatchPriceDisplayInJourneys {
+	if p == nil {
 		return nil
 	}
-	return o.PriceDisplayInJourneys
+	return p.PriceDisplayInJourneys
 }
 
-func (o *PricePatch) GetPricingModel() *PricePatchPricingModel {
-	if o == nil {
+func (p *PricePatch) GetPricingModel() *PricePatchPricingModel {
+	if p == nil {
 		return nil
 	}
-	return o.PricingModel
+	return p.PricingModel
 }
 
-func (o *PricePatch) GetRenewalDurationAmount() *float64 {
-	if o == nil {
+func (p *PricePatch) GetRenewalDurationAmount() *float64 {
+	if p == nil {
 		return nil
 	}
-	return o.RenewalDurationAmount
+	return p.RenewalDurationAmount
 }
 
-func (o *PricePatch) GetRenewalDurationUnit() *PricePatchRenewalDurationUnit {
-	if o == nil {
+func (p *PricePatch) GetRenewalDurationUnit() *PricePatchRenewalDurationUnit {
+	if p == nil {
 		return nil
 	}
-	return o.RenewalDurationUnit
+	return p.RenewalDurationUnit
 }
 
-func (o *PricePatch) GetTax() *BaseRelation {
-	if o == nil {
+func (p *PricePatch) GetTax() *BaseRelation {
+	if p == nil {
 		return nil
 	}
-	return o.Tax
+	return p.Tax
 }
 
-func (o *PricePatch) GetTerminationTimeAmount() *float64 {
-	if o == nil {
+func (p *PricePatch) GetTerminationTimeAmount() *float64 {
+	if p == nil {
 		return nil
 	}
-	return o.TerminationTimeAmount
+	return p.TerminationTimeAmount
 }
 
-func (o *PricePatch) GetTerminationTimeUnit() *PricePatchTerminationTimeUnit {
-	if o == nil {
+func (p *PricePatch) GetTerminationTimeUnit() *PricePatchTerminationTimeUnit {
+	if p == nil {
 		return nil
 	}
-	return o.TerminationTimeUnit
+	return p.TerminationTimeUnit
 }
 
-func (o *PricePatch) GetTiers() []PriceTier {
-	if o == nil {
+func (p *PricePatch) GetTiers() []PriceTier {
+	if p == nil {
 		return nil
 	}
-	return o.Tiers
+	return p.Tiers
 }
 
-func (o *PricePatch) GetType() *PricePatchType {
-	if o == nil {
+func (p *PricePatch) GetType() *PricePatchType {
+	if p == nil {
 		return nil
 	}
-	return o.Type
+	return p.Type
 }
 
-func (o *PricePatch) GetUnit() *string {
-	if o == nil {
+func (p *PricePatch) GetUnit() *string {
+	if p == nil {
 		return nil
 	}
-	return o.Unit
+	return p.Unit
 }
 
-func (o *PricePatch) GetUnitAmount() *float64 {
-	if o == nil {
+func (p *PricePatch) GetUnitAmount() *float64 {
+	if p == nil {
 		return nil
 	}
-	return o.UnitAmount
+	return p.UnitAmount
 }
 
-func (o *PricePatch) GetUnitAmountCurrency() *string {
-	if o == nil {
+func (p *PricePatch) GetUnitAmountCurrency() *string {
+	if p == nil {
 		return nil
 	}
-	return o.UnitAmountCurrency
+	return p.UnitAmountCurrency
 }
 
-func (o *PricePatch) GetUnitAmountDecimal() *string {
-	if o == nil {
+func (p *PricePatch) GetUnitAmountDecimal() *string {
+	if p == nil {
 		return nil
 	}
-	return o.UnitAmountDecimal
+	return p.UnitAmountDecimal
 }
 
-func (o *PricePatch) GetVariablePrice() *bool {
-	if o == nil {
+func (p *PricePatch) GetVariablePrice() *bool {
+	if p == nil {
 		return nil
 	}
-	return o.VariablePrice
+	return p.VariablePrice
 }
