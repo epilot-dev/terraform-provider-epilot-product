@@ -12,11 +12,11 @@ type DeleteProductRequest struct {
 	ProductID string `pathParam:"style=simple,explode=false,name=productId"`
 }
 
-func (o *DeleteProductRequest) GetProductID() string {
-	if o == nil {
+func (d *DeleteProductRequest) GetProductID() string {
+	if d == nil {
 		return ""
 	}
-	return o.ProductID
+	return d.ProductID
 }
 
 type DeleteProductResponse struct {
@@ -32,37 +32,37 @@ type DeleteProductResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *DeleteProductResponse) GetClientError() *shared.ClientError {
-	if o == nil {
+func (d *DeleteProductResponse) GetClientError() *shared.ClientError {
+	if d == nil {
 		return nil
 	}
-	return o.ClientError
+	return d.ClientError
 }
 
-func (o *DeleteProductResponse) GetContentType() string {
-	if o == nil {
+func (d *DeleteProductResponse) GetContentType() string {
+	if d == nil {
 		return ""
 	}
-	return o.ContentType
+	return d.ContentType
 }
 
-func (o *DeleteProductResponse) GetProduct() *shared.Product {
-	if o == nil {
+func (d *DeleteProductResponse) GetProduct() *shared.Product {
+	if d == nil {
 		return nil
 	}
-	return o.Product
+	return d.Product
 }
 
-func (o *DeleteProductResponse) GetStatusCode() int {
-	if o == nil {
+func (d *DeleteProductResponse) GetStatusCode() int {
+	if d == nil {
 		return 0
 	}
-	return o.StatusCode
+	return d.StatusCode
 }
 
-func (o *DeleteProductResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (d *DeleteProductResponse) GetRawResponse() *http.Response {
+	if d == nil {
 		return nil
 	}
-	return o.RawResponse
+	return d.RawResponse
 }
