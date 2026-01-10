@@ -14,18 +14,18 @@ type PatchProductRequest struct {
 	ProductID string `pathParam:"style=simple,explode=false,name=productId"`
 }
 
-func (o *PatchProductRequest) GetProductPatch() shared.ProductPatch {
-	if o == nil {
+func (p *PatchProductRequest) GetProductPatch() shared.ProductPatch {
+	if p == nil {
 		return shared.ProductPatch{}
 	}
-	return o.ProductPatch
+	return p.ProductPatch
 }
 
-func (o *PatchProductRequest) GetProductID() string {
-	if o == nil {
+func (p *PatchProductRequest) GetProductID() string {
+	if p == nil {
 		return ""
 	}
-	return o.ProductID
+	return p.ProductID
 }
 
 type PatchProductResponse struct {
@@ -41,37 +41,37 @@ type PatchProductResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *PatchProductResponse) GetClientError() *shared.ClientError {
-	if o == nil {
+func (p *PatchProductResponse) GetClientError() *shared.ClientError {
+	if p == nil {
 		return nil
 	}
-	return o.ClientError
+	return p.ClientError
 }
 
-func (o *PatchProductResponse) GetContentType() string {
-	if o == nil {
+func (p *PatchProductResponse) GetContentType() string {
+	if p == nil {
 		return ""
 	}
-	return o.ContentType
+	return p.ContentType
 }
 
-func (o *PatchProductResponse) GetProduct() *shared.Product {
-	if o == nil {
+func (p *PatchProductResponse) GetProduct() *shared.Product {
+	if p == nil {
 		return nil
 	}
-	return o.Product
+	return p.Product
 }
 
-func (o *PatchProductResponse) GetStatusCode() int {
-	if o == nil {
+func (p *PatchProductResponse) GetStatusCode() int {
+	if p == nil {
 		return 0
 	}
-	return o.StatusCode
+	return p.StatusCode
 }
 
-func (o *PatchProductResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (p *PatchProductResponse) GetRawResponse() *http.Response {
+	if p == nil {
 		return nil
 	}
-	return o.RawResponse
+	return p.RawResponse
 }

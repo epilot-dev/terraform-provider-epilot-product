@@ -22,31 +22,31 @@ func (g GetProductRecommendationRequest) MarshalJSON() ([]byte, error) {
 }
 
 func (g *GetProductRecommendationRequest) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &g, "", false, []string{"productRecommendationId"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &g, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *GetProductRecommendationRequest) GetHydrate() *bool {
-	if o == nil {
+func (g *GetProductRecommendationRequest) GetHydrate() *bool {
+	if g == nil {
 		return nil
 	}
-	return o.Hydrate
+	return g.Hydrate
 }
 
-func (o *GetProductRecommendationRequest) GetProductRecommendationID() string {
-	if o == nil {
+func (g *GetProductRecommendationRequest) GetProductRecommendationID() string {
+	if g == nil {
 		return ""
 	}
-	return o.ProductRecommendationID
+	return g.ProductRecommendationID
 }
 
-func (o *GetProductRecommendationRequest) GetStrict() *bool {
-	if o == nil {
+func (g *GetProductRecommendationRequest) GetStrict() *bool {
+	if g == nil {
 		return nil
 	}
-	return o.Strict
+	return g.Strict
 }
 
 type GetProductRecommendationResponse struct {
@@ -62,37 +62,37 @@ type GetProductRecommendationResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *GetProductRecommendationResponse) GetClientError() *shared.ClientError {
-	if o == nil {
+func (g *GetProductRecommendationResponse) GetClientError() *shared.ClientError {
+	if g == nil {
 		return nil
 	}
-	return o.ClientError
+	return g.ClientError
 }
 
-func (o *GetProductRecommendationResponse) GetContentType() string {
-	if o == nil {
+func (g *GetProductRecommendationResponse) GetContentType() string {
+	if g == nil {
 		return ""
 	}
-	return o.ContentType
+	return g.ContentType
 }
 
-func (o *GetProductRecommendationResponse) GetProductRecommendation() *shared.ProductRecommendation {
-	if o == nil {
+func (g *GetProductRecommendationResponse) GetProductRecommendation() *shared.ProductRecommendation {
+	if g == nil {
 		return nil
 	}
-	return o.ProductRecommendation
+	return g.ProductRecommendation
 }
 
-func (o *GetProductRecommendationResponse) GetStatusCode() int {
-	if o == nil {
+func (g *GetProductRecommendationResponse) GetStatusCode() int {
+	if g == nil {
 		return 0
 	}
-	return o.StatusCode
+	return g.StatusCode
 }
 
-func (o *GetProductRecommendationResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (g *GetProductRecommendationResponse) GetRawResponse() *http.Response {
+	if g == nil {
 		return nil
 	}
-	return o.RawResponse
+	return g.RawResponse
 }
