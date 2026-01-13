@@ -14,18 +14,18 @@ type PatchProductRecommendationRequest struct {
 	ProductRecommendationID string `pathParam:"style=simple,explode=false,name=productRecommendationId"`
 }
 
-func (o *PatchProductRecommendationRequest) GetProductRecommendationPatch() shared.ProductRecommendationPatch {
-	if o == nil {
+func (p *PatchProductRecommendationRequest) GetProductRecommendationPatch() shared.ProductRecommendationPatch {
+	if p == nil {
 		return shared.ProductRecommendationPatch{}
 	}
-	return o.ProductRecommendationPatch
+	return p.ProductRecommendationPatch
 }
 
-func (o *PatchProductRecommendationRequest) GetProductRecommendationID() string {
-	if o == nil {
+func (p *PatchProductRecommendationRequest) GetProductRecommendationID() string {
+	if p == nil {
 		return ""
 	}
-	return o.ProductRecommendationID
+	return p.ProductRecommendationID
 }
 
 type PatchProductRecommendationResponse struct {
@@ -41,37 +41,37 @@ type PatchProductRecommendationResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *PatchProductRecommendationResponse) GetClientError() *shared.ClientError {
-	if o == nil {
+func (p *PatchProductRecommendationResponse) GetClientError() *shared.ClientError {
+	if p == nil {
 		return nil
 	}
-	return o.ClientError
+	return p.ClientError
 }
 
-func (o *PatchProductRecommendationResponse) GetContentType() string {
-	if o == nil {
+func (p *PatchProductRecommendationResponse) GetContentType() string {
+	if p == nil {
 		return ""
 	}
-	return o.ContentType
+	return p.ContentType
 }
 
-func (o *PatchProductRecommendationResponse) GetProductRecommendation() *shared.ProductRecommendation {
-	if o == nil {
+func (p *PatchProductRecommendationResponse) GetProductRecommendation() *shared.ProductRecommendation {
+	if p == nil {
 		return nil
 	}
-	return o.ProductRecommendation
+	return p.ProductRecommendation
 }
 
-func (o *PatchProductRecommendationResponse) GetStatusCode() int {
-	if o == nil {
+func (p *PatchProductRecommendationResponse) GetStatusCode() int {
+	if p == nil {
 		return 0
 	}
-	return o.StatusCode
+	return p.StatusCode
 }
 
-func (o *PatchProductRecommendationResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (p *PatchProductRecommendationResponse) GetRawResponse() *http.Response {
+	if p == nil {
 		return nil
 	}
-	return o.RawResponse
+	return p.RawResponse
 }

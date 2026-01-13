@@ -82,13 +82,13 @@ terraform {
   required_providers {
     epilot-product = {
       source  = "epilot-dev/epilot-product"
-      version = "0.17.4"
+      version = "0.18.0"
     }
   }
 }
 
 provider "epilot-product" {
-  # Configuration options
+  server_url = "..." # Optional
 }
 ```
 <!-- End Installation [installation] -->

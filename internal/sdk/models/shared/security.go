@@ -7,16 +7,16 @@ type Security struct {
 	EpilotOrg  *string `security:"scheme,type=apiKey,subtype=header,name=x-epilot-org-id"`
 }
 
-func (o *Security) GetEpilotAuth() *string {
-	if o == nil {
+func (s *Security) GetEpilotAuth() *string {
+	if s == nil {
 		return nil
 	}
-	return o.EpilotAuth
+	return s.EpilotAuth
 }
 
-func (o *Security) GetEpilotOrg() *string {
-	if o == nil {
+func (s *Security) GetEpilotOrg() *string {
+	if s == nil {
 		return nil
 	}
-	return o.EpilotOrg
+	return s.EpilotOrg
 }
