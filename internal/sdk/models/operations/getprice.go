@@ -22,31 +22,31 @@ func (g GetPriceRequest) MarshalJSON() ([]byte, error) {
 }
 
 func (g *GetPriceRequest) UnmarshalJSON(data []byte) error {
-	if err := utils.UnmarshalJSON(data, &g, "", false, []string{"priceId"}); err != nil {
+	if err := utils.UnmarshalJSON(data, &g, "", false, nil); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (o *GetPriceRequest) GetHydrate() *bool {
-	if o == nil {
+func (g *GetPriceRequest) GetHydrate() *bool {
+	if g == nil {
 		return nil
 	}
-	return o.Hydrate
+	return g.Hydrate
 }
 
-func (o *GetPriceRequest) GetPriceID() string {
-	if o == nil {
+func (g *GetPriceRequest) GetPriceID() string {
+	if g == nil {
 		return ""
 	}
-	return o.PriceID
+	return g.PriceID
 }
 
-func (o *GetPriceRequest) GetStrict() *bool {
-	if o == nil {
+func (g *GetPriceRequest) GetStrict() *bool {
+	if g == nil {
 		return nil
 	}
-	return o.Strict
+	return g.Strict
 }
 
 type GetPriceResponse struct {
@@ -62,37 +62,37 @@ type GetPriceResponse struct {
 	RawResponse *http.Response
 }
 
-func (o *GetPriceResponse) GetClientError() *shared.ClientError {
-	if o == nil {
+func (g *GetPriceResponse) GetClientError() *shared.ClientError {
+	if g == nil {
 		return nil
 	}
-	return o.ClientError
+	return g.ClientError
 }
 
-func (o *GetPriceResponse) GetContentType() string {
-	if o == nil {
+func (g *GetPriceResponse) GetContentType() string {
+	if g == nil {
 		return ""
 	}
-	return o.ContentType
+	return g.ContentType
 }
 
-func (o *GetPriceResponse) GetPrice() *shared.Price {
-	if o == nil {
+func (g *GetPriceResponse) GetPrice() *shared.Price {
+	if g == nil {
 		return nil
 	}
-	return o.Price
+	return g.Price
 }
 
-func (o *GetPriceResponse) GetStatusCode() int {
-	if o == nil {
+func (g *GetPriceResponse) GetStatusCode() int {
+	if g == nil {
 		return 0
 	}
-	return o.StatusCode
+	return g.StatusCode
 }
 
-func (o *GetPriceResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (g *GetPriceResponse) GetRawResponse() *http.Response {
+	if g == nil {
 		return nil
 	}
-	return o.RawResponse
+	return g.RawResponse
 }

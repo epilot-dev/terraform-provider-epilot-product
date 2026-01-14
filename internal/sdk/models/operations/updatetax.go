@@ -14,18 +14,18 @@ type UpdateTaxRequest struct {
 	TaxID string `pathParam:"style=simple,explode=false,name=taxId"`
 }
 
-func (o *UpdateTaxRequest) GetTaxCreate() shared.TaxCreate {
-	if o == nil {
+func (u *UpdateTaxRequest) GetTaxCreate() shared.TaxCreate {
+	if u == nil {
 		return shared.TaxCreate{}
 	}
-	return o.TaxCreate
+	return u.TaxCreate
 }
 
-func (o *UpdateTaxRequest) GetTaxID() string {
-	if o == nil {
+func (u *UpdateTaxRequest) GetTaxID() string {
+	if u == nil {
 		return ""
 	}
-	return o.TaxID
+	return u.TaxID
 }
 
 type UpdateTaxResponse struct {
@@ -41,37 +41,37 @@ type UpdateTaxResponse struct {
 	Tax *shared.Tax
 }
 
-func (o *UpdateTaxResponse) GetClientError() *shared.ClientError {
-	if o == nil {
+func (u *UpdateTaxResponse) GetClientError() *shared.ClientError {
+	if u == nil {
 		return nil
 	}
-	return o.ClientError
+	return u.ClientError
 }
 
-func (o *UpdateTaxResponse) GetContentType() string {
-	if o == nil {
+func (u *UpdateTaxResponse) GetContentType() string {
+	if u == nil {
 		return ""
 	}
-	return o.ContentType
+	return u.ContentType
 }
 
-func (o *UpdateTaxResponse) GetStatusCode() int {
-	if o == nil {
+func (u *UpdateTaxResponse) GetStatusCode() int {
+	if u == nil {
 		return 0
 	}
-	return o.StatusCode
+	return u.StatusCode
 }
 
-func (o *UpdateTaxResponse) GetRawResponse() *http.Response {
-	if o == nil {
+func (u *UpdateTaxResponse) GetRawResponse() *http.Response {
+	if u == nil {
 		return nil
 	}
-	return o.RawResponse
+	return u.RawResponse
 }
 
-func (o *UpdateTaxResponse) GetTax() *shared.Tax {
-	if o == nil {
+func (u *UpdateTaxResponse) GetTax() *shared.Tax {
+	if u == nil {
 		return nil
 	}
-	return o.Tax
+	return u.Tax
 }

@@ -64,7 +64,7 @@ func (s *Coupon) CreateCoupon(ctx context.Context, request shared.CouponCreate, 
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "createCoupon",
-		OAuth2Scopes:     []string{},
+		OAuth2Scopes:     nil,
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "Request", "json", `request:"mediaType=application/json"`)
@@ -312,7 +312,7 @@ func (s *Coupon) DeleteCoupon(ctx context.Context, request operations.DeleteCoup
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "deleteCoupon",
-		OAuth2Scopes:     []string{},
+		OAuth2Scopes:     nil,
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 
@@ -509,6 +509,7 @@ func (s *Coupon) DeleteCoupon(ctx context.Context, request operations.DeleteCoup
 			}
 			return nil, errors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
+	case httpRes.StatusCode == 404:
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
@@ -553,7 +554,7 @@ func (s *Coupon) GetCoupon(ctx context.Context, request operations.GetCouponRequ
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "getCoupon",
-		OAuth2Scopes:     []string{},
+		OAuth2Scopes:     nil,
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 
@@ -575,7 +576,7 @@ func (s *Coupon) GetCoupon(ctx context.Context, request operations.GetCouponRequ
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("User-Agent", s.sdkConfiguration.UserAgent)
 
-	if err := utils.PopulateQueryParams(ctx, req, request, nil); err != nil {
+	if err := utils.PopulateQueryParams(ctx, req, request, nil, nil); err != nil {
 		return nil, fmt.Errorf("error populating query params: %w", err)
 	}
 
@@ -754,6 +755,7 @@ func (s *Coupon) GetCoupon(ctx context.Context, request operations.GetCouponRequ
 			}
 			return nil, errors.NewSDKError(fmt.Sprintf("unknown content-type received: %s", httpRes.Header.Get("Content-Type")), httpRes.StatusCode, string(rawBody), httpRes)
 		}
+	case httpRes.StatusCode == 404:
 	default:
 		rawBody, err := utils.ConsumeRawBody(httpRes)
 		if err != nil {
@@ -798,7 +800,7 @@ func (s *Coupon) PatchCoupon(ctx context.Context, request operations.PatchCoupon
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "patchCoupon",
-		OAuth2Scopes:     []string{},
+		OAuth2Scopes:     nil,
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "CouponPatch", "json", `request:"mediaType=application/json"`)
@@ -1046,7 +1048,7 @@ func (s *Coupon) UpdateCoupon(ctx context.Context, request operations.UpdateCoup
 		BaseURL:          baseURL,
 		Context:          ctx,
 		OperationID:      "updateCoupon",
-		OAuth2Scopes:     []string{},
+		OAuth2Scopes:     nil,
 		SecuritySource:   s.sdkConfiguration.Security,
 	}
 	bodyReader, reqContentType, err := utils.SerializeRequestBody(ctx, request, false, false, "CouponCreate", "json", `request:"mediaType=application/json"`)

@@ -231,17 +231,17 @@ func (r *ProductResourceModel) ToSharedProductCreate(ctx context.Context) (*shar
 	var availabilityFiles *shared.BaseRelation
 	if r.AvailabilityFiles != nil {
 		dollarRelation := make([]shared.DollarRelation, 0, len(r.AvailabilityFiles.DollarRelation))
-		for _, dollarRelationItem := range r.AvailabilityFiles.DollarRelation {
+		for dollarRelationIndex := range r.AvailabilityFiles.DollarRelation {
 			var tags []string
-			if dollarRelationItem.Tags != nil {
-				tags = make([]string, 0, len(dollarRelationItem.Tags))
-				for _, tagsItem := range dollarRelationItem.Tags {
-					tags = append(tags, tagsItem.ValueString())
+			if r.AvailabilityFiles.DollarRelation[dollarRelationIndex].Tags != nil {
+				tags = make([]string, 0, len(r.AvailabilityFiles.DollarRelation[dollarRelationIndex].Tags))
+				for tagsIndex := range r.AvailabilityFiles.DollarRelation[dollarRelationIndex].Tags {
+					tags = append(tags, r.AvailabilityFiles.DollarRelation[dollarRelationIndex].Tags[tagsIndex].ValueString())
 				}
 			}
 			entityID := new(string)
-			if !dollarRelationItem.EntityID.IsUnknown() && !dollarRelationItem.EntityID.IsNull() {
-				*entityID = dollarRelationItem.EntityID.ValueString()
+			if !r.AvailabilityFiles.DollarRelation[dollarRelationIndex].EntityID.IsUnknown() && !r.AvailabilityFiles.DollarRelation[dollarRelationIndex].EntityID.IsNull() {
+				*entityID = r.AvailabilityFiles.DollarRelation[dollarRelationIndex].EntityID.ValueString()
 			} else {
 				entityID = nil
 			}
@@ -257,17 +257,17 @@ func (r *ProductResourceModel) ToSharedProductCreate(ctx context.Context) (*shar
 	var files *shared.BaseRelation
 	if r.Files != nil {
 		dollarRelation1 := make([]shared.DollarRelation, 0, len(r.Files.DollarRelation))
-		for _, dollarRelationItem1 := range r.Files.DollarRelation {
+		for dollarRelationIndex1 := range r.Files.DollarRelation {
 			var tags1 []string
-			if dollarRelationItem1.Tags != nil {
-				tags1 = make([]string, 0, len(dollarRelationItem1.Tags))
-				for _, tagsItem1 := range dollarRelationItem1.Tags {
-					tags1 = append(tags1, tagsItem1.ValueString())
+			if r.Files.DollarRelation[dollarRelationIndex1].Tags != nil {
+				tags1 = make([]string, 0, len(r.Files.DollarRelation[dollarRelationIndex1].Tags))
+				for tagsIndex1 := range r.Files.DollarRelation[dollarRelationIndex1].Tags {
+					tags1 = append(tags1, r.Files.DollarRelation[dollarRelationIndex1].Tags[tagsIndex1].ValueString())
 				}
 			}
 			entityId1 := new(string)
-			if !dollarRelationItem1.EntityID.IsUnknown() && !dollarRelationItem1.EntityID.IsNull() {
-				*entityId1 = dollarRelationItem1.EntityID.ValueString()
+			if !r.Files.DollarRelation[dollarRelationIndex1].EntityID.IsUnknown() && !r.Files.DollarRelation[dollarRelationIndex1].EntityID.IsNull() {
+				*entityId1 = r.Files.DollarRelation[dollarRelationIndex1].EntityID.ValueString()
 			} else {
 				entityId1 = nil
 			}
@@ -281,14 +281,14 @@ func (r *ProductResourceModel) ToSharedProductCreate(ctx context.Context) (*shar
 		}
 	}
 	manifest := make([]string, 0, len(r.Manifest))
-	for _, manifestItem := range r.Manifest {
-		manifest = append(manifest, manifestItem.ValueString())
+	for manifestIndex := range r.Manifest {
+		manifest = append(manifest, r.Manifest[manifestIndex].ValueString())
 	}
 	var purpose []string
 	if r.Purpose != nil {
 		purpose = make([]string, 0, len(r.Purpose))
-		for _, purposeItem := range r.Purpose {
-			purpose = append(purpose, purposeItem.ValueString())
+		for purposeIndex := range r.Purpose {
+			purpose = append(purpose, r.Purpose[purposeIndex].ValueString())
 		}
 	}
 	schema := new(shared.ProductCreateSchema)
@@ -300,16 +300,16 @@ func (r *ProductResourceModel) ToSharedProductCreate(ctx context.Context) (*shar
 	var tags2 []string
 	if r.Tags != nil {
 		tags2 = make([]string, 0, len(r.Tags))
-		for _, tagsItem2 := range r.Tags {
-			tags2 = append(tags2, tagsItem2.ValueString())
+		for tagsIndex2 := range r.Tags {
+			tags2 = append(tags2, r.Tags[tagsIndex2].ValueString())
 		}
 	}
 	var active bool
 	active = r.Active.ValueBool()
 
 	categories := make([]string, 0, len(r.Categories))
-	for _, categoriesItem := range r.Categories {
-		categories = append(categories, categoriesItem.ValueString())
+	for categoriesIndex := range r.Categories {
+		categories = append(categories, r.Categories[categoriesIndex].ValueString())
 	}
 	code := new(string)
 	if !r.Code.IsUnknown() && !r.Code.IsNull() {
@@ -324,9 +324,9 @@ func (r *ProductResourceModel) ToSharedProductCreate(ctx context.Context) (*shar
 		description = nil
 	}
 	feature := make([]interface{}, 0, len(r.Feature))
-	for _, featureItem := range r.Feature {
+	for featureIndex := range r.Feature {
 		var featureTmp interface{}
-		_ = json.Unmarshal([]byte(featureItem.ValueString()), &featureTmp)
+		_ = json.Unmarshal([]byte(r.Feature[featureIndex].ValueString()), &featureTmp)
 		feature = append(feature, featureTmp)
 	}
 	internalName := new(string)
@@ -341,17 +341,17 @@ func (r *ProductResourceModel) ToSharedProductCreate(ctx context.Context) (*shar
 	var priceOptions *shared.BaseRelation
 	if r.PriceOptions != nil {
 		dollarRelation2 := make([]shared.DollarRelation, 0, len(r.PriceOptions.DollarRelation))
-		for _, dollarRelationItem2 := range r.PriceOptions.DollarRelation {
+		for dollarRelationIndex2 := range r.PriceOptions.DollarRelation {
 			var tags3 []string
-			if dollarRelationItem2.Tags != nil {
-				tags3 = make([]string, 0, len(dollarRelationItem2.Tags))
-				for _, tagsItem3 := range dollarRelationItem2.Tags {
-					tags3 = append(tags3, tagsItem3.ValueString())
+			if r.PriceOptions.DollarRelation[dollarRelationIndex2].Tags != nil {
+				tags3 = make([]string, 0, len(r.PriceOptions.DollarRelation[dollarRelationIndex2].Tags))
+				for tagsIndex3 := range r.PriceOptions.DollarRelation[dollarRelationIndex2].Tags {
+					tags3 = append(tags3, r.PriceOptions.DollarRelation[dollarRelationIndex2].Tags[tagsIndex3].ValueString())
 				}
 			}
 			entityId2 := new(string)
-			if !dollarRelationItem2.EntityID.IsUnknown() && !dollarRelationItem2.EntityID.IsNull() {
-				*entityId2 = dollarRelationItem2.EntityID.ValueString()
+			if !r.PriceOptions.DollarRelation[dollarRelationIndex2].EntityID.IsUnknown() && !r.PriceOptions.DollarRelation[dollarRelationIndex2].EntityID.IsNull() {
+				*entityId2 = r.PriceOptions.DollarRelation[dollarRelationIndex2].EntityID.ValueString()
 			} else {
 				entityId2 = nil
 			}
@@ -367,17 +367,17 @@ func (r *ProductResourceModel) ToSharedProductCreate(ctx context.Context) (*shar
 	var productDownloads *shared.BaseRelation
 	if r.ProductDownloads != nil {
 		dollarRelation3 := make([]shared.DollarRelation, 0, len(r.ProductDownloads.DollarRelation))
-		for _, dollarRelationItem3 := range r.ProductDownloads.DollarRelation {
+		for dollarRelationIndex3 := range r.ProductDownloads.DollarRelation {
 			var tags4 []string
-			if dollarRelationItem3.Tags != nil {
-				tags4 = make([]string, 0, len(dollarRelationItem3.Tags))
-				for _, tagsItem4 := range dollarRelationItem3.Tags {
-					tags4 = append(tags4, tagsItem4.ValueString())
+			if r.ProductDownloads.DollarRelation[dollarRelationIndex3].Tags != nil {
+				tags4 = make([]string, 0, len(r.ProductDownloads.DollarRelation[dollarRelationIndex3].Tags))
+				for tagsIndex4 := range r.ProductDownloads.DollarRelation[dollarRelationIndex3].Tags {
+					tags4 = append(tags4, r.ProductDownloads.DollarRelation[dollarRelationIndex3].Tags[tagsIndex4].ValueString())
 				}
 			}
 			entityId3 := new(string)
-			if !dollarRelationItem3.EntityID.IsUnknown() && !dollarRelationItem3.EntityID.IsNull() {
-				*entityId3 = dollarRelationItem3.EntityID.ValueString()
+			if !r.ProductDownloads.DollarRelation[dollarRelationIndex3].EntityID.IsUnknown() && !r.ProductDownloads.DollarRelation[dollarRelationIndex3].EntityID.IsNull() {
+				*entityId3 = r.ProductDownloads.DollarRelation[dollarRelationIndex3].EntityID.ValueString()
 			} else {
 				entityId3 = nil
 			}
@@ -393,17 +393,17 @@ func (r *ProductResourceModel) ToSharedProductCreate(ctx context.Context) (*shar
 	var productImages *shared.BaseRelation
 	if r.ProductImages != nil {
 		dollarRelation4 := make([]shared.DollarRelation, 0, len(r.ProductImages.DollarRelation))
-		for _, dollarRelationItem4 := range r.ProductImages.DollarRelation {
+		for dollarRelationIndex4 := range r.ProductImages.DollarRelation {
 			var tags5 []string
-			if dollarRelationItem4.Tags != nil {
-				tags5 = make([]string, 0, len(dollarRelationItem4.Tags))
-				for _, tagsItem5 := range dollarRelationItem4.Tags {
-					tags5 = append(tags5, tagsItem5.ValueString())
+			if r.ProductImages.DollarRelation[dollarRelationIndex4].Tags != nil {
+				tags5 = make([]string, 0, len(r.ProductImages.DollarRelation[dollarRelationIndex4].Tags))
+				for tagsIndex5 := range r.ProductImages.DollarRelation[dollarRelationIndex4].Tags {
+					tags5 = append(tags5, r.ProductImages.DollarRelation[dollarRelationIndex4].Tags[tagsIndex5].ValueString())
 				}
 			}
 			entityId4 := new(string)
-			if !dollarRelationItem4.EntityID.IsUnknown() && !dollarRelationItem4.EntityID.IsNull() {
-				*entityId4 = dollarRelationItem4.EntityID.ValueString()
+			if !r.ProductImages.DollarRelation[dollarRelationIndex4].EntityID.IsUnknown() && !r.ProductImages.DollarRelation[dollarRelationIndex4].EntityID.IsNull() {
+				*entityId4 = r.ProductImages.DollarRelation[dollarRelationIndex4].EntityID.ValueString()
 			} else {
 				entityId4 = nil
 			}
@@ -456,17 +456,17 @@ func (r *ProductResourceModel) ToSharedProductPatch(ctx context.Context) (*share
 	var availabilityFiles *shared.BaseRelation
 	if r.AvailabilityFiles != nil {
 		dollarRelation := make([]shared.DollarRelation, 0, len(r.AvailabilityFiles.DollarRelation))
-		for _, dollarRelationItem := range r.AvailabilityFiles.DollarRelation {
+		for dollarRelationIndex := range r.AvailabilityFiles.DollarRelation {
 			var tags []string
-			if dollarRelationItem.Tags != nil {
-				tags = make([]string, 0, len(dollarRelationItem.Tags))
-				for _, tagsItem := range dollarRelationItem.Tags {
-					tags = append(tags, tagsItem.ValueString())
+			if r.AvailabilityFiles.DollarRelation[dollarRelationIndex].Tags != nil {
+				tags = make([]string, 0, len(r.AvailabilityFiles.DollarRelation[dollarRelationIndex].Tags))
+				for tagsIndex := range r.AvailabilityFiles.DollarRelation[dollarRelationIndex].Tags {
+					tags = append(tags, r.AvailabilityFiles.DollarRelation[dollarRelationIndex].Tags[tagsIndex].ValueString())
 				}
 			}
 			entityID := new(string)
-			if !dollarRelationItem.EntityID.IsUnknown() && !dollarRelationItem.EntityID.IsNull() {
-				*entityID = dollarRelationItem.EntityID.ValueString()
+			if !r.AvailabilityFiles.DollarRelation[dollarRelationIndex].EntityID.IsUnknown() && !r.AvailabilityFiles.DollarRelation[dollarRelationIndex].EntityID.IsNull() {
+				*entityID = r.AvailabilityFiles.DollarRelation[dollarRelationIndex].EntityID.ValueString()
 			} else {
 				entityID = nil
 			}
@@ -482,17 +482,17 @@ func (r *ProductResourceModel) ToSharedProductPatch(ctx context.Context) (*share
 	var files *shared.BaseRelation
 	if r.Files != nil {
 		dollarRelation1 := make([]shared.DollarRelation, 0, len(r.Files.DollarRelation))
-		for _, dollarRelationItem1 := range r.Files.DollarRelation {
+		for dollarRelationIndex1 := range r.Files.DollarRelation {
 			var tags1 []string
-			if dollarRelationItem1.Tags != nil {
-				tags1 = make([]string, 0, len(dollarRelationItem1.Tags))
-				for _, tagsItem1 := range dollarRelationItem1.Tags {
-					tags1 = append(tags1, tagsItem1.ValueString())
+			if r.Files.DollarRelation[dollarRelationIndex1].Tags != nil {
+				tags1 = make([]string, 0, len(r.Files.DollarRelation[dollarRelationIndex1].Tags))
+				for tagsIndex1 := range r.Files.DollarRelation[dollarRelationIndex1].Tags {
+					tags1 = append(tags1, r.Files.DollarRelation[dollarRelationIndex1].Tags[tagsIndex1].ValueString())
 				}
 			}
 			entityId1 := new(string)
-			if !dollarRelationItem1.EntityID.IsUnknown() && !dollarRelationItem1.EntityID.IsNull() {
-				*entityId1 = dollarRelationItem1.EntityID.ValueString()
+			if !r.Files.DollarRelation[dollarRelationIndex1].EntityID.IsUnknown() && !r.Files.DollarRelation[dollarRelationIndex1].EntityID.IsNull() {
+				*entityId1 = r.Files.DollarRelation[dollarRelationIndex1].EntityID.ValueString()
 			} else {
 				entityId1 = nil
 			}
@@ -506,14 +506,14 @@ func (r *ProductResourceModel) ToSharedProductPatch(ctx context.Context) (*share
 		}
 	}
 	manifest := make([]string, 0, len(r.Manifest))
-	for _, manifestItem := range r.Manifest {
-		manifest = append(manifest, manifestItem.ValueString())
+	for manifestIndex := range r.Manifest {
+		manifest = append(manifest, r.Manifest[manifestIndex].ValueString())
 	}
 	var purpose []string
 	if r.Purpose != nil {
 		purpose = make([]string, 0, len(r.Purpose))
-		for _, purposeItem := range r.Purpose {
-			purpose = append(purpose, purposeItem.ValueString())
+		for purposeIndex := range r.Purpose {
+			purpose = append(purpose, r.Purpose[purposeIndex].ValueString())
 		}
 	}
 	schema := new(shared.ProductPatchSchema)
@@ -525,8 +525,8 @@ func (r *ProductResourceModel) ToSharedProductPatch(ctx context.Context) (*share
 	var tags2 []string
 	if r.Tags != nil {
 		tags2 = make([]string, 0, len(r.Tags))
-		for _, tagsItem2 := range r.Tags {
-			tags2 = append(tags2, tagsItem2.ValueString())
+		for tagsIndex2 := range r.Tags {
+			tags2 = append(tags2, r.Tags[tagsIndex2].ValueString())
 		}
 	}
 	active := new(bool)
@@ -536,8 +536,8 @@ func (r *ProductResourceModel) ToSharedProductPatch(ctx context.Context) (*share
 		active = nil
 	}
 	categories := make([]string, 0, len(r.Categories))
-	for _, categoriesItem := range r.Categories {
-		categories = append(categories, categoriesItem.ValueString())
+	for categoriesIndex := range r.Categories {
+		categories = append(categories, r.Categories[categoriesIndex].ValueString())
 	}
 	code := new(string)
 	if !r.Code.IsUnknown() && !r.Code.IsNull() {
@@ -552,9 +552,9 @@ func (r *ProductResourceModel) ToSharedProductPatch(ctx context.Context) (*share
 		description = nil
 	}
 	feature := make([]interface{}, 0, len(r.Feature))
-	for _, featureItem := range r.Feature {
+	for featureIndex := range r.Feature {
 		var featureTmp interface{}
-		_ = json.Unmarshal([]byte(featureItem.ValueString()), &featureTmp)
+		_ = json.Unmarshal([]byte(r.Feature[featureIndex].ValueString()), &featureTmp)
 		feature = append(feature, featureTmp)
 	}
 	internalName := new(string)
@@ -572,17 +572,17 @@ func (r *ProductResourceModel) ToSharedProductPatch(ctx context.Context) (*share
 	var priceOptions *shared.BaseRelation
 	if r.PriceOptions != nil {
 		dollarRelation2 := make([]shared.DollarRelation, 0, len(r.PriceOptions.DollarRelation))
-		for _, dollarRelationItem2 := range r.PriceOptions.DollarRelation {
+		for dollarRelationIndex2 := range r.PriceOptions.DollarRelation {
 			var tags3 []string
-			if dollarRelationItem2.Tags != nil {
-				tags3 = make([]string, 0, len(dollarRelationItem2.Tags))
-				for _, tagsItem3 := range dollarRelationItem2.Tags {
-					tags3 = append(tags3, tagsItem3.ValueString())
+			if r.PriceOptions.DollarRelation[dollarRelationIndex2].Tags != nil {
+				tags3 = make([]string, 0, len(r.PriceOptions.DollarRelation[dollarRelationIndex2].Tags))
+				for tagsIndex3 := range r.PriceOptions.DollarRelation[dollarRelationIndex2].Tags {
+					tags3 = append(tags3, r.PriceOptions.DollarRelation[dollarRelationIndex2].Tags[tagsIndex3].ValueString())
 				}
 			}
 			entityId2 := new(string)
-			if !dollarRelationItem2.EntityID.IsUnknown() && !dollarRelationItem2.EntityID.IsNull() {
-				*entityId2 = dollarRelationItem2.EntityID.ValueString()
+			if !r.PriceOptions.DollarRelation[dollarRelationIndex2].EntityID.IsUnknown() && !r.PriceOptions.DollarRelation[dollarRelationIndex2].EntityID.IsNull() {
+				*entityId2 = r.PriceOptions.DollarRelation[dollarRelationIndex2].EntityID.ValueString()
 			} else {
 				entityId2 = nil
 			}
@@ -598,17 +598,17 @@ func (r *ProductResourceModel) ToSharedProductPatch(ctx context.Context) (*share
 	var productDownloads *shared.BaseRelation
 	if r.ProductDownloads != nil {
 		dollarRelation3 := make([]shared.DollarRelation, 0, len(r.ProductDownloads.DollarRelation))
-		for _, dollarRelationItem3 := range r.ProductDownloads.DollarRelation {
+		for dollarRelationIndex3 := range r.ProductDownloads.DollarRelation {
 			var tags4 []string
-			if dollarRelationItem3.Tags != nil {
-				tags4 = make([]string, 0, len(dollarRelationItem3.Tags))
-				for _, tagsItem4 := range dollarRelationItem3.Tags {
-					tags4 = append(tags4, tagsItem4.ValueString())
+			if r.ProductDownloads.DollarRelation[dollarRelationIndex3].Tags != nil {
+				tags4 = make([]string, 0, len(r.ProductDownloads.DollarRelation[dollarRelationIndex3].Tags))
+				for tagsIndex4 := range r.ProductDownloads.DollarRelation[dollarRelationIndex3].Tags {
+					tags4 = append(tags4, r.ProductDownloads.DollarRelation[dollarRelationIndex3].Tags[tagsIndex4].ValueString())
 				}
 			}
 			entityId3 := new(string)
-			if !dollarRelationItem3.EntityID.IsUnknown() && !dollarRelationItem3.EntityID.IsNull() {
-				*entityId3 = dollarRelationItem3.EntityID.ValueString()
+			if !r.ProductDownloads.DollarRelation[dollarRelationIndex3].EntityID.IsUnknown() && !r.ProductDownloads.DollarRelation[dollarRelationIndex3].EntityID.IsNull() {
+				*entityId3 = r.ProductDownloads.DollarRelation[dollarRelationIndex3].EntityID.ValueString()
 			} else {
 				entityId3 = nil
 			}
@@ -624,17 +624,17 @@ func (r *ProductResourceModel) ToSharedProductPatch(ctx context.Context) (*share
 	var productImages *shared.BaseRelation
 	if r.ProductImages != nil {
 		dollarRelation4 := make([]shared.DollarRelation, 0, len(r.ProductImages.DollarRelation))
-		for _, dollarRelationItem4 := range r.ProductImages.DollarRelation {
+		for dollarRelationIndex4 := range r.ProductImages.DollarRelation {
 			var tags5 []string
-			if dollarRelationItem4.Tags != nil {
-				tags5 = make([]string, 0, len(dollarRelationItem4.Tags))
-				for _, tagsItem5 := range dollarRelationItem4.Tags {
-					tags5 = append(tags5, tagsItem5.ValueString())
+			if r.ProductImages.DollarRelation[dollarRelationIndex4].Tags != nil {
+				tags5 = make([]string, 0, len(r.ProductImages.DollarRelation[dollarRelationIndex4].Tags))
+				for tagsIndex5 := range r.ProductImages.DollarRelation[dollarRelationIndex4].Tags {
+					tags5 = append(tags5, r.ProductImages.DollarRelation[dollarRelationIndex4].Tags[tagsIndex5].ValueString())
 				}
 			}
 			entityId4 := new(string)
-			if !dollarRelationItem4.EntityID.IsUnknown() && !dollarRelationItem4.EntityID.IsNull() {
-				*entityId4 = dollarRelationItem4.EntityID.ValueString()
+			if !r.ProductImages.DollarRelation[dollarRelationIndex4].EntityID.IsUnknown() && !r.ProductImages.DollarRelation[dollarRelationIndex4].EntityID.IsNull() {
+				*entityId4 = r.ProductImages.DollarRelation[dollarRelationIndex4].EntityID.ValueString()
 			} else {
 				entityId4 = nil
 			}

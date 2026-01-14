@@ -1,15 +1,19 @@
 lockVersion: 2.0.0
 id: 5a857039-7f4b-42d5-86fd-449767242ed2
 management:
-  docChecksum: 1febba20a2a8174715b3e24220e2b357
+  docChecksum: 01a09557afcacc9fb673307a8cf19c62
   docVersion: 1.0.0
-  speakeasyVersion: 1.611.0
-  generationVersion: 2.694.1
-  releaseVersion: 0.17.4
-  configChecksum: b1748db5bbd2c86b604870398689e7a2
+  speakeasyVersion: 1.685.0
+  generationVersion: 2.794.1
+  releaseVersion: 0.18.1
+  configChecksum: c4398b01679dd8a913f3e962e1444972
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-product.git
   repoSubDirectory: .
   published: true
+persistentEdits:
+  generation_id: 33b1c111-b8f9-4c50-a5d9-7520f559cfd3
+  pristine_commit_hash: 4b8ccc00f9c14e1440830c1de4660be9bcf9999e
+  pristine_tree_hash: 52dbefe7aa0878360ca029c358a0449f7b474c06
 features:
   go:
     additionalProperties: 0.1.1
@@ -21,191 +25,770 @@ features:
     unions: 2.85.0
   terraform:
     additionalDependencies: 0.1.0
-    constsAndDefaults: 0.2.1
-    core: 3.44.1
-    globalSecurity: 2.82.0
+    constsAndDefaults: 0.3.0
+    core: 3.46.28
+    globalSecurity: 2.82.1
     globalServerURLs: 2.83.0
     nullables: 0.0.0
     retries: 2.81.4
     typeOverrides: 2.81.1
-generatedFiles:
-  - .gitattributes
-  - USAGE.md
-  - examples/README.md
-  - examples/data-sources/epilot-product_coupon/data-source.tf
-  - examples/data-sources/epilot-product_price/data-source.tf
-  - examples/data-sources/epilot-product_product/data-source.tf
-  - examples/data-sources/epilot-product_product_recommendation/data-source.tf
-  - examples/data-sources/epilot-product_tax/data-source.tf
-  - examples/provider/provider.tf
-  - examples/resources/epilot-product_coupon/import-by-string-id.tf
-  - examples/resources/epilot-product_coupon/import.sh
-  - examples/resources/epilot-product_coupon/resource.tf
-  - examples/resources/epilot-product_price/import-by-string-id.tf
-  - examples/resources/epilot-product_price/import.sh
-  - examples/resources/epilot-product_price/resource.tf
-  - examples/resources/epilot-product_product/import-by-string-id.tf
-  - examples/resources/epilot-product_product/import.sh
-  - examples/resources/epilot-product_product/resource.tf
-  - examples/resources/epilot-product_product_recommendation/import-by-string-id.tf
-  - examples/resources/epilot-product_product_recommendation/import.sh
-  - examples/resources/epilot-product_product_recommendation/resource.tf
-  - examples/resources/epilot-product_tax/import-by-string-id.tf
-  - examples/resources/epilot-product_tax/import.sh
-  - examples/resources/epilot-product_tax/resource.tf
-  - go.mod
-  - go.sum
-  - internal/planmodifiers/boolplanmodifier/suppress_diff.go
-  - internal/planmodifiers/float32planmodifier/suppress_diff.go
-  - internal/planmodifiers/float64planmodifier/suppress_diff.go
-  - internal/planmodifiers/int32planmodifier/suppress_diff.go
-  - internal/planmodifiers/int64planmodifier/suppress_diff.go
-  - internal/planmodifiers/listplanmodifier/suppress_diff.go
-  - internal/planmodifiers/mapplanmodifier/suppress_diff.go
-  - internal/planmodifiers/numberplanmodifier/suppress_diff.go
-  - internal/planmodifiers/objectplanmodifier/suppress_diff.go
-  - internal/planmodifiers/setplanmodifier/suppress_diff.go
-  - internal/planmodifiers/stringplanmodifier/suppress_diff.go
-  - internal/planmodifiers/utils/state_check.go
-  - internal/provider/coupon_data_source.go
-  - internal/provider/coupon_data_source_sdk.go
-  - internal/provider/coupon_resource.go
-  - internal/provider/coupon_resource_sdk.go
-  - internal/provider/price_data_source.go
-  - internal/provider/price_data_source_sdk.go
-  - internal/provider/price_resource.go
-  - internal/provider/price_resource_sdk.go
-  - internal/provider/product_data_source.go
-  - internal/provider/product_data_source_sdk.go
-  - internal/provider/product_resource.go
-  - internal/provider/product_resource_sdk.go
-  - internal/provider/productrecommendation_data_source.go
-  - internal/provider/productrecommendation_data_source_sdk.go
-  - internal/provider/productrecommendation_resource.go
-  - internal/provider/productrecommendation_resource_sdk.go
-  - internal/provider/provider.go
-  - internal/provider/reflect/diags.go
-  - internal/provider/reflect/doc.go
-  - internal/provider/reflect/generic_attr_value.go
-  - internal/provider/reflect/helpers.go
-  - internal/provider/reflect/interfaces.go
-  - internal/provider/reflect/into.go
-  - internal/provider/reflect/map.go
-  - internal/provider/reflect/number.go
-  - internal/provider/reflect/options.go
-  - internal/provider/reflect/outof.go
-  - internal/provider/reflect/pointer.go
-  - internal/provider/reflect/primitive.go
-  - internal/provider/reflect/slice.go
-  - internal/provider/reflect/struct.go
-  - internal/provider/tax_data_source.go
-  - internal/provider/tax_data_source_sdk.go
-  - internal/provider/tax_resource.go
-  - internal/provider/tax_resource_sdk.go
-  - internal/provider/typeconvert/date.go
-  - internal/provider/typeconvert/datetime.go
-  - internal/provider/typeconvert/int.go
-  - internal/provider/types/base_relation.go
-  - internal/provider/types/dollar_relation.go
-  - internal/provider/types/price_component_relation.go
-  - internal/provider/types/price_create_price_components.go
-  - internal/provider/types/price_tier.go
-  - internal/provider/types/promo_code.go
-  - internal/provider/utils.go
-  - internal/sdk/.gitattributes
-  - internal/sdk/coupon.go
-  - internal/sdk/docs/models/operations/option.md
-  - internal/sdk/internal/config/sdkconfiguration.go
-  - internal/sdk/internal/hooks/hooks.go
-  - internal/sdk/internal/utils/contenttype.go
-  - internal/sdk/internal/utils/env.go
-  - internal/sdk/internal/utils/form.go
-  - internal/sdk/internal/utils/headers.go
-  - internal/sdk/internal/utils/json.go
-  - internal/sdk/internal/utils/pathparams.go
-  - internal/sdk/internal/utils/queryparams.go
-  - internal/sdk/internal/utils/requestbody.go
-  - internal/sdk/internal/utils/retries.go
-  - internal/sdk/internal/utils/security.go
-  - internal/sdk/internal/utils/utils.go
-  - internal/sdk/models/errors/sdkerror.go
-  - internal/sdk/models/operations/createcoupon.go
-  - internal/sdk/models/operations/createprice.go
-  - internal/sdk/models/operations/createproduct.go
-  - internal/sdk/models/operations/createproductrecommendation.go
-  - internal/sdk/models/operations/createtax.go
-  - internal/sdk/models/operations/deletecoupon.go
-  - internal/sdk/models/operations/deleteprice.go
-  - internal/sdk/models/operations/deleteproduct.go
-  - internal/sdk/models/operations/deleteproductrecommendation.go
-  - internal/sdk/models/operations/deletetax.go
-  - internal/sdk/models/operations/getcoupon.go
-  - internal/sdk/models/operations/getprice.go
-  - internal/sdk/models/operations/getproduct.go
-  - internal/sdk/models/operations/getproductrecommendation.go
-  - internal/sdk/models/operations/gettax.go
-  - internal/sdk/models/operations/options.go
-  - internal/sdk/models/operations/patchcoupon.go
-  - internal/sdk/models/operations/patchprice.go
-  - internal/sdk/models/operations/patchproduct.go
-  - internal/sdk/models/operations/patchproductrecommendation.go
-  - internal/sdk/models/operations/patchtax.go
-  - internal/sdk/models/operations/updatecoupon.go
-  - internal/sdk/models/operations/updateprice.go
-  - internal/sdk/models/operations/updateproduct.go
-  - internal/sdk/models/operations/updateproductrecommendation.go
-  - internal/sdk/models/operations/updatetax.go
-  - internal/sdk/models/shared/baserelation.go
-  - internal/sdk/models/shared/clienterror.go
-  - internal/sdk/models/shared/coupon.go
-  - internal/sdk/models/shared/couponcreate.go
-  - internal/sdk/models/shared/couponpatch.go
-  - internal/sdk/models/shared/price.go
-  - internal/sdk/models/shared/pricecomponentrelation.go
-  - internal/sdk/models/shared/pricecreate.go
-  - internal/sdk/models/shared/pricepatch.go
-  - internal/sdk/models/shared/pricetier.go
-  - internal/sdk/models/shared/pricetierdisplaymode.go
-  - internal/sdk/models/shared/product.go
-  - internal/sdk/models/shared/productcreate.go
-  - internal/sdk/models/shared/productpatch.go
-  - internal/sdk/models/shared/productrecommendation.go
-  - internal/sdk/models/shared/productrecommendationcreate.go
-  - internal/sdk/models/shared/productrecommendationpatch.go
-  - internal/sdk/models/shared/promocode.go
-  - internal/sdk/models/shared/security.go
-  - internal/sdk/models/shared/tax.go
-  - internal/sdk/models/shared/taxcreate.go
-  - internal/sdk/models/shared/taxpatch.go
-  - internal/sdk/price.go
-  - internal/sdk/product.go
-  - internal/sdk/productrecommendation.go
-  - internal/sdk/retry/config.go
-  - internal/sdk/sdk.go
-  - internal/sdk/tax.go
-  - internal/sdk/types/bigint.go
-  - internal/sdk/types/date.go
-  - internal/sdk/types/datetime.go
-  - internal/sdk/types/decimal.go
-  - internal/sdk/types/pointers.go
-  - internal/validators/DateValidator.go
-  - internal/validators/ExactlyOneChild.go
-  - internal/validators/JSONParseValidator.go
-  - internal/validators/RFC3339Validator.go
-  - internal/validators/boolvalidators/not_null.go
-  - internal/validators/float32validators/not_null.go
-  - internal/validators/float64validators/not_null.go
-  - internal/validators/int32validators/not_null.go
-  - internal/validators/int64validators/not_null.go
-  - internal/validators/listvalidators/not_null.go
-  - internal/validators/mapvalidators/not_null.go
-  - internal/validators/numbervalidators/not_null.go
-  - internal/validators/objectvalidators/not_null.go
-  - internal/validators/setvalidators/not_null.go
-  - internal/validators/stringvalidators/not_null.go
-  - main.go
-  - terraform-registry-manifest.json
-  - tools/tools.go
+trackedFiles:
+  .gitattributes:
+    id: 24139dae6567
+    last_write_checksum: sha1:84b0115789fc3ea52e31df701d8a27f76077e29f
+    pristine_git_object: e6a994416d0f527912d2d272e2583458f4fc9bcb
+  USAGE.md:
+    id: 3aed33ce6e6f
+    last_write_checksum: sha1:02c32c9430f37507b3eacd41cdc36f080809e92d
+    pristine_git_object: 8e707bb129af1da185ba30b4c289b0160819c437
+  examples/data-sources/epilot-product_coupon/data-source.tf:
+    id: 6ea64c52f8f3
+    last_write_checksum: sha1:42111e9dadfbd28d7de84d44d28d53b25ce51eb5
+    pristine_git_object: c63945fc77b374735d33ac7328ed33560c0ebcfb
+  examples/data-sources/epilot-product_price/data-source.tf:
+    id: ebc2e5fd321f
+    last_write_checksum: sha1:3e3e4ab1d901fb8cba1a99a6f59de8a48456a469
+    pristine_git_object: 7679bb2e98f94fb793f858f43f586d655f08604f
+  examples/data-sources/epilot-product_product/data-source.tf:
+    id: f6712ab6982a
+    last_write_checksum: sha1:e362a318ed03befe343e729600cfe8c74922e29e
+    pristine_git_object: 6bc11872a788c2b7f783ccadd8645b12370c8bbf
+  examples/data-sources/epilot-product_product_recommendation/data-source.tf:
+    id: 18659977f473
+    last_write_checksum: sha1:99417a9c51c9f89f2244c8740739a63585d69459
+    pristine_git_object: afd6637d6f9355afd95ba82a69c3ba2e484f4b98
+  examples/data-sources/epilot-product_tax/data-source.tf:
+    id: cb8fad9d43ae
+    last_write_checksum: sha1:c004b8816f7f18fd2d9fe7d981eb827bf58e28a6
+    pristine_git_object: 5ba5bf4bf26c6151d849cb725741f9ddf434fa5f
+  examples/provider/provider.tf:
+    id: 954e955c0240
+    last_write_checksum: sha1:1d836a2f8a3dca3731b7c2d704e0bd0213c48b01
+    pristine_git_object: 02e1c6d2f4b9e66833523208a9327e2270582e58
+  examples/resources/epilot-product_coupon/import-by-string-id.tf:
+    id: dfa1dd65cf6b
+    last_write_checksum: sha1:85328a34193c61898a907ce15cd0e737b20b17ea
+    pristine_git_object: ac2feaaca56bb2e9f8dce657986d7265d8b8131b
+  examples/resources/epilot-product_coupon/import.sh:
+    id: 93bdd7c17863
+    last_write_checksum: sha1:754cc26706b0022714ddf57db3616c719d2ff13f
+    pristine_git_object: d8f6af5663fcbaa750fb0aa02f6c89c0e38cdd55
+  examples/resources/epilot-product_coupon/resource.tf:
+    id: f9f5e7c55cd7
+    last_write_checksum: sha1:1ade18d1b73b0cf86e913a53f74c1c0fbcc46695
+    pristine_git_object: 45a24068a1fa2dbd520ca61f118501aab30e28f3
+  examples/resources/epilot-product_price/import-by-string-id.tf:
+    id: be1ebdf5ff9d
+    last_write_checksum: sha1:de226e06e2294ecf097cf28c4cf69a930856806c
+    pristine_git_object: 758ff82d73671653a16e3a3b17ed4cc0b858f6e8
+  examples/resources/epilot-product_price/import.sh:
+    id: 13a28de6b68a
+    last_write_checksum: sha1:1bf570f8af2f4987f59f723378e25b54097f497f
+    pristine_git_object: c9cf333671e16498d6c6c269d37002e886d46d79
+  examples/resources/epilot-product_price/resource.tf:
+    id: 66e95eb8b9fb
+    last_write_checksum: sha1:236f21de4354b3e48307de047dff077d2db5d1f4
+    pristine_git_object: 7b5091d82c086ab187ecd38ef9f16fdc7f146e78
+  examples/resources/epilot-product_product/import-by-string-id.tf:
+    id: f5c707d811e5
+    last_write_checksum: sha1:b57b5337891d652fad299007ec082a360499ccf9
+    pristine_git_object: bd4c5ca8f6b9dc94beb21e91086edd7c4da1734d
+  examples/resources/epilot-product_product/import.sh:
+    id: 039bee093a61
+    last_write_checksum: sha1:aed67e57ac1f787bf6e38197e13bf8b91766b5be
+    pristine_git_object: 34d83f01c9c9a1d610182615bdb8d140201bf558
+  examples/resources/epilot-product_product/resource.tf:
+    id: cc94dc38da30
+    last_write_checksum: sha1:9edda0aee5985cd7fcb3566eb53f4c6af555dd2e
+    pristine_git_object: 91ab872a3aeb83cf7fb55d0b63edf324565462b9
+  examples/resources/epilot-product_product_recommendation/import-by-string-id.tf:
+    id: 5031913c9543
+    last_write_checksum: sha1:f53bc34c2eddf0dbfaaa190a29737e701eaed677
+    pristine_git_object: 324ecb0b076106c8eb0e954ca0a60bf5d38b707e
+  examples/resources/epilot-product_product_recommendation/import.sh:
+    id: b2e35853a8d4
+    last_write_checksum: sha1:4d33680cbc59c71ae47b59807e0457bcd3c1f0d8
+    pristine_git_object: 75722a607a5c95b8f4862fd50ffcebc6f53e48dc
+  examples/resources/epilot-product_product_recommendation/resource.tf:
+    id: 55a4d10cb77c
+    last_write_checksum: sha1:e58a8420bd80a718da2353a1a2eaf3eeea671446
+    pristine_git_object: d34cb3b3b73a40f3a6101100060121e265ec4cf6
+  examples/resources/epilot-product_tax/import-by-string-id.tf:
+    id: ea21e7abf0e3
+    last_write_checksum: sha1:3692198ebddca8718a9dfcfd82d6b86f1ddaabab
+    pristine_git_object: 87dfb910259d3a4722db2739c716cc62d892acb7
+  examples/resources/epilot-product_tax/import.sh:
+    id: f53d5eb2221f
+    last_write_checksum: sha1:ab192598bfb6b24337c687430146165a646ed887
+    pristine_git_object: 1549643cf47ef7c397b44127c66ace325365b2cc
+  examples/resources/epilot-product_tax/resource.tf:
+    id: 77f8d710a739
+    last_write_checksum: sha1:f87eeea0b68bedae831bde9df589516290e45051
+    pristine_git_object: c488a05a8b2db11061e2edcf4dd7f126f27c1f09
+  go.mod:
+    id: c47645c391ad
+    last_write_checksum: sha1:540919b620fa44e3c602b3a7a177ffc0dc0c6632
+    pristine_git_object: 0b0105652492e14e5e72ac14e012b8529076de38
+  internal/planmodifiers/boolplanmodifier/suppress_diff.go:
+    id: 3cf85b98963e
+    last_write_checksum: sha1:fd491b78c57b033b1013421916ef8b01cbe50ada
+    pristine_git_object: e0f972f842c299d4281532eee3a8929cc41f1106
+  internal/planmodifiers/boolplanmodifier/use_config_value.go:
+    id: c0a10558e419
+    last_write_checksum: sha1:506e2cac3ec4075a8837403860ef0b07e19bc337
+    pristine_git_object: 210846ca24831a6bda811d3e8a42326716d7bf97
+  internal/planmodifiers/float32planmodifier/suppress_diff.go:
+    id: b7f3f671e479
+    last_write_checksum: sha1:f0a5a41b9ccab1bc8f88225aa663c86a546f799f
+    pristine_git_object: d3ad87a483a351dad821f689b377b8ce4ded2f7f
+  internal/planmodifiers/float32planmodifier/use_config_value.go:
+    id: e75edfe23c08
+    last_write_checksum: sha1:2683d9de3605886cb01438a9015c8e8b02b4e069
+    pristine_git_object: 0aafffa779b10b01d1e9c831c3a4bda3e6d97789
+  internal/planmodifiers/float64planmodifier/suppress_diff.go:
+    id: 7ae872c2243d
+    last_write_checksum: sha1:5ded212eee4dc99e65a8723cb3f48e8ca4a09cac
+    pristine_git_object: ada4555418d0e56ff3ae3cde5e98d5d48ec831e3
+  internal/planmodifiers/float64planmodifier/use_config_value.go:
+    id: 8fd8670f7434
+    last_write_checksum: sha1:cc1f1cadfd17a0b9b1e729029dccc03f17d734a5
+    pristine_git_object: ecd655b8d658d84aa5cbcc3e1808b69674071325
+  internal/planmodifiers/int32planmodifier/suppress_diff.go:
+    id: 3ee3ede7dc9d
+    last_write_checksum: sha1:cb5dab7e30ef40bca3d3c9527aebdc0bf7724b64
+    pristine_git_object: 737bda3563d0d0a8f930eed7b715ef0abb9727c3
+  internal/planmodifiers/int32planmodifier/use_config_value.go:
+    id: 40be4e07e289
+    last_write_checksum: sha1:019ba1949b00493bf1a866821f9331d50c8a1f09
+    pristine_git_object: ebc98aae308008b2cda39d5f4cfa781982afa44f
+  internal/planmodifiers/int64planmodifier/suppress_diff.go:
+    id: fade0cc85582
+    last_write_checksum: sha1:9e67afa2b032fee677c193720b07fa3bbbf35edb
+    pristine_git_object: 72598a3ffc29edb322908ad56f1153d16ab20cad
+  internal/planmodifiers/int64planmodifier/use_config_value.go:
+    id: e38d6f43d093
+    last_write_checksum: sha1:b5a63f0c356cd72698e25e1b4f4fc3e29b35d482
+    pristine_git_object: 2ec2d53d3ac13f58f64feb32b7fb07ca37b8fe99
+  internal/planmodifiers/listplanmodifier/suppress_diff.go:
+    id: 7b93ed9460b9
+    last_write_checksum: sha1:f7a1d018bee18c416e60db5216ca94fc48f809c4
+    pristine_git_object: b05502433992690169af9b43079411b5c11a4b43
+  internal/planmodifiers/listplanmodifier/use_config_value.go:
+    id: c9b31b246860
+    last_write_checksum: sha1:c56e2d23520ac7023f800328bb7599e7eba2f202
+    pristine_git_object: 7e851c7613c71921fd4ccf7ca1f95b8b22ce9745
+  internal/planmodifiers/mapplanmodifier/suppress_diff.go:
+    id: 37bee37da583
+    last_write_checksum: sha1:6d05678920c8b9a154bd80fb1e9be69c4932534d
+    pristine_git_object: 8c3e88adb5c2daa208798908804268a6106001f6
+  internal/planmodifiers/mapplanmodifier/use_config_value.go:
+    id: 8fef370eccaa
+    last_write_checksum: sha1:7c2163c8fa4be8e8f7e7499cdb08cc5ed1924b39
+    pristine_git_object: 0f2a717f45ca60218f4b8d9e81a6a5cd01494905
+  internal/planmodifiers/numberplanmodifier/suppress_diff.go:
+    id: 0debe6a63221
+    last_write_checksum: sha1:c11426b2fec0b4838596509b5dcae27b7f1f92fa
+    pristine_git_object: 7c38e0761c474c2784162cea2bb565d68dbc71e0
+  internal/planmodifiers/numberplanmodifier/use_config_value.go:
+    id: e6b779d30d26
+    last_write_checksum: sha1:9b92d53a4a5f57e211e6f41ebb6c36cb12357ae6
+    pristine_git_object: e93c117a0665121b4c43c4a0fd5faec999ad016e
+  internal/planmodifiers/objectplanmodifier/suppress_diff.go:
+    id: c5bc1c3980dd
+    last_write_checksum: sha1:3f732d843d9d4c96679f534a2edcf70609a11687
+    pristine_git_object: 01b0ea661c9b0f44c661f00f3c0ee76954bf3776
+  internal/planmodifiers/objectplanmodifier/use_config_value.go:
+    id: 7f103d324869
+    last_write_checksum: sha1:1f2b6727605c0b56ff2212ab2e2528046f05b157
+    pristine_git_object: eaf24076aeaf233c342886079be38561b94d3856
+  internal/planmodifiers/setplanmodifier/suppress_diff.go:
+    id: 2db9381ea39f
+    last_write_checksum: sha1:45a7c5efb43e490cb3e1be10232027af6d6f373b
+    pristine_git_object: 50c383bb1246b094eb8f4f4fd2995dfe10684d67
+  internal/planmodifiers/setplanmodifier/use_config_value.go:
+    id: 62a591230001
+    last_write_checksum: sha1:fe02165f8fd260bbce09f34adfa378376363422f
+    pristine_git_object: a95de11e54a028586b41352c084de59fdc7af66c
+  internal/planmodifiers/stringplanmodifier/suppress_diff.go:
+    id: 05379039a176
+    last_write_checksum: sha1:d8a80fabcfa0b261d64f0cf61ec38172dd321f8f
+    pristine_git_object: 01aa726dc89654d01112a0f4c2b47e3d618d1083
+  internal/planmodifiers/stringplanmodifier/use_config_value.go:
+    id: a783ed056524
+    last_write_checksum: sha1:250673402508661f9d12cfa026dc029d5e7855d9
+    pristine_git_object: 8b4457aeb6b22b7f2b581434762e71f3f782897b
+  internal/planmodifiers/utils/state_check.go:
+    id: ead742412d0f
+    last_write_checksum: sha1:acc38ad698bf4fa8c51aa662076cf57b79024bd5
+    pristine_git_object: 0ea64fbeb1fd7709d7241a8e06d34bfe9d0323d3
+  internal/provider/coupon_data_source.go:
+    id: b4124b9b782b
+    last_write_checksum: sha1:6f537a7ebedf0e1aabbd0f1a70dda3a6f9459daf
+    pristine_git_object: 1d0c7b9cfbda083b2dce11f5cae727e184dc3a15
+  internal/provider/coupon_data_source_sdk.go:
+    id: da8d19debecc
+    last_write_checksum: sha1:8ccfaeb88e680adc736cffa2def073161e97b5d4
+    pristine_git_object: 550ac33df649dd444db3efe93faaea6161a21101
+  internal/provider/coupon_resource.go:
+    id: dea8fab04842
+    last_write_checksum: sha1:a2140ac562e557da1e90d3af63ef2995f8406c94
+    pristine_git_object: ec76b6207058997ca88d2feb851c9ddf9df971d2
+  internal/provider/coupon_resource_sdk.go:
+    id: 633cb0f5c5c4
+    last_write_checksum: sha1:86c0ed1d5ddcdc91f47bdd716a9792877a1cc993
+    pristine_git_object: df8a5a1a2c634bec32c539d617a63b85573fa6a3
+  internal/provider/price_data_source.go:
+    id: 148dac6112fe
+    last_write_checksum: sha1:122cd127e079a8ede6d49bef534c05f95db826e5
+    pristine_git_object: 0d66a521b7670b783ef0a4c1659c63ccbfcb24ee
+  internal/provider/price_data_source_sdk.go:
+    id: f405159ba2c2
+    last_write_checksum: sha1:0ab405aadc443d06b23c116c71927ad1d14b2edf
+    pristine_git_object: 180aa703716a54d61b6512000a13980545538224
+  internal/provider/price_resource.go:
+    id: 2b8341b38f81
+    last_write_checksum: sha1:5b5f480e56975d5fa3e6b7b8841582822262d4eb
+    pristine_git_object: 5d287a94fef0257f139b3af03d90f0c545e1a9a3
+  internal/provider/price_resource_sdk.go:
+    id: 50569829af6a
+    last_write_checksum: sha1:3fad737c8f4ee75eadb2a6a5fdb10bed36771709
+    pristine_git_object: cc2bba97d395d0b054ffc3daf3547008b024619c
+  internal/provider/product_data_source.go:
+    id: a245c926dd40
+    last_write_checksum: sha1:2fedad7d8a215ba1e35267b49c9efc57cf906bc8
+    pristine_git_object: 12d14b1935f6628a0fc15c8f8078964dcc0aa482
+  internal/provider/product_data_source_sdk.go:
+    id: 7ff1f63060c5
+    last_write_checksum: sha1:ed6d3679528a61b2aef4da2de398f19a0e7f78df
+    pristine_git_object: 09395437263bb964287aec0bc216e7ba2db8d3c7
+  internal/provider/product_resource.go:
+    id: 8645937d4672
+    last_write_checksum: sha1:1faf72e1cc3d0c065c3a3d29c3d37b361baecc89
+    pristine_git_object: f7d3a3d6b163445dc03b346449ff772b009d6086
+  internal/provider/product_resource_sdk.go:
+    id: 0a040ac0aa3b
+    last_write_checksum: sha1:48a4f1cb207c32c32cd2689556378b259b497925
+    pristine_git_object: c1575d07c1e1ce945ca9a1e466ff0f44bdbfc395
+  internal/provider/productrecommendation_data_source.go:
+    id: 52e6ad46d4bb
+    last_write_checksum: sha1:46541c058520376e027f8468bcc8e5b56741e871
+    pristine_git_object: 21ee1e10ddc31710cb077cf7455d7836afa4fd19
+  internal/provider/productrecommendation_data_source_sdk.go:
+    id: ed716b56deef
+    last_write_checksum: sha1:ff5d1a9b0afdc58e56c147f4ca88db972da7d49f
+    pristine_git_object: 7559b9496abf830b230f06d28114395ca705d73c
+  internal/provider/productrecommendation_resource.go:
+    id: f079e4c5b300
+    last_write_checksum: sha1:cc5fa7989e031c5a2b03887bd446727ba1ea1ce8
+    pristine_git_object: 047ec11bab4dfc93f11817f954308fcc06d6ed66
+  internal/provider/productrecommendation_resource_sdk.go:
+    id: a1dcf046489e
+    last_write_checksum: sha1:0b50af60e3ceadfd893bf9529eae1db9214cb80f
+    pristine_git_object: 7bfae2cd3efd49ba9f9f099769ba0ce33bb40da2
+  internal/provider/provider.go:
+    id: 1e7e86841cf3
+    last_write_checksum: sha1:a7c1f6610cf226e3daae659f625d67c52787c169
+    pristine_git_object: a1189a8988bec60011f488a56efb7619d8b87c38
+  internal/provider/reflect/diags.go:
+    id: 35b6b44972e2
+    last_write_checksum: sha1:ace8bc53054bb1d8ee8689acf3e4323de75a6297
+    pristine_git_object: 50c50c8c2ee48a2e0bd9f7e01e9de02489c887d8
+  internal/provider/reflect/doc.go:
+    id: cbfb54ee320b
+    last_write_checksum: sha1:67814656717ff0d0ff38fd9db09872e28666642b
+    pristine_git_object: e384126d4201af70574ce3a9fb8102edaa3b932e
+  internal/provider/reflect/generic_attr_value.go:
+    id: e422f9e35e9e
+    last_write_checksum: sha1:33300f91738c9b79e41ea4d8f3581d6800ac06ef
+    pristine_git_object: 48824d543386df6c125ed86da32d85d24659454c
+  internal/provider/reflect/helpers.go:
+    id: 3c19b91a8408
+    last_write_checksum: sha1:3a2083aa9f84f5a54638803f2225daf86408d360
+    pristine_git_object: 8085789a770637a76b1728b0f89b30c564696ca6
+  internal/provider/reflect/interfaces.go:
+    id: d1096171c6f2
+    last_write_checksum: sha1:e03017ee98ee8d1bd64fde7a025975638bcfaed7
+    pristine_git_object: ff4416e40b7dd139a553979327b0dac70aff37c5
+  internal/provider/reflect/into.go:
+    id: 50e3644442fc
+    last_write_checksum: sha1:7a29c6e2fd31069faddc441132ff04a92a6198be
+    pristine_git_object: 29a437fe2bdb30a956b8c7668d11032962962472
+  internal/provider/reflect/map.go:
+    id: 0d8232fb373f
+    last_write_checksum: sha1:803a218b09d4d9de46d27a5c0227ed3fc6617f62
+    pristine_git_object: 91e27a6c1d51441d6091752a0e199c300c1f09dc
+  internal/provider/reflect/number.go:
+    id: f7e5eb196c35
+    last_write_checksum: sha1:ff756986a30b648c423b9af8996584ffc5983514
+    pristine_git_object: 53673b8476a3115f39f7ed03921221243bbe29a3
+  internal/provider/reflect/options.go:
+    id: ae46de5fdb32
+    last_write_checksum: sha1:735603671bc13388dca9edeb7fefc0b229196793
+    pristine_git_object: 002addd9ab508962b4dc80b0b1f788c738cb8382
+  internal/provider/reflect/outof.go:
+    id: 2b83f83dde82
+    last_write_checksum: sha1:46f09acf317888545161fc1cd288113bd3836ead
+    pristine_git_object: 215406a5867a4b5b6e0978a1664492049cc3738a
+  internal/provider/reflect/pointer.go:
+    id: b758e7c3bf1c
+    last_write_checksum: sha1:92cc23f30396e1a9204f70ac68ebfe7d58cbb967
+    pristine_git_object: 215653e7c5d5ba9863ef5053d9084c9d69eba5ca
+  internal/provider/reflect/primitive.go:
+    id: c302568a3411
+    last_write_checksum: sha1:8b7708414f8be915065952b31986869feaa2fae6
+    pristine_git_object: adf648e88b61a8234951db180e4c25bbb7c1b353
+  internal/provider/reflect/slice.go:
+    id: cd2dec5ab676
+    last_write_checksum: sha1:70ce36709e204b74e3ded36c4683df7e48df294f
+    pristine_git_object: 79ad6b80c2a9492522820c3060a89f2de1131e92
+  internal/provider/reflect/struct.go:
+    id: 973d7dbf96c1
+    last_write_checksum: sha1:504fa0ca7711df0887f8c265c7acb3774e89afe7
+    pristine_git_object: c588f768bd7b39be33962188f97d81e1c4c25f4b
+  internal/provider/tax_data_source.go:
+    id: 9f6999434e4d
+    last_write_checksum: sha1:100cdd1b8605cb202a47da11bf74b511acb5507a
+    pristine_git_object: e8479143f91e9f1f1a354f9e053181383d8e3da3
+  internal/provider/tax_data_source_sdk.go:
+    id: d6c1f5fae8ec
+    last_write_checksum: sha1:d7bf7a8d380d0211c448219b32689ed3af508181
+    pristine_git_object: 2f85338ee23b1ef6401e2c30acc0bee1de9a251d
+  internal/provider/tax_resource.go:
+    id: 7ae58588a105
+    last_write_checksum: sha1:76477095ccd998fa019e861ab6dbfdafdedf5a1f
+    pristine_git_object: b5f0bcf0a08a578bfa62e0a5f4b3be0725c09266
+  internal/provider/tax_resource_sdk.go:
+    id: dd0231733110
+    last_write_checksum: sha1:28f1deaa75f21e1ca68eebdce3ac1153ea9accbb
+    pristine_git_object: ec5406864b1c3ffc8366802b6f24b9e90f06924a
+  internal/provider/typeconvert/date.go:
+    id: dfe2bc95ad1b
+    last_write_checksum: sha1:194f0ebae003a5e5b32cd6c4aa5c8000051e1c6e
+    pristine_git_object: 8a98af750b15cfe0756956b232abcff2544230fb
+  internal/provider/typeconvert/datetime.go:
+    id: d2fb73d4f01c
+    last_write_checksum: sha1:a2a20e6785f1e12c3f94c016cbc106e54942e981
+    pristine_git_object: 7bfdc553a393a1db69a25574998eb6cc5df79566
+  internal/provider/typeconvert/int.go:
+    id: c44fcd78fccc
+    last_write_checksum: sha1:c28123f17006dc96a233f916a17c38408e37b71f
+    pristine_git_object: 54763e7a7555fae6d8bf51c4590220ff610202aa
+  internal/provider/types/base_relation.go:
+    id: 43f2b4426074
+    last_write_checksum: sha1:3acf4dee23c1e74b3185ba803fc614f6cb8febce
+    pristine_git_object: dd9acebc473577578f93ae8b7abe8499b102ffc9
+  internal/provider/types/dollar_relation.go:
+    id: 95e3505f9951
+    last_write_checksum: sha1:b1f385349b63798bc40f7e43f029149ad2f79007
+    pristine_git_object: 46ee392baf273222aa01f59afe77dddd47a0ef7f
+  internal/provider/types/price_component_relation.go:
+    id: 7e3cfb0e409c
+    last_write_checksum: sha1:400c1b008c1c99781da8b27cc2d79296f88fed18
+    pristine_git_object: d549e5ab2b720047dc813166a0910c6837f73817
+  internal/provider/types/price_create_price_components.go:
+    id: 4ed8c303babe
+    last_write_checksum: sha1:03d269e42b6b5cfd4348d9f73d8883fccc4e4e9f
+    pristine_git_object: 8058dd85fdf2d5f5b74521517b6674440b558303
+  internal/provider/types/price_tier.go:
+    id: 40bb069a4c1a
+    last_write_checksum: sha1:532e62f353a8fef7cc0b60a01c2515a87142ea16
+    pristine_git_object: b3226160289e61bc94abd1d2b7696cd70e905a81
+  internal/provider/types/promo_code.go:
+    id: 83a2209e5451
+    last_write_checksum: sha1:f2d8ad36cdd005404af1680c8c5aa6c19f01c944
+    pristine_git_object: 99e4677c1594ca96847fafc8ccdea91aea47b691
+  internal/provider/utils.go:
+    id: 312d50f148af
+    last_write_checksum: sha1:36f0d608bac5383e8f94344f1120ef5da0287bb7
+    pristine_git_object: 5efd1cdb79c6dc40c5eaabfe5638308285aa77d5
+  internal/sdk/.gitattributes:
+    id: 1ea4c4e0a39d
+    last_write_checksum: sha1:84b0115789fc3ea52e31df701d8a27f76077e29f
+    pristine_git_object: e6a994416d0f527912d2d272e2583458f4fc9bcb
+  internal/sdk/coupon.go:
+    id: 6fe27e9abbe8
+    last_write_checksum: sha1:ee8ba54c2d33568ada39f07f9cef81f906f73d53
+    pristine_git_object: a0395532110734784b077ace9a15b4204419f5df
+  internal/sdk/docs/models/operations/option.md:
+    id: a35737eb2e35
+    last_write_checksum: sha1:08cfee5d266c9d82987e448f6c98a143aa42c5f8
+    pristine_git_object: 35d8a1e2ad48a64702c6a654ac8880dabec053b0
+  internal/sdk/internal/config/sdkconfiguration.go:
+    id: 6af0bc8635d9
+    last_write_checksum: sha1:e0ee23d80aaec7fb6c4ede68da4e23f075ab962e
+    pristine_git_object: d58d79ad0c886986751a886bbe534da0e1ea0dc0
+  internal/sdk/internal/hooks/hooks.go:
+    id: 4e88208e997f
+    last_write_checksum: sha1:7efca95bc5b804fff42d268634b6529c2f2d571a
+    pristine_git_object: b350d2f9fd355ce0ec5aa0f5558b9e3bab01f1e1
+  internal/sdk/internal/utils/contenttype.go:
+    id: b767d5c02609
+    last_write_checksum: sha1:ab5cfd860d02c6e6a37f89e2b5649a9859947fb1
+    pristine_git_object: f6487e01eb987c0aa49e7aa50b5ff24830314c63
+  internal/sdk/internal/utils/env.go:
+    id: 4b4be1422b75
+    last_write_checksum: sha1:1e0bcb2d2caed9f3657f1dbc99b55811bed0298c
+    pristine_git_object: 110d464eacf2387b347bad1cb903666354a339e9
+  internal/sdk/internal/utils/form.go:
+    id: a29055426367
+    last_write_checksum: sha1:508610f0cb629e2b8a6e4461d314723255fd463e
+    pristine_git_object: aba2a91a9892817f1b74accac339e322b9eafe6f
+  internal/sdk/internal/utils/headers.go:
+    id: f035883ac0ff
+    last_write_checksum: sha1:531b33b3d9f1c637ed4b4a34bc9c98a478d9032d
+    pristine_git_object: 8e5d5f45b4560b92b9996c3b8a2638a5956b11e9
+  internal/sdk/internal/utils/json.go:
+    id: 2231afac3add
+    last_write_checksum: sha1:47f84517118271968a2c31fb15dec49a181c0cce
+    pristine_git_object: ce1ae5d8ee6dbe2460bc2de239efe90166621f77
+  internal/sdk/internal/utils/pathparams.go:
+    id: e7fec2afe4a6
+    last_write_checksum: sha1:68f6486b53f973f9dfa1bfc1538a4703c91d58a9
+    pristine_git_object: 8a41e31ae4452c6e7931ad8e95218deea485b083
+  internal/sdk/internal/utils/queryparams.go:
+    id: fb88ad971185
+    last_write_checksum: sha1:bb28260c99fc9ee949b24d40ea6e4e7c90553575
+    pristine_git_object: 351ee91eea78d68297c4741829d3610439705ab8
+  internal/sdk/internal/utils/requestbody.go:
+    id: c971a8b3bbf5
+    last_write_checksum: sha1:ffd1fa2cebdd92e3e5b50126a55e2cf54795c9ec
+    pristine_git_object: 590e59d3056f95570ac0a61ffc1e85a17ac08a07
+  internal/sdk/internal/utils/retries.go:
+    id: 6832c2142453
+    last_write_checksum: sha1:bfd9908e2dfd9e955f7c807c3b2fce80a6fb2b45
+    pristine_git_object: 210bea0be5aa255960782d0f3924c5a62e51aeb6
+  internal/sdk/internal/utils/security.go:
+    id: 6ebe9eaeb99b
+    last_write_checksum: sha1:bb9cc1870101f6d2a990766f3eb0ea37292f7507
+    pristine_git_object: 19dfa6f4607dea64b1dd61c211e072212e7a3cb2
+  internal/sdk/internal/utils/union.go:
+    id: 183142835cfe
+    last_write_checksum: sha1:f91906ca602e949267b0548ad23fc9b63ff3004d
+    pristine_git_object: cba1833b2267af7e60f7332a8b95a5066aebb244
+  internal/sdk/internal/utils/union_test.go:
+    id: 4c885192f6f0
+    last_write_checksum: sha1:83ac73c1901de4c6db90f65cf5879163f3d47a00
+    pristine_git_object: f66814c73ace94d8e71d785fd6161fb405745754
+  internal/sdk/internal/utils/utils.go:
+    id: feefcdf75dbd
+    last_write_checksum: sha1:d88d96cc244301d137581432095043f27a3e17b0
+    pristine_git_object: 0415b536598baa76c5d1a8fc32816ed1b83f9137
+  internal/sdk/models/errors/sdkerror.go:
+    id: 19b5a8d3586b
+    last_write_checksum: sha1:5d65fce5049df7c5113e11c9ccb1e4c46b91901c
+    pristine_git_object: c633d568d96b5297c7d2edfc9d22fc717428edf1
+  internal/sdk/models/operations/createcoupon.go:
+    id: 62376589804f
+    last_write_checksum: sha1:c8436a1173a2660095b284d9f0e581688400f9a2
+    pristine_git_object: c2b0f75282b09def8de2b15000523f5fa4ac7f65
+  internal/sdk/models/operations/createprice.go:
+    id: 63d762bb8c12
+    last_write_checksum: sha1:85febcfd10f685f035d8210104f048b9fdd6a79a
+    pristine_git_object: 8314eba8321307812ca4855e543f0904053b5de7
+  internal/sdk/models/operations/createproduct.go:
+    id: cf440411707d
+    last_write_checksum: sha1:34d0163bf9a442733fce37adda68923bff220dd0
+    pristine_git_object: db8b29d6d7ffdf910776eaaf326cbea2d2aa099e
+  internal/sdk/models/operations/createproductrecommendation.go:
+    id: 3a27083b1566
+    last_write_checksum: sha1:17c94133515fc1ce1f10a3f2458245a477c02752
+    pristine_git_object: 88f42464ae97939a7558c83299db6323f3d24d35
+  internal/sdk/models/operations/createtax.go:
+    id: 379f6797c03f
+    last_write_checksum: sha1:f12f4e6e6c2abe3786d5c15efac84541bf3e4fe1
+    pristine_git_object: 676a5df2ed25014f80aa1aa16bda4795441c29d3
+  internal/sdk/models/operations/deletecoupon.go:
+    id: dd54234b050e
+    last_write_checksum: sha1:d658cc8ac786bd4365da32e8ab05f5de20517889
+    pristine_git_object: f5c9aa171a6cc584626aa432fabcfba9250ae46d
+  internal/sdk/models/operations/deleteprice.go:
+    id: 80bc09b3d223
+    last_write_checksum: sha1:165f15cd095d53d863e9899deae94224d4ac8a08
+    pristine_git_object: 74ab3492b72833e71f19d632362a5db4bafe41cb
+  internal/sdk/models/operations/deleteproduct.go:
+    id: 4b744371b583
+    last_write_checksum: sha1:dbf1e16830ec97ecdc2b20eab9846c2710ab6037
+    pristine_git_object: e44a0b0ed849b57026897e0ee0d5badd9d3e7978
+  internal/sdk/models/operations/deleteproductrecommendation.go:
+    id: 115ac8fb470c
+    last_write_checksum: sha1:27ef6899d34775a02f13014f6871c4d7e8e166ad
+    pristine_git_object: 768a9929c01776b3702b28e12afc7dfdbe26bfff
+  internal/sdk/models/operations/deletetax.go:
+    id: 3906e021c205
+    last_write_checksum: sha1:d0aa30c4f4e6c34acc199cbb97d0c582e92437fd
+    pristine_git_object: 4913c2f4b771724c802c440737edd176fc57f783
+  internal/sdk/models/operations/getcoupon.go:
+    id: d2b3f79fee7c
+    last_write_checksum: sha1:542042859ef7dbd792948ffeb8ba34db8e03c429
+    pristine_git_object: d1e684aba676f8b8b403a1cf5549f32292469c5a
+  internal/sdk/models/operations/getprice.go:
+    id: cfd985882fe9
+    last_write_checksum: sha1:e93ff4a9a2f5087c2257a1adbe033b1bd1875e29
+    pristine_git_object: 3b2a563ca42ad4c28811532996b301e9e4ae9b14
+  internal/sdk/models/operations/getproduct.go:
+    id: 18b6eb514d87
+    last_write_checksum: sha1:6120bdc43213c80cd46564256e456ee240a4f171
+    pristine_git_object: 608d3f9b5997aace7ea6e9fecd9ea28e4937693b
+  internal/sdk/models/operations/getproductrecommendation.go:
+    id: 394d6207a79a
+    last_write_checksum: sha1:6c4474eb2e5a3b47dd9186c4698f5ca65d73b8f4
+    pristine_git_object: b429f2e262fbf7d348a4d40b9490cde45d5a5882
+  internal/sdk/models/operations/gettax.go:
+    id: 4c1f891f02b3
+    last_write_checksum: sha1:52e72a2291d3a8d035e699d6cdb1ae6c46304746
+    pristine_git_object: 704f3a086e0aa5dda6aead858356802cbe3b7de8
+  internal/sdk/models/operations/options.go:
+    id: 6d0d29414e00
+    last_write_checksum: sha1:24ce1d7cdd27e351bb5c2cd65c8151848c1a77a2
+    pristine_git_object: 727ae2833c5f07d631b0931e40a16d53392616cb
+  internal/sdk/models/operations/patchcoupon.go:
+    id: d4213f579a52
+    last_write_checksum: sha1:4f8d505ab5764600949ddd5fa0eb774d94c0166a
+    pristine_git_object: cd3ff0f91a9f9ffc4a82e8b539ecf9c4b0c0607c
+  internal/sdk/models/operations/patchprice.go:
+    id: 00e250aae17b
+    last_write_checksum: sha1:3708c1e4caba5e5c69adc8e889f49b5cc7664a76
+    pristine_git_object: 4451a5e7998e3ecfc21bf9c35b9012e6445ee639
+  internal/sdk/models/operations/patchproduct.go:
+    id: 54fb2caed389
+    last_write_checksum: sha1:074c3e61e3cbdaa5a13e8323e4d4d17b18870e11
+    pristine_git_object: e17986491a434a4d2960bb90eb1434bdd08fa809
+  internal/sdk/models/operations/patchproductrecommendation.go:
+    id: 1a69d18733b4
+    last_write_checksum: sha1:e5e2ed5368e7c5e76c627aa035ed858827415c63
+    pristine_git_object: 726b1d284a58e65d51ca66a1309f9061f0b8f429
+  internal/sdk/models/operations/patchtax.go:
+    id: 80280b9f40c0
+    last_write_checksum: sha1:cbec3363048daf12b0f9be349d8d7db2387c6355
+    pristine_git_object: 5fc262bd0b5b4afcc3a9d97176ebe12777274102
+  internal/sdk/models/operations/updatecoupon.go:
+    id: eeb4ff088d96
+    last_write_checksum: sha1:f91a81de7329e47718e7c8787872d83f716ae8d1
+    pristine_git_object: 58803a4f21069ef270325d895173b7271b84dd6c
+  internal/sdk/models/operations/updateprice.go:
+    id: 9b374f448840
+    last_write_checksum: sha1:6c28f2f999a8c3a62698f46618e690746adbddfd
+    pristine_git_object: 2dcd2486d5ca36a2289b6b947bb9334e68165394
+  internal/sdk/models/operations/updateproduct.go:
+    id: 886db2d7ed75
+    last_write_checksum: sha1:36ac6660b8c5252f4541df38aa78a269eea3c6f7
+    pristine_git_object: 39bee46ff685f0707701d8b35e8c6cea708af441
+  internal/sdk/models/operations/updateproductrecommendation.go:
+    id: e27e95cca235
+    last_write_checksum: sha1:6f8b694c9aba2b40b3d6a732773e5199cb7287ca
+    pristine_git_object: a72d44d5c51fa255617af2d8b521f13a4812c1e7
+  internal/sdk/models/operations/updatetax.go:
+    id: 533f932e4593
+    last_write_checksum: sha1:4005d92f93f67357bf0b6204fad75cb5e92b2955
+    pristine_git_object: 21baaf56629a6ce13868b116727e01bd3d981bd5
+  internal/sdk/models/shared/baserelation.go:
+    id: 229735e3dfa4
+    last_write_checksum: sha1:baab4eab01ee425133f2ed3447d87723def4dadf
+    pristine_git_object: fb1fefb7c3dd927e3f9618cc44ba90ab5ffbc024
+  internal/sdk/models/shared/clienterror.go:
+    id: df6ef9eb0b02
+    last_write_checksum: sha1:6d0ff174aaf5cb245fd0c24f90f0d7d156ace2ea
+    pristine_git_object: 58edbaaa8d0b873480299faef4105090bed49551
+  internal/sdk/models/shared/coupon.go:
+    id: e3dba253f515
+    last_write_checksum: sha1:bc2604f727ced51d03b268d5f78f8966efc250d4
+    pristine_git_object: 42ccbdf0136bd9e9d860909c72beeac8c6c2c671
+  internal/sdk/models/shared/couponcreate.go:
+    id: e863f2a5733a
+    last_write_checksum: sha1:f056d7c657b3d4be3386c19a2fe235c9e73ceac0
+    pristine_git_object: 86647e8656fbfb65f20fed2f30bdecb871d20899
+  internal/sdk/models/shared/couponpatch.go:
+    id: 1a70377ef98f
+    last_write_checksum: sha1:251a320b382fdc0e6f98153d28bdaccb9b67c876
+    pristine_git_object: e70dd0a3b8b2c7b65fc1c8c3b78c5dd6c60ee21a
+  internal/sdk/models/shared/price.go:
+    id: 04c07eda2576
+    last_write_checksum: sha1:d5997bca9c46ee7a7b051fe41de734603e842720
+    pristine_git_object: bc12cc8a5b2571839da4883676ded745e0f1f66e
+  internal/sdk/models/shared/pricecomponentrelation.go:
+    id: 7a1bf8928706
+    last_write_checksum: sha1:3582036a0b2628decc8ef2613b91ef1a668b36fd
+    pristine_git_object: 8359a32cc142b241d1b4852de85e352d0119d4b7
+  internal/sdk/models/shared/pricecreate.go:
+    id: 0bd2d4ad7575
+    last_write_checksum: sha1:7db0885e2952d31a1e91ac92e93059288aa3c5cf
+    pristine_git_object: 84d0a619aafe5ab22564b4cc720a4bee3dd6ceda
+  internal/sdk/models/shared/pricepatch.go:
+    id: df6259a117ad
+    last_write_checksum: sha1:de3e834d9c7343cbf33a24b34e262e7d284a48fb
+    pristine_git_object: fdace3dcc3901db56d84d8b28e32402b179b3933
+  internal/sdk/models/shared/pricetier.go:
+    id: f6eed2c8ad25
+    last_write_checksum: sha1:2ca7c6a31aad38e63a82a263d9353785ce636b48
+    pristine_git_object: 1882c331ebee8163a1d4cc6d2950290a8539f1a7
+  internal/sdk/models/shared/pricetierdisplaymode.go:
+    id: 35f1378546bc
+    last_write_checksum: sha1:2c5f310b3f2fa5c11046bfd0c309ac1649864fc7
+    pristine_git_object: 2f5d5a92843cde40b2c706cc5a5d0aa6787e187a
+  internal/sdk/models/shared/product.go:
+    id: d6c4c6b4521c
+    last_write_checksum: sha1:e1a07e3967203336257b706dd1ef33d99896be9e
+    pristine_git_object: d5a204c130ba65cca77c291ec5e0ce675859e4d9
+  internal/sdk/models/shared/productcreate.go:
+    id: b585d9090fd2
+    last_write_checksum: sha1:6fe50b9e4f2a6d67e35d34c33952353cc8b33188
+    pristine_git_object: fa6c4b3cbde8054a1cc07b874e02fdd73d585d60
+  internal/sdk/models/shared/productpatch.go:
+    id: 3910c0d0e6ea
+    last_write_checksum: sha1:900b973ce11ea8c19cc8ea2695cb13b38bd3ad24
+    pristine_git_object: ff6a81974dd7ed50f38d78473ed8c2fd46e9d639
+  internal/sdk/models/shared/productrecommendation.go:
+    id: 81feaa4e7431
+    last_write_checksum: sha1:4ea1543db83d4c6af084302825e044329727bdc4
+    pristine_git_object: b6419d9969c2fef9b9f4235e00e8546a2fc06649
+  internal/sdk/models/shared/productrecommendationcreate.go:
+    id: dab3a37bf888
+    last_write_checksum: sha1:e7a6f23444fef6425adb23a13e698c78c54501e0
+    pristine_git_object: a413eeb8f382bfd990de11b1e92272bdc3a50f47
+  internal/sdk/models/shared/productrecommendationpatch.go:
+    id: 18b2c80b9eef
+    last_write_checksum: sha1:30a1aed09ccae1e3092c4e48f6cf58af331a5d09
+    pristine_git_object: 1bf52641497bf1a3ae008ab51916159be26cbe9a
+  internal/sdk/models/shared/promocode.go:
+    id: d6fea9ae411a
+    last_write_checksum: sha1:fbc578ce65f6712a68ca6d1b1ed6f7143736bf9e
+    pristine_git_object: 6b0d53e79670288e7720e32b609f58385d30bad1
+  internal/sdk/models/shared/security.go:
+    id: 9098af98367e
+    last_write_checksum: sha1:e8e31b606a77714313987210c34abcc8924489c8
+    pristine_git_object: d393ff12dbea8bb4babdc7dcb591ab9f4ec30bb0
+  internal/sdk/models/shared/tax.go:
+    id: ea1984aa313f
+    last_write_checksum: sha1:709c6bee0a38c2988dc16205e43ce7a30dd567dd
+    pristine_git_object: 8821f3e768dfe4b737e90c9fa49da1d7a16027c6
+  internal/sdk/models/shared/taxcreate.go:
+    id: 5784aceb093b
+    last_write_checksum: sha1:231a4fde31b902d9ce32c6ecba72c9977d188896
+    pristine_git_object: 5552268548bf3e00ac87c996470279e2954c27ec
+  internal/sdk/models/shared/taxpatch.go:
+    id: bbccc63f8408
+    last_write_checksum: sha1:b1e56fa6d70333465b367f4e6ee2c1bd76b17db7
+    pristine_git_object: 648a96388e83a158338dd27bef8cc1e5810f9e44
+  internal/sdk/optionalnullable/optionalnullable.go:
+    id: 4b83aa3f3df3
+    last_write_checksum: sha1:d6aff1a420c31e025ea21d46cf056e305ae76fe8
+    pristine_git_object: c6739be0619b6726565e0f11855ffe44b0e5607e
+  internal/sdk/optionalnullable/optionalnullable_test.go:
+    id: 3920a41dfc4c
+    last_write_checksum: sha1:2e9433eff1651ac77d6678ea76880d9a4980cbc2
+    pristine_git_object: e6e5a01c6e721e879e24a38a1f97e3e27d4686d4
+  internal/sdk/price.go:
+    id: 3a1334eafde8
+    last_write_checksum: sha1:13d7e2e8925a867126c83e9f750d6ff2c233b8e8
+    pristine_git_object: fd9c3a61d7b991e1660062a1083cb23e4b93b53c
+  internal/sdk/product.go:
+    id: 91f21ec5f493
+    last_write_checksum: sha1:41d458698333bc2634b456442872f441680c0a7e
+    pristine_git_object: cc7066f921258d8bdbe3ec8d10f5a4c6ce3b037c
+  internal/sdk/productrecommendation.go:
+    id: 866387b4c740
+    last_write_checksum: sha1:e2145127c360031b2321b78f25ab5646b1bbcd30
+    pristine_git_object: 082fc7874da5a9138f5f482af364b58cc2d78787
+  internal/sdk/retry/config.go:
+    id: 7ea5fa9128b6
+    last_write_checksum: sha1:f565273be789ffe0e3c160de1ac72a63cfe67fbe
+    pristine_git_object: aa809fccb3445b1e2530a979dad620512f50e70f
+  internal/sdk/sdk.go:
+    id: 02d7190ee502
+    last_write_checksum: sha1:963f675bd8a04853e1d3663a1d0c5c4a8c2a5ec5
+    pristine_git_object: 229b5206c6e832992ccbb0ac5074e463c268977a
+  internal/sdk/tax.go:
+    id: f0865a60e133
+    last_write_checksum: sha1:d1bb4898bbc2eac01be077a52df53e0e301f2d4d
+    pristine_git_object: 6ba5fd8f89f7d4340b10b744274a986f6fbb051c
+  internal/sdk/types/bigint.go:
+    id: fc530b70337e
+    last_write_checksum: sha1:49b004005d0461fb04b846eca062b070b0360b31
+    pristine_git_object: 9c6a086d51595888a6ff787ebcb8693559afee95
+  internal/sdk/types/date.go:
+    id: c4bff082c66f
+    last_write_checksum: sha1:3036a2e1ed15a1d484c093367eba000c38f384d0
+    pristine_git_object: 5b2782f219efe6bfbce46fc2dec68998eb759438
+  internal/sdk/types/datetime.go:
+    id: a8109857c712
+    last_write_checksum: sha1:196d050af6450669214e9ae4fd28e56263ae2b5d
+    pristine_git_object: 3eff332daa04e34cec5ffb10add670bafd8ac454
+  internal/sdk/types/pointers.go:
+    id: 2f3f971639f6
+    last_write_checksum: sha1:fc2275ea006257ba9ba4ff6f2a2cdb6205371eef
+    pristine_git_object: 35c439d2661e08fcb6a854096fd7b9a8561b3938
+  internal/validators/DateValidator.go:
+    id: 4fdfa187ab97
+    last_write_checksum: sha1:af51731a0c969286990b3a4d063b7fc74185f9d1
+    pristine_git_object: 37cfaea8f4ce65a97a3775b624b390284b6415e4
+  internal/validators/ExactlyOneChild.go:
+    id: 66e7bd50b47d
+    last_write_checksum: sha1:ab8e18d1763fbd5b262c3e7d917c81ac40ba839f
+    pristine_git_object: 1765a3a0b83d38a6cc8f118ea2cfab67ab44c910
+  internal/validators/JSONParseValidator.go:
+    id: ce72f37482f5
+    last_write_checksum: sha1:77af551821798350f868410aab90352f7ec7b370
+    pristine_git_object: b8bb96b5e0930635eb754f169b3eaf285d48dd1c
+  internal/validators/RFC3339Validator.go:
+    id: 0cf126c9a956
+    last_write_checksum: sha1:8d9accfc3aa477a74b0f927652f5e2ae3d28061d
+    pristine_git_object: f5e61466b5c639cb17d0cb2cfe28611957297ce9
+  internal/validators/boolvalidators/not_null.go:
+    id: 865145e65396
+    last_write_checksum: sha1:89a7362be9d519ed7c9fb7c4989d273a3aa5f279
+    pristine_git_object: 6eca17e0cff87f7682f8baa2cd81cd33bc972f4c
+  internal/validators/float32validators/not_null.go:
+    id: 330748f4ff91
+    last_write_checksum: sha1:4f0a859aa9d7348056c6559bad9ca336104beaef
+    pristine_git_object: c9a8973c7dc830b9c5aac546ea7cbe6021f01629
+  internal/validators/float64validators/not_null.go:
+    id: 8f5e6362f0f5
+    last_write_checksum: sha1:f2436a4a1323d58ffcff3b153167c4e463325c12
+    pristine_git_object: 8f786d278597ffac3c525755e429c9a3caa60b20
+  internal/validators/int32validators/not_null.go:
+    id: ea876d1f8b07
+    last_write_checksum: sha1:d08335af46ab809d0076da8543b3455662fb66a0
+    pristine_git_object: ec9a3f10adfdd29c3cca40e53dc42db329cf37d7
+  internal/validators/int64validators/not_null.go:
+    id: d3f822eb4c69
+    last_write_checksum: sha1:b5bf5b539f2631813ee8771cf00d8ea9744c6dd3
+    pristine_git_object: 707ff9573f026b7b7ee3f59462c7a8ba10a1aba9
+  internal/validators/listvalidators/not_null.go:
+    id: b3ee156dafa7
+    last_write_checksum: sha1:11f33dfa3cb1b9eadc7e4a8287518135ddae191e
+    pristine_git_object: 9b88e520b7d58c14c6844d3dbc26ce4f96d39af1
+  internal/validators/mapvalidators/not_null.go:
+    id: 9cff80d0791c
+    last_write_checksum: sha1:64117afe6cdb1a0e1b57df970da8df0e18d10442
+    pristine_git_object: dc6959e9cdadb16e0e1ea90f98b2d27f2d357b64
+  internal/validators/numbervalidators/not_null.go:
+    id: b335c948bcf4
+    last_write_checksum: sha1:54d925f13a630f21e14709ce6181e5eaf96bd6e3
+    pristine_git_object: 57d4da0ae000f671698384abc550196744884871
+  internal/validators/objectvalidators/not_null.go:
+    id: dd14631b3a38
+    last_write_checksum: sha1:5f897f5dcd2686d43c9bd683900572a8d7ef6473
+    pristine_git_object: bf0189497acb3b1214f2480e9db071186d85ecad
+  internal/validators/setvalidators/not_null.go:
+    id: e612a6618fac
+    last_write_checksum: sha1:de772bcb14615735a8ebd2a9ffaae06f464a86d5
+    pristine_git_object: f859d64810168dd4ec7bfb1ea1c0186c551f8987
+  internal/validators/stringvalidators/not_null.go:
+    id: 80be7ffedf6c
+    last_write_checksum: sha1:df498b49dd87f9508f3eaec3a63ed0a08ae3c16e
+    pristine_git_object: 1e40ac1b6ce68540327e01910f0dc91a60b62607
+  main.go:
+    id: 0607f785dfa3
+    last_write_checksum: sha1:5bbae8f9948f722d513492adf318bbf5efe7d2a3
+    pristine_git_object: c2fa702fe621adc4732ae675347863b3251d0b73
+  terraform-registry-manifest.json:
+    id: fc3d63fd06e1
+    last_write_checksum: sha1:45b609f3f65164bc2f00b6e2b24faf64627e15b8
+    pristine_git_object: fec2a5691e493a1941bd79b312b3925403a91aa6
+  tools/tools.go:
+    id: 683390d33800
+    last_write_checksum: sha1:8239addbb5e66af0488adc7dc4aba098e4634d88
+    pristine_git_object: 36b25801b3a26b57ee042a610a3c35ca65b1376a
 examples:
   createCoupon:
     speakeasy-default-create-coupon:
@@ -1805,3 +2388,181 @@ examples:
           application/json: {"email": "portal-customer@email.com"}
 examplesVersion: 1.0.2
 generatedTests: {}
+generatedFiles:
+  - .gitattributes
+  - USAGE.md
+  - examples/README.md
+  - examples/data-sources/epilot-product_coupon/data-source.tf
+  - examples/data-sources/epilot-product_price/data-source.tf
+  - examples/data-sources/epilot-product_product/data-source.tf
+  - examples/data-sources/epilot-product_product_recommendation/data-source.tf
+  - examples/data-sources/epilot-product_tax/data-source.tf
+  - examples/provider/provider.tf
+  - examples/resources/epilot-product_coupon/import-by-string-id.tf
+  - examples/resources/epilot-product_coupon/import.sh
+  - examples/resources/epilot-product_coupon/resource.tf
+  - examples/resources/epilot-product_price/import-by-string-id.tf
+  - examples/resources/epilot-product_price/import.sh
+  - examples/resources/epilot-product_price/resource.tf
+  - examples/resources/epilot-product_product/import-by-string-id.tf
+  - examples/resources/epilot-product_product/import.sh
+  - examples/resources/epilot-product_product/resource.tf
+  - examples/resources/epilot-product_product_recommendation/import-by-string-id.tf
+  - examples/resources/epilot-product_product_recommendation/import.sh
+  - examples/resources/epilot-product_product_recommendation/resource.tf
+  - examples/resources/epilot-product_tax/import-by-string-id.tf
+  - examples/resources/epilot-product_tax/import.sh
+  - examples/resources/epilot-product_tax/resource.tf
+  - go.mod
+  - go.sum
+  - internal/planmodifiers/boolplanmodifier/suppress_diff.go
+  - internal/planmodifiers/float32planmodifier/suppress_diff.go
+  - internal/planmodifiers/float64planmodifier/suppress_diff.go
+  - internal/planmodifiers/int32planmodifier/suppress_diff.go
+  - internal/planmodifiers/int64planmodifier/suppress_diff.go
+  - internal/planmodifiers/listplanmodifier/suppress_diff.go
+  - internal/planmodifiers/mapplanmodifier/suppress_diff.go
+  - internal/planmodifiers/numberplanmodifier/suppress_diff.go
+  - internal/planmodifiers/objectplanmodifier/suppress_diff.go
+  - internal/planmodifiers/setplanmodifier/suppress_diff.go
+  - internal/planmodifiers/stringplanmodifier/suppress_diff.go
+  - internal/planmodifiers/utils/state_check.go
+  - internal/provider/coupon_data_source.go
+  - internal/provider/coupon_data_source_sdk.go
+  - internal/provider/coupon_resource.go
+  - internal/provider/coupon_resource_sdk.go
+  - internal/provider/price_data_source.go
+  - internal/provider/price_data_source_sdk.go
+  - internal/provider/price_resource.go
+  - internal/provider/price_resource_sdk.go
+  - internal/provider/product_data_source.go
+  - internal/provider/product_data_source_sdk.go
+  - internal/provider/product_resource.go
+  - internal/provider/product_resource_sdk.go
+  - internal/provider/productrecommendation_data_source.go
+  - internal/provider/productrecommendation_data_source_sdk.go
+  - internal/provider/productrecommendation_resource.go
+  - internal/provider/productrecommendation_resource_sdk.go
+  - internal/provider/provider.go
+  - internal/provider/reflect/diags.go
+  - internal/provider/reflect/doc.go
+  - internal/provider/reflect/generic_attr_value.go
+  - internal/provider/reflect/helpers.go
+  - internal/provider/reflect/interfaces.go
+  - internal/provider/reflect/into.go
+  - internal/provider/reflect/map.go
+  - internal/provider/reflect/number.go
+  - internal/provider/reflect/options.go
+  - internal/provider/reflect/outof.go
+  - internal/provider/reflect/pointer.go
+  - internal/provider/reflect/primitive.go
+  - internal/provider/reflect/slice.go
+  - internal/provider/reflect/struct.go
+  - internal/provider/tax_data_source.go
+  - internal/provider/tax_data_source_sdk.go
+  - internal/provider/tax_resource.go
+  - internal/provider/tax_resource_sdk.go
+  - internal/provider/typeconvert/date.go
+  - internal/provider/typeconvert/datetime.go
+  - internal/provider/typeconvert/int.go
+  - internal/provider/types/base_relation.go
+  - internal/provider/types/dollar_relation.go
+  - internal/provider/types/price_component_relation.go
+  - internal/provider/types/price_create_price_components.go
+  - internal/provider/types/price_tier.go
+  - internal/provider/types/promo_code.go
+  - internal/provider/utils.go
+  - internal/sdk/.gitattributes
+  - internal/sdk/coupon.go
+  - internal/sdk/docs/models/operations/option.md
+  - internal/sdk/internal/config/sdkconfiguration.go
+  - internal/sdk/internal/hooks/hooks.go
+  - internal/sdk/internal/utils/contenttype.go
+  - internal/sdk/internal/utils/env.go
+  - internal/sdk/internal/utils/form.go
+  - internal/sdk/internal/utils/headers.go
+  - internal/sdk/internal/utils/json.go
+  - internal/sdk/internal/utils/pathparams.go
+  - internal/sdk/internal/utils/queryparams.go
+  - internal/sdk/internal/utils/requestbody.go
+  - internal/sdk/internal/utils/retries.go
+  - internal/sdk/internal/utils/security.go
+  - internal/sdk/internal/utils/utils.go
+  - internal/sdk/models/errors/sdkerror.go
+  - internal/sdk/models/operations/createcoupon.go
+  - internal/sdk/models/operations/createprice.go
+  - internal/sdk/models/operations/createproduct.go
+  - internal/sdk/models/operations/createproductrecommendation.go
+  - internal/sdk/models/operations/createtax.go
+  - internal/sdk/models/operations/deletecoupon.go
+  - internal/sdk/models/operations/deleteprice.go
+  - internal/sdk/models/operations/deleteproduct.go
+  - internal/sdk/models/operations/deleteproductrecommendation.go
+  - internal/sdk/models/operations/deletetax.go
+  - internal/sdk/models/operations/getcoupon.go
+  - internal/sdk/models/operations/getprice.go
+  - internal/sdk/models/operations/getproduct.go
+  - internal/sdk/models/operations/getproductrecommendation.go
+  - internal/sdk/models/operations/gettax.go
+  - internal/sdk/models/operations/options.go
+  - internal/sdk/models/operations/patchcoupon.go
+  - internal/sdk/models/operations/patchprice.go
+  - internal/sdk/models/operations/patchproduct.go
+  - internal/sdk/models/operations/patchproductrecommendation.go
+  - internal/sdk/models/operations/patchtax.go
+  - internal/sdk/models/operations/updatecoupon.go
+  - internal/sdk/models/operations/updateprice.go
+  - internal/sdk/models/operations/updateproduct.go
+  - internal/sdk/models/operations/updateproductrecommendation.go
+  - internal/sdk/models/operations/updatetax.go
+  - internal/sdk/models/shared/baserelation.go
+  - internal/sdk/models/shared/clienterror.go
+  - internal/sdk/models/shared/coupon.go
+  - internal/sdk/models/shared/couponcreate.go
+  - internal/sdk/models/shared/couponpatch.go
+  - internal/sdk/models/shared/price.go
+  - internal/sdk/models/shared/pricecomponentrelation.go
+  - internal/sdk/models/shared/pricecreate.go
+  - internal/sdk/models/shared/pricepatch.go
+  - internal/sdk/models/shared/pricetier.go
+  - internal/sdk/models/shared/pricetierdisplaymode.go
+  - internal/sdk/models/shared/product.go
+  - internal/sdk/models/shared/productcreate.go
+  - internal/sdk/models/shared/productpatch.go
+  - internal/sdk/models/shared/productrecommendation.go
+  - internal/sdk/models/shared/productrecommendationcreate.go
+  - internal/sdk/models/shared/productrecommendationpatch.go
+  - internal/sdk/models/shared/promocode.go
+  - internal/sdk/models/shared/security.go
+  - internal/sdk/models/shared/tax.go
+  - internal/sdk/models/shared/taxcreate.go
+  - internal/sdk/models/shared/taxpatch.go
+  - internal/sdk/price.go
+  - internal/sdk/product.go
+  - internal/sdk/productrecommendation.go
+  - internal/sdk/retry/config.go
+  - internal/sdk/sdk.go
+  - internal/sdk/tax.go
+  - internal/sdk/types/bigint.go
+  - internal/sdk/types/date.go
+  - internal/sdk/types/datetime.go
+  - internal/sdk/types/decimal.go
+  - internal/sdk/types/pointers.go
+  - internal/validators/DateValidator.go
+  - internal/validators/ExactlyOneChild.go
+  - internal/validators/JSONParseValidator.go
+  - internal/validators/RFC3339Validator.go
+  - internal/validators/boolvalidators/not_null.go
+  - internal/validators/float32validators/not_null.go
+  - internal/validators/float64validators/not_null.go
+  - internal/validators/int32validators/not_null.go
+  - internal/validators/int64validators/not_null.go
+  - internal/validators/listvalidators/not_null.go
+  - internal/validators/mapvalidators/not_null.go
+  - internal/validators/numbervalidators/not_null.go
+  - internal/validators/objectvalidators/not_null.go
+  - internal/validators/setvalidators/not_null.go
+  - internal/validators/stringvalidators/not_null.go
+  - main.go
+  - terraform-registry-manifest.json
+  - tools/tools.go

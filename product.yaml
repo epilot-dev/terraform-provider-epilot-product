@@ -639,7 +639,9 @@ components:
           type: string
           example: DE
         rate:
-          type: string
+          oneOf:
+            - type: string
+            - type: number
         type:
           type: string
           enum:
