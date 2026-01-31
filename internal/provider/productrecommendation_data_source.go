@@ -93,6 +93,7 @@ func (r *ProductRecommendationDataSource) Schema(ctx context.Context, req dataso
 			},
 			"id": schema.StringAttribute{
 				Computed: true,
+				Optional: true,
 			},
 			"manifest": schema.ListAttribute{
 				Computed:    true,

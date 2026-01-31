@@ -129,6 +129,7 @@ func (r *PriceDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 			},
 			"id": schema.StringAttribute{
 				Computed: true,
+				Optional: true,
 			},
 			"is_composite_price": schema.BoolAttribute{
 				Computed:    true,
