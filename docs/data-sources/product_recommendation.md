@@ -15,6 +15,7 @@ ProductRecommendation DataSource
 ```terraform
 data "epilot-product_product_recommendation" "my_productrecommendation" {
   hydrate = true
+  id      = "123e4567-e89b-12d3-a456-426614174000"
   strict  = true
 }
 ```
