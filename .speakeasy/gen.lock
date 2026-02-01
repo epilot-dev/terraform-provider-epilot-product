@@ -3,17 +3,17 @@ id: 5a857039-7f4b-42d5-86fd-449767242ed2
 management:
   docChecksum: 01a09557afcacc9fb673307a8cf19c62
   docVersion: 1.0.0
-  speakeasyVersion: 1.685.0
-  generationVersion: 2.794.1
-  releaseVersion: 0.18.1
-  configChecksum: c4398b01679dd8a913f3e962e1444972
+  speakeasyVersion: 1.700.2
+  generationVersion: 2.801.2
+  releaseVersion: 0.18.2
+  configChecksum: 259bf119b1e0ef6439be9decaf98ac76
   repoURL: https://github.com/epilot-dev/terraform-provider-epilot-product.git
   repoSubDirectory: .
   published: true
 persistentEdits:
-  generation_id: 33b1c111-b8f9-4c50-a5d9-7520f559cfd3
-  pristine_commit_hash: 4b8ccc00f9c14e1440830c1de4660be9bcf9999e
-  pristine_tree_hash: 52dbefe7aa0878360ca029c358a0449f7b474c06
+  generation_id: de3340bb-0ee6-4d09-a880-544b15d05fe4
+  pristine_commit_hash: 772756ced9a612835b04019204ae732badd03550
+  pristine_tree_hash: c686e53d4c29186dde87b0a9272d0fbaa40837be
 features:
   go:
     additionalProperties: 0.1.1
@@ -26,7 +26,7 @@ features:
   terraform:
     additionalDependencies: 0.1.0
     constsAndDefaults: 0.3.0
-    core: 3.46.28
+    core: 3.46.30
     globalSecurity: 2.82.1
     globalServerURLs: 2.83.0
     nullables: 0.0.0
@@ -43,28 +43,28 @@ trackedFiles:
     pristine_git_object: 8e707bb129af1da185ba30b4c289b0160819c437
   examples/data-sources/epilot-product_coupon/data-source.tf:
     id: 6ea64c52f8f3
-    last_write_checksum: sha1:42111e9dadfbd28d7de84d44d28d53b25ce51eb5
-    pristine_git_object: c63945fc77b374735d33ac7328ed33560c0ebcfb
+    last_write_checksum: sha1:a6f8976a2e70eb5053b0f1b9c738e4607c840e4b
+    pristine_git_object: 6bf2390e057287025804b10ea9a6700eb9fb63e1
   examples/data-sources/epilot-product_price/data-source.tf:
     id: ebc2e5fd321f
-    last_write_checksum: sha1:3e3e4ab1d901fb8cba1a99a6f59de8a48456a469
-    pristine_git_object: 7679bb2e98f94fb793f858f43f586d655f08604f
+    last_write_checksum: sha1:d82a786f057dbae5e46b41f14b01cabe99a1fad0
+    pristine_git_object: 9e2ffa48e87a2bfeb101b45df1863313ed814739
   examples/data-sources/epilot-product_product/data-source.tf:
     id: f6712ab6982a
-    last_write_checksum: sha1:e362a318ed03befe343e729600cfe8c74922e29e
-    pristine_git_object: 6bc11872a788c2b7f783ccadd8645b12370c8bbf
+    last_write_checksum: sha1:39b1d5180154062d187cec5acf45356e165bdf4a
+    pristine_git_object: bcf028e611a864f4da4b1a53fc0f0eeb7ca8c5b0
   examples/data-sources/epilot-product_product_recommendation/data-source.tf:
     id: 18659977f473
-    last_write_checksum: sha1:99417a9c51c9f89f2244c8740739a63585d69459
-    pristine_git_object: afd6637d6f9355afd95ba82a69c3ba2e484f4b98
+    last_write_checksum: sha1:c271118bd36fbee748de38f8d0e26e2c27465ead
+    pristine_git_object: 94fd48890c8c0f55948bf1033cd8a8e7b2793e18
   examples/data-sources/epilot-product_tax/data-source.tf:
     id: cb8fad9d43ae
-    last_write_checksum: sha1:c004b8816f7f18fd2d9fe7d981eb827bf58e28a6
-    pristine_git_object: 5ba5bf4bf26c6151d849cb725741f9ddf434fa5f
+    last_write_checksum: sha1:a461472f4fed467bcd7418ed30d41d85147c9e53
+    pristine_git_object: b958b4a23d55822e3b565038bed0ad6ae51e37c5
   examples/provider/provider.tf:
     id: 954e955c0240
-    last_write_checksum: sha1:1d836a2f8a3dca3731b7c2d704e0bd0213c48b01
-    pristine_git_object: 02e1c6d2f4b9e66833523208a9327e2270582e58
+    last_write_checksum: sha1:2862083b1d415dffb64d7d1ae82664c24c8c7f83
+    pristine_git_object: c3d39111813f1e6e7e252362ef25c2c761f4ac91
   examples/resources/epilot-product_coupon/import-by-string-id.tf:
     id: dfa1dd65cf6b
     last_write_checksum: sha1:85328a34193c61898a907ce15cd0e737b20b17ea
@@ -127,8 +127,8 @@ trackedFiles:
     pristine_git_object: c488a05a8b2db11061e2edcf4dd7f126f27c1f09
   go.mod:
     id: c47645c391ad
-    last_write_checksum: sha1:540919b620fa44e3c602b3a7a177ffc0dc0c6632
-    pristine_git_object: 0b0105652492e14e5e72ac14e012b8529076de38
+    last_write_checksum: sha1:46c64c396923f4a6b31e00c4c6a5bfd2d32fcdeb
+    pristine_git_object: 96ca84a2cd8268792a75ca0458be2aa9c0895dd1
   internal/planmodifiers/boolplanmodifier/suppress_diff.go:
     id: 3cf85b98963e
     last_write_checksum: sha1:fd491b78c57b033b1013421916ef8b01cbe50ada
@@ -223,64 +223,64 @@ trackedFiles:
     pristine_git_object: 0ea64fbeb1fd7709d7241a8e06d34bfe9d0323d3
   internal/provider/coupon_data_source.go:
     id: b4124b9b782b
-    last_write_checksum: sha1:6f537a7ebedf0e1aabbd0f1a70dda3a6f9459daf
-    pristine_git_object: 1d0c7b9cfbda083b2dce11f5cae727e184dc3a15
+    last_write_checksum: sha1:26c8b899f4ae7d1e6203a51ecf9fb82480f54ba8
+    pristine_git_object: 97ad92894c2b851ea3d2dfba5b4ced3fcfcd1b25
   internal/provider/coupon_data_source_sdk.go:
     id: da8d19debecc
     last_write_checksum: sha1:8ccfaeb88e680adc736cffa2def073161e97b5d4
     pristine_git_object: 550ac33df649dd444db3efe93faaea6161a21101
   internal/provider/coupon_resource.go:
     id: dea8fab04842
-    last_write_checksum: sha1:a2140ac562e557da1e90d3af63ef2995f8406c94
-    pristine_git_object: ec76b6207058997ca88d2feb851c9ddf9df971d2
+    last_write_checksum: sha1:33e267c9c171b14fdb6ad94e1d5bf4a50f7a6c04
+    pristine_git_object: fdf78c0f6f892a94b42a5e7afb5c52785987932f
   internal/provider/coupon_resource_sdk.go:
     id: 633cb0f5c5c4
     last_write_checksum: sha1:86c0ed1d5ddcdc91f47bdd716a9792877a1cc993
     pristine_git_object: df8a5a1a2c634bec32c539d617a63b85573fa6a3
   internal/provider/price_data_source.go:
     id: 148dac6112fe
-    last_write_checksum: sha1:122cd127e079a8ede6d49bef534c05f95db826e5
-    pristine_git_object: 0d66a521b7670b783ef0a4c1659c63ccbfcb24ee
+    last_write_checksum: sha1:6d691e260d6dffbba43ec477b8756c55fd14f51a
+    pristine_git_object: ea957e687b5f3a879416d7d26202ed3f7a9ec232
   internal/provider/price_data_source_sdk.go:
     id: f405159ba2c2
     last_write_checksum: sha1:0ab405aadc443d06b23c116c71927ad1d14b2edf
     pristine_git_object: 180aa703716a54d61b6512000a13980545538224
   internal/provider/price_resource.go:
     id: 2b8341b38f81
-    last_write_checksum: sha1:5b5f480e56975d5fa3e6b7b8841582822262d4eb
-    pristine_git_object: 5d287a94fef0257f139b3af03d90f0c545e1a9a3
+    last_write_checksum: sha1:d76574cd840661f96099502ac663c72b33293634
+    pristine_git_object: 9550f5379f37532fa6d62ffce5a18fdc296ea0a9
   internal/provider/price_resource_sdk.go:
     id: 50569829af6a
     last_write_checksum: sha1:3fad737c8f4ee75eadb2a6a5fdb10bed36771709
     pristine_git_object: cc2bba97d395d0b054ffc3daf3547008b024619c
   internal/provider/product_data_source.go:
     id: a245c926dd40
-    last_write_checksum: sha1:2fedad7d8a215ba1e35267b49c9efc57cf906bc8
-    pristine_git_object: 12d14b1935f6628a0fc15c8f8078964dcc0aa482
+    last_write_checksum: sha1:0c67a2882fb235e14d57d0474d8e3daacf69abfe
+    pristine_git_object: 795ddcc3ef6e4a6a654de71b495d66f06fc33027
   internal/provider/product_data_source_sdk.go:
     id: 7ff1f63060c5
     last_write_checksum: sha1:ed6d3679528a61b2aef4da2de398f19a0e7f78df
     pristine_git_object: 09395437263bb964287aec0bc216e7ba2db8d3c7
   internal/provider/product_resource.go:
     id: 8645937d4672
-    last_write_checksum: sha1:1faf72e1cc3d0c065c3a3d29c3d37b361baecc89
-    pristine_git_object: f7d3a3d6b163445dc03b346449ff772b009d6086
+    last_write_checksum: sha1:386f85e77091a6c5c4caa4fdf6a4acc5681fce3d
+    pristine_git_object: 037e0ba7bf80c220c094510ad7a2b238d9a40429
   internal/provider/product_resource_sdk.go:
     id: 0a040ac0aa3b
     last_write_checksum: sha1:48a4f1cb207c32c32cd2689556378b259b497925
     pristine_git_object: c1575d07c1e1ce945ca9a1e466ff0f44bdbfc395
   internal/provider/productrecommendation_data_source.go:
     id: 52e6ad46d4bb
-    last_write_checksum: sha1:46541c058520376e027f8468bcc8e5b56741e871
-    pristine_git_object: 21ee1e10ddc31710cb077cf7455d7836afa4fd19
+    last_write_checksum: sha1:89630487e020ac71a96679ba01f1f02358261659
+    pristine_git_object: 2a9a1d78ad1c8a83245b73b4a7846563d9ff3855
   internal/provider/productrecommendation_data_source_sdk.go:
     id: ed716b56deef
     last_write_checksum: sha1:ff5d1a9b0afdc58e56c147f4ca88db972da7d49f
     pristine_git_object: 7559b9496abf830b230f06d28114395ca705d73c
   internal/provider/productrecommendation_resource.go:
     id: f079e4c5b300
-    last_write_checksum: sha1:cc5fa7989e031c5a2b03887bd446727ba1ea1ce8
-    pristine_git_object: 047ec11bab4dfc93f11817f954308fcc06d6ed66
+    last_write_checksum: sha1:c4327b6fd22db67bcb0be771847bfad9622ebfdc
+    pristine_git_object: b2b6bbb5bd602141c825bcc7a18ff7805538695b
   internal/provider/productrecommendation_resource_sdk.go:
     id: a1dcf046489e
     last_write_checksum: sha1:0b50af60e3ceadfd893bf9529eae1db9214cb80f
@@ -347,16 +347,16 @@ trackedFiles:
     pristine_git_object: c588f768bd7b39be33962188f97d81e1c4c25f4b
   internal/provider/tax_data_source.go:
     id: 9f6999434e4d
-    last_write_checksum: sha1:100cdd1b8605cb202a47da11bf74b511acb5507a
-    pristine_git_object: e8479143f91e9f1f1a354f9e053181383d8e3da3
+    last_write_checksum: sha1:698377e6a5e298b51df985fb48e17d473adc97e4
+    pristine_git_object: a40d2f1befef5c8800b90067860c9bf5542e69f1
   internal/provider/tax_data_source_sdk.go:
     id: d6c1f5fae8ec
     last_write_checksum: sha1:d7bf7a8d380d0211c448219b32689ed3af508181
     pristine_git_object: 2f85338ee23b1ef6401e2c30acc0bee1de9a251d
   internal/provider/tax_resource.go:
     id: 7ae58588a105
-    last_write_checksum: sha1:76477095ccd998fa019e861ab6dbfdafdedf5a1f
-    pristine_git_object: b5f0bcf0a08a578bfa62e0a5f4b3be0725c09266
+    last_write_checksum: sha1:38a3a0e36fe766fdd4d0ae8f1d8e895c3a41961e
+    pristine_git_object: 4f650c46db06ce7d66980950e7311f6141382aa7
   internal/provider/tax_resource_sdk.go:
     id: dd0231733110
     last_write_checksum: sha1:28f1deaa75f21e1ca68eebdce3ac1153ea9accbb
@@ -695,8 +695,8 @@ trackedFiles:
     pristine_git_object: aa809fccb3445b1e2530a979dad620512f50e70f
   internal/sdk/sdk.go:
     id: 02d7190ee502
-    last_write_checksum: sha1:963f675bd8a04853e1d3663a1d0c5c4a8c2a5ec5
-    pristine_git_object: 229b5206c6e832992ccbb0ac5074e463c268977a
+    last_write_checksum: sha1:1384b366423a5240dfa7df8590281e53f1b4bc58
+    pristine_git_object: 10848dc91d3302d19304a2204f31771b03959f4d
   internal/sdk/tax.go:
     id: f0865a60e133
     last_write_checksum: sha1:d1bb4898bbc2eac01be077a52df53e0e301f2d4d
@@ -2388,6 +2388,7 @@ examples:
           application/json: {"email": "portal-customer@email.com"}
 examplesVersion: 1.0.2
 generatedTests: {}
+releaseNotes: "## Terraform SDK Changes:\n* `SDK.Price.getPrice()`:  `response` **Changed** **Breaking** ⚠️\n* `SDK.Tax.deleteTax()`:  `response` **Changed** **Breaking** ⚠️\n* `SDK.Tax.updateTax()`: \n  *  `request.TaxCreate` **Changed** **Breaking** ⚠️\n  *  `response` **Changed** **Breaking** ⚠️\n* `SDK.Tax.patchTax()`: \n  *  `request.TaxPatch` **Changed** **Breaking** ⚠️\n  *  `response` **Changed** **Breaking** ⚠️\n* `SDK.Tax.getTax()`:  `response` **Changed** **Breaking** ⚠️\n* `SDK.Coupon.createCoupon()`: \n  *  `request` **Changed** **Breaking** ⚠️\n  *  `response` **Changed** **Breaking** ⚠️\n* `SDK.Coupon.deleteCoupon()`:  `response` **Changed** **Breaking** ⚠️\n* `SDK.Coupon.getCoupon()`:  `response` **Changed** **Breaking** ⚠️\n* `SDK.Coupon.patchCoupon()`: \n  *  `request.CouponPatch` **Changed** **Breaking** ⚠️\n  *  `response` **Changed** **Breaking** ⚠️\n* `SDK.Coupon.updateCoupon()`: \n  *  `request.CouponCreate` **Changed** **Breaking** ⚠️\n  *  `response` **Changed** **Breaking** ⚠️\n* `SDK.Price.createPrice()`: \n  *  `request` **Changed** **Breaking** ⚠️\n  *  `response` **Changed** **Breaking** ⚠️\n* `SDK.Price.deletePrice()`:  `response` **Changed** **Breaking** ⚠️\n* `SDK.Price.patchPrice()`: \n  *  `request.PricePatch` **Changed** **Breaking** ⚠️\n  *  `response` **Changed** **Breaking** ⚠️\n* `SDK.Price.updatePrice()`: \n  *  `request.PriceCreate` **Changed** **Breaking** ⚠️\n  *  `response` **Changed** **Breaking** ⚠️\n* `SDK.Tax.createTax()`: \n  *  `request` **Changed** **Breaking** ⚠️\n  *  `response` **Changed** **Breaking** ⚠️\n* `SDK.Product.createProduct()`: \n  *  `request` **Changed** **Breaking** ⚠️\n  *  `response` **Changed** **Breaking** ⚠️\n* `SDK.Product.deleteProduct()`:  `response` **Changed** **Breaking** ⚠️\n* `SDK.Product.getProduct()`:  `response` **Changed** **Breaking** ⚠️\n* `SDK.Product.patchProduct()`: \n  *  `request.ProductPatch` **Changed** **Breaking** ⚠️\n  *  `response` **Changed** **Breaking** ⚠️\n* `SDK.Product.updateProduct()`: \n  *  `request.ProductCreate` **Changed** **Breaking** ⚠️\n  *  `response` **Changed** **Breaking** ⚠️\n* `SDK.Product Recommendation.createProductRecommendation()`: **Added**\n* `SDK.Product Recommendation.deleteProductRecommendation()`: **Added**\n* `SDK.Product Recommendation.updateProductRecommendation()`: **Added**\n* `SDK.Product Recommendation.patchProductRecommendation()`: **Added**\n* `SDK.Product Recommendation.getProductRecommendation()`: **Added**\n"
 generatedFiles:
   - .gitattributes
   - USAGE.md
