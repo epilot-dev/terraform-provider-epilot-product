@@ -39,6 +39,8 @@ func (r *CouponResourceModel) RefreshFromSharedCoupon(ctx context.Context, resp 
 					for _, v := range dollarRelationItem.Tags {
 						dollarRelation.Tags = append(dollarRelation.Tags, types.StringValue(v))
 					}
+				} else {
+					dollarRelation.Tags = nil
 				}
 				dollarRelation.EntityID = types.StringPointerValue(dollarRelationItem.EntityID)
 
@@ -56,6 +58,8 @@ func (r *CouponResourceModel) RefreshFromSharedCoupon(ctx context.Context, resp 
 			for _, v := range resp.Purpose {
 				r.Purpose = append(r.Purpose, types.StringValue(v))
 			}
+		} else {
+			r.Purpose = nil
 		}
 		r.Schema = types.StringValue(string(resp.Schema))
 		if resp.Tags != nil {
@@ -63,6 +67,8 @@ func (r *CouponResourceModel) RefreshFromSharedCoupon(ctx context.Context, resp 
 			for _, v := range resp.Tags {
 				r.Tags = append(r.Tags, types.StringValue(v))
 			}
+		} else {
+			r.Tags = nil
 		}
 		r.Title = types.StringPointerValue(resp.Title)
 		r.UpdatedAt = types.StringPointerValue(typeconvert.TimePointerToStringPointer(resp.UpdatedAt))
@@ -93,6 +99,8 @@ func (r *CouponResourceModel) RefreshFromSharedCoupon(ctx context.Context, resp 
 					for _, v := range dollarRelationItem1.Tags {
 						dollarRelation1.Tags = append(dollarRelation1.Tags, types.StringValue(v))
 					}
+				} else {
+					dollarRelation1.Tags = nil
 				}
 				dollarRelation1.EntityID = types.StringPointerValue(dollarRelationItem1.EntityID)
 
