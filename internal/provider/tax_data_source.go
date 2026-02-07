@@ -100,6 +100,7 @@ func (r *TaxDataSource) Schema(ctx context.Context, req datasource.SchemaRequest
 			},
 			"id": schema.StringAttribute{
 				Computed: true,
+				Optional: true,
 			},
 			"manifest": schema.ListAttribute{
 				Computed:    true,

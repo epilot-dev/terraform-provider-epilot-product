@@ -39,6 +39,8 @@ func (r *PriceResourceModel) RefreshFromSharedPrice(ctx context.Context, resp *s
 					for _, v := range dollarRelationItem.Tags {
 						dollarRelation.Tags = append(dollarRelation.Tags, types.StringValue(v))
 					}
+				} else {
+					dollarRelation.Tags = nil
 				}
 				dollarRelation.EntityID = types.StringPointerValue(dollarRelationItem.EntityID)
 
@@ -56,6 +58,8 @@ func (r *PriceResourceModel) RefreshFromSharedPrice(ctx context.Context, resp *s
 			for _, v := range resp.Purpose {
 				r.Purpose = append(r.Purpose, types.StringValue(v))
 			}
+		} else {
+			r.Purpose = nil
 		}
 		r.Schema = types.StringValue(string(resp.Schema))
 		if resp.Tags != nil {
@@ -63,6 +67,8 @@ func (r *PriceResourceModel) RefreshFromSharedPrice(ctx context.Context, resp *s
 			for _, v := range resp.Tags {
 				r.Tags = append(r.Tags, types.StringValue(v))
 			}
+		} else {
+			r.Tags = nil
 		}
 		r.Title = types.StringPointerValue(resp.Title)
 		r.UpdatedAt = types.StringPointerValue(typeconvert.TimePointerToStringPointer(resp.UpdatedAt))
@@ -131,6 +137,8 @@ func (r *PriceResourceModel) RefreshFromSharedPrice(ctx context.Context, resp *s
 					for _, v := range dollarRelationItem2.Tags {
 						dollarRelation2.Tags = append(dollarRelation2.Tags, types.StringValue(v))
 					}
+				} else {
+					dollarRelation2.Tags = nil
 				}
 				dollarRelation2.EntityID = types.StringPointerValue(dollarRelationItem2.EntityID)
 
