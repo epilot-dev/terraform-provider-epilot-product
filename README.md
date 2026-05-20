@@ -153,13 +153,14 @@ Available configuration:
 <!-- Start Available Resources and Data Sources [operations] -->
 ## Available Resources and Data Sources
 
-### Resources
+### Managed Resources
 
 * [epilot-product_coupon](docs/resources/coupon.md)
 * [epilot-product_price](docs/resources/price.md)
 * [epilot-product_product](docs/resources/product.md)
 * [epilot-product_product_recommendation](docs/resources/product_recommendation.md)
 * [epilot-product_tax](docs/resources/tax.md)
+
 ### Data Sources
 
 * [epilot-product_coupon](docs/data-sources/coupon.md)

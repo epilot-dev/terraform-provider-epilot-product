@@ -48,7 +48,7 @@ resource "epilot-product_price" "my_price" {
     ]
   }
   price_display_in_journeys = "show_price"
-  pricing_model             = "tiered_graduated"
+  pricing_model             = "per_unit"
   purpose = [
     "..."
   ]

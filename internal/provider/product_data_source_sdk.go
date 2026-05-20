@@ -38,6 +38,8 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(ctx context.Context, r
 					for _, v := range dollarRelationItem.Tags {
 						dollarRelation.Tags = append(dollarRelation.Tags, types.StringValue(v))
 					}
+				} else {
+					dollarRelation.Tags = nil
 				}
 				dollarRelation.EntityID = types.StringPointerValue(dollarRelationItem.EntityID)
 
@@ -59,6 +61,8 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(ctx context.Context, r
 					for _, v := range dollarRelationItem1.Tags {
 						dollarRelation1.Tags = append(dollarRelation1.Tags, types.StringValue(v))
 					}
+				} else {
+					dollarRelation1.Tags = nil
 				}
 				dollarRelation1.EntityID = types.StringPointerValue(dollarRelationItem1.EntityID)
 
@@ -76,6 +80,8 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(ctx context.Context, r
 			for _, v := range resp.Purpose {
 				r.Purpose = append(r.Purpose, types.StringValue(v))
 			}
+		} else {
+			r.Purpose = nil
 		}
 		r.Schema = types.StringValue(string(resp.Schema))
 		if resp.Tags != nil {
@@ -83,6 +89,8 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(ctx context.Context, r
 			for _, v := range resp.Tags {
 				r.Tags = append(r.Tags, types.StringValue(v))
 			}
+		} else {
+			r.Tags = nil
 		}
 		r.Title = types.StringPointerValue(resp.Title)
 		r.UpdatedAt = types.StringPointerValue(typeconvert.TimePointerToStringPointer(resp.UpdatedAt))
@@ -118,6 +126,8 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(ctx context.Context, r
 					for _, v := range dollarRelationItem2.Tags {
 						dollarRelation2.Tags = append(dollarRelation2.Tags, types.StringValue(v))
 					}
+				} else {
+					dollarRelation2.Tags = nil
 				}
 				dollarRelation2.EntityID = types.StringPointerValue(dollarRelationItem2.EntityID)
 
@@ -138,6 +148,8 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(ctx context.Context, r
 					for _, v := range dollarRelationItem3.Tags {
 						dollarRelation3.Tags = append(dollarRelation3.Tags, types.StringValue(v))
 					}
+				} else {
+					dollarRelation3.Tags = nil
 				}
 				dollarRelation3.EntityID = types.StringPointerValue(dollarRelationItem3.EntityID)
 
@@ -158,6 +170,8 @@ func (r *ProductDataSourceModel) RefreshFromSharedProduct(ctx context.Context, r
 					for _, v := range dollarRelationItem4.Tags {
 						dollarRelation4.Tags = append(dollarRelation4.Tags, types.StringValue(v))
 					}
+				} else {
+					dollarRelation4.Tags = nil
 				}
 				dollarRelation4.EntityID = types.StringPointerValue(dollarRelationItem4.EntityID)
 
