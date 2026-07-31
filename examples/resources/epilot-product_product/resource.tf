@@ -71,5 +71,5 @@ resource "epilot-product_product" "my_product" {
   tags = [
     "..."
   ]
-  type = "service"
+  type = "product"
 }

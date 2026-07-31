@@ -140,6 +140,7 @@ func (r *ProductDataSource) Schema(ctx context.Context, req datasource.SchemaReq
 			},
 			"id": schema.StringAttribute{
 				Computed: true,
+				Optional: true,
 			},
 			"internal_name": schema.StringAttribute{
 				Computed:    true,
